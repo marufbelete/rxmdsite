@@ -1,5 +1,4 @@
 module.exports = (app) => {
-  //   const view = require("../controllers/view.controller.js");
   const path = require("path");
   const router = require("express").Router();
 
