@@ -1,0 +1,50 @@
+/*
+ * Shortcode: common.scss
+ * -----------------------------------------------
+*/
+
+.mb-responsive--440 {
+	margin-bottom: -440px;
+	@include media-breakpoint-down(md) {
+		margin-bottom: 0;
+	}
+}
+
+.border-radius-5px {
+	border-radius: 5px;
+}
+
+.border-rounded {
+	border-radius: 50%;
+}
+
+.mt-05 {
+	margin-top: 5px !important;
+}
+
+.font-opensans {
+	font-family: $font-current-theme1 !important;
+}
+
+.list-style-square ul li {
+	list-style-type: none;
+}
+
+.list-style-square ul li i {
+    background: #c0c0c0;
+    color: #555555;
+    font-size: 12px;
+    height: 28px;
+    line-height: 28px;
+    margin: 5px 10px 5px 0;
+    text-align: center;
+    width: 28px;
+}
+
+.fullscreen {
+	height: 100vh;
+}
+
+.personal-home-style3 {
+	background-attachment: fixed;
+}

@@ -1,0 +1,37 @@
+{% extends 'admin/layout.html' %}
+
+{% block title %}Roles{% endblock %}
+
+{% block content %}
+<h2>Roles</h2>
+
+<div class="content-block">
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <td>Role</td>
+                    <td>Total Accounts</td>
+                    <td>Active Accounts</td>
+                    <td>Inactive Accounts</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% if roles.length == 0 %}
+                <tr>
+                    <td colspan="8" style="text-align:center;">There are no roles</td>
+                </tr>
+                {% endif %}
+                {% for role, index in roles %}
+                <tr>
+                    <td>{{ role }}</td>
+                    <td><a href="/admin/accounts/n0/n0/n0/n0/{{ role }}/ASC/id/1">{{ roles[role] | formatNumber }}</a></td>
+                    <td><a href="/admin/accounts/n0/n0/active/n0/{{ role }}/ASC/id/1">{{ roles_active[role] if roles_active[role] else 0 }}</a></td>
+                    <td><a href="/admin/accounts/n0/n0/inactive/n0/{{ role }}/ASC/id/1">{{ roles_inactive[role] if roles_inactive[role] else 0 }}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

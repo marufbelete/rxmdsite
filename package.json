@@ -1,0 +1,55 @@
+{
+  "name": "testrxmdsite",
+  "version": "2.0.0",
+  "description": "TestRxMD Website",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.8",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.8.0",
+    "path": "^0.12.7",
+    "sequelize": "^6.26.0",
+    "sequelize-cli": "^6.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elipsion-dev/testrxmdsite.git"
+  },
+  "keywords": [
+    "testrxmd",
+    "clinic",
+    "testosterone",
+    "hormone",
+    "therapy",
+    "ed",
+    "erectile",
+    "dysfunction",
+    "supplements",
+    "doctor",
+    "medical",
+    "energy",
+    "shop",
+    "medication",
+    "indiana",
+    "columbus",
+    "neiters"
+  ],
+  "author": "Jacob Briggs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elipsion-dev/testrxmdsite/issues"
+  },
+  "homepage": "https://github.com/elipsion-dev/testrxmdsite#readme"
+}
