@@ -1,0 +1,26 @@
+/* --------------------------------------
+$Author: ThemeMascot
+$URL: https://themeforest.net/user/ThemeMascot
+
+----------------------------------------- */
+$total-theme-colors: 4;
+
+$theme-color1: #00a3c8;
+$theme-color2: #5663C1;
+$theme-color3: #FF6501;
+$theme-color4: #003A6B;
+
+@function hexToRGB($hex) {
+  @return red($hex), green($hex), blue($hex);
+}
+:root{
+	--theme-color1: #{$theme-color1};
+	--theme-color1-rgb: #{hexToRGB($theme-color1)};
+	--theme-color2: #{$theme-color2};
+	--theme-color2-rgb: #{hexToRGB($theme-color2)};
+	--theme-color3: #{$theme-color3};
+	--theme-color3-rgb: #{hexToRGB($theme-color3)};
+	--theme-color4: #{$theme-color4};
+	--theme-color4-rgb: #{hexToRGB($theme-color4)};
+}
+@import "parts/loader";
