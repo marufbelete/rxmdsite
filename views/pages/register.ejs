@@ -6,7 +6,7 @@
 		<title>Register</title>
 		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-		<script src="https://www.google.com/recaptcha/api.js?render=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></script>
+		<script src="https://www.google.com/recaptcha/api.js"></script>
 	</head>
 	<body>
 		<div class="register">
@@ -42,9 +42,8 @@
 
 				<input type="hidden" name="token" value="{{ token }}">
 
-				{% if settings['recaptcha'] == 'true' %}
-				<div class="g-recaptcha" data-sitekey="{{ settings['recaptcha_site_key'] }}"></div>
-				{% endif %}
+
+				<div class="g-recaptcha" data-sitekey="6Ldkpm0jAAAAANG-RM_wvhAfew1xjLpOkyQ0D0bv"></div>
 
 				<div class="msg">{{ msg }}</div>
 
