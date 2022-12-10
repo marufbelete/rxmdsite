@@ -2,14 +2,14 @@
 
 /*
 +-----------------------------------------------------+
-| GOOGLE reCAPTCHA YOUR PUBLIC AND PRIVATE KEY        |
+| GOOGLE  YOUR PUBLIC AND PRIVATE KEY        |
 | You can collect public and secret key from here:    |
-| https://www.google.com/recaptcha/admin              |
+| https://www.google.com//admin              |
 +-----------------------------------------------------+
 */
-$recaptcha_secretkey = "6LcFfhAUAAAAAJQ0xtpn1SkKpuNN5QVedbU6zrf2";
+$_secretkey = "6Ldkpm0jAAAAAFp40P-xYLSBQyTMLzBn21EWXTI8";
 
-// GOOGLE reCAPTCHA Validation Check
+// GOOGLE  Validation Check
 ini_set('display_errors',1);  error_reporting(E_ALL);
 
 
@@ -18,9 +18,9 @@ $status = "false";
 
 if( isset( $_POST['submit'] ) ) {
     $userIP = $_SERVER["REMOTE_ADDR"];
-    $recaptchaResponse = $_POST['g-recaptcha-response'];
-    $secretKey = $recaptcha_secretkey;
-    $request = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}&remoteip={$userIP}");
+    $Response = $_POST['g--response'];
+    $secretKey = $_secretkey;
+    $request = file_get_contents("https://www.google.com//api/siteverify?secret={$secretKey}&response={$Response}&remoteip={$userIP}");
 
     if( !strstr( $request, "true" ) ) {
         $message = '<strong>Error!</strong>There was a problem with the Captcha, you lied to us! you are a robot! or you just didnt click it :)';
@@ -55,8 +55,8 @@ if( isset( $_POST['submit'] ) ) {
 
                 $botcheck = $_POST['form_botcheck'];
 
-                $toemail = 'spam.thememascot@gmail.com'; // Your Email Address
-                $toname = 'ThemeMascot'; // Your Name
+                $toemail = 'info@testrxmd.com'; // Your Email Address
+                $toname = 'TestRxMD'; // Your Name
 
                 if( $botcheck == '' ) {
 

@@ -3,19 +3,23 @@ module.exports = (app) => {
   const router = require("express").Router();
 
   router.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "/views/index.html"));
+    res.render(path.join(__dirname, "..", "/views/pages/index"));
+  });
+
+  router.get("/home", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/index"));
   });
 
   router.get("/about", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "/views/about.html"));
+    res.render(path.join(__dirname, "..", "/views/pages/about"));
   });
 
   router.get("/services", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "/views/services.html"));
+    res.render(path.join(__dirname, "..", "/views/pages/services"));
   });
 
   router.get("/contact", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "/views/contact.html"));
+    res.render(path.join(__dirname, "..", "/views/pages/contact"));
   });
 
   router.get("/getstarted", function (req, res) {
@@ -23,11 +27,15 @@ module.exports = (app) => {
   });
 
   router.get("/shop", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "/views/index.html"));
+    res.render(path.join(__dirname, "..", "/views/pages/index"));
   });
 
   router.get("/login", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "/views/login.html"));
+    res.render(path.join(__dirname, "..", "/views/pages/login"));
+  });
+
+  router.get("/privacypolicy", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/privacyPolicy"));
   });
 
   app.use("/", router);

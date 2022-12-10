@@ -44,7 +44,4 @@ INSERT INTO `settings` (`id`, `setting_key`, `setting_value`, `category`) VALUES
 (3, 'csrf_protection', 'true', 'Add-ons'),
 (4, 'brute_force_protection', 'true', 'Add-ons'),
 (5, 'twofactor_protection', 'false', 'Add-ons'),
-(6, 'auto_login_after_register', 'false', 'Registration'),
-(7, 'recaptcha', 'true', 'reCAPTCHA'),
-(8, 'recaptcha_site_key', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI', 'reCAPTCHA'),
-(9, 'recaptcha_secret_key', '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe', 'reCAPTCHA');
+(6, 'auto_login_after_register', 'false', 'Registration');

@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const sequelize = require('sequelize');
 const Order = require('../models/orderModel');
+require('dotenv').config();
 
 router.post('/create', (req, res) => {
   // Verify JWT token

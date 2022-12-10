@@ -19,5 +19,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       defaultValue: "customer",
     },
+    googleId: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
   });
 };
