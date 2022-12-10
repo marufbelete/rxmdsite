@@ -1,11 +1,13 @@
 const express = require("express");
-const app = express();
 const port = process.env.PORT || 3000;
 const jwt = require("jsonwebtoken");
 const logger = require("morgan");
 const path = require("path")
 const cors = require("cors");
 const db = require("./models");
+const serverless = require("serverless-http");
+const app = express();
+const serverlessHandler = serverless(app);
 db.sequelize.sync();
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config')
 var corsOptions = {
@@ -26,12 +28,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
+// app.post("api/payments", require("./functions/handlePayment"));
 require("./routes/viewRoutes")(app);
+module.exports = serverlessHandler;
 
 // Handle unauthorized requests
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
-    res.status(401).json({ message: "Unauthorized" });
+    res.sendFile(path.join(__dirname, "/views/404.html"));
   }
 });
 

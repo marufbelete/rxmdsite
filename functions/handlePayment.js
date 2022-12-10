@@ -1,28 +1,47 @@
+const jwt = require("jsonwebtoken");
+const authorizeNet = require("authorize-net");
+
+
+const Order = require("../models/order");
+
 const handlePayment = async (req, res) => {
-    try {
-      // retrieve payment information from the request body
-      const { amount, cardNumber, expirationDate, cvv } = req.body;
-  
-      // create a new transaction using authorize.net API
-      const result = await createTransaction(amount, cardNumber, expirationDate, cvv);
-  
-      // check if the transaction was successful
-      if (result.success) {
-        // return a success response to the client
-        res.status(200).send({
-          message: "Payment successful"
-        });
-      } else {
-        // return an error response to the client
-        res.status(400).send({
-          message: "Payment failed"
-        });
-      }
-    } catch (error) {
-      // return an error response to the client
-      res.status(500).send({
-        message: "An error occurred while processing the payment"
-      });
+  try {
+    const { orderId, paymentToken } = req.body;
+
+    // verify JWT token
+    const decodedToken = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
+
+    // retrieve order from database using orderId
+    const order = await Order.findByPk(orderId);
+
+    // create payment object for authorize.net
+    const payment = {
+      amount: order.total,
+      paymentToken: paymentToken,
+    };
+
+    // make API call to authorize.net to charge credit card
+    const response = await authorizeNet.chargeCreditCard(payment);
+
+    // if payment is successful, save order to database
+    if (response.success) {
+      order.status = "paid";
+      await order.save();
     }
-  };
-  
+
+    res.json({
+      success: response.success,
+      message: response.message,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+module.exports = handlePayment;
