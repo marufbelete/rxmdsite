@@ -1,23 +1,32 @@
-const Sequelize = require("../config/default.json").sequelize;
+const Sequalize=require('sequelize');
+const sequelize = require("./index");
 
-module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("user", {
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    role: {
-      type: Sequelize.STRING,
-      defaultValue: "customer",
-    },
-  });
-};
+const User = sequelize.define("user", {
+  name: {
+    type: Sequalize.STRING,
+    allowNull: false,
+  },
+  username: {
+    type: Sequalize.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  email: {
+    type: Sequalize.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  isEmailConfirmed:{
+    type: Sequalize.BOOLEAN,
+    defaultValue: false,
+  },
+  password: {
+    type: Sequalize.STRING,
+    allowNull: false,
+  },
+  role: {
+    type: Sequalize.STRING,
+    defaultValue: "customer",
+  },
+});
+module.exports = User;

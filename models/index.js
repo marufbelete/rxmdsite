@@ -10,14 +10,14 @@ const sequelize = new Sequelize(dbconfig.db, dbconfig.user, dbconfig.password, {
     idle: dbconfig.pool.idle
   }
 });
+module.exports=sequelize;
+// const db = {};
 
-const db = {};
+// db.Sequelize = Sequelize;
+// db.sequelize = sequelize;
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+// db.orders = require("./orderModel.js")(sequelize, Sequelize);
+// db.products = require("./productModel.js")(sequelize, Sequelize);
+// db.users = require("./userModel.js")(sequelize, Sequelize);
 
-db.orders = require("./orderModel.js")(sequelize, Sequelize);
-db.products = require("./productModel.js")(sequelize, Sequelize);
-db.users = require("./userModel.js")(sequelize, Sequelize);
-
-module.exports = db;
+// module.exports = db;

@@ -1,14 +1,12 @@
 const express = require("express");
-const port = process.env.PORT || 3000;
-const jwt = require("jsonwebtoken");
 const logger = require("morgan");
 const path = require("path")
 const cors = require("cors");
-const db = require("./models");
 const serverless = require("serverless-http");
 const app = express();
+const sequelize=require('./models/index')
+const user_route=require('./routes/userRoutes')
 const serverlessHandler = serverless(app);
-db.sequelize.sync();
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config')
 var corsOptions = {
   origin: "http://localhost:8081",
@@ -16,6 +14,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(logger("dev"));
+require('dotenv').config()
 
 // Use static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -30,16 +29,21 @@ app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 // app.post("api/payments", require("./functions/handlePayment"));
 require("./routes/viewRoutes")(app);
+app.use(user_route);
 module.exports = serverlessHandler;
-
 // Handle unauthorized requests
+const port = process.env.PORT || 7000;
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     res.sendFile(path.join(__dirname, "/views/404.html"));
   }
 });
+sequelize.sync().then(async(result)=>{
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+  });
+}).catch(error=>{
+    console.log(error)
+  })
 
-// Listen to incoming requests
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+
