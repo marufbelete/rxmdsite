@@ -7,15 +7,11 @@ const cors = require("cors");
 const db = require("./models");
 const serverless = require("serverless-http");
 const app = express();
-<<<<<<< HEAD
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const serverlessHandler = serverless(app);
 require('dotenv').config();
 
-=======
-const serverlessHandler = serverless(app);
->>>>>>> 039fc72 (updated functions for handlepayment - still needs a lot of work (#2))
 db.sequelize.sync();
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config')
 var corsOptions = {
