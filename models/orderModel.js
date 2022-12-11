@@ -1,4 +1,4 @@
-const Sequalize=require('sequelize');
+const Sequalize = require("sequelize");
 const sequelize = require("./index");
 
 const Order = sequelize.define("order", {
@@ -28,4 +28,5 @@ const Order = sequelize.define("order", {
     allowNull: false,
   },
 });
+
 module.exports = Order;

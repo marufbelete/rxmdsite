@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 const authorizeNet = require("authorize-net");
-
-
 const Order = require("../models/order");
 
 const handlePayment = async (req, res) => {

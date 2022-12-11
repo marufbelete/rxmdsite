@@ -1,4 +1,4 @@
-const Sequalize=require('sequelize');
+const Sequalize = require("sequelize");
 const sequelize = require("./index");
 
 module.exports = (sequelize, Sequelize) => {
@@ -22,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     googleId: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
   });
 };

@@ -14,12 +14,13 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `last_seen` datetime NOT NULL DEFAULT current_timestamp(),
   `tfa_code` varchar(255) NOT NULL DEFAULT '',
   `ip` varchar(255) NOT NULL DEFAULT '',
+  `googleId` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-INSERT INTO `accounts` (`id`, `username`, `password`, `email`, `role`, `activation_code`, `rememberme`, `reset`, `registered`, `last_seen`, `tfa_code`, `ip`) VALUES
-(1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@example.com', 'Admin', 'activated', '', '', '2022-01-11 17:30:11', '2022-02-01 19:10:30', '', ''),
-(2, 'member', '6467baa3b187373e3931422e2a8ef22f3e447d77', 'member@example.com', 'Member', 'activated', '', '', '2022-01-11 17:30:11', '2022-01-12 19:47:11', '', '');
+INSERT INTO `accounts` (`id`, `username`, `password`, `email`, `role`, `activation_code`, `rememberme`, `reset`, `registered`, `last_seen`, `tfa_code`, `ip`, `googleId`) VALUES
+(1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@example.com', 'Admin', 'activated', '', '', '2022-01-11 17:30:11', '2022-02-01 19:10:30', '', '', ''),
+(2, 'member', '6467baa3b187373e3931422e2a8ef22f3e447d77', 'member@example.com', 'Member', 'activated', '', '', '2022-01-11 17:30:11', '2022-01-12 19:47:11', '', '', '');
 
 CREATE TABLE IF NOT EXISTS `login_attempts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
