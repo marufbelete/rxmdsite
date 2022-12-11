@@ -1,35 +1,77 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const passport=require('passport')
-const { registerValidate ,loginValidate} = require('../validator/user');
-const {registerUser,loginUser,protected,
-       confirmEmail,forgotPassword,resetPassword}=require('../controllers/userController')
-const {errorHandler}=require('../middleware/errohandling.middleware')
-const {authenticateJWT}=require('../middleware/auth.middleware');
-const {issueGoogleToken}=require("../auth/google")
+const { check, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const User = require("../models/userModel");
+const config = require("config");
+const passport = require("passport");
 
-router.post('/register',registerValidate(),registerUser,errorHandler);
-router.post('/login',loginValidate(),loginUser,errorHandler);
-router.post('/confirmemail',confirmEmail,errorHandler);
-router.post('/forgotpassword',forgotPassword,errorHandler);
-router.post('/resetpassword',resetPassword,errorHandler);
+// Register a new user
+router.post(
+  "/register",
+  [
+    check("username", "Username is required").not().isEmpty(),
+    check("email", "Please include a valid email").isEmail(),
+    check(
+      "password",
+      "Please enter a password with 6 or more characters"
+    ).isLength({ min: 6 }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { username, email, password, googleId } = req.body;
+    try {
+      let user = await User.findOne({ email });
+      if (user) {
+        return res.status(400).json({ msg: "User already exists" });
+      }
+      user = new User({ username, email, password, googleId });
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+      await user.save();
+      const payload = { user: { id: user.id } };
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        {
+          expiresIn: 360000,
+        },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
 
-// sample for protected route
-// router.post('/protected',authenticateJWT,protected,errorHandler)
+router.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile"], // Request access to the user's profile
+  })
+);
 
-router.get("/auth/google", passport.authenticate("google", {session: false,scope: ["email","profile"] }));
-//issue token on success
-router.use("/auth/google/callback",
-passport.authenticate("google", 
-{
-session: false,
-failureRedirect: "http://localhost:3000/login",
-}),issueGoogleToken,errorHandler);
+// The /auth/google/callback route, which will be called by Google after the user grants permission
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/", // Redirect to the main page after success
+    failureRedirect: "/login", // Redirect to the /login route after fail
+  })
+);
 
-// Define the /login route, which will be used to log the user in
- router.get('/login', (req, res) => {
-  // Render the login page, which will show a login form
-  return res.render('../views/login.html');
+// The /login route, which will be used to log the user in
+router.get("/login", (req, res) => {
+  // Render the login page
+  res.render("../views/pages/login");
 });
 
 module.exports = router;
