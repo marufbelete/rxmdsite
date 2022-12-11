@@ -36,6 +36,7 @@ app.use("/api/orders", require("./routes/orderRoutes"));
 
 // user_route hasn't been declared - does this work?
 app.use(user_route);
+
 require("./routes/viewRoutes")(app);
 
 // Handle unauthorized requests
@@ -57,8 +58,6 @@ sequelize
   .catch((error) => {
     console.log(error);
   });
-
-module.exports = serverlessHandler;
 
 //Google login
 passport.use(

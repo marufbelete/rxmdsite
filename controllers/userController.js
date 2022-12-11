@@ -41,6 +41,7 @@ exports.registerUser = async (req, res, next) => {
       handleError("username exist", 400);
     }
     const hashedPassword = await hashPassword(password);
+
     const user = new User({
       username,
       email,

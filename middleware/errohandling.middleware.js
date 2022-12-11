@@ -6,4 +6,4 @@ export function errorHandler(err, req, res, next) {
       message: err.statusCode === 500 ? "Unknown Error Occured" : err.message,
       status: false,
     });
-}
+};

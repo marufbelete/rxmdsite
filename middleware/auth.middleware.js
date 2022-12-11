@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { handleError } = require("../helper/handleError").default;
+const { handleError } = require("../helper/handleError");
 
 const authenticateJWT = (req, res, next) => {
   try {
