@@ -1,10 +1,10 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const paymentFunction = require('../functions/handlePayment');
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const paymentFunction = require("../functions/handlePayment");
 
 const router = express.Router();
 
-router.get('/getOrders', (req, res) => {
+router.get("/getOrders", (req, res) => {
   const token = req.headers.authorization;
 
   try {
@@ -14,13 +14,13 @@ router.get('/getOrders', (req, res) => {
       return OrderController.getAllOrders(req, res);
     }
 
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: "Unauthorized" });
   } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: "Unauthorized" });
   }
 });
 
-router.post('/newOrder', (req, res) => {
+router.post("/newOrder", (req, res) => {
   const token = req.headers.authorization;
 
   try {
@@ -30,13 +30,13 @@ router.post('/newOrder', (req, res) => {
       return OrderController.createOrder(req, res);
     }
 
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: "Unauthorized" });
   } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: "Unauthorized" });
   }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete("/:id", (req, res) => {
   const token = req.headers.authorization;
 
   try {
@@ -46,9 +46,9 @@ router.delete('/:id', (req, res) => {
       return OrderController.deleteOrder(req, res);
     }
 
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: "Unauthorized" });
   } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: "Unauthorized" });
   }
 });
 

@@ -1,14 +1,14 @@
-const User=require('../models/userModel')
+const User=require('../models/userModel').default
 const jwt= require('jsonwebtoken')
 const bcrypt= require('bcryptjs')
 
 const isEmailExist=async(email)=>{
         const user = await User.findOne({where:{email:email}})
-        return user 
+        return user
 }
 const isUsernameExist=async(username)=>{
     const user = await User.findOne({where:{username:username}})
-    return user 
+    return user
 }
 const isPasswordCorrect=async(incomingPassword,existingPassword)=>{
     const isMatch = await bcrypt.compare(incomingPassword,existingPassword)

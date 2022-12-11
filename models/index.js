@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
-const {config} = require("../config/default")
+const {config} = require("../config/default").default
+
 const sequelize = new Sequelize(config.db, config.user, config.password, {
   host: config.host,
   dialect: config.dialect,
@@ -10,7 +11,8 @@ const sequelize = new Sequelize(config.db, config.user, config.password, {
     idle: config.pool.idle
   }
 });
-module.exports=sequelize;
+
+module.exports = sequelize;
 // const db = {};
 
 // db.Sequelize = Sequelize;

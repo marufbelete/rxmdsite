@@ -1,10 +1,10 @@
-const express = require('express');
-const productController = require('../controllers/productController');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const productController = require("../controllers/productController");
+const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   // Get all products from the database
   productController.getAllProducts((err, products) => {
     if (err) {
@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
   // Get a single product by its id
   productController.getProductById(req.params.id, (err, product) => {
     if (err) {
@@ -24,7 +24,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
-router.post('/', jwt.verify, (req, res) => {
+router.post("/", jwt.verify, (req, res) => {
   // Add a new product to the database
   productController.addProduct(req.body, (err, product) => {
     if (err) {
@@ -34,7 +34,7 @@ router.post('/', jwt.verify, (req, res) => {
   });
 });
 
-router.put('/:id', jwt.verify, (req, res) => {
+router.put("/:id", jwt.verify, (req, res) => {
   // Update an existing product in the database
   productController.updateProduct(req.params.id, req.body, (err, product) => {
     if (err) {
@@ -44,7 +44,7 @@ router.put('/:id', jwt.verify, (req, res) => {
   });
 });
 
-router.delete('/:id', jwt.verify, (req, res) => {
+router.delete("/:id", jwt.verify, (req, res) => {
   // Delete an existing product from the database
   productController.deleteProduct(req.params.id, (err) => {
     if (err) {
