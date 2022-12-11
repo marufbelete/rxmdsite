@@ -1,30 +1,30 @@
-const Sequelize = require("../config/default.json").sequelize;
+const Sequalize=require('sequelize');
+const sequelize = require("./index");
 
-module.exports = (sequelize, Sequelize) => {
-  const Product = sequelize.define("product", {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    description: {
-      type: Sequelize.TEXT,
-    },
-    price: {
-      type: Sequelize.FLOAT,
-      allowNull: false,
-    },
-    imageUrl: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    quantity: {
-      type: Sequelize.INTEGER,
-      defaultValue: 0,
-    },
-  });
-};
+const Product = sequelize.define("product", {
+  id: {
+    type: Sequalize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  name: {
+    type: Sequalize.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: Sequalize.TEXT,
+  },
+  price: {
+    type: Sequalize.FLOAT,
+    allowNull: false,
+  },
+  imageUrl: {
+    type: Sequalize.STRING,
+    allowNull: false,
+  },
+  quantity: {
+    type: Sequalize.INTEGER,
+    defaultValue: 0,
+  },
+});
+module.exports = Product;

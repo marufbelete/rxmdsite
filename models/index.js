@@ -1,23 +1,23 @@
 const Sequelize = require("sequelize");
-const dbconfig = require("../config/default.json")
-const sequelize = new Sequelize(dbconfig.db, dbconfig.user, dbconfig.password, {
-  host: dbconfig.host,
-  dialect: dbconfig.dialect,
+const {config} = require("../config/default")
+const sequelize = new Sequelize(config.db, config.user, config.password, {
+  host: config.host,
+  dialect: config.dialect,
   pool: {
-    max: dbconfig.pool.max,
-    min: dbconfig.pool.min,
-    acquire: dbconfig.pool.acquire,
-    idle: dbconfig.pool.idle
+    max: config.pool.max,
+    min: config.pool.min,
+    acquire: config.pool.acquire,
+    idle: config.pool.idle
   }
 });
+module.exports=sequelize;
+// const db = {};
 
-const db = {};
+// db.Sequelize = Sequelize;
+// db.sequelize = sequelize;
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+// db.orders = require("./orderModel.js")(sequelize, Sequelize);
+// db.products = require("./productModel.js")(sequelize, Sequelize);
+// db.users = require("./userModel.js")(sequelize, Sequelize);
 
-db.orders = require("./orderModel.js")(sequelize, Sequelize);
-db.products = require("./productModel.js")(sequelize, Sequelize);
-db.users = require("./userModel.js")(sequelize, Sequelize);
-
-module.exports = db;
+// module.exports = db;

@@ -1,4 +1,5 @@
-const Sequelize = require("../config/default.json").sequelize;
+const Sequalize=require('sequelize');
+const sequelize = require("./index");
 
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define("user", {

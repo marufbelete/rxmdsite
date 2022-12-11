@@ -1,10 +1,7 @@
 const express = require("express");
-const port = process.env.PORT || 3000;
-const jwt = require("jsonwebtoken");
 const logger = require("morgan");
 const path = require("path")
 const cors = require("cors");
-const db = require("./models");
 const serverless = require("serverless-http");
 const app = express();
 const passport = require('passport');
@@ -38,14 +35,24 @@ app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 // app.post("api/payments", require("./functions/handlePayment"));
 require("./routes/viewRoutes")(app);
-module.exports = serverlessHandler;
-
+app.use(user_route);
 // Handle unauthorized requests
+const port = process.env.PORT || 7000;
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     res.sendFile(path.join(__dirname, "/views/404.html"));
   }
 });
+sequelize.sync().then(async(result)=>{
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+  });
+}).catch(error=>{
+    console.log(error)
+  })
+
+module.exports = serverlessHandler;
+
 
 //Google login
 passport.use(new GoogleStrategy({
