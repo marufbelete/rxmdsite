@@ -4,9 +4,13 @@ const path = require("path")
 const cors = require("cors");
 const serverless = require("serverless-http");
 const app = express();
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const serverlessHandler = serverless(app);
+require('dotenv').config();
 const sequelize=require('./models/index')
 const user_route=require('./routes/userRoutes')
-const serverlessHandler = serverless(app);
+
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config')
 var corsOptions = {
   origin: "http://localhost:8081",
@@ -14,7 +18,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(logger("dev"));
-require('dotenv').config()
+app.use(passport.initialize());
 
 // Use static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -22,6 +26,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 
 // Routes
 app.use("/api/users", require("./routes/userRoutes"));

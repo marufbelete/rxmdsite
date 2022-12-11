@@ -28,5 +28,9 @@ const User = sequelize.define("user", {
     type: Sequalize.STRING,
     defaultValue: "customer",
   },
+  googleId: {
+    type: Sequalize.STRING,
+    allowNull: false
+  },
 });
 module.exports = User;
