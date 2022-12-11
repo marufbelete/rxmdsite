@@ -9,7 +9,6 @@ const oAuth2Client = new google.auth.OAuth2(
 );
 oAuth2Client.setCredentials({ refresh_token:process.env.MAIL_REFRESH_TOKEN });
 const accessToken= await oAuth2Client.getAccessToken();
-console.log(accessToken)
 
 const transporter = nodemailer.createTransport({
   service: process.env.MAIL_SERVICE,

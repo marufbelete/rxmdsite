@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const {isEmailExist,isUsernameExist,issueToken,
-  hashPassword,isEmailVerified, isPasswordCorrect}=require('../helper/user');
+  hashPassword,isEmailVerified, isPasswordCorrect,isTokenValid}=require('../helper/user');
 const {handleError}=require('../helper/handleError');
 const { validationResult }= require("express-validator");
  const {sendEmail}=require('../helper/send_email');
@@ -31,7 +31,7 @@ exports.registerUser=async(req, res,next)=>{
         return res.json({message:"check your email address"})
       }
     }
-    if (await isUsernameExist(username) && await isEmailVerified(email)) {
+    if (await isUsernameExist(username)) {
       handleError('username exist',400)
     }
    const hashedPassword=await hashPassword(password)
@@ -60,36 +60,95 @@ exports.loginUser=async (req, res,next) => {
   }
   try{
     const { username, email, password} = req.body;
-    console.log(req.body)
     const user=email? await isEmailExist(email):
     await isUsernameExist(username)
-    console.log(user)
-    if(user)
+    if(user&&user.isLocalAuth)
     {
-      //check if validated or not
       //if not validated send email
-      //else do this
+      if(!user.isEmailConfirmed)
+      {
+        const mailOptions= {
+          from:process.env.EMAIL,
+          to: email,
+          subject: 'Account Confirmation Link',
+          text: 'Follow the link to confirm your email!',
+          html:`${process.env.CONFIRM_LINK}?verifyToken=${token}`
+        };
+        await sendEmail(mailOptions)
+        return res.json({message:"check your email address"})
+      }
+      
        if(await isPasswordCorrect(password,user.password)){
         const token = await issueToken(user.id,user.role,process.env.SECRET);
-      //  const {password,...info}=user
        const info={
         name:user.name,
         username:user.username,
         role:user.role,
         email:user.email
        }
-        return res.json({token:token,auth:true,success:true,user:info})
+        return res.json({token:token,auth:true,user:info})
        }
        handleError('username or password not correct',400)
     }
     handleError('username or password not correct',400)
   }
   catch(error){
-    console.log(error)
     next(error)
   }
 }
-
+//forgot password
+exports.forgotPassword=async(req,res,next)=>{
+  try{
+    const {email}=req.body
+    const token = jwt.sign({ email:email},process.env.SECRET,{expiresIn:'40m'});
+    const mailOptions= {
+      from:process.env.EMAIL,
+      to: email,
+      subject: 'Account Confirmation Link',
+      text: 'Follow the link to confirm your email!',
+      html:`${process.env.CONFIRM_LINK}?verifyToken=${token}`
+      };
+      await sendEmail(mailOptions)
+      return res.json({status:true,message:'email sent, please check your email.'})
+ }
+catch(err){
+  next(err)
+    }
+}
+//reset password
+exports.resetPassword=async(req,res,next)=>{
+  try{
+  const token= req.params.token
+  const {password}=req.body
+  const user=await isTokenValid(token)
+  const hashedPassword=hashPassword(password)
+  await User.findByIdAndUpdate({username:user.email},{
+    password:hashedPassword
+  })
+  return res.redirect(`http://localhost:7000/login`)
+ }
+catch(err){
+  next(err)
+    }
+}
+//confirm email
+exports.confirmEmail=async (req, res,next) => {
+  try{
+    const { token} = req.query;
+    const user=await isTokenValid(token)
+    const info={
+      name:user.name,
+      username:user.username,
+      role:user.role,
+      email:user.email
+     }
+     return res.json({token:token,auth:true,user:info})
+  }
+  catch(error){
+    next(error)
+  }
+}
+//test for protected route
 exports.protected=async(req,res,next)=>{
   return res.json({message:"protected"})
 }

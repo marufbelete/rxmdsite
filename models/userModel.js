@@ -8,7 +8,6 @@ const User = sequelize.define("user", {
   },
   username: {
     type: Sequalize.STRING,
-    allowNull: false,
     unique: true,
   },
   email: {
@@ -22,7 +21,6 @@ const User = sequelize.define("user", {
   },
   password: {
     type: Sequalize.STRING,
-    allowNull: false,
   },
   role: {
     type: Sequalize.STRING,
@@ -30,7 +28,10 @@ const User = sequelize.define("user", {
   },
   googleId: {
     type: Sequalize.STRING,
-    allowNull: false
   },
+  isLocalAuth:{
+    type: Sequalize.BOOLEAN,
+    defaultValue: false,
+  }
 });
 module.exports = User;

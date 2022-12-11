@@ -20,7 +20,6 @@ const resetEmail = async (req,res,next) => {
       return res.json({status:true,message:'email sent.'})
     }
     catch(err){
-      console.log(err)
   next(err)
     }
   }
@@ -29,8 +28,6 @@ const resetEmail = async (req,res,next) => {
     try{
     const token= req.params.token
     const {password,confirmPassword}=req.body
-    console.log(req.body)
-    console.log(token)
     if(password!==confirmPassword)
   {
     const error = new Error("password doesn't match. please try again.")

@@ -17,8 +17,21 @@ const isPasswordCorrect=async(incomingPassword,existingPassword)=>{
 }
 //check which data to sign
 const issueToken = async function(id,role,key) {
-    const token = jwt.sign({ sub:id,role}, key);
+    const token = jwt.sign({ sub:id,role}, key,{expiresIn: '1h' });
     return token
+  }
+const isTokenValid= async function(token) {
+    const user=jwt.verify(token, process.env.SECRET, (err, user) => {
+        if (err) {
+            if(err.name == "TokenExpiredError")
+            {
+            handleError("your link expired please try again",403)
+            }
+            handleError("invalid token",403)
+        }
+        return user
+      });
+      return user
   }
 const hashPassword=async(password)=>{
     const salt = await bcrypt.genSalt(10);
@@ -43,5 +56,6 @@ module.exports={
     isEmailVerified,
     issueToken,
     hashPassword,
-    userIp
+    userIp,
+    isTokenValid
 }

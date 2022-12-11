@@ -5,12 +5,14 @@ const cors = require("cors");
 const serverless = require("serverless-http");
 const app = express();
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const serverlessHandler = serverless(app);
+// const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
-const sequelize=require('./models/index')
-const user_route=require('./routes/userRoutes')
+const sequelize=require('./models/index');
+const user_route=require('./routes/userRoutes');
+const {googlePassport}=require("./auth/google");
 
+
+const serverlessHandler = serverless(app);
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config')
 var corsOptions = {
   origin: "http://localhost:8081",
@@ -19,6 +21,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(logger("dev"));
 app.use(passport.initialize());
+googlePassport(passport);
 
 // Use static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -37,7 +40,6 @@ app.use("/api/orders", require("./routes/orderRoutes"));
 // app.post("api/payments", require("./functions/handlePayment"));
 require("./routes/viewRoutes")(app);
 app.use(user_route);
-module.exports = serverlessHandler;
 // Handle unauthorized requests
 const port = process.env.PORT || 7000;
 app.use((err, req, res, next) => {
@@ -52,5 +54,7 @@ sequelize.sync().then(async(result)=>{
 }).catch(error=>{
     console.log(error)
   })
+
+module.exports = serverlessHandler;
 
 
