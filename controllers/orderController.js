@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const Order = require("../models/orderModel").default;
+const Order = require("../models/orderModel")
 require("dotenv").config();
 
 router.post("/create", (req, res) => {

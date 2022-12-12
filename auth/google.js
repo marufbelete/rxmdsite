@@ -1,4 +1,4 @@
-const User = require("../models/userModel").default;
+const User = require("../models/userModel")
 const { issueToken } = require("../helper/user");
 const passportGoogle = require("passport-google-oauth20");
 const GoogleStrategy = passportGoogle.Strategy;
