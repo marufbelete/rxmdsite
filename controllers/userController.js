@@ -39,6 +39,7 @@ exports.registerUser=async(req, res,next)=>{
       username,
       email,
       name,
+      isLocalAuth:true,
       password:hashedPassword,
     });
     await user.save();
@@ -67,9 +68,10 @@ exports.loginUser=async (req, res,next) => {
       //if not validated send email
       if(!user.isEmailConfirmed)
       {
+        const token = jwt.sign({ email:user.email},process.env.SECRET);
         const mailOptions= {
           from:process.env.EMAIL,
-          to: email,
+          to: user.email,
           subject: 'Account Confirmation Link',
           text: 'Follow the link to confirm your email!',
           html:`${process.env.CONFIRM_LINK}?verifyToken=${token}`
@@ -134,17 +136,19 @@ catch(err){
 //confirm email
 exports.confirmEmail=async (req, res,next) => {
   try{
-    const { token} = req.query;
-    const user=await isTokenValid(token)
-    const info={
-      name:user.name,
-      username:user.username,
-      role:user.role,
-      email:user.email
-     }
-     return res.json({token:token,auth:true,user:info})
+    const {verifyToken} = req.query;
+    const user=await isTokenValid(verifyToken)
+    if(user){
+      const userInfo=await User.findOne({where:{email:user.email}})
+      console.log(userInfo)
+      userInfo.isEmailConfirmed=true
+      await userInfo.save()
+      return res.redirect('/')
+    }
+    return res.redirect('/login')
   }
   catch(error){
+    console.log(error)
     next(error)
   }
 }

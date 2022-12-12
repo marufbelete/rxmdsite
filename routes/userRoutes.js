@@ -10,7 +10,7 @@ const {issueGoogleToken}=require("../auth/google")
 
 router.post('/register',registerValidate(),registerUser,errorHandler);
 router.post('/login',loginValidate(),loginUser,errorHandler);
-router.post('/confirmemail',confirmEmail,errorHandler);
+router.get('/confirm',confirmEmail,errorHandler);
 router.post('/forgotpassword',forgotPassword,errorHandler);
 router.post('/resetpassword',resetPassword,errorHandler);
 

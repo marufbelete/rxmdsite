@@ -1,0 +1,36 @@
+
+version: "3"
+services: 
+  node:
+    image: testrxmd
+    ports:
+      - "7000:7000"
+    networks:
+      - docker-service
+    depends_on: 
+      - mysql
+    restart: always
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment: 
+      MYSQL_DATABASE: testrxmd
+      MYSQL_USER: elipson
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+
+    networks:
+      - docker-service
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always
+
+networks:
+  docker-service:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local

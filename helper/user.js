@@ -1,7 +1,7 @@
 const User=require('../models/userModel')
 const jwt= require('jsonwebtoken')
 const bcrypt= require('bcryptjs')
-
+const {handleError}=require('./handleError');
 const isEmailExist=async(email)=>{
         const user = await User.findOne({where:{email:email}})
         return user 
@@ -23,11 +23,11 @@ const issueToken = async function(id,role,key) {
 const isTokenValid= async function(token) {
     const user=jwt.verify(token, process.env.SECRET, (err, user) => {
         if (err) {
-            if(err.name == "TokenExpiredError")
-            {
-            handleError("your link expired please try again",403)
-            }
-            handleError("invalid token",403)
+            // if(err.name == "TokenExpiredError")
+            // {
+            return null
+            // }
+            // handleError("invalid token",403)
         }
         return user
       });

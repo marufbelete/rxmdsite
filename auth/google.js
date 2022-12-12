@@ -30,7 +30,7 @@ passport.use(new GoogleStrategy({
 exports.issueGoogleToken=async(req,res,next)=>{
     try{
         const token = await issueToken(req.user.id,req.user.role,process.env.SECRET)
-        return res.redirect(`http://localhost:7000/dashboard?token=${token}`);
+        return res.redirect(`http://localhost:3000/dashboard?token=${token}`);
       }
 catch(err){
  next(err)
