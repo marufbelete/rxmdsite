@@ -5,6 +5,10 @@ const cors = require("cors");
 const app = express();
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+<<<<<<< HEAD
+=======
+const serverlessHandler = serverless(app);
+>>>>>>> e39ae32c8a3f08b103cc73b623744cbe52f9be25
 require("dotenv").config();
 
 process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
@@ -43,6 +47,7 @@ app.use((err, req, res, next) => {
 });
 
 // sequelize hasn't been declared - does this work?
+<<<<<<< HEAD
 // sequelize
 //   .sync()
 //   .then(async (result) => {
@@ -53,6 +58,18 @@ app.use((err, req, res, next) => {
 //   .catch((error) => {
 //     console.log(error);
 //   });
+=======
+sequelize
+  .sync()
+  .then(async (result) => {
+    app.listen(port, () => {
+      console.log(`Listening on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+>>>>>>> e39ae32c8a3f08b103cc73b623744cbe52f9be25
 
 //Google login
 passport.use(

@@ -1,5 +1,9 @@
 const jwt = require("jsonwebtoken");
+<<<<<<< HEAD
 const User = require("../models/userModel")
+=======
+const User = require("../models/userModel").default;
+>>>>>>> e39ae32c8a3f08b103cc73b623744cbe52f9be25
 const {
   isEmailExist,
   isUsernameExist,
