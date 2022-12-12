@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel');
+const User = require('../models/userModel').default;
 const {isEmailExist,isUsernameExist,issueToken,
   hashPassword,isEmailVerified, isPasswordCorrect,isTokenValid}=require('../helper/user');
 const {handleError}=require('../helper/handleError');
@@ -156,4 +156,3 @@ exports.confirmEmail=async (req, res,next) => {
 exports.protected=async(req,res,next)=>{
   return res.json({message:"protected"})
 }
-
