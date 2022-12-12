@@ -1,10 +1,19 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/userModel').default;
-const {isEmailExist,isUsernameExist,issueToken,
-  hashPassword,isEmailVerified, isPasswordCorrect,isTokenValid}=require('../helper/user');
-const {handleError}=require('../helper/handleError');
-const { validationResult }= require("express-validator");
- const {sendEmail}=require('../helper/send_email');
+const jwt = require("jsonwebtoken");
+const User = require("../models/userModel")
+
+const {
+  isEmailExist,
+  isUsernameExist,
+  issueToken,
+  hashPassword,
+  isEmailVerified,
+  isPasswordCorrect,
+  isTokenValid,
+} = require("../helper/user");
+const { handleError } = require("../helper/handleError");
+const { validationResult } = require("express-validator");
+const { sendEmail } = require("../helper/send_email");
+
 
 exports.registerUser=async(req, res,next)=>{
   const errors = validationResult(req);
