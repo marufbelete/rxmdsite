@@ -4,10 +4,6 @@ const handleError = (msg, status) => {
   throw error;
 };
 
-<<<<<<< HEAD
-module.exports {
-=======
-export default {
->>>>>>> e39ae32c8a3f08b103cc73b623744cbe52f9be25
+module.exports ={
   handleError,
 };

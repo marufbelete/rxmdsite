@@ -1,17 +1,19 @@
 const express = require("express");
 const logger = require("morgan");
-const path = require("path");
+const path = require("path")
 const cors = require("cors");
+const serverless = require("serverless-http");
 const app = express();
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-<<<<<<< HEAD
-=======
-const serverlessHandler = serverless(app);
->>>>>>> e39ae32c8a3f08b103cc73b623744cbe52f9be25
-require("dotenv").config();
+const passport = require('passport');
+// const GoogleStrategy = require('passport-google-oauth20').Strategy;
+require('dotenv').config();
+const sequelize=require('./models/index');
+const user_route=require('./routes/userRoutes');
+const {googlePassport}=require("./auth/google");
 
-process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
+
+const serverlessHandler = serverless(app);
+process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config')
 var corsOptions = {
   origin: "http://localhost:8081",
 };
@@ -19,6 +21,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(logger("dev"));
 app.use(passport.initialize());
+googlePassport(passport);
 
 // Use static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -28,95 +31,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // set the view engine to ejs
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 
 // Routes
-app.use("/api/users", require("./routes/userRoutes"));
+app.use(user_route);
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 // app.post("api/payments", require("./functions/handlePayment"));
-
 require("./routes/viewRoutes")(app);
-
 // Handle unauthorized requests
 const port = process.env.PORT || 7000;
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
-    res.sendFile(path.join(__dirname, "/views/pages/404"));
+    res.sendFile(path.join(__dirname, "/views/404.html"));
   }
 });
-
-// sequelize hasn't been declared - does this work?
-<<<<<<< HEAD
-// sequelize
-//   .sync()
-//   .then(async (result) => {
-//     app.listen(port, () => {
-//       console.log(`Listening on port ${port}`);
-//     });
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
-=======
-sequelize
-  .sync()
-  .then(async (result) => {
-    app.listen(port, () => {
-      console.log(`Listening on port ${port}`);
-    });
-  })
-  .catch((error) => {
-    console.log(error);
+sequelize.sync().then(async(result)=>{
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
   });
->>>>>>> e39ae32c8a3f08b103cc73b623744cbe52f9be25
-
-//Google login
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: "your-client-id",
-      clientSecret: "your-client-secret",
-      callbackURL: "/auth/google/callback",
-    },
-    (accessToken, refreshToken, profile, cb) => {
-      // Store the user's Google profile information in the database
-      // and generate a JWT token to be sent to the client
-      User.findOrCreate({ where: { googleId: profile.id } })
-        .then((user) => cb(null, user))
-        .catch((err) => cb(err));
-    }
-  )
-);
-
-app.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile"],
+}).catch(error=>{
+    console.log(error)
   })
-);
 
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/login",
-    session: false,
-  }),
-  (req, res) => {
-    // Generate a JWT token for the authenticated user
-    const token = jwt.sign(
-      {
-        id: req.user.id,
-        email: req.user.email,
-      },
-      "your-jwt-secret",
-      { expiresIn: "1h" }
-    );
-    res.redirect(`/home?token=${token}`);
-  }
-);
-
-// Listen to incoming requests
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+module.exports = serverlessHandler;
