@@ -2,11 +2,13 @@ const express = require("express");
 const logger = require("morgan");
 const path = require("path");
 const cors = require("cors");
-const serverless = require("serverless-http");
 const app = express();
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+<<<<<<< HEAD
+=======
 const serverlessHandler = serverless(app);
+>>>>>>> e39ae32c8a3f08b103cc73b623744cbe52f9be25
 require("dotenv").config();
 
 process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
@@ -34,9 +36,6 @@ app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 // app.post("api/payments", require("./functions/handlePayment"));
 
-// user_route hasn't been declared - does this work?
-app.use(user_route);
-
 require("./routes/viewRoutes")(app);
 
 // Handle unauthorized requests
@@ -48,6 +47,18 @@ app.use((err, req, res, next) => {
 });
 
 // sequelize hasn't been declared - does this work?
+<<<<<<< HEAD
+// sequelize
+//   .sync()
+//   .then(async (result) => {
+//     app.listen(port, () => {
+//       console.log(`Listening on port ${port}`);
+//     });
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+=======
 sequelize
   .sync()
   .then(async (result) => {
@@ -58,6 +69,7 @@ sequelize
   .catch((error) => {
     console.log(error);
   });
+>>>>>>> e39ae32c8a3f08b103cc73b623744cbe52f9be25
 
 //Google login
 passport.use(

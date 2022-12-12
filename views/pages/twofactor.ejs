@@ -8,6 +8,23 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 	</head>
 	<body>
+		<%- include('../partials/headerTop.ejs') %>
+    <li class="menu-item">
+      <a href="/">Home</a>
+    </li>
+    <li class="menu-item">
+      <a href="/services">Services</a>
+    </li>
+    <li class="active menu-item">
+      <a href="#">About</a>
+    </li>
+    <li class="menu-item">
+      <a href="/contact">Contact</a>
+    </li>
+    <li class="menu-item">
+      <a href="/login">Login/Register</a>
+    </li>
+    <%- include('../partials/headerBottom.ejs') %>
 		<div class="login">
 			<h1>Two-factor Authentication</h1>
             <p style="padding:15px;margin:0;">Please enter the code that was sent to your email address below.</p>
@@ -20,5 +37,6 @@
 				<input type="submit" value="Submit">
 			</form>
 		</div>
+		<%- include('../partials/footer') %>
 	</body>
 </html>
