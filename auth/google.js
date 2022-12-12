@@ -1,8 +1,5 @@
-<<<<<<< HEAD
+
 const User = require("../models/userModel")
-=======
-const User = require("../models/userModel").default;
->>>>>>> e39ae32c8a3f08b103cc73b623744cbe52f9be25
 const { issueToken } = require("../helper/user");
 const passportGoogle = require("passport-google-oauth20");
 const GoogleStrategy = passportGoogle.Strategy;
@@ -31,20 +28,23 @@ exports.googlePassport = (passport) => {
         } catch (err) {
           done(err, null);
         }
-      }
-    )
-  );
-};
+      const user=await User.findOrCreate({ where:{googleId:userInfo.googleId,
+      email:userInfo.email},defaults:userInfo})
+      done(null, user)
+    }
+    catch(err){
+      done(err, null)
 
-exports.issueGoogleToken = async (req, res, next) => {
-  try {
-    const token = await issueToken(
-      req.user.id,
-      req.user.role,
-      process.env.SECRET
-    );
-    return res.redirect(`/home?token=${token}`);
-  } catch (err) {
-    next(err);
+    }
   }
-};
+));
+}
+exports.issueGoogleToken=async(req,res,next)=>{
+    try{
+        const token = await issueToken(req.user.id,req.user.role,process.env.SECRET)
+        return res.redirect(`http://localhost:3000/dashboard?token=${token}`);
+      }
+catch(err){
+ next(err)
+}
+}
