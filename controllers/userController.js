@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel")
-
+const bouncer= require("../helper/bruteprotect")
 const {
   isEmailExist,
   isUsernameExist,
@@ -57,7 +57,6 @@ exports.registerUser=async(req, res,next)=>{
     return res.json({message:"check your email address"})
   }
    catch (err) {
-    console.error(err);
     next(err);
   }
 }
@@ -98,15 +97,15 @@ exports.loginUser=async (req, res,next) => {
         role:user.role,
         email:user.email
        }
+        bouncer.reset (req);
         return res.json({token:token,auth:true,user:info})
        }
        handleError('username or password not correct',400)
     }
     handleError('username or password not correct',400)
   }
-  catch(error){
-    console.log(error)
-    next(error)
+  catch(err){
+    next(err)
   }
 }
 //forgot password
@@ -157,8 +156,8 @@ exports.confirmEmail=async (req, res,next) => {
     }
     return res.redirect('/login')
   }
-  catch(error){
-    next(error)
+  catch(err){
+    next(err)
   }
 }
 //test for protected route

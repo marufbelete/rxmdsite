@@ -23,7 +23,7 @@ const User = sequelize.define("user", {
     type: Sequalize.STRING,
   },
   role: {
-    type: Sequalize.STRING,
+    type: Sequalize.ENUM("admin","customer"),
     defaultValue: "customer",
   },
   googleId: {
