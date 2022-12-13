@@ -104,9 +104,8 @@ exports.loginUser=async (req, res,next) => {
     }
     handleError('username or password not correct',400)
   }
-  catch(error){
-    console.log(error)
-    next(error)
+  catch(err){
+    next(err)
   }
 }
 //forgot password
@@ -157,8 +156,8 @@ exports.confirmEmail=async (req, res,next) => {
     }
     return res.redirect('/login')
   }
-  catch(error){
-    next(error)
+  catch(err){
+    next(err)
   }
 }
 //test for protected route

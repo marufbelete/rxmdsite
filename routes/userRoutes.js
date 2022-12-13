@@ -35,9 +35,9 @@ failureRedirect: "http://localhost:3000/login",
 }),issueGoogleToken,errorHandler);
 
 // Define the /login route, which will be used to log the user in
- router.get('/login', (req, res) => {
-  // Render the login page, which will show a login form
-  return res.render('../views/login.html');
-});
+//  router.get('/login', (req, res) => {
+//   // Render the login page, which will show a login form
+//   return res.render('../views/login.html');
+// });
 
 module.exports = router;
