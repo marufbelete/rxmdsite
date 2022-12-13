@@ -34,12 +34,11 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 // Routes
-app.use("/api/users", require("./routes/userRoutes"));
+app.use(user_route);
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 // app.post("api/payments", require("./functions/handlePayment"));
 require("./routes/viewRoutes")(app);
-app.use(user_route);
 // Handle unauthorized requests
 const port = process.env.PORT || 7000;
 app.use((err, req, res, next) => {
@@ -56,5 +55,3 @@ sequelize.sync().then(async(result)=>{
   })
 
 module.exports = serverlessHandler;
-
-

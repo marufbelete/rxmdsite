@@ -1,5 +1,6 @@
 const User=require("../models/userModel");
 const { issueToken } = require('../helper/user');
+const {Op}=require('sequelize')
 const passportGoogle=require('passport-google-oauth20');
 const GoogleStrategy = passportGoogle.Strategy
 exports.googlePassport=(passport)=>{
@@ -16,11 +17,12 @@ passport.use(new GoogleStrategy({
         googleId:profile._json.sub,
         isEmailConfirmed:profile._json.email_verified
         }
-      const user=await User.findOrCreate({ where:{googleId:userInfo.googleId,
-      email:userInfo.email},defaults:userInfo})
+      const user=await User.findOrCreate({ where:{[Op.or]:[{googleId:userInfo.googleId},
+      {email:userInfo.email}]},defaults:userInfo})
       done(null, user)
     }
     catch(err){
+      console.log(err)
       done(err, null)
 
     }
@@ -30,7 +32,7 @@ passport.use(new GoogleStrategy({
 exports.issueGoogleToken=async(req,res,next)=>{
     try{
         const token = await issueToken(req.user.id,req.user.role,process.env.SECRET)
-        return res.redirect(`http://localhost:3000/dashboard?token=${token}`);
+        return res.redirect(`http://localhost:7000/dashboard?token=${token}`);
       }
 catch(err){
  next(err)

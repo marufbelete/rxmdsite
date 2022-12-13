@@ -1,10 +1,19 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/userModel');
-const {isEmailExist,isUsernameExist,issueToken,
-  hashPassword,isEmailVerified, isPasswordCorrect,isTokenValid}=require('../helper/user');
-const {handleError}=require('../helper/handleError');
-const { validationResult }= require("express-validator");
- const {sendEmail}=require('../helper/send_email');
+const jwt = require("jsonwebtoken");
+const User = require("../models/userModel")
+
+const {
+  isEmailExist,
+  isUsernameExist,
+  issueToken,
+  hashPassword,
+  isEmailVerified,
+  isPasswordCorrect,
+  isTokenValid,
+} = require("../helper/user");
+const { handleError } = require("../helper/handleError");
+const { validationResult } = require("express-validator");
+const { sendEmail } = require("../helper/send_email");
+
 
 exports.registerUser=async(req, res,next)=>{
   const errors = validationResult(req);
@@ -22,6 +31,7 @@ exports.registerUser=async(req, res,next)=>{
       html:`${process.env.CONFIRM_LINK}?verifyToken=${token}`
     };
     if (await isEmailExist(email)) {
+      console.log(await isEmailVerified(email))
       if(await isEmailVerified(email))
       {
         handleError('User already exists with this email',400)
@@ -95,6 +105,7 @@ exports.loginUser=async (req, res,next) => {
     handleError('username or password not correct',400)
   }
   catch(error){
+    console.log(error)
     next(error)
   }
 }
@@ -140,7 +151,6 @@ exports.confirmEmail=async (req, res,next) => {
     const user=await isTokenValid(verifyToken)
     if(user){
       const userInfo=await User.findOne({where:{email:user.email}})
-      console.log(userInfo)
       userInfo.isEmailConfirmed=true
       await userInfo.save()
       return res.redirect('/')
@@ -148,7 +158,6 @@ exports.confirmEmail=async (req, res,next) => {
     return res.redirect('/login')
   }
   catch(error){
-    console.log(error)
     next(error)
   }
 }
@@ -156,4 +165,3 @@ exports.confirmEmail=async (req, res,next) => {
 exports.protected=async(req,res,next)=>{
   return res.json({message:"protected"})
 }
-

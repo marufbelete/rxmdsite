@@ -1,4 +1,4 @@
-const Sequalize=require('sequelize');
+const Sequalize = require("sequelize");
 const sequelize = require("./index");
 
 const Product = sequelize.define("product", {
@@ -27,4 +27,5 @@ const Product = sequelize.define("product", {
     defaultValue: 0,
   },
 });
+
 module.exports = Product;
