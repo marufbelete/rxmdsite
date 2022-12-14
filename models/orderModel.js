@@ -3,9 +3,11 @@ const sequelize = require("./index");
 
 const Order = sequelize.define("order", {
   orderId: {
-    type: Sequalize.INTEGER,
+    type: Sequalize.UUIDV4,
     primaryKey: true,
     autoIncrement: true,
+    allowNull: false,
+
   },
   userId: {
     type: Sequalize.INTEGER,
@@ -18,6 +20,9 @@ const Order = sequelize.define("order", {
   quantity: {
     type: Sequalize.INTEGER,
     allowNull: false,
+  },
+  tax: {
+    type: Sequalize.DECIMAL,
   },
   totalPrice: {
     type: Sequalize.FLOAT,
