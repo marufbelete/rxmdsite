@@ -21,7 +21,7 @@ exports.registerUser=async(req, res,next)=>{
     return res.status(400).json({ message:errors.array()[0].msg});
   }
   try {
-    const { username, email, password,name } = req.body;
+    const { username, email, password,first_name,last_name,roleId } = req.body;
     const token = jwt.sign({ email:email},process.env.SECRET);
     const mailOptions= {
       from:process.env.EMAIL,
@@ -48,7 +48,9 @@ exports.registerUser=async(req, res,next)=>{
     const user = new User({
       username,
       email,
-      name,
+      first_name,
+      last_name,
+      roleId:roleId,
       isLocalAuth:true,
       password:hashedPassword,
     });
@@ -108,6 +110,17 @@ exports.loginUser=async (req, res,next) => {
     next(err)
   }
 }
+//update user info
+exports.updateUserInfo=async (req, res,next) => {
+  try {
+    const { id } = req.params;
+    const updated_user = await User.update({...req.body},
+      {where:{id:id},plain: true});
+    return res.json(updated_user);
+  } catch (err) {
+    next(err)
+  }
+};
 //forgot password
 exports.forgotPassword=async(req,res,next)=>{
   try{

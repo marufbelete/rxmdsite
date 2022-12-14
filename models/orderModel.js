@@ -2,22 +2,18 @@ const Sequalize = require("sequelize");
 const sequelize = require("./index");
 
 const Order = sequelize.define("order", {
-  orderId: {
+  id: {
     type: Sequalize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-  },
-  userId: {
-    type: Sequalize.INTEGER,
-    allowNull: false,
-  },
-  productId: {
-    type: Sequalize.INTEGER,
     allowNull: false,
   },
   quantity: {
     type: Sequalize.INTEGER,
     allowNull: false,
+  },
+  tax: {
+    type: Sequalize.DECIMAL,
   },
   totalPrice: {
     type: Sequalize.FLOAT,

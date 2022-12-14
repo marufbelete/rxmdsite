@@ -9,7 +9,9 @@ const passport = require('passport');
 require('dotenv').config();
 const sequelize=require('./models/index');
 const user_route=require('./routes/userRoutes');
+const role_route=require("./routes/roleRoute")
 const {googlePassport}=require("./auth/google");
+const Relation=require('./models/relation.model')
 
 
 const serverlessHandler = serverless(app);
@@ -35,10 +37,12 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.use(user_route);
+app.use(role_route);
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 // app.post("api/payments", require("./functions/handlePayment"));
 require("./routes/viewRoutes")(app);
+Relation()
 // Handle unauthorized requests
 const port = process.env.PORT || 7000;
 app.use((err, req, res, next) => {

@@ -5,9 +5,8 @@ exports.authAdmin = (req, res, next) => {
     next()
     return;
     }
-  return res.status(403).
-  json({message:"you do not have privillage",status:false})
-
+  json({message:"you do not have admin privillage",status:false})
+  return res.status(403)
 };
 
 exports.authCustomer = (req, res, next) => {

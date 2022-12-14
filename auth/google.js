@@ -12,7 +12,8 @@ passport.use(new GoogleStrategy({
   async function(accessToken, refreshToken, profile, done) {
     try{
       const userInfo={
-        name:profile._json.name,
+        first_name:profile._json.given_name,
+        last_name:profile._json.family_name,
         email:profile._json.email,
         googleId:profile._json.sub,
         isEmailConfirmed:profile._json.email_verified
@@ -22,7 +23,6 @@ passport.use(new GoogleStrategy({
       done(null, user)
     }
     catch(err){
-      console.log(err)
       done(err, null)
 
     }
