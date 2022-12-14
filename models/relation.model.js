@@ -30,18 +30,22 @@ Product.belongsTo(Catagory)
 
 //product to order
 Order.belongsToMany(Product,{
-  foreignKey: 'orderId'
+  through: 'ProductOrder',
+  foreignKey: "orderId"
 })
 Product.belongsToMany(Order,{
-  foreignKey: 'productId'
+  through: 'ProductOrder',
+  foreignKey: "productId"
 })
 
 //product to productsize
 ProductSize.belongsToMany(Product,{
-  foreignKey: 'product_sizeId'
+  through: 'ProductProductSize',
+  foreignKey: "product_sizeId",
 })
 Product.belongsToMany(ProductSize,{
-  foreignKey: 'productId'
+  through: 'ProductProductSize',
+  foreignKey: "productId",
 })
 
 //order to shipping
@@ -60,7 +64,7 @@ Order.belongsTo(Payment)
 User.hasMany(Order,{
   foreignKey: 'orderId'
 })
-Order.belongs(User,{
+Order.belongsTo(User,{
   foreignKey: 'productId'
 })
 
@@ -68,7 +72,7 @@ Order.belongs(User,{
 Role.hasMany(User,{
   foreignKey: 'roleId'
 })
-User.belongs(Role)
+User.belongsTo(Role)
 
 }
  module.exports = Relation;

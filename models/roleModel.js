@@ -8,7 +8,7 @@ id: {
   autoIncrement: true,
   allowNull: false
 },
-name: {
+role: {
     type: Sequalize.STRING(45),
     allowNull: false
 }

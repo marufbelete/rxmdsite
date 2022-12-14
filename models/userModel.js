@@ -26,10 +26,6 @@ const User = sequelize.define("user", {
   password: {
     type: Sequalize.STRING,
   },
-  role: {
-    type: Sequalize.ENUM("admin","customer"),
-    defaultValue: "customer",
-  },
   googleId: {
     type: Sequalize.STRING,
   },

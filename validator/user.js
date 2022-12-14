@@ -2,12 +2,11 @@ const { check, body } = require("express-validator");
 
 const registerValidate = () => {
   return [
-    check("name", "name is required").not().isEmpty(),
-    check("username", "Username is required").not().isEmpty(),
+    check("first_name", "first name is required").not().isEmpty(),
+    check("last_name", "last name is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 6 or more characters"
+    check("password",
+    "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 }),
   ];
 };
@@ -28,14 +27,6 @@ const loginValidate = () => {
     ).isLength({ min: 6 }),
   ];
 };
-
-// body('oldPassword')
-// // if the new password is provided...
-// .if((value, { req }) => req.body.newPassword)
-// // OR
-// .if(body('newPassword').exists())
-// // ...then the old password must be too...
-// .notEmpty()
 
 module.exports = {
   registerValidate,

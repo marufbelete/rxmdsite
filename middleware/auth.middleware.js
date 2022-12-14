@@ -6,11 +6,11 @@ const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
     const token = authHeader?.split(" ")[1];
     if (!token) {
-      handleError("no token", 403);
+      handleError("please login", 403);
     }
     jwt.verify(token, process.env.SECRET, (err, user) => {
       if (err) {
-        handleError("invalid token", 403);
+        handleError("please login", 403);
       }
       req.user = user;
       next();
