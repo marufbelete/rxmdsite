@@ -59,7 +59,6 @@ exports.registerUser=async(req, res,next)=>{
     return res.json({message:"check your email address"})
   }
    catch (err) {
-    console.log(err)
     next(err);
   }
 }
