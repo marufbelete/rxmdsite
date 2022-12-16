@@ -9,6 +9,7 @@ const {
   isEmailVerified,
   isPasswordCorrect,
   isTokenValid,
+  issueLongtimeToken
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
@@ -70,7 +71,7 @@ exports.loginUser=async (req, res,next) => {
     return res.status(400).json({ message:errors.array()[0].msg});
   }
   try{
-    const { username, email, password} = req.body;
+    const { username, email, password,remberme} = req.body;
     const user=email? await isEmailExist(email):
     await isUsernameExist(username)
     if(user&&user.isLocalAuth)
@@ -91,7 +92,8 @@ exports.loginUser=async (req, res,next) => {
       }
       
        if(await isPasswordCorrect(password,user.password)){
-        const token = await issueToken(user.id,user.role.role,process.env.SECRET);
+        const token = remberme?await issueLongtimeToken(user.id,user.role.role,process.env.SECRET):
+        await issueToken(user.id,user.role.role,process.env.SECRET);
        const info={
         name:user.name,
         username:user.username,

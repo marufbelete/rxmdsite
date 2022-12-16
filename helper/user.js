@@ -16,10 +16,13 @@ const isPasswordCorrect=async(incomingPassword,existingPassword)=>{
 }
 //check which data to sign
 const issueToken = async function(id,role,key) {
-    console.timeLog(id,role)
     const token = jwt.sign({ sub:id,role}, key,{expiresIn: '24h' });
     return token
   }
+const issueLongtimeToken = async function(id,role,key) {
+    const token = jwt.sign({ sub:id,role}, key,{expiresIn: '720h' });
+    return token
+}
 const isTokenValid= async function(token) {
     const user=jwt.verify(token, process.env.SECRET, (err, user) => {
         if (err) {
@@ -58,6 +61,7 @@ module.exports={
     isPasswordCorrect,
     isEmailVerified,
     issueToken,
+    issueLongtimeToken,
     hashPassword,
     userIp,
     isUserAdmin,
