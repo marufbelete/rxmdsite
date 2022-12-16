@@ -11,6 +11,12 @@ const {authenticateJWT}=require('../middleware/auth.middleware');
 const {issueGoogleToken}=require("../auth/google");
 const { authAdmin } = require('../middleware/role.middleware');
 
+// bouncer.blocked = function (req, res, next, remaining)
+// {
+//     return res.status(429).
+//     json ({message:`You have end you login attempt, please wait ${Math.round((remaining / 60000))} minutes`});
+// };
+
 router.post('/register',registerValidate(),registerUser,errorHandler);
 router.post('/login',loginValidate(),bouncer.block,loginUser,errorHandler);
 router.put('/updateuser/:id',authenticateJWT,updateUserInfo,errorHandler);
