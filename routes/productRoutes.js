@@ -1,57 +1,32 @@
-const express = require("express");
-const productController = require("../controllers/productController");
-const jwt = require("jsonwebtoken");
-
+const express = require('express');
 const router = express.Router();
+const { productValidate } = require('../validator/product');
+const { addProduct, deleteProduct, editProduct,
+  getProduct, getProductById } = require('../controllers/productController')
+const { errorHandler } = require('../middleware/errohandling.middleware')
+const { authenticateJWT } = require('../middleware/auth.middleware');
+const { authAdmin } = require('../middleware/role.middleware')
+const multer = require("multer");
+const fileStorage = multer.memoryStorage()
+const filefilter = (req, file, cb) => {
+  console.log("filter")
+  if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
+    cb(null, true)
+  }
+  else {
+    const type = file.mimetype.split("/")[1]
+    req.mimetypeError = `${type} file is not allowed please attach only image file`;
+    cb(null, false, new Error(`${type} file is not allowed please attach only image file`))
+  }
+}
+const upload = multer({ storage: fileStorage, fileFilter: filefilter })
 
-router.get("/", (req, res) => {
-  // Get all products from the database
-  productController.getAllProducts((err, products) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.json(products);
-  });
-});
-
-router.get("/:id", (req, res) => {
-  // Get a single product by its id
-  productController.getProductById(req.params.id, (err, product) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.json(product);
-  });
-});
-
-router.post("/", jwt.verify, (req, res) => {
-  // Add a new product to the database
-  productController.addProduct(req.body, (err, product) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.json(product);
-  });
-});
-
-router.put("/:id", jwt.verify, (req, res) => {
-  // Update an existing product in the database
-  productController.updateProduct(req.params.id, req.body, (err, product) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.json(product);
-  });
-});
-
-router.delete("/:id", jwt.verify, (req, res) => {
-  // Delete an existing product from the database
-  productController.deleteProduct(req.params.id, (err) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return res.sendStatus(204);
-  });
-});
+router.post('/addproduct', authenticateJWT, authAdmin, upload.array('product_image', 3),
+  productValidate(), addProduct, errorHandler);
+router.get('/getproduct', authenticateJWT, getProduct, errorHandler);
+router.get('/getproductbyid/:id', authenticateJWT, getProductById, errorHandler);
+router.put('/editproduct/:id', authenticateJWT, authAdmin,
+  upload.array('product_image', 3), editProduct, errorHandler);
+router.delete('/deleteproduct/:id', authenticateJWT, authAdmin, deleteProduct, errorHandler);
 
 module.exports = router;

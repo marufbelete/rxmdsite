@@ -1,20 +1,25 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
 const sequelizePaginate = require('sequelize-paginate')
-const Product = sequelize.define("product", {
+
+const Orderproduct = sequelize.define("order_product", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false
+    allowNull: false,
+  },
+  quantity: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  productId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
   },
   product_name: {
     type: Sequelize.STRING,
     allowNull: false,
-  },
-  price: {
-    type: Sequelize.DECIMAL,
-    allowNull: false
   },
   discount: {
     type: Sequelize.TINYINT,
@@ -24,21 +29,12 @@ const Product = sequelize.define("product", {
   description: {
     type: Sequelize.STRING,
   },
-  active: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: true
-  },
-  stock: {
-    type: Sequelize.INTEGER,
+  price: {
+    type: Sequelize.FLOAT,
     allowNull: false,
   },
   tax: {
     type: Sequelize.DECIMAL,
-  },
-  quantity: {
-    type: Sequelize.INTEGER,
-    defaultValue: 0,
   },
   image_url: {
     type: Sequelize.STRING,
@@ -50,8 +46,8 @@ const Product = sequelize.define("product", {
       this.setDataValue('image_url', val.join(';'));
     }
   },
-  
+
 });
 
-sequelizePaginate.paginate(Product)
-module.exports = Product;
+sequelizePaginate.paginate(Orderproduct)
+module.exports = Orderproduct;

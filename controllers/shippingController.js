@@ -1,56 +1,66 @@
-const Role = require("../models/roleModel");
+const Shipping = require("../models/shippingModel");
+const { validationResult } = require("express-validator");
 
-exports.addRole=async (req, res,next) => {
+exports.crerateShipping = async (req, res, next) => {
   try {
-    const { role } = req.body;
-    const add_role = new Role({role});
-    const new_role= await add_role.save();
-    return res.json(new_role);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array()[0].msg });
+    }
+    const shipping = new Shipping({
+      ...req.body
+    });
+    const new_shipping = await shipping.save();
+    return res.json(new_shipping);
   } catch (err) {
     next(err)
   }
 };
 
-exports.getRole=async (req, res,next) => {
+exports.getShipping = async (req, res, next) => {
   try {
-    const roles = await Role.findAll();
-    return res.json(roles);
+    const shippings = await Shipping.findAll({
+      include:
+        ["orders"]
+    });
+    return res.json(shippings);
   } catch (err) {
-   next(err)
+    next(err)
   }
 };
-exports.getRoleById=async (req, res,next) => {
+exports.getShippingById = async (req, res, next) => {
   try {
-    const {id}=req.params
-    const role = await Role.findByPk(id);
-   return res.json(role);
+    const { id } = req.params
+    const shipping = await Shipping.findByPk(id, {
+      include:
+        ["orders"]
+    });
+    return res.json(shipping);
   } catch (err) {
-   next(err)
+    next(err)
   }
 };
-exports.editRole=async (req, res,next) => {
+exports.editshipping = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { role} = req.body;
-    const updated_role = await Role.update({role},{where:{id:id}});
-    return res.json(updated_role);
+    const updated_shipping = await Shipping.update({ ...req.body },
+      { where: { id: id } });
+    return res.json(updated_shipping);
   } catch (err) {
     next(err)
   }
 };
 
-exports.deleteRole= async (req, res,next) => {
+exports.deleteshipping = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Role.remove(id);
-    await product.destroy();
+    await Shipping.destroy({ where: { id } });
     return res.json({
       success: true,
-      message: "Product deleted",
+      message: "Shipping deleted",
     });
   } catch (err) {
     next(err)
   }
 };
 
-module.exports = router;

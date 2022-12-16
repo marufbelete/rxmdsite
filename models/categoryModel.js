@@ -1,17 +1,17 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
 
-const Brand = sequelize.define("brand", {
+const Category = sequelize.define("category", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false
   },
-  brand_name: {
-    type: Sequelize.STRING,
+  name: {
+    type: Sequelize.STRING(45),
     allowNull: false
   }
 });
 
-module.exports = Brand;
+module.exports = Category;

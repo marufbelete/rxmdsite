@@ -1,28 +1,23 @@
-const Sequalize = require("sequelize");
+const Sequelize = require("sequelize");
 const sequelize = require("./index");
+const sequelizePaginate = require('sequelize-paginate')
 
 const Order = sequelize.define("order", {
   id: {
-    type: Sequalize.INTEGER,
+    type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
   },
-  quantity: {
-    type: Sequalize.INTEGER,
+  order_date: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW,
     allowNull: false,
   },
-  tax: {
-    type: Sequalize.DECIMAL,
-  },
-  totalPrice: {
-    type: Sequalize.FLOAT,
-    allowNull: false,
-  },
-  orderDate: {
-    type: Sequalize.DATE,
-    allowNull: false,
+  delivery_date: {
+    type: Sequelize.DATE,
   },
 });
 
+sequelizePaginate.paginate(Order)
 module.exports = Order;

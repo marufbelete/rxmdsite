@@ -1,56 +1,58 @@
-const Role = require("../models/roleModel");
+const Payment = require("../models/paymentModel");
+const { validationResult } = require("express-validator");
 
-exports.addRole=async (req, res,next) => {
+exports.addPayment = async (req, res, next) => {
   try {
-    const { role } = req.body;
-    const add_role = new Role({role});
-    const new_role= await add_role.save();
-    return res.json(new_role);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array()[0].msg });
+    }
+    const add_payment = new Payment({ ...req.body });
+    const new_payment = await add_payment.save();
+    return res.json(new_payment);
+  }
+  catch (err) {
+    next(err)
+  }
+};
+
+exports.getPayment = async (req, res, next) => {
+  try {
+    const payments = await Payment.findAll();
+    return res.json(payments);
+  } catch (err) {
+    next(err)
+  }
+};
+exports.getPaymentById = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const payment = await Payment.findByPk(id);
+    return res.json(payment);
+  } catch (err) {
+    next(err)
+  }
+};
+exports.editPayment = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updated_payment = await Payment.update({ ...req.body }, { where: { id: id } });
+    return res.json(updated_payment);
   } catch (err) {
     next(err)
   }
 };
 
-exports.getRole=async (req, res,next) => {
-  try {
-    const roles = await Role.findAll();
-    return res.json(roles);
-  } catch (err) {
-   next(err)
-  }
-};
-exports.getRoleById=async (req, res,next) => {
-  try {
-    const {id}=req.params
-    const role = await Role.findByPk(id);
-   return res.json(role);
-  } catch (err) {
-   next(err)
-  }
-};
-exports.editRole=async (req, res,next) => {
+exports.deletePayment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { role} = req.body;
-    const updated_role = await Role.update({role},{where:{id:id}});
-    return res.json(updated_role);
-  } catch (err) {
-    next(err)
-  }
-};
-
-exports.deleteRole= async (req, res,next) => {
-  try {
-    const { id } = req.params;
-    await Role.remove(id);
-    await product.destroy();
+    await Payment.destroy({ where: { id } });
     return res.json({
       success: true,
-      message: "Product deleted",
+      message: "Payment method deleted",
     });
   } catch (err) {
     next(err)
   }
 };
 
-module.exports = router;
