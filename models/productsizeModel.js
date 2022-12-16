@@ -8,14 +8,11 @@ id: {
   autoIncrement: true,
   allowNull: false
 },
-size_id: {
+size: {
     type: Sequalize.INTEGER,
     allowNull: false
 },
-isActive: {
-    type: Sequalize.BOOLEAN,
-    allowNull: false
-},
+
 });
 
 module.exports = ProductSize;

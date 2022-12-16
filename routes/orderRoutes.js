@@ -1,55 +1,17 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const OrderController = require('../controllers/orderController');
-
 const router = express.Router();
+const {crerateOrder,deleteOrder,editOrder,
+  getOrder,getOrderById,getMyOrder}=require('../controllers/orderController')
+const {errorHandler}=require('../middleware/errohandling.middleware')
+const {authenticateJWT}=require('../middleware/auth.middleware');
+const {authAdmin}=require('../middleware/role.middleware')
 
-router.get('/getOrders', (req, res) => {
-  const token = req.headers.authorization;
+router.post('/addorder',authenticateJWT,crerateOrder,errorHandler);
+router.get('/getorder',authenticateJWT,getOrder,errorHandler);
+router.get('/getmyorder',authenticateJWT,getMyOrder,errorHandler);
+router.get('/getorderbyid/:id',authenticateJWT,getOrderById,errorHandler);
+router.put('/editorder/:id',authenticateJWT,authAdmin,editOrder,errorHandler);
+router.delete('/deleteorder/:id',authenticateJWT,authAdmin,deleteOrder,errorHandler);
 
-  try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-    if (decoded) {
-      return OrderController.getAllOrders(req, res);
-    }
-
-    return res.status(401).json({ message: 'Unauthorized' });
-  } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-});
-
-router.post('/newOrder', (req, res) => {
-  const token = req.headers.authorization;
-
-  try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-    if (decoded) {
-      return OrderController.createOrder(req, res);
-    }
-
-    return res.status(401).json({ message: 'Unauthorized' });
-  } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-});
-
-router.delete('/:id', (req, res) => {
-  const token = req.headers.authorization;
-
-  try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-    if (decoded) {
-      return OrderController.deleteOrder(req, res);
-    }
-
-    return res.status(401).json({ message: 'Unauthorized' });
-  } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-});
 
 module.exports = router;

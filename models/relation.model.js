@@ -1,6 +1,6 @@
 
 const Product = require('./productModel')
-const ProductImage=require('./productimageModel')
+const Orderproduct=require('./orderproduct')
 const Brand = require('./brandModel')
 const Catagory=require('./catagoryModel')
 const Order=require('./orderModel')
@@ -9,24 +9,22 @@ const Shipping=require('./shippingModel')
 const Payment=require('./paymentModel')
 const User=require('./userModel')
 const Role=require('./roleModel')
- const Relation=()=>{
-   //product to productimage raltion
-Product.hasMany(ProductImage,{
-  foreignKey: 'productId'
-})
-ProductImage.belongsTo(Product)
-
+const Relation=()=>{
 //product to brand
 Brand.hasMany(Product,{
   foreignKey: 'brandId'
 })
-Product.belongsTo(Brand)
+Product.belongsTo(Brand,{
+  foreignKey: 'brandId'
+})
 
 //product to catagory
 Catagory.hasMany(Product,{
   foreignKey: 'catagoryId'
 })
-Product.belongsTo(Catagory)
+Product.belongsTo(Catagory,{
+  foreignKey: 'catagoryId'
+})
 
 //product to order
 Order.belongsToMany(Product,{
@@ -47,32 +45,46 @@ Product.belongsToMany(ProductSize,{
   through: 'ProductProductSize',
   foreignKey: "productId",
 })
+//orderproduct to order
+Order.hasMany(Orderproduct,{
+  foreignKey: 'orderId'
+})
+Orderproduct.belongsTo(Order,{
+  foreignKey: 'orderId'
+})
+
 
 //order to shipping
-Shipping.hasMany(Order,{//
+Shipping.hasMany(Order,{
   foreignKey: 'shippingId'
 })
-Order.belongsTo(Shipping)
+Order.belongsTo(Shipping,{
+  foreignKey: 'shippingId'
+})
 
 //order to payment
-Payment.hasMany(Order,{//
-  foreignKey: 'payment_methodId'
+Payment.hasMany(Order,{
+  foreignKey: 'paymentId'
 })
-Order.belongsTo(Payment)
+Order.belongsTo(Payment,{
+  foreignKey: 'paymentId'
+})
 
 //order to user
 User.hasMany(Order,{
-  foreignKey: 'orderId'
+  foreignKey: 'userId'
 })
 Order.belongsTo(User,{
-  foreignKey: 'productId'
+  foreignKey: 'userId'
 })
 
 //role to user
 Role.hasMany(User,{
   foreignKey: 'roleId'
 })
-User.belongsTo(Role)
+User.belongsTo(Role,{
+  foreignKey: 'roleId'
+})
 
 }
  module.exports = Relation;

@@ -1,6 +1,6 @@
 const Sequalize = require("sequelize");
 const sequelize = require("./index");
-
+const sequelizePaginate = require('sequelize-paginate')
 const Product = sequelize.define("product", {
 id: {
   type: Sequalize.INTEGER,
@@ -8,7 +8,7 @@ id: {
   autoIncrement: true,
   allowNull: false
   },
-name: {
+product_name: {
   type: Sequalize.STRING,
   allowNull: false,
 },
@@ -33,10 +33,25 @@ stock: {
   type: Sequalize.INTEGER,
   allowNull: false,
 },
+tax: {
+  type: Sequalize.DECIMAL,
+},
 quantity: {
   type: Sequalize.INTEGER,
   defaultValue: 0,
   },
+image_url: {
+  type:Sequalize.STRING,
+  allowNull: false,
+  get() {
+      return this.getDataValue('image_url')?.split(';')
+  },
+  set(val) {
+      this.setDataValue('image_url',val.join(';'));
+  }
+},
+
 });
 
+sequelizePaginate.paginate(Product)
 module.exports = Product;

@@ -31,7 +31,6 @@ exports.registerUser=async(req, res,next)=>{
       html:`${process.env.CONFIRM_LINK}?verifyToken=${token}`
     };
     if (await isEmailExist(email)) {
-      console.log(await isEmailVerified(email))
       if(await isEmailVerified(email))
       {
         handleError('User already exists with this email',400)
@@ -59,7 +58,6 @@ exports.registerUser=async(req, res,next)=>{
     return res.json({message:"check your email address"})
   }
    catch (err) {
-    console.log(err)
     next(err);
   }
 }
@@ -93,7 +91,7 @@ exports.loginUser=async (req, res,next) => {
       }
       
        if(await isPasswordCorrect(password,user.password)){
-        const token = await issueToken(user.id,user.role,process.env.SECRET);
+        const token = await issueToken(user.id,user.role.role,process.env.SECRET);
        const info={
         name:user.name,
         username:user.username,
@@ -111,13 +109,76 @@ exports.loginUser=async (req, res,next) => {
     next(err)
   }
 }
+//get user
+exports.getUsers=async (req, res,next) => {
+  try {
+    const {page,paginate}=req.query
+    const options = {
+      include: ["role"],
+      page: Number(page)||1,
+      paginate: Number(paginate)||25,
+      order: [['first_name', 'DESC']],
+      // where: { name: { [Op.like]: `%elliot%` } }
+    }
+    const brands = await User.paginate(options);
+    return res.json(brands);
+  } catch (err) {
+   next(err)
+  }
+};
+//get user by id
+exports.getUserById=async (req, res,next) => {
+  try {
+    const {id}=req.params
+    const user = await User.findByPk(id,{include:["role"]});
+   return res.json(user);
+  } catch (err) {
+   next(err)
+  }
+};
+// get current loged user
+exports.getCurrentLogedUser=async (req, res,next) => {
+  try {
+    const id=req.user.sub
+    const user = await User.findByPk(id,{include:["role"]});
+   return res.json(user);
+  } catch (err) {
+   next(err)
+  }
+};
 //update user info
 exports.updateUserInfo=async (req, res,next) => {
   try {
     const { id } = req.params;
+    if(req.body.password){delete req.body.password}
     const updated_user = await User.update({...req.body},
-      {where:{id:id},plain: true});
+      {where:{id:id}});
     return res.json(updated_user);
+  } catch (err) {
+    next(err)
+  }
+};
+//change password
+exports.changePassword=async (req, res,next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message:errors.array()[0].msg});
+    }
+    const id=req.user.sub
+    const user = await User.findByPk(id);
+    if(!user){
+      handleError('user not found',403)
+    }
+    const {old_password,new_password}=req.body
+    if(await isPasswordCorrect(old_password,user.password)){
+      const hashedPassword=await hashPassword(new_password)
+      const updated_user = await User.update({password:hashedPassword},
+        {where:{id:id}});
+      return res.json(updated_user);
+    }
+    handleError('old password not correct',403)
+    
   } catch (err) {
     next(err)
   }
@@ -147,7 +208,7 @@ exports.resetPassword=async(req,res,next)=>{
   const token= req.params.token
   const {password}=req.body
   const user=await isTokenValid(token)
-  const hashedPassword=hashPassword(password)
+  const hashedPassword=await hashPassword(password)
   await User.findByIdAndUpdate({username:user.email},{
     password:hashedPassword
   })
@@ -173,8 +234,4 @@ exports.confirmEmail=async (req, res,next) => {
   catch(err){
     next(err)
   }
-}
-//test for protected route
-exports.protected=async(req,res,next)=>{
-  return res.json({message:"protected"})
 }

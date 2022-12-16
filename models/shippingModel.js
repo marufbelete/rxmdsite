@@ -9,9 +9,9 @@ id: {
   allowNull: false
 },
 name: {
-    type: Sequalize.STRING(45),
-    allowNull: false
-}
+  type: Sequalize.STRING,
+  allowNull: false
+},
 });
 
 module.exports = Shipping;

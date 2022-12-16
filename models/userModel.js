@@ -1,5 +1,6 @@
 const Sequalize=require('sequelize');
 const sequelize = require("./index");
+const sequelizePaginate = require('sequelize-paginate')
 
 const User = sequelize.define("user", {
   first_name: {
@@ -58,4 +59,6 @@ const User = sequelize.define("user", {
       type: Sequalize.TINYINT
   },
 });
+
+sequelizePaginate.paginate(User)
 module.exports = User;

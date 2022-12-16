@@ -8,8 +8,8 @@ id: {
   autoIncrement: true,
   allowNull: false
 },
-name: {
-  type: Sequalize.STRING(45),
+payment_method: {
+  type: Sequalize.STRING,
   allowNull: false
 }
 });

@@ -1,56 +1,60 @@
-const Role = require("../models/roleModel");
+const Catagory = require("../models/catagoryModel");
+const { validationResult } = require("express-validator");
 
-exports.addRole=async (req, res,next) => {
+exports.addCatagory=async (req, res,next) => {
   try {
-    const { role } = req.body;
-    const add_role = new Role({role});
-    const new_role= await add_role.save();
-    return res.json(new_role);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message:errors.array()[0].msg});
+    }   
+    const catagory = new Catagory({
+      ...req.body
+    });
+    const new_catagory=await catagory.save();
+    return res.json(new_catagory);
   } catch (err) {
     next(err)
   }
 };
 
-exports.getRole=async (req, res,next) => {
+exports.getCatagory=async (req, res,next) => {
   try {
-    const roles = await Role.findAll();
-    return res.json(roles);
+    const catagorys = await Catagory.findAll();
+    return res.json(catagorys);
   } catch (err) {
    next(err)
   }
 };
-exports.getRoleById=async (req, res,next) => {
+exports.getCatagoryById=async (req, res,next) => {
   try {
     const {id}=req.params
-    const role = await Role.findByPk(id);
-   return res.json(role);
+    const catagory = await Catagory.findByPk(id);
+   return res.json(catagory);
   } catch (err) {
    next(err)
   }
 };
-exports.editRole=async (req, res,next) => {
+exports.editCatagory=async (req, res,next) => {
   try {
     const { id } = req.params;
-    const { role} = req.body;
-    const updated_role = await Role.update({role},{where:{id:id}});
-    return res.json(updated_role);
+    const updated_catagory = await Catagory.update({...req.body},
+      {where:{id:id}});
+    return res.json(updated_catagory);
   } catch (err) {
     next(err)
   }
 };
 
-exports.deleteRole= async (req, res,next) => {
+exports.deleteCatagory= async (req, res,next) => {
   try {
     const { id } = req.params;
-    await Role.remove(id);
-    await product.destroy();
+    await Catagory.destroy({where:{id}});
     return res.json({
       success: true,
-      message: "Product deleted",
+      message: "Catagory deleted",
     });
   } catch (err) {
     next(err)
   }
 };
 
-module.exports = router;

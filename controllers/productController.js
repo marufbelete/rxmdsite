@@ -1,22 +1,49 @@
-const express = require("express");
 const Product = require("../models/productModel");
-
+const { validationResult } = require("express-validator");
+const sharp=require("sharp")
+const fs=require("fs");
 exports.addProduct=async (req, res,next) => {
   try {
-    const { name, price, description } = req.body;
-    const user = new User({
-      username,
-      email,
-      first_name:firstName,
-      last_name:lastName,
-      isLocalAuth:true,
-      password:hashedPassword,
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message:errors.array()[0].msg});
+    }  
+    if(req.mimetypeError)
+    {
+        const error = new Error(req.mimetypeError)
+        error.statusCode = 400
+        throw error;
+    }
+const imgurl=[]
+if (req.files.length > 0)
+{
+    if (!fs.existsSync("./images")){
+        fs.mkdirSync("./images");
+    }
+
+for(let f=0;f<req.files.length;f++)
+{
+const uniquePrefix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+const imagetype=(req.files[f].mimetype).split("/")[1];
+const path=req.files[f].originalname;
+const fullpath=uniquePrefix+'-'+path;
+       sharp(req.files[f].buffer)
+      .resize({ width:600, fit: 'contain', })
+.toFormat(imagetype)
+.toFile(`./images/${fullpath}`);
+imgurl.push(fullpath)
+}
+  const new_product=await Product.create({
+      ...req.body,
+      image_url:imgurl
     });
-    await user.save();
-    res.json({
-      success: true,
-      data: product,
-    });
+    return res.json(new_product);
+  }
+  else{
+    const error = new Error("please add photot for the product")
+    error.statusCode = 400
+    throw error;
+  }
   } catch (err) {
     next(err)
   }
@@ -24,11 +51,27 @@ exports.addProduct=async (req, res,next) => {
 
 exports.getProduct=async (req, res,next) => {
   try {
-    const products = await Product.findAll({});
-    res.json({
-      success: true,
-      data: products,
-    });
+    const {page,paginate}=req.query
+    const options = {
+      include: ["brand","catagory"] ,
+      attributes: {exclude: ['catagoryId','brandId']},
+      page: Number(page)||1,
+      paginate: Number(paginate)||25,
+      order: [['product_name', 'DESC']]
+    }
+    const products = await Product.paginate(options)
+    return res.json(products);
+  } catch (err) {
+   next(err)
+  }
+};
+
+exports.getProductById=async (req, res,next) => {
+  try {
+    const {id}=req.params
+    const product = await Product.findByPk(id,{ include: 
+      ["brand","catagory"]  });
+   return res.json(product);
   } catch (err) {
    next(err)
   }
@@ -37,33 +80,43 @@ exports.getProduct=async (req, res,next) => {
 exports.editProduct=async (req, res,next) => {
   try {
     const { id } = req.params;
-    const { name, price, description } = req.body;
-    const product = await Product.findByPk(id);
-    if (!product) {
-      throw new Error("Product not found");
+    const addImage={}
+    if(req.mimetypeError)
+    {
+        const error = new Error(req.mimetypeError)
+        error.statusCode = 400
+        throw error;
     }
-    product.name = name;
-    product.price = price;
-    product.description = description;
-    await product.save();
-    res.json({
-      success: true,
-      data: product,
-    });
+  const imgurl=[]
+  if (req.files.length>0)
+    {
+for(let f=0;f<req.files.length;f++)
+{
+  const uniquePrefix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+  const imagetype=(req.files[f].mimetype).split("/")[1]
+  const path=req.files[f].originalname;
+  const fullpath=uniquePrefix+'-'+path;
+         sharp(req.files[f].buffer)
+        .resize({ width:200, fit: 'contain', })
+  .toFormat(imagetype)
+  .toFile(`./images/${fullpath}`);
+  imgurl.push(fullpath)
+}
+addImage.image_url=imgurl
+}
+    const updated_product = await Product.update({...req.body,...addImage},
+      {where:{id:id}});
+    return res.json(updated_product);
   } catch (err) {
     next(err)
   }
 };
 
-exports.delete= async (req, res,next) => {
+exports.deleteProduct= async (req, res,next) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByPk(id);
-    if (!product) {
-      throw new Error("Product not found");
-    }
-    await product.destroy();
-    res.json({
+    await Product.destroy({where:{id}});
+    return res.json({
       success: true,
       message: "Product deleted",
     });

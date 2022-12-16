@@ -7,8 +7,7 @@ exports.addRole=async (req, res,next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ message:errors.array()[0].msg});
   }
-    const { role } = req.body;
-    const add_role = new Role({role});
+    const add_role = new Role({...req.body});
     const new_role= await add_role.save();
     return res.json(new_role);
   } catch (err) {
@@ -56,3 +55,14 @@ exports.deleteRole= async (req, res,next) => {
   }
 };
 
+const addAdminRole=async()=>{
+const isAdmin=await Role.findOne({where:{role:"admin"}})
+if(!isAdmin)
+{
+    await Role.create({
+    role:"admin",
+  }) 
+}
+return
+}
+addAdminRole()

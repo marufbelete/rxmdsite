@@ -1,56 +1,60 @@
-const Role = require("../models/roleModel");
+const Brand = require("../models/brandModel");
+const { validationResult } = require("express-validator");
 
-exports.addRole=async (req, res,next) => {
+exports.addBrand=async (req, res,next) => {
   try {
-    const { role } = req.body;
-    const add_role = new Role({role});
-    const new_role= await add_role.save();
-    return res.json(new_role);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message:errors.array()[0].msg});
+    }  
+    const brand = new Brand({
+      ...req.body
+    });
+    const new_brand=await brand.save();
+    return res.json(new_brand);
   } catch (err) {
     next(err)
   }
 };
 
-exports.getRole=async (req, res,next) => {
+exports.getBrand=async (req, res,next) => {
   try {
-    const roles = await Role.findAll();
-    return res.json(roles);
+    const brands = await Brand.findAll();
+    return res.json(brands);
   } catch (err) {
    next(err)
   }
 };
-exports.getRoleById=async (req, res,next) => {
+exports.getBrandById=async (req, res,next) => {
   try {
     const {id}=req.params
-    const role = await Role.findByPk(id);
-   return res.json(role);
+    const brand = await Brand.findByPk(id);
+   return res.json(brand);
   } catch (err) {
    next(err)
   }
 };
-exports.editRole=async (req, res,next) => {
+exports.editBrand=async (req, res,next) => {
   try {
     const { id } = req.params;
-    const { role} = req.body;
-    const updated_role = await Role.update({role},{where:{id:id}});
-    return res.json(updated_role);
+    const updated_brand = await Brand.update({...req.body},
+      {where:{id:id}});
+    return res.json(updated_brand);
   } catch (err) {
     next(err)
   }
 };
 
-exports.deleteRole= async (req, res,next) => {
+exports.deleteBrand= async (req, res,next) => {
   try {
     const { id } = req.params;
-    await Role.remove(id);
-    await product.destroy();
+    await Brand.destroy({where:{id}});
     return res.json({
       success: true,
-      message: "Product deleted",
+      message: "Brand deleted",
     });
   } catch (err) {
     next(err)
   }
 };
 
-module.exports = router;

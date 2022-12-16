@@ -8,8 +8,8 @@ id: {
   autoIncrement: true,
   allowNull: false
 },
-name: {
-    type: Sequalize.STRING(45),
+catagory_name: {
+    type: Sequalize.STRING,
     allowNull: false
 }
 });
