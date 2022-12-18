@@ -47,30 +47,31 @@
   <script src="js/javascript-plugins-bundle.js"></script>
   <script src="js/menuzord/js/menuzord.js"></script>
 
-  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <link href="style.css" rel="stylesheet" type="text/css">
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <%- include('../partials/headerTop.ejs') %>
-    <li class="menu-item">
-      <a href="/">Home</a>
-    </li>
-    <li class="menu-item">
-      <a href="/services">Services</a>
-    </li>
-    <li class="menu-item">
-      <a href="/about">About</a>
-    </li>
-    <li class="active menu-item">
-      <a href="#">Contact</a>
-    </li>
-    <li class="menu-item">
-      <a href="/login">Sign In</a>
-    </li>
-    <%- include('../partials/headerBottom.ejs') %>
-<body class="tm-container-1300px has-side-panel side-panel-right">
+  <li class="menu-item">
+    <a href="/">Home</a>
+  </li>
+  <li class="menu-item">
+    <a href="/services">Services</a>
+  </li>
+  <li class="menu-item">
+    <a href="/about">About</a>
+  </li>
+  <li class="active menu-item">
+    <a href="#">Contact</a>
+  </li>
+  <li class="menu-item">
+    <a href="/login">Sign In</a>
+  </li>
+  <%- include('../partials/headerBottom.ejs') %>
+
+    <body class="tm-container-1300px has-side-panel side-panel-right">
 
       <!-- Start main-content -->
       <div class="main-content-area">
@@ -115,12 +116,15 @@
                     class="icon-box text-center iconbox-theme-colored1 animate-icon-on-hover animate-icon-rotate mb-50">
                     <div class="icon-box-wrapper">
                       <div class="icon-wrapper mb-30">
-                        <a class="icon icon-type-font-icon icon-dark icon-circled"> <i
-                            class="flaticon-contact-044-call-1"></i> </a>
+                        <a href="tel:812-296-6499" class="icon icon-type-font-icon icon-dark icon-circled">
+                          <i class="flaticon-contact-044-call-1"></i>
+                        </a>
                       </div>
                       <div class="icon-text">
-                        <h5 class="icon-box-title mt-0">Phone</h5>
-                        <div class="content"><a href="tel:812-296-6499">(812) 296-6499</a></div>
+                        <a href="tel:812-296-6499">
+                          <h5 class="icon-box-title mt-0">Phone</h5>
+                          <div class="content">(812) 296-6499</div>
+                        </a>
                       </div>
                       <div class="clearfix"></div>
                     </div>
@@ -131,12 +135,15 @@
                     class="icon-box text-center iconbox-theme-colored1 animate-icon-on-hover animate-icon-rotate mb-50">
                     <div class="icon-box-wrapper">
                       <div class="icon-wrapper mb-30">
-                        <a class="icon icon-type-font-icon icon-dark icon-circled"> <i
-                            class="flaticon-contact-043-email-1"></i> </a>
+                        <a href="mailto:Info@TestRxMD.com" class="icon icon-type-font-icon icon-dark icon-circled"> <i
+                            class="flaticon-contact-043-email-1"></i>
+                        </a>
                       </div>
                       <div class="icon-text">
-                        <h5 class="icon-box-title mt-0">Email</h5>
-                        <div class="content"><a href="mailto:Info@TestRxMD.com">Info@TestRxMD.com</a></div>
+                        <a href="mailto:Info@TestRxMD.com">
+                          <h5 class="icon-box-title mt-0">Email</h5>
+                          <div class="content">Info@TestRxMD.com</div>
+                        </a>
                       </div>
                       <div class="clearfix"></div>
                     </div>
@@ -147,12 +154,15 @@
                     class="icon-box text-center iconbox-theme-colored1 animate-icon-on-hover animate-icon-rotate mb-50">
                     <div class="icon-box-wrapper">
                       <div class="icon-wrapper mb-30">
-                        <a class="icon icon-type-font-icon icon-dark icon-circled"> <i
+                        <a href="https://goo.gl/maps/yY7jJaMh5f8JuRQ27"
+                          class="icon icon-type-font-icon icon-dark icon-circled"> <i
                             class="flaticon-contact-025-world"></i> </a>
                       </div>
                       <div class="icon-text">
-                        <h5 class="icon-box-title mt-0">Address</h5>
-                        <div class="content">3005 N National Rd, Columbus, IN 47203</div>
+                        <a href="https://goo.gl/maps/yY7jJaMh5f8JuRQ27">
+                          <h5 class="icon-box-title mt-0">Address</h5>
+                          <div class="content">3005 N National Rd, Columbus, IN 47203</div>
+                        </a>
                       </div>
                       <div class="clearfix"></div>
                     </div>
@@ -274,6 +284,6 @@
         <!-- JS | Custom script for all pages -->
         <script src="js/custom.js"></script>
 
-</body>
+    </body>
 
 </html>

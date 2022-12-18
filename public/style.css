@@ -5,7 +5,6 @@
 }
 
 body {
-  background-color: #435165;
   margin: 0;
 }
 
@@ -174,7 +173,6 @@ body.loggedin {
 }
 
 .content {
-  width: 1000px;
   margin: 0 auto;
 }
 

@@ -4,8 +4,14 @@ const path = require("path")
 const cors = require("cors");
 const app = express();
 const passport = require('passport');
-// const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = (new JSDOM('')).window;
+global.document = document;
+let $ = jQuery = require('jquery')(window);
 require('dotenv').config();
+
 const sequelize = require('./models/index');
 const user_route = require('./routes/userRoutes');
 const role_route = require("./routes/roleRoutes");
@@ -20,6 +26,8 @@ const shipping_route = require("./routes/shippingRoutes");
 
 const { googlePassport } = require("./auth/google");
 const Relation = require('./models/relation.model')
+
+
 
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config')
 var corsOptions = {
@@ -54,6 +62,7 @@ app.use(order_route);
 app.use(shipping_route);
 app.use(payment_route);
 Relation()
+
 // Handle unauthorized requests
 const port = process.env.PORT || 7000;
 app.use((err, req, res, next) => {
@@ -61,6 +70,7 @@ app.use((err, req, res, next) => {
     res.sendFile(path.join(__dirname, "/views/404.html"));
   }
 });
+
 sequelize.sync().then(async (result) => {
   app.listen(port, () => {
     console.log(`Listening on port ${port}`);
