@@ -22,12 +22,13 @@ exports.registerUser = async (req, res, next) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    const { username, email, password, first_name, last_name, roleId } = req.body;
+    console.log(req.body)
+    const { first_name, last_name, email, password, roleId } = req.body;
     const token = jwt.sign({ email: email }, process.env.SECRET);
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
-      subject: 'Account Confirmation Link',
+      subject: 'TestRxMD Account Confirmation Link',
       text: 'Follow the link to confirm your email!',
       html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`
     };
@@ -37,25 +38,24 @@ exports.registerUser = async (req, res, next) => {
       }
       else {
         await sendEmail(mailOptions)
-        return res.json({ message: "check your email address" })
+        return res.json({ message: "Verification Email Sent" })
       }
     }
     if (await isUsernameExist(username)) {
-      handleError('username exist', 400)
+      handleError('A user with this email already exists', 400)
     }
     const hashedPassword = await hashPassword(password)
     const user = new User({
-      username,
-      email,
       first_name,
       last_name,
+      email,
+      password: hashedPassword,
       roleId: roleId,
       isLocalAuth: true,
-      password: hashedPassword,
     });
     await user.save();
     await sendEmail(mailOptions)
-    return res.json({ message: "check your email address" })
+    return res.json({ message: "Verification Email Sent" })
   }
   catch (err) {
     next(err);
@@ -70,7 +70,7 @@ exports.loginUser = async (req, res, next) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    const { username, email, password, remberme } = req.body;
+    const { email, password, remberme } = req.body;
     const user = email ? await isEmailExist(email) :
       await isUsernameExist(username)
     if (user && user.isLocalAuth) {

@@ -69,7 +69,7 @@
       <a href="/contact">Contact</a>
     </li>
     <li class="active menu-item">
-      <a href="#">Login/Register</a>
+      <a href="#">Sign In</a>
     </li>
     <%- include('../partials/headerBottom.ejs') %>
       <!-- Start main-content -->
@@ -81,12 +81,12 @@
             <div class="section-content">
               <div class="row">
                 <div class="col-md-12 text-center">
-                  <h2 class="title">Login/Register</h2>
+                  <h2 class="title">Login</h2>
                   <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumbs">
                     <div class="breadcrumbs">
                       <span><a href="#" rel="home">Home</a></span>
                       <span><i class="fa fa-angle-right"></i></span>
-                      <span><a href="#">Login/Register</a></span>
+                      <span><a href="#">Login</a></span>
                     </div>
                   </nav>
                 </div>
@@ -99,33 +99,31 @@
           <div class="container">
             <div class="row">
               <div class="col-md-8 offset-md-2">
-                <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="login-tab-area" data-bs-toggle="tab" href="#login-tab" role="tab"
-                      aria-controls="login-tab" aria-selected="true">Login</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="register-tab-area" data-bs-toggle="tab" href="#register-tab" role="tab"
-                      aria-controls="register-tab" aria-selected="false">Register</a>
-                  </li>
-                </ul>
                 <div class="tab-content">
                   <div class="tab-pane fade show active p-15" id="login-tab" role="tabpanel"
                     aria-labelledby="login-tab-area">
-                    <h4 class="text-gray mt-0 pt-10">Login</h4>
+                    <h2 class="text-gray mt-0 pt-10">Login</h2>
                     <hr>
-                    <p>If you don't have an account, please choose the register tab above.</p>
+                    <div class="icon-box mb-0 p-0">
+                      <a href="/register" class="icon icon-bordered icon-rounded icon-sm float-start mt-10 mb-0 mr-10">
+                        <i class="pe-7s-users"></i>
+                      </a>
+                      <a href="/register">
+                        <h4 class="text-gray pt-10 mt-0 mb-30">Not Yet a Member? Click Here to Register Now!</h4>
+                      </a>
+                    </div>
                     <form form action="/login" method="post" class="clearfix">
                       <div class="row">
                         <div class="mb-3 col-md-12">
-                          <label for="form_username_email">Username/Email</label>
-                          <input id="form_username_email" name="form_username_email" class="form-control" type="text">
+                          <label for="login_email">Email</label>
+                          <input id="login_email" name="login_email" class="form-control" type="text">
                         </div>
                       </div>
                       <div class="row">
                         <div class="mb-3 col-md-12">
-                          <label for="form_password">Password</label>
-                          <input id="form_password" name="form_password" class="form-control" type="text">
+                          <label for="login_password">Password</label>
+                          <input id="login_password" name="login_password" class="form-control" type="password">
+                          <input type="checkbox" onclick="showPassword()"><span class="ml-5"> Show Password</span>
                         </div>
                       </div>
                       <div class="checkbox mt-15">
@@ -141,41 +139,6 @@
                       </div>
                     </form>
                   </div>
-                  <div class="tab-pane fade p-10" id="register-tab" role="tabpanel" aria-labelledby="register-tab-area">
-                    <form name="reg-form" class="register-form" method="post">
-                      <div class="icon-box mb-0 p-0">
-                        <a href="#" class="icon icon-bordered icon-rounded icon-sm float-start mt-10 mb-0 mr-10">
-                          <i class="pe-7s-users"></i>
-                        </a>
-                        <h4 class="text-gray pt-10 mt-0 mb-30">Don't have an Account? Register Now.</h4>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="mb-3 col-md-6">
-                          <label>Name</label>
-                          <input name="form_name" class="form-control" type="text">
-                        </div>
-                        <div class="mb-3 col-md-6">
-                          <label>Email Address</label>
-                          <input name="form_email" class="form-control" type="email">
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="mb-3 col-md-6">
-                          <label for="form_choose_password">Choose Password</label>
-                          <input id="form_choose_password" name="form_choose_password" class="form-control" type="text">
-                        </div>
-                        <div class="mb-3 col-md-6">
-                          <label>Re-enter Password</label>
-                          <input id="form_re_enter_password" name="form_re_enter_password" class="form-control"
-                            type="text">
-                        </div>
-                      </div>
-                      <div class="mb-3 tm-sc-button">
-                        <button class="btn btn-dark btn-theme-colored1 mt-15" type="submit">Register Now</button>
-                      </div>
-                    </form>
-                  </div>
                 </div>
               </div>
             </div>
@@ -187,6 +150,7 @@
       <%- include('../partials/footer') %>
 
         <!-- Footer Scripts -->
+        <script src="js/index.js"></script>
         <script src="js/custom.js"></script>
 
 </body>

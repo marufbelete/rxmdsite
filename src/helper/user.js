@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+
 const isEmailExist = async (email) => {
     const user = await User.findOne({ where: { email: email }, include: ["role"] })
     return user
@@ -51,7 +52,6 @@ const userIp = (request) => {
     let ip = request.headers["x-forwarded-for"] ||
         request.socket.remoteAddress;
     return ip
-
 }
 
 module.exports = {

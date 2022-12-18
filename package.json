@@ -27,12 +27,11 @@
     "sequelize": "^6.26.0",
     "sequelize-cli": "^6.5.2",
     "sequelize-paginate": "^1.1.6",
-    "serverless-http": "^3.1.0",
     "sharp": "^0.31.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
