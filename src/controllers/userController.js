@@ -3,7 +3,6 @@ const User = require("../models/userModel")
 const bouncer = require("../helper/bruteprotect")
 const {
   isEmailExist,
-  isUsernameExist,
   issueToken,
   hashPassword,
   isEmailVerified,
@@ -15,15 +14,13 @@ const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
 const { sendEmail } = require("../helper/send_email");
 
-
 exports.registerUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    console.log(req.body)
-    const { first_name, last_name, email, password, roleId } = req.body;
+    const { first_name, last_name, email, password } = req.body;
     const token = jwt.sign({ email: email }, process.env.SECRET);
     const mailOptions = {
       from: process.env.EMAIL,
@@ -36,13 +33,6 @@ exports.registerUser = async (req, res, next) => {
       if (await isEmailVerified(email)) {
         handleError('User already exists with this email', 400)
       }
-      else {
-        await sendEmail(mailOptions)
-        return res.json({ message: "Verification Email Sent" })
-      }
-    }
-    if (await isUsernameExist(username)) {
-      handleError('A user with this email already exists', 400)
     }
     const hashedPassword = await hashPassword(password)
     const user = new User({
@@ -50,12 +40,11 @@ exports.registerUser = async (req, res, next) => {
       last_name,
       email,
       password: hashedPassword,
-      roleId: roleId,
       isLocalAuth: true,
     });
     await user.save();
     await sendEmail(mailOptions)
-    return res.json({ message: "Verification Email Sent" })
+    return res.redirect("/registered")
   }
   catch (err) {
     next(err);
@@ -70,39 +59,38 @@ exports.loginUser = async (req, res, next) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    const { email, password, remberme } = req.body;
-    const user = email ? await isEmailExist(email) :
-      await isUsernameExist(username)
+    const { login_email, login_password, rememberme } = req.body;
+    const user = login_email && await isEmailExist(login_email)
     if (user && user.isLocalAuth) {
       //if not validated send email
       if (!user.isEmailConfirmed) {
-        const token = jwt.sign({ email: user.email }, process.env.SECRET);
+        const token = jwt.sign({ email: user.login_email}, process.env.SECRET);
         const mailOptions = {
           from: process.env.EMAIL,
-          to: user.email,
+          to: user.login_email,
           subject: 'Account Confirmation Link',
-          text: 'Follow the link to confirm your email!',
+          text: 'Follow the link to confirm your email for TestRxMD',
           html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`
         };
         await sendEmail(mailOptions)
-        return res.json({ message: "check your email address" })
+        return res.json({ message: "Please check your email for confirmation link" })
       }
 
-      if (await isPasswordCorrect(password, user.password)) {
-        const token = remberme ? await issueLongtimeToken(user.id, user.role.role, process.env.SECRET) :
+      if (await isPasswordCorrect(password, user.login_password)) {
+        const token = rememberme ? await issueLongtimeToken(user.id, user.role.role, process.env.SECRET) :
           await issueToken(user.id, user.role.role, process.env.SECRET);
         const info = {
-          name: user.name,
-          username: user.username,
+          first_name: user.first_name,
+          last_name: user.last_name,
           role: user.role,
           email: user.email
         }
         bouncer.reset(req);
         return res.json({ token: token, auth: true, user: info })
       }
-      handleError('username or password not correct', 400)
+      handleError('Username or Password Incorrect', 400)
     }
-    handleError('username or password not correct', 400)
+    handleError('Username or Password Incorrect', 400)
   }
   catch (err) {
     next(err)

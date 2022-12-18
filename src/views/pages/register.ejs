@@ -47,7 +47,7 @@
   <script src="js/javascript-plugins-bundle.js"></script>
   <script src="js/menuzord/js/menuzord.js"></script>
 
-  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <link href="style.css" rel="stylesheet" type="text/css">
   <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -105,47 +105,58 @@
                     <h2 class="text-gray mt-0 pt-10">Register</h2>
                     <hr>
                     <div class="icon-box mb-0 p-0">
-                      <a href="/login" class="icon icon-bordered icon-rounded icon-sm float-start mt-10 mb-0 mr-10">
+                      <a href="/login" class="icon icon-bordered icon-rounded icon-sm float-start mt-0 mb-10 mr-10">
                         <i class="pe-7s-users"></i>
                       </a>
                       <a href="/login">
-                        <h4 class="text-gray pt-10 mt-0 mb-30">Already a Member? Login Here.</h4>
+                        <h3 class="text-black-333 pt-10 mt-0 mb-30">Already a Member? Login Here.</h3>
                       </a>
                     </div>
                     <form form action="/register" method="post" class="clearfix">
-						<div class="row">
-							<div class="mb-3 col-md-12">
-							  <label for="register_firstname">First Name</label>
-							  <input id="register_firstname" name="register_firstname" class="form-control" type="text">
-							</div>
-						  </div>
-						  <div class="row">
-							<div class="mb-3 col-md-12">
-							  <label for="register_lastname">Last Name</label>
-							  <input id="register_lastname" name="register_lastname" class="form-control" type="text">
-							</div>
-						  </div>
-						  <div class="row">
-							<div class="mb-3 col-md-12">
-							  <label for="register_email">Email</label>
-							  <input id="register_email" name="register_email" class="form-control" type="text">
-							</div>
-						  </div>
-						  <div class="row">
-							<div class="mb-3 col-md-12">
-							  <label for="register_password">Password</label>
-							  <input id="register_password" name="register_password" class="form-control" type="text">
-							</div>
-						  </div>
-						  <div class="row">
-							<div class="mb-3 col-md-12">
-							  <label for="register_verify_password">Verify Password</label>
-							  <input id="register_verify_password" name="register_verify_password" class="form-control" type="text">
-							</div>
-						  </div>
-						  <div class="mb-3 tm-sc-button mt-10">
-							<button type="submit" class="btn btn-dark">Register</button>
-						  </div>
+                      <div class="row">
+                        <div class="mb-3 col-md-12">
+                          <label for="first_name">First Name</label>
+                          <input id="first_name" name="first_name" class="form-control" type="text">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="mb-3 col-md-12">
+                          <label for="last_name">Last Name</label>
+                          <input id="last_name" name="last_name" class="form-control" type="text">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="mb-3 col-md-12">
+                          <label for="email">Email</label>
+                          <input id="email" name="email" class="form-control" type="text">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="mb-3 col-md-12">
+                          <label for="password">Password</label>
+                          <input id="password" name="password" class="form-control" type="password">
+                        </div>
+                        <div>
+                          <h3 class="text-danger" id="contain">Password must contain the following:</h3>
+                          <span class="text-danger" id="letter" class="invalid"> A <b>lowercase</b> letter</span>
+                          <span class="text-danger" id="capital" class="invalid"> A <b>capital</b> letter</span>
+                          <span class="text-danger" id="number" class="invalid"> A <b>number</b></span>
+                          <span class="text-danger" id="length" class="invalid"> Minimum <b>8 characters</b></span>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="mb-3 col-md-12">
+                          <label for="verify_password">Verify Password</label>
+                          <input id="verify_password" name="verify_password" class="form-control" type="password">
+                          <input type="checkbox" onclick="showPasswords()"><span class="ml-5"> Show Passwords</span>
+                        </div>
+                      </div>
+                      <div id="nomatch">
+                        <h5>Passwords Don't Match</h5>
+                      </div>
+                      <div class="mb-3 tm-sc-button mt-10">
+                        <button type="submit" class="btn btn-dark">Register</button>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -160,6 +171,7 @@
 
         <!-- Footer Scripts -->
         <script src="js/custom.js"></script>
+        <script src="js/index.js"></script>
 
 </body>
 
