@@ -4,6 +4,6 @@ const handleError = (msg, status) => {
   throw error;
 };
 
-module.exports ={
+module.exports = {
   handleError,
 };

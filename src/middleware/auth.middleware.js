@@ -4,7 +4,7 @@ const { handleError } = require("../helper/handleError");
 const authenticateJWT = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    const token = authHeader?.split(" ")[1];
+    const token = authHeader.split(" ")[1];
     if (!token) {
       handleError("please login", 403);
     }

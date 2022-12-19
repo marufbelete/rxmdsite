@@ -1,21 +1,21 @@
-const Sequalize = require("sequelize");
+const Sequelize = require("sequelize");
 const sequelize = require("./index");
 const sequelizePaginate = require('sequelize-paginate')
 
 const Order = sequelize.define("order", {
   id: {
-    type: Sequalize.INTEGER,
+    type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
   },
   order_date: {
-    type: Sequalize.DATE,
-    defaultValue:Sequalize.NOW,
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW,
     allowNull: false,
   },
   delivery_date: {
-    type: Sequalize.DATE,
+    type: Sequelize.DATE,
   },
 });
 

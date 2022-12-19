@@ -1,13 +1,9 @@
 const Role = require("../models/roleModel");
-const { validationResult } = require("express-validator");
 
 exports.addRole = async (req, res, next) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array()[0].msg });
-    }
-    const add_role = new Role({ ...req.body });
+    const { role } = req.body;
+    const add_role = new Role({ role });
     const new_role = await add_role.save();
     return res.json(new_role);
   } catch (err) {
@@ -35,7 +31,8 @@ exports.getRoleById = async (req, res, next) => {
 exports.editRole = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updated_role = await Role.update({ ...req.body }, { where: { id: id } });
+    const { role } = req.body;
+    const updated_role = await Role.update({ role }, { where: { id: id } });
     return res.json(updated_role);
   } catch (err) {
     next(err)
@@ -45,7 +42,8 @@ exports.editRole = async (req, res, next) => {
 exports.deleteRole = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Role.destroy({ where: { id } });
+    await Role.remove(id);
+    await product.destroy();
     return res.json({
       success: true,
       message: "Product deleted",
@@ -55,13 +53,4 @@ exports.deleteRole = async (req, res, next) => {
   }
 };
 
-const addAdminRole = async () => {
-  const isAdmin = await Role.findOne({ where: { role: "admin" } })
-  if (!isAdmin) {
-    await Role.create({
-      role: "admin",
-    })
-  }
-  return
-}
-addAdminRole()
+module.exports = router;

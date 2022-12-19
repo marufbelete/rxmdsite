@@ -34,6 +34,14 @@ module.exports = (app) => {
     res.render(path.join(__dirname, "..", "/views/pages/login"));
   });
 
+  router.get("/register", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/register"));
+  });
+
+  router.get("/registered", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/registerSuccess"));
+  });
+
   router.get("/privacypolicy", function (req, res) {
     res.render(path.join(__dirname, "..", "/views/pages/privacyPolicy"));
   });
