@@ -10,7 +10,6 @@ const {
   isPasswordCorrect,
   isTokenValid,
   issueLongtimeToken,
-  isUserAdmin
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
