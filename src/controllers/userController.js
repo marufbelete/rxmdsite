@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel")
+const User = require("../models/userModel");
+const Role = require("../models/roleModel");
 const bouncer = require("../helper/bruteprotect")
 const {
   isEmailExist,
@@ -33,12 +34,19 @@ exports.registerUser = async (req, res, next) => {
       if (await isEmailVerified(email)) {
         handleError('User already exists with this email', 400)
       }
+      //this should be her other wise unhandled error will raise
+      else{
+        await sendEmail(mailOptions)
+        return res.redirect("/registered")
+      }
     }
+    const customer_role=await Role.findOne({where:{role:"customer"}})
     const hashedPassword = await hashPassword(password)
     const user = new User({
       first_name,
       last_name,
       email,
+      roleId:customer_role.id,
       password: hashedPassword,
       isLocalAuth: true,
     });
@@ -67,7 +75,7 @@ exports.loginUser = async (req, res, next) => {
         const token = jwt.sign({ email: user.login_email}, process.env.SECRET);
         const mailOptions = {
           from: process.env.EMAIL,
-          to: user.login_email,
+          to: user.email,
           subject: 'Account Confirmation Link',
           text: 'Follow the link to confirm your email for TestRxMD',
           html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`
@@ -75,9 +83,9 @@ exports.loginUser = async (req, res, next) => {
         await sendEmail(mailOptions)
         return res.json({ message: "Please check your email for confirmation link" })
       }
-
-      if (await isPasswordCorrect(password, user.login_password)) {
-        const token = rememberme ? await issueLongtimeToken(user.id, user.role.role, process.env.SECRET) :
+      if (await isPasswordCorrect(login_password, user.password)) {
+        const token = rememberme ? await issueLongtimeToken(user.id,
+           user.role?.role, process.env.SECRET) :
           await issueToken(user.id, user.role.role, process.env.SECRET);
         const info = {
           first_name: user.first_name,
@@ -110,6 +118,7 @@ exports.getUsers = async (req, res, next) => {
     const brands = await User.paginate(options);
     return res.json(brands);
   } catch (err) {
+    console.log(err)
     next(err)
   }
 };

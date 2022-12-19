@@ -13,16 +13,11 @@ const registerValidate = () => {
 
 const loginValidate = () => {
   return [
-    check("username", "username or email is required")
-      .if(body("email").isEmpty())
-      .not()
-      .isEmpty(),
-    check("email", "username or email is required")
-      .if(body("username").isEmpty())
+    check("login_email", "username or email is required")
       .not()
       .isEmpty(),
     check(
-      "password",
+      "login_password",
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 }),
   ];
