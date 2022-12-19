@@ -2,7 +2,7 @@
   "name": "testrxmdsite",
   "version": "2.0.0",
   "description": "TestRxMD Website",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
     "authorizenet": "^1.0.8",
     "bcryptjs": "^2.4.3",
