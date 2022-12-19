@@ -88,7 +88,7 @@ const addAdminRole = async () => {
   return
 }
 const addAdminUser = async () => {
-  const isAdmin = await User.findOne({include:
+  const isAdmin = await User.findOne({where:{"$Role.role$":"admin"},include:
   ["role"]})
   const adminRole = await Role.findOne({ where: { role: "admin" } })
   if (!isAdmin) {
