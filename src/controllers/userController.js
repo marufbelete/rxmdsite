@@ -9,7 +9,8 @@ const {
   isEmailVerified,
   isPasswordCorrect,
   isTokenValid,
-  issueLongtimeToken
+  issueLongtimeToken,
+  isUserAdmin
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
@@ -21,7 +22,7 @@ exports.registerUser = async (req, res, next) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    const { first_name, last_name, email, password } = req.body;
+    const { first_name, last_name, email, password} = req.body;
     const token = jwt.sign({ email: email }, process.env.SECRET);
     const mailOptions = {
       from: process.env.EMAIL,
@@ -53,6 +54,49 @@ exports.registerUser = async (req, res, next) => {
     await user.save();
     await sendEmail(mailOptions)
     return res.redirect("/registered")
+  }
+  catch (err) {
+    next(err);
+  }
+}
+exports.registerUserWithRole = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: errors.array()[0].msg });
+  }
+  try {
+    const { first_name, last_name, email, password,roleId} = req.body;
+    const token = jwt.sign({ email: email }, process.env.SECRET);
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: 'TestRxMD Account Confirmation Link',
+      text: 'Follow the link to confirm your email!',
+      html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`
+    };
+    if (await isEmailExist(email)) {
+      if (await isEmailVerified(email)) {
+        handleError('User already exists with this email', 400)
+      }
+      else{
+        await sendEmail(mailOptions)
+        return res.json({message:"user registered, check the registered user email to verify"})
+      }
+    }
+    const customer_role=await Role.findOne({where:{role:"customer"}})
+    const role_id=roleId||customer_role.id
+    const hashedPassword = await hashPassword(password)
+    const user = new User({
+      first_name,
+      last_name,
+      email,
+      roleId:role_id,
+      password: hashedPassword,
+      isLocalAuth: true,
+    });
+    await user.save();
+    await sendEmail(mailOptions)
+    return res.json({message:"user registered, check the registered user email to verify"})
   }
   catch (err) {
     next(err);
@@ -118,7 +162,6 @@ exports.getUsers = async (req, res, next) => {
     const brands = await User.paginate(options);
     return res.json(brands);
   } catch (err) {
-    console.log(err)
     next(err)
   }
 };
