@@ -36,6 +36,12 @@ exports.registerUser = async (req, res, next) => {
       }
       //this should be her other wise unhandled error will raise
       else{
+        const hashedPassword = await hashPassword(password)
+        User.update({
+          first_name,
+          last_name,
+          password: hashedPassword,
+        },{where:{email:email}})
         await sendEmail(mailOptions)
         return res.redirect("/registered")
       }
