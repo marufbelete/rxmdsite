@@ -47,11 +47,9 @@ exports.deleteRole = async (req, res, next) => {
     await Role.destroy({ where: { id } });
     return res.json({
       success: true,
-      message: "Product deleted",
+      message: "Role deleted",
     });
   } catch (err) {
     next(err)
   }
 };
-
-

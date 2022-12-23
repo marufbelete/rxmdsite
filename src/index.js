@@ -78,12 +78,19 @@ sequelize.sync().then(async (result) => {
     //......this should be removed once it create the admin role and admin user.....///
 const Role = require("./models/roleModel");
 const User = require("./models/userModel");
+
 const {hashPassword}=require("./helper/user");
 const addAdminRole = async () => {
   const isAdmin = await Role.findOne({ where: { role: "admin" } })
   if (!isAdmin) {
     await Role.create({
       role: "admin",
+    })
+  }
+  const isUser = await Role.findOne({ where: { role: "user" } })
+  if (!isUser) {
+    await Role.create({
+      role: "user",
     })
   }
   return

@@ -39,13 +39,13 @@ exports.registerUser = async (req, res, next) => {
         return res.redirect("/registered")
       }
     }
-    const customer_role=await Role.findOne({where:{role:"customer"}})
+    const user_role=await Role.findOne({where:{role:"user"}})
     const hashedPassword = await hashPassword(password)
     const user = new User({
       first_name,
       last_name,
       email,
-      roleId:customer_role.id,
+      roleId:user_role.id,
       password: hashedPassword,
       isLocalAuth: true,
     });
