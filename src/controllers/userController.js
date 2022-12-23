@@ -34,7 +34,6 @@ exports.registerUser = async (req, res, next) => {
       if (await isEmailVerified(email)) {
         handleError('User already exists with this email', 400)
       }
-      //this should be her other wise unhandled error will raise
       else{
         await sendEmail(mailOptions)
         return res.redirect("/registered")
@@ -81,21 +80,7 @@ exports.registerUserWithRole = async (req, res, next) => {
         await sendEmail(mailOptions)
         return res.json({message:"user registered, check the registered user email to verify"})
       }
-    }
-    const customer_role=await Role.findOne({where:{role:"customer"}})
-    const role_id=roleId||customer_role.id
-    const hashedPassword = await hashPassword(password)
-    const user = new User({
-      first_name,
-      last_name,
-      email,
-      roleId:role_id,
-      password: hashedPassword,
-      isLocalAuth: true,
-    });
-    await user.save();
-    await sendEmail(mailOptions)
-    return res.json({message:"user registered, check the registered user email to verify"})
+    return res.redirect("/registered")
   }
   catch (err) {
     next(err);
@@ -118,7 +103,7 @@ exports.loginUser = async (req, res, next) => {
         const token = jwt.sign({ email: user.login_email}, process.env.SECRET);
         const mailOptions = {
           from: process.env.EMAIL,
-          to: user.email,
+          to: user.login_email,
           subject: 'Account Confirmation Link',
           text: 'Follow the link to confirm your email for TestRxMD',
           html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`
