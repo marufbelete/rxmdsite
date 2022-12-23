@@ -34,7 +34,6 @@ exports.registerUser = async (req, res, next) => {
       if (await isEmailVerified(email)) {
         handleError('User already exists with this email', 400)
       }
-      //this should be her other wise unhandled error will raise
       else{
         const hashedPassword = await hashPassword(password)
         User.update({
@@ -64,13 +63,14 @@ exports.registerUser = async (req, res, next) => {
     next(err);
   }
 }
+
 exports.registerUserWithRole = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    const { first_name, last_name, email, password,roleId} = req.body;
+    const { first_name, last_name, email, password} = req.body;
     const token = jwt.sign({ email: email }, process.env.SECRET);
     const mailOptions = {
       from: process.env.EMAIL,
@@ -87,26 +87,25 @@ exports.registerUserWithRole = async (req, res, next) => {
         await sendEmail(mailOptions)
         return res.json({message:"user registered, check the registered user email to verify"})
       }
+      const admin_role=await Role.findOne({where:{role:"admin"}})
+      const hashedPassword = await hashPassword(password)
+      const user = new User({
+        first_name,
+        last_name,
+        email,
+        roleId:admin_role.id,
+        password: hashedPassword,
+        isLocalAuth: true,
+      });
+      await user.save();
+      await sendEmail(mailOptions)
+      return res.redirect("/registered")
     }
-    const customer_role=await Role.findOne({where:{role:"customer"}})
-    const role_id=roleId||customer_role.id
-    const hashedPassword = await hashPassword(password)
-    const user = new User({
-      first_name,
-      last_name,
-      email,
-      roleId:role_id,
-      password: hashedPassword,
-      isLocalAuth: true,
-    });
-    await user.save();
-    await sendEmail(mailOptions)
-    return res.json({message:"user registered, check the registered user email to verify"})
   }
-  catch (err) {
-    next(err);
+    catch (err) {
+      next(err);
+    }
   }
-}
 
 // Login a user
 exports.loginUser = async (req, res, next) => {
@@ -124,7 +123,7 @@ exports.loginUser = async (req, res, next) => {
         const token = jwt.sign({ email: user.login_email}, process.env.SECRET);
         const mailOptions = {
           from: process.env.EMAIL,
-          to: user.email,
+          to: user.login_email,
           subject: 'Account Confirmation Link',
           text: 'Follow the link to confirm your email for TestRxMD',
           html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`
