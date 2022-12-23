@@ -101,6 +101,7 @@ exports.registerUserWithRole = async (req, res, next) => {
 
 // Login a user
 exports.loginUser = async (req, res, next) => {
+  console.log(req.body)
   // Check if email exists
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -115,14 +116,14 @@ exports.loginUser = async (req, res, next) => {
         const token = jwt.sign({ email: user.login_email }, process.env.SECRET);
         const mailOptions = {
           from: process.env.EMAIL,
-          to: user.login_email,
+          to: req.body.login_email,
           subject: "Account Confirmation Link",
           text: "Follow the link to confirm your email for TestRxMD",
           html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`,
         };
         await sendEmail(mailOptions);
         return res.json({
-          message: "Please check your email for confirmation link",
+          message: "It seems like you haven't verified your email yet. Please check your email for the confirmation link.",
         });
       }
       if (await isPasswordCorrect(login_password, user.password)) {
