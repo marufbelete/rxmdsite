@@ -1,6 +1,5 @@
 const Role = require("../models/roleModel");
 const { validationResult } = require("express-validator");
-
 exports.addRole = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -55,13 +54,4 @@ exports.deleteRole = async (req, res, next) => {
   }
 };
 
-const addAdminRole = async () => {
-  const isAdmin = await Role.findOne({ where: { role: "admin" } })
-  if (!isAdmin) {
-    await Role.create({
-      role: "admin",
-    })
-  }
-  return
-}
-addAdminRole()
+

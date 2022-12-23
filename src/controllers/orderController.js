@@ -42,7 +42,8 @@ exports.getOrder = async (req, res, next) => {
     if (isUserAdmin(req)) {
       const options = {
         attributes: ["id", "order_date", "delivery_date"],
-        include: [{ model: User, attributes: ["id", "first_name", "last_name", "email", "address"] },
+        include: [{ model: User, attributes: ["id", "first_name", "last_name",
+         "email", "address"] },
         { model: Shipping, attributes: ["id", "name"] },
         { model: Payment, attributes: ["id", "payment_method"] },
         {

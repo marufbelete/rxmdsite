@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const isEmailExist = async (email) => {
-  const user = await User.findOne({ where: { email: email } });
+  const user = await User.findOne({ where: { email: email },include: ["role"] });
   return user;
 };
 

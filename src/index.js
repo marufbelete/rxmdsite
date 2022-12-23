@@ -73,6 +73,43 @@ app.use((err, req, res, next) => {
 
 sequelize.sync().then(async (result) => {
   app.listen(port, () => {
+    //..........remove below when done..............///
+    //.........create admin role and admin user...........///
+    //......this should be removed once it create the admin role and admin user.....///
+const Role = require("./models/roleModel");
+const User = require("./models/userModel");
+const {hashPassword}=require("./helper/user");
+const addAdminRole = async () => {
+  const isAdmin = await Role.findOne({ where: { role: "admin" } })
+  if (!isAdmin) {
+    await Role.create({
+      role: "admin",
+    })
+  }
+  return
+}
+const addAdminUser = async () => {
+  const isAdmin = await User.findOne({where:{"$Role.role$":"admin"},include:
+  ["role"]})
+  const adminRole = await Role.findOne({ where: { role: "admin" } })
+  if (!isAdmin) {
+    const hashedPassword = await hashPassword("12345")
+    const user = new User({
+      first_name:"admin",
+      last_name:"admin",
+      email:"adminemail@gmail.com",
+      roleId:adminRole?.id,
+      password: hashedPassword,
+      isLocalAuth: true,
+    });
+    await user.save();
+  }
+  return
+}
+addAdminRole()
+addAdminUser()
+//................. should be removed after the first excution..........///
+//................remove above when done.............................
     console.log(`Listening on port ${port}`);
   });
 }).catch(error => {
