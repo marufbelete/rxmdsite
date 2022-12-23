@@ -1,60 +1,59 @@
-const Catagory = require("../models/catagoryModel");
+const Category = require("../models/categoryModel");
 const { validationResult } = require("express-validator");
 
-exports.addCatagory=async (req, res,next) => {
+exports.addCategory=async (req, res,next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ message:errors.array()[0].msg});
-    }   
-    const catagory = new Catagory({
+    }
+    const category = new Category({
       ...req.body
     });
-    const new_catagory=await catagory.save();
-    return res.json(new_catagory);
+    const new_category=await category.save();
+    return res.json(new_category);
   } catch (err) {
     next(err)
   }
 };
 
-exports.getCatagory=async (req, res,next) => {
+exports.getCategory=async (req, res,next) => {
   try {
-    const catagorys = await Catagory.findAll();
-    return res.json(catagorys);
+    const categorys = await Category.findAll();
+    return res.json(categorys);
   } catch (err) {
    next(err)
   }
 };
-exports.getCatagoryById=async (req, res,next) => {
+exports.getCategoryById=async (req, res,next) => {
   try {
     const {id}=req.params
-    const catagory = await Catagory.findByPk(id);
-   return res.json(catagory);
+    const category = await Category.findByPk(id);
+   return res.json(category);
   } catch (err) {
    next(err)
   }
 };
-exports.editCatagory=async (req, res,next) => {
+exports.editCategory=async (req, res,next) => {
   try {
     const { id } = req.params;
-    const updated_catagory = await Catagory.update({...req.body},
+    const updated_category = await Category.update({...req.body},
       {where:{id:id}});
-    return res.json(updated_catagory);
+    return res.json(updated_category);
   } catch (err) {
     next(err)
   }
 };
 
-exports.deleteCatagory= async (req, res,next) => {
+exports.deleteCategory= async (req, res,next) => {
   try {
     const { id } = req.params;
-    await Catagory.destroy({where:{id}});
+    await Category.destroy({where:{id}});
     return res.json({
       success: true,
-      message: "Catagory deleted",
+      message: "Category deleted",
     });
   } catch (err) {
     next(err)
   }
 };
-

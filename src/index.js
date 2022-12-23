@@ -86,10 +86,10 @@ const addAdminRole = async () => {
       role: "admin",
     })
   }
-  const isCustomer = await Role.findOne({ where: { role: "customer" } })
-  if (!isCustomer) {
+  const isUser = await Role.findOne({ where: { role: "user" } })
+  if (!isUser) {
     await Role.create({
-      role: "customer",
+      role: "user",
     })
   }
   return

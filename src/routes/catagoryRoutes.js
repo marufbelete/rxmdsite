@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const {catagoryValidate} = require('../validator/catagory');
-const {addCatagory,deleteCatagory,editCatagory,
-       getCatagory,getCatagoryById}=require('../controllers/catagoryController')
+const {categoryValidate} = require('../validator/category');
+const {addCategory,deleteCategory,editCategory,
+       getCategory,getCategoryById}=require('../controllers/categoryController')
 const {errorHandler}=require('../middleware/errohandling.middleware')
 const {authenticateJWT}=require('../middleware/auth.middleware');
 const {authAdmin}=require('../middleware/role.middleware')
 
-router.post('/addcatagory',authenticateJWT,catagoryValidate(),authAdmin,addCatagory,errorHandler);
-router.get('/getcatagory',authenticateJWT,getCatagory,errorHandler);
-router.get('/getcatagorybyid/:id',authenticateJWT,getCatagoryById,errorHandler);
-router.put('/editcatagory/:id',authenticateJWT,authAdmin,editCatagory,errorHandler);
-router.delete('/deletecatagory/:id',authenticateJWT,authAdmin,deleteCatagory,errorHandler);
+router.post('/addcategory',authenticateJWT,categoryValidate(),authAdmin,addCategory,errorHandler);
+router.get('/getcategory',authenticateJWT,getCategory,errorHandler);
+router.get('/getcategorybyid/:id',authenticateJWT,getCategoryById,errorHandler);
+router.put('/editcategory/:id',authenticateJWT,authAdmin,editCategory,errorHandler);
+router.delete('/deletecategory/:id',authenticateJWT,authAdmin,deleteCategory,errorHandler);
 
 module.exports = router;

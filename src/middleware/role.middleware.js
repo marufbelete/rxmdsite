@@ -5,17 +5,17 @@ exports.authAdmin = (req, res, next) => {
     next()
     return;
   }
-  
+
   return res.status(403).
-  json({ message: "you do not have admin privillage", status: false })
+  json({ message: "you do not have admin priviledge", status: false })
 };
 
-exports.authCustomer = (req, res, next) => {
+exports.authUser = (req, res, next) => {
   const userrole = req.user.role;
-  if (userrole === "customer") {
+  if (userrole === "user") {
     next()
     return;
   }
   return res.status(403).
-    json({ message: "you do not have privillage", status: false })
+    json({ message: "you do not have priviledge", status: false })
 };
