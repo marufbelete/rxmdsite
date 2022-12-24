@@ -3,8 +3,8 @@ const bouncer = require("../helper/bruteprotect")
 const router = express.Router();
 const passport = require('passport')
 const { registerValidate, loginValidate, passwordChangeValidate } = require('../validator/user');
-const { registerUser,registerUserWithRole, loginUser, updateUserInfo, 
-       getCurrentLogedUser,getUserById, getUsers, confirmEmail, changePassword,
+const { registerUser,registerUserWithRole, loginUser, updateUserInfo,
+       getCurrentLoggedUser,getUserById, getUsers, confirmEmail, changePassword,
        forgotPassword, resetPassword } = require('../controllers/userController')
 const { errorHandler } = require('../middleware/errohandling.middleware')
 const { authenticateJWT } = require('../middleware/auth.middleware');
@@ -12,7 +12,7 @@ const { issueGoogleToken } = require("../auth/google");
 const { authAdmin } = require('../middleware/role.middleware');
 
 router.post('/register', registerValidate(), registerUser, errorHandler);
-router.post('/registerwithrole',authenticateJWT, authAdmin, 
+router.post('/registerwithrole',authenticateJWT, authAdmin,
 registerValidate(), registerUserWithRole, errorHandler);
 router.post('/login', loginValidate(), bouncer.block, loginUser, errorHandler);
 router.put('/updateuser/:id', authenticateJWT, updateUserInfo, errorHandler);
@@ -23,7 +23,7 @@ router.post('/forgotpassword', forgotPassword, errorHandler);
 router.post('/resetpassword', resetPassword, errorHandler);
 router.get('/getusers', authenticateJWT, authAdmin, getUsers, errorHandler);
 router.get('/getuserbyid/:id', authenticateJWT, authAdmin, getUserById, errorHandler);
-router.get('/getlogeduser', authenticateJWT, getCurrentLogedUser, errorHandler);
+router.get('/getloggeduser', authenticateJWT, getCurrentLoggedUser, errorHandler);
 
 //google auth
 router.get("/auth/google", passport.authenticate("google", { session: false, scope: ["email", "profile"] }));

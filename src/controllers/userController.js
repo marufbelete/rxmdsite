@@ -178,7 +178,7 @@ exports.getUserById = async (req, res, next) => {
   }
 };
 // get current loged user
-exports.getCurrentLogedUser = async (req, res, next) => {
+exports.getCurrentLoggedUser = async (req, res, next) => {
   try {
     const id = req.user.sub;
     const user = await User.findByPk(id, { include: ["role"] });
