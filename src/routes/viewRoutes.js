@@ -27,7 +27,23 @@ module.exports = (app) => {
   });
 
   router.get("/shop", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/index"));
+    res.render(path.join(__dirname, "..", "/views/pages/shop"));
+  });
+
+  router.get("/cart", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/shop-cart"));
+  });
+
+  router.get("/checkout", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/shop-checkout"));
+  });
+
+  router.get("/products/details", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));
+  });
+
+  router.get("/cc", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/cc"));
   });
 
   router.get("/login", function (req, res) {
