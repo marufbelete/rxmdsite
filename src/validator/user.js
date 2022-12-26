@@ -32,8 +32,16 @@ const passwordChangeValidate = () => {
     ).isLength({ min: 6 }),
   ];
 };
+const contactFormValidate = () => {
+  return [
+    check("email", "email is required").not().isEmpty(),
+    check("subject", "subject is required").not().isEmpty(),
+    check("message", "message is required").not().isEmpty(),
+  ];
+};
 module.exports = {
   registerValidate,
   loginValidate,
-  passwordChangeValidate
+  passwordChangeValidate,
+  contactFormValidate
 };

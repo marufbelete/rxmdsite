@@ -280,3 +280,11 @@ body.loggedin {
     width: 100%;
   }
 }
+/* // */
+/* #contact_form_toast
+{
+  left: 50%;
+    position: fixed;
+    transform: translate(-50%, 0px);
+    z-index: 9999;
+} */

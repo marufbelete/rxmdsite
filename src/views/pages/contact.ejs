@@ -67,7 +67,9 @@
     <a href="#">Contact</a>
   </li>
   <li class="menu-item">
-    <a href="/login">Sign In</a>
+    <a href="/login" id="login_link">Sign In</a>
+    <a href="#" id="logout_link" class="d-none">Sign out</a>
+
   </li>
   <%- include('../partials/headerBottom.ejs') %>
 
@@ -189,19 +191,22 @@
 
                   <!-- Contact Form -->
                   <form id="contact_form" name="contact_form" class="contact-form-transparent"
-                    action="includes/sendmail.php" method="post">
+                    action="#" method="post">
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="mb-3">
                           <label class="text-white">Name <small>*</small></label>
-                          <input name="form_name" class="form-control" type="text" placeholder="Enter Name">
+                          <input id="contact_form_name" name="form_name" class="form-control" type="text" placeholder="Enter Name">
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="mb-3">
                           <label class="text-white">Email <small>*</small></label>
-                          <input name="form_email" class="form-control required email" type="email"
-                            placeholder="Enter Email">
+                          <input id="contact_form_email" name="form_email" class="form-control required email" type="email"
+                            placeholder="Enter Email" required>
+                            <div class="d-none" id="invalid_email" style="color: red;">
+                              Email field required
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -209,26 +214,38 @@
                       <div class="col-sm-6">
                         <div class="mb-3">
                           <label class="text-white">Subject <small>*</small></label>
-                          <input name="form_subject" class="form-control required" type="text"
+                          <input id="contact_form_subject" name="form_subject" class="form-control required" type="text"
                             placeholder="Enter Subject">
+                            <div class="d-none" id="invalid_subject" style="color: red;">
+                              Subject field required.
+                            </div>
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="mb-3">
                           <label class="text-white">Phone</label>
-                          <input name="form_phone" class="form-control" type="text" placeholder="Enter Phone">
+                          <input id="contact_form_phone" name="form_phone" class="form-control" type="text" placeholder="Enter Phone">
                         </div>
                       </div>
                     </div>
                     <div class="mb-3">
                       <label class="text-white">Message</label>
-                      <textarea name="form_message" class="form-control required" rows="5"
+                      <textarea id="contact_form_message" name="form_message" class="form-control required" rows="5"
                         placeholder="Enter Message"></textarea>
+                        <div class="d-none" id="invalid_message" style="color: red;">
+                          Message field required.
+                        </div>
                     </div>
                     <div class="mb-3 tm-sc-button">
                       <input name="form_botcheck" class="form-control" type="hidden" value="" />
-                      <button type="submit" class="btn btn-theme-colored1 btn-flat btn-block"
-                        data-loading-text="Please wait..."> Send your message </button>
+                      <button id="submit_contact_form" type="submit" class="btn btn-theme-colored1 btn-flat btn-block"
+                        data-loading-text="Please wait..."> 
+                        <span id="contact_text">Send your message</span> 
+                        <span id="contact_text_spin" class="d-none">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Sending your message...
+                      </span>
+                      </button>
                     </div>
                   </form>
                   <div class="text-center">
@@ -242,10 +259,21 @@
                       <li><a href="#" data-tm-bg-color="#4C75A3"><i class="fab fa-vk"></i></a></li>
                     </ul>
                   </div>
-        </section>
+                    <!-- email sent notification -->
+                    <div style="position: absolute; top: 50%; right: 0;" id="contact_form_toast" class="toast align-items-center bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                      <div class="toast-body">
+                        Message sent successfuly!
+                      </div>
+                      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                  </div>
+                  <!--  -->
 
+        </section>
+       
         <!-- Contact Form Validation-->
-        <script>
+        <!-- <script>
           (function ($) {
             $("#contact_form").validate({
               submitHandler: function (form) {
@@ -268,8 +296,8 @@
                 });
               }
             });
-          })(jQuery);
-        </script>
+          })(jQuery); -->
+        <!-- </script> -->
 
       </div>
       </div>
@@ -287,3 +315,4 @@
     </body>
 
 </html>
+<script src="js/api_call.js"></script>

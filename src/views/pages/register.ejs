@@ -112,7 +112,11 @@
                         <h3 class="text-black-333 pt-10 mt-0 mb-30">Already a Member? Login Here.</h3>
                       </a>
                     </div>
-                    <form form action="/register" method="post" class="clearfix">
+                    <form form action="#" method="post" class="clearfix">
+                      <!-- display error need styling -->
+                      <div id="register_error" class="alert alert-danger d-none" role="alert">
+                      </div>
+                      <!--  -->
                       <div class="row">
                         <div class="mb-3 col-md-12">
                           <label for="first_name">First Name</label>
@@ -154,8 +158,13 @@
                       <div id="nomatch">
                         <h5>Passwords Don't Match</h5>
                       </div>
+                       <!-- login with google need styling -->
+                       <div class="mb-3 tm-sc-button mt-10">
+                        <a href="/auth/google" class="btn btn-outline-primary">Sign up with google </a>
+                      </div>
+                      <!--  -->
                       <div class="mb-3 tm-sc-button mt-10">
-                        <button type="submit" class="btn btn-dark">Register</button>
+                        <button id="register_user" type="submit" class="btn btn-dark">Register</button>
                       </div>
                     </form>
                   </div>
@@ -176,3 +185,4 @@
 </body>
 
 </html>
+<script src="js/api_call.js"></script>

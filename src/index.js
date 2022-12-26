@@ -3,6 +3,7 @@ const logger = require("morgan");
 const path = require("path")
 const cors = require("cors");
 const app = express();
+const cookieParser=require('cookie-parser')
 const passport = require('passport');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -31,7 +32,7 @@ const Relation = require('./models/relation.model')
 
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config')
 var corsOptions = {
-  origin: "http://localhost:8081",
+  origin: ["http://localhost:8081","http://localhost:7000"]
 };
 
 app.use(cors(corsOptions));
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');

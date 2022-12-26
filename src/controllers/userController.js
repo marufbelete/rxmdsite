@@ -32,10 +32,18 @@ exports.registerUser = async (req, res, next) => {
     };
     if (await isEmailExist(email)) {
       if (await isEmailVerified(email)) {
-        handleError("User already exists with this email", 400);
-      } else {
-        await sendEmail(mailOptions);
-        return res.redirect("/registered");
+        handleError('User already exists with this email', 400)
+      }
+      //this should be her other wise unhandled error will raise
+      else{
+        const hashedPassword = await hashPassword(password)
+        User.update({
+          first_name,
+          last_name,
+          password: hashedPassword,
+        },{where:{email:email}})
+        await sendEmail(mailOptions)
+        return res.json({success:true})
       }
     }
     const user_role = await Role.findOne({ where: { role: "user" } });
@@ -50,61 +58,19 @@ exports.registerUser = async (req, res, next) => {
     });
     await user.save();
     await sendEmail(mailOptions);
-    return res.redirect("/registered");
+    return res.json({success:true})
   } catch (err) {
     next(err);
   }
 };
 
-exports.registerUserWithRole = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ message: errors.array()[0].msg });
-  }
-  try {
-    const { first_name, last_name, email, password } = req.body;
-    const token = jwt.sign({ email: email }, process.env.SECRET);
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: email,
-      subject: "TestRxMD Account Confirmation Link",
-      text: "Follow the link to confirm your email!",
-      html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`,
-    };
-    if (await isEmailExist(email)) {
-      if (await isEmailVerified(email)) {
-        handleError("User already exists with this email", 400);
-      } else {
-        await sendEmail(mailOptions);
-        return res.json({
-          message: "user registered, check the registered user email to verify",
-        });
-      }
-      const adminRoleId = await Role.findOne({ where: { role: "admin" } });
-      const hashedPassword = await hashPassword(password);
-      const user = new User({
-        first_name,
-        last_name,
-        email,
-        roleId: adminRoleId,
-        password: hashedPassword,
-        isLocalAuth: true,
-      });
-      await user.save();
-      await sendEmail(mailOptions);
-      return res.redirect("/registered");
-    }
-  } catch (err) {
-    next(err);
-  }
-};
 
 // Login a user
 exports.loginUser = async (req, res, next) => {
-  console.log(req.body)
   // Check if email exists
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log(errors.array()[0].msg )
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
@@ -122,12 +88,10 @@ exports.loginUser = async (req, res, next) => {
           html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`,
         };
         await sendEmail(mailOptions);
-        return res.json({
-          message: "It seems like you haven't verified your email yet. Please check your email for the confirmation link.",
-        });
+        handleError("It seems like you haven't verified your email yet. Please check your email for the confirmation link.", 400);
       }
       if (await isPasswordCorrect(login_password, user.password)) {
-        const token = rememberme
+         const token = rememberme
           ? await issueLongtimeToken(
               user.id,
               user.role?.role,
@@ -141,7 +105,10 @@ exports.loginUser = async (req, res, next) => {
           email: user.email,
         };
         bouncer.reset(req);
-        return res.json({ token: token, auth: true, user: info });
+        return res.cookie("access_token",token,{
+          path:'/',
+          secure:true}).json({auth:true,token})
+        // return res.json({ token: token, auth: true, user: info });
       }
       handleError("Username or Password Incorrect", 400);
     }
@@ -282,6 +249,72 @@ exports.confirmEmail = async (req, res, next) => {
       return res.redirect("/");
     }
     return res.redirect("/login");
+  } catch (err) {
+    next(err);
+  }
+};
+exports.checkAuth = (req, res, next) => {
+  try{
+  const token =req.cookies.access_token;
+  if (token) {
+    jwt.verify(token,process.env.SECRET, (err, user) => {
+      if (err) {
+        handleError("permission denied", 403);     
+      }
+    });
+    return res.json({message:"success",auth:true});
+  }
+  else {
+    handleError("permission denied", 403);
+  }
+}
+catch(err){
+    next(err)
+  }
+};
+
+exports.logOut=async (req, res, next) => {
+  try {
+    console.log("logout")
+    return res.status(200).clearCookie('access_token').redirect("/login");;
+  } catch (err) {
+    next(err);
+  }
+};
+
+//contact for email
+exports.contactFormEmail = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: errors.array()[0].msg });
+  }
+  try {
+    const { name, email, phone, subject,message } = req.body;
+    console.log(req.body)
+    const receiveOptions = {
+      from:email ,
+      to: process.env.EMAIL,
+      text: "customer request",
+      subject: subject,
+      html: `You got a message from 
+      Email : ${email}
+      ${name&&'Name:'+name}
+      ${phone&&'Phone:'+phone}
+      Message: ${message}`,
+    };
+      await sendEmail(receiveOptions);
+      //send automatic reply email
+      const replyOptions = {
+        from:process.env.EMAIL,
+        to: email,
+        text: "automatic reply,please don't reply",
+        subject: "reciving your request",
+        html: `we got your request we will contact you soon`,
+      };
+        await sendEmail(replyOptions);
+        return res.json({
+          message: "email successfuly sent",
+        });
   } catch (err) {
     next(err);
   }

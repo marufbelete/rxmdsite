@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Role = require("../models/roleModel");
 const { issueToken } = require('../helper/user');
 const { Op } = require('sequelize')
 const passportGoogle = require('passport-google-oauth20');
@@ -11,10 +12,12 @@ exports.googlePassport = (passport) => {
   },
     async function (accessToken, refreshToken, profile, done) {
       try {
+        const user_role = await Role.findOne({ where: { role: "user" } });
         const userInfo = {
           first_name: profile._json.given_name,
           last_name: profile._json.family_name,
           email: profile._json.email,
+          roleId: user_role.id,
           googleId: profile._json.sub,
           isEmailConfirmed: profile._json.email_verified
         }
@@ -35,8 +38,15 @@ exports.googlePassport = (passport) => {
 }
 exports.issueGoogleToken = async (req, res, next) => {
   try {
-    const token = await issueToken(req.user.id, req.user.role, process.env.SECRET)
-    return res.redirect(`http://localhost:7000/dashboard?token=${token}`);
+    console.log(req.user[0]?.isLocalAuth)
+    console.log(req.user[0]?.id,req.user[0]?.role)
+    if(req.user[0]?.isLocalAuth){
+      return res.redirect('/login?error=' + encodeURIComponent('Google-Auth-Not-Exist'))
+    }
+    const token = await issueToken(req.user[0]?.id, req.user[0]?.role, process.env.SECRET)
+    return res.cookie("access_token",token,{
+      path:'/',
+      secure:true}).redirect('/')
   }
   catch (err) {
     next(err)
