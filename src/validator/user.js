@@ -6,7 +6,7 @@ const registerValidate = () => {
     check("last_name", "last name is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
     check("password",
-      "Please enter a password with 6 or more characters"
+      "Please enter a password with 8 or more characters"
     ).isLength({ min: 6 }),
   ];
 };
@@ -18,8 +18,9 @@ const loginValidate = () => {
       .isEmpty(),
     check(
       "login_password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 }),
+      "Please enter a password"
+    ).not()
+    .isEmpty(),
   ];
 };
 const passwordChangeValidate = () => {
@@ -28,7 +29,7 @@ const passwordChangeValidate = () => {
     check("new_password", "new password is required").not().isEmpty(),
     check(
       "new_password",
-      "Please enter a password with 6 or more characters"
+      "Please enter a password with 8 or more characters"
     ).isLength({ min: 6 }),
   ];
 };
