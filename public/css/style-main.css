@@ -1026,12 +1026,12 @@ pre {
   }
 }
 
-@-ms-keyframes cssload-loading-ani1 {
+/* @-ms-keyframes cssload-loading-ani1 {
   .tm-btn-loadmore-preloader 100% {
     -ms-transform: translate(39px);
     opacity: 0;
   }
-}
+} */
 
 @-webkit-keyframes cssload-loading-ani1 {
   100% {
@@ -1061,12 +1061,12 @@ pre {
   }
 }
 
-@-ms-keyframes cssload-loading-ani2 {
+/* @-ms-keyframes cssload-loading-ani2 {
   .tm-btn-loadmore-preloader 100% {
     -ms-transform: translate(15px);
     opacity: 1;
   }
-}
+} */
 
 @-webkit-keyframes cssload-loading-ani2 {
   100% {
@@ -1094,11 +1094,11 @@ pre {
   }
 }
 
-@-ms-keyframes cssload-loading-ani3 {
+/* @-ms-keyframes cssload-loading-ani3 {
   .tm-btn-loadmore-preloader 100% {
     -ms-transform: translate(15px);
   }
-}
+} */
 
 @-webkit-keyframes cssload-loading-ani3 {
   100% {
@@ -7356,9 +7356,9 @@ header#header .header-nav .container-fluid {
 .hamburger-box .hamburger-inner:before {
   background-color: #444;
   border-radius: 4px;
-  height: 2px;
+  height: 3px;
   position: absolute;
-  width: 4px;
+  width: 8px;
   transition: all 0.15s ease;
 }
 
@@ -7386,26 +7386,26 @@ header#header .header-nav .container-fluid {
 }
 
 .hamburger-box .hamburger-inner {
-  width: 6px;
+  width: 9px;
 }
 
 .hamburger-box .hamburger-inner:after {
-  width: 15px;
+  width: 18px;
 }
 
 .hamburger-box .hamburger-inner:before {
-  width: 15px;
+  width: 18px;
 }
 
 .hamburger-box:hover .hamburger-inner,
 .hamburger-box:hover .hamburger-inner:after,
 .hamburger-box:hover .hamburger-inner:before {
-  height: 2px;
+  height: 3px;
   background-color: #333;
 }
 
 .hamburger-box:hover .hamburger-inner {
-  width: 15px;
+  width: 18px;
 }
 
 .hamburger-box:hover .hamburger-inner:after {
