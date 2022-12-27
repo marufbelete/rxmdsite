@@ -109,14 +109,14 @@
                         <i class="pe-7s-users"></i>
                       </a>
                       <a href="/register">
-                        <h3 class="text-black-333 pt-10 mt-0 mb-30">Not Yet a Member? Click Here to Register Now!</h3>
+                        <h4 class="text-black-333 pt-10 mt-0 mb-30">Not Yet a Member? Click Here to Register Now!</h4>
                       </a>
                     </div>
                     <form form action="#" method="post" class="clearfix">
                       <!-- display error need styling -->
                       <div id="login_error" class="alert alert-danger d-none" role="alert">
                       </div>
-                             <!--  -->
+                      <!--  -->
                       <div class="row">
                         <div class="mb-3 col-md-12">
                           <label for="login_email">Email</label>
@@ -130,23 +130,32 @@
                           <input type="checkbox" onclick="showPassword()"><span class="ml-5"> Show Password</span>
                         </div>
                       </div>
-                      <div class="checkbox mt-15">
+                      <div class="checkbox mb-4">
                         <label for="rememberme">
                           <input id="rememberme" name="rememberme" type="checkbox">
                           Remember me </label>
                       </div>
                       <!-- login with google need styling -->
-                      <div class="mb-3 tm-sc-button mt-10">
-                        <a href="/auth/google" class="login-with-google-btn">Sign in with google </a>
+                      <div class="mb-3 tm-sc-button">
+                        <a href="/auth/google" class="login-with-google-btn">Sign in with Google </a>
                       </div>
                       <!--  -->
-                      <div class="mb-3 tm-sc-button mt-10">
-                        <button type="submit" class="btn btn-theme-colored1">Login</button>
+                      <div class="row justify-content-between">
+                        <div class="col-xs-8 col-md-8">
+                          <div class="mt-2 tm-sc-button">
+                            <button type="submit" class="btn btn-sm btn-dark"><b>Login</b></button>
+                          </div>
+                        </div>
+                        <div class="col-xs-4 col-md-4 pull-right">
+                          <button type="button" class="mt-2 btn btn-sm btn-theme-colored2" data-bs-toggle="modal"
+                            data-bs-target="#forgotPasswordModal">
+                            Forgot Password
+                          </button>
+                        </div>
+
+
                       </div>
-                      <button type="button" class="btn btn-theme-colored2" data-bs-toggle="modal"
-                        data-bs-target="#forgotPasswordModal">
-                        Forgot Password
-                      </button>
+
                       <!-- Forgot Password Modal -->
                       <div class="modal fade" id="forgotPasswordModal" tabindex="-1"
                         aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
@@ -154,7 +163,8 @@
                           <div class="modal-content text-center">
                             <div class="modal-header bg-theme-colored1">
                               <h3 class="modal-title text-white" id="forgotPasswordModalLabel">Password Reset</h3>
-                              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                             </div>
                             <div class="modal-body px-5">
                               <p class="py-2">
@@ -162,15 +172,16 @@
                                 password.
                               </p>
                               <div class="form-outline">
-                                <input type="email" id="resetPasswordEmail" class="form-control my-3" placeholder="Your Email Address"/>
+                                <input type="email" id="resetPasswordEmail" class="form-control my-3"
+                                  placeholder="Your Email Address" />
                               </div>
                               <a href="/resetpassword" class="btn btn-theme-colored2 w-100">Send Reset Email</a>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
                           </div>
                         </div>
-                      </div>
                     </form>
                   </div>
                 </div>
