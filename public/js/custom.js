@@ -1,5 +1,12 @@
 var THEMEMASCOT = {};
-
+$("#billingAddressSameAsShipping").on('click', function(){
+  if($(this).prop("checked") == true){
+    $("#billingAddress").hide();
+  }
+  else if($(this).prop("checked") == false){
+    $("#billingAddress").show();
+  }
+});
 (function($) {
   "use strict";
 
