@@ -141,7 +141,13 @@
                       </div>
                       <!--  -->
                       <div class="mb-3 tm-sc-button mt-10">
-                        <button type="submit" class="btn btn-theme-colored1">Login</button>
+                        <button id="login_user" type="submit" class="btn btn-theme-colored1">
+                          <span id="login_text">Login</span>
+                          <span id="login_text_spin" class="d-none">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Loading...
+                          </span>
+                        </button>
                       </div>
                       <button type="button" class="btn btn-theme-colored2" data-bs-toggle="modal"
                         data-bs-target="#forgotPasswordModal">
@@ -162,9 +168,21 @@
                                 password.
                               </p>
                               <div class="form-outline">
+                                <div class="d-none" id="invalid_forgotpassword_email" style="color: red;font-size: 12px;">
+                                  Email field required
+                                </div>
+                                <div class="alert alert-primary d-none" role="alert" id="forgot_message">
+                                </div>
                                 <input type="email" id="resetPasswordEmail" class="form-control my-3" placeholder="Your Email Address"/>
                               </div>
-                              <a href="/resetpassword" class="btn btn-theme-colored2 w-100">Send Reset Email</a>
+                              <button id="forgot_password"  class="btn btn-theme-colored2 w-100">
+                                <span id="resetpassword_text">Send Reset Email</span>
+                                <span id="resetpassword_text_spin" class="d-none">
+                                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                  Loading...
+                                </span>
+                              </button>
+                              
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
