@@ -38,7 +38,7 @@
                 navigation: {
                   mouseScrollNavigation:false,
                   arrows: {
-                    enable:true,
+                    enable:false,
                     tmp:"<div class=\"tp-title-wrap\">    <div class=\"tp-arr-imgholder\"></div> </div>",
                     style:"zeus",
                     hide_onmobile:true,
@@ -51,7 +51,7 @@
                     }
                   },
                   bullets: {
-                    enable:true,
+                    enable:false,
                     tmp:"<span class=\"tp-bullet-image\"></span><span class=\"tp-bullet-imageoverlay\"></span><span class=\"tp-bullet-title\">{{title}}</span>",
                     style:"zeus",
                     hide_onmobile:true,
@@ -76,6 +76,6 @@
                 },
               });
             }
-            
+
           });
 })(jQuery);

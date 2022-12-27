@@ -68,8 +68,12 @@
     <li class="menu-item">
       <a href="/contact">Contact</a>
     </li>
-    <li class="active menu-item">
-      <a href="#">Sign In</a>
+    <li class="menu-item">
+      <a href="/checkout">Telehealth &amp; Labs</a>
+    </li>
+    <li class="menu-item">
+      <a href="/login" id="login_link">Sign In</a>
+      <a href="#" id="logout_link" class="d-none">Sign out</a>
     </li>
     <%- include('../partials/headerBottom.ejs') %>
       <!-- Start main-content -->
@@ -182,7 +186,7 @@
                                   Loading...
                                 </span>
                               </button>
-                              
+
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
