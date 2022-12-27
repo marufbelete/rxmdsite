@@ -7,7 +7,7 @@ const { errorHandler } = require('../middleware/errohandling.middleware')
 const { authenticateJWT } = require('../middleware/auth.middleware');
 const { authAdmin } = require('../middleware/role.middleware')
 
-router.post('/addcategory', authenticateJWT, categoryValidate(), authAdmin, addCategory, errorHandler);
+router.post('/addcategory', authenticateJWT,authAdmin, categoryValidate(), addCategory, errorHandler);
 router.get('/getcategory', authenticateJWT, getCategory, errorHandler);
 router.get('/getcategorybyid/:id', authenticateJWT, getCategoryById, errorHandler);
 router.put('/editcategory/:id', authenticateJWT, authAdmin, editCategory, errorHandler);

@@ -1,3 +1,4 @@
+const {authenticateJWT}=require('../middleware/auth.middleware')
 module.exports = (app) => {
   const path = require("path");
   const router = require("express").Router();
@@ -30,7 +31,7 @@ module.exports = (app) => {
     res.render(path.join(__dirname, "..", "/views/pages/shop"));
   });
 
-  router.get("/cart", function (req, res) {
+  router.get("/cart", authenticateJWT,function (req, res) {
     res.render(path.join(__dirname, "..", "/views/pages/shop-cart"));
   });
 

@@ -78,7 +78,8 @@
       <a href="/contact">Contact</a>
     </li>
     <li class="menu-item">
-      <a href="/login">Sign In</a>
+      <a href="/login" id="login_link">Sign In</a>
+      <a href="#" id="logout_link" class="d-none">Sign out</a>
     </li>
     <li class="menu-item active">
       <a href="javascript:void(0)">Shop</a>
@@ -492,7 +493,7 @@
           <div class="row">
             <div class="col-md-12">
               <!-- Isotope Filter -->
-              <div class="isotope-layout-filter filter-style-4 text-left cat-filter-default text-center"
+              <div id="shop_catagory" class="isotope-layout-filter filter-style-4 text-left cat-filter-default text-center"
                 data-link-with="gallery-holder-618422">
                 <a href="#" class="active" data-filter="*">All</a>
                 <a href="#" class="" data-filter=".cat1">Weight Loss</a>
@@ -916,3 +917,4 @@
 </body>
 
 </html>
+<script src="js/api_call.js"></script>

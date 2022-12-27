@@ -16,7 +16,8 @@ const authenticateJWT = (req, res, next) => {
       next();
     });
   } catch (error) {
-    next(error);
+    return res.redirect('/login?error=' + encodeURIComponent('No-Auth-Redirect'))
+    // next(error);
   }
 };
 

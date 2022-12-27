@@ -152,5 +152,21 @@ if(myParam == "Google-Auth-Not-Exist") {
     $('#login_error').removeClass('d-none')
     $('#login_error').text("This account not associated with google please use your email and password to login")
 }
+if(myParam == "No-Auth-Redirect") {
+    location.href = "/login"
+}
+
+//shop 
+//get catagory
+$('#logout_link').on("click",function(){
+    $.ajax({
+        url:"http://localhost:7000/getcategory",
+        method:"GET",
+        success:function(data)
+        {     console.log(data)
+            // data.map(e=>$( ".inner" ).append( `<a href="#" class="" data-filter="${}">${Weight Loss}</a>` ));
+        },
+    });
+  })
 });
   
