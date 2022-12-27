@@ -39,6 +39,8 @@ $(document).ready(function(){
         $('#register_error').text("password must match")
         return
     }
+    $('#register_text').addClass('d-none');
+    $('#register_text_spin').removeClass('d-none');
       $.ajax({
           url:"http://localhost:7000/register",
           method:"POST",
@@ -49,14 +51,15 @@ $(document).ready(function(){
            location.href = "/registered"
           },
           error:function(data){
-            console.log(data.responseJSON)
+            $('#register_text').removeClass('d-none');
+            $('#register_text_spin').addClass('d-none');
             $('#register_error').removeClass('d-none')
             $('#register_error').text(data.responseJSON.message)
           }
       });
   })
   
-//custom login api call
+//login api call
     $('#login_user').on("click",
     function(event){
     event.preventDefault();
@@ -64,6 +67,8 @@ $(document).ready(function(){
     const login_email=$('#login_email').val()
     const login_password=$('#login_password').val()
     const rememberme=$('#rememberme').is(":checked")
+    $('#login_text').addClass('d-none');
+    $('#login_text_spin').removeClass('d-none');
       $.ajax({
           url:"http://localhost:7000/login",
           method:"POST",
@@ -75,6 +80,8 @@ $(document).ready(function(){
           },
           error:function(data){
             $('#login_error').removeClass('d-none')
+            $('#login_text').removeClass('d-none');
+            $('#login_text_spin').addClass('d-none');
             $('#login_error').text(data.responseJSON.message)
           }
       });
@@ -92,7 +99,78 @@ $(document).ready(function(){
         },
     });
   })
-
+//forgot password
+$('#forgot_password').on("click",function(event){
+    event.preventDefault();
+    const email=$('#resetPasswordEmail').val()
+    $('#invalid_forgotpassword_email').addClass('d-none')
+    const isEmailValid=ValidateEmail(email)
+    if(!email||!isEmailValid){
+        !email&&$('#invalid_forgotpassword_email').removeClass('d-none')
+        !isEmailValid&&email&&$('#invalid_forgotpassword_email').removeClass('d-none')
+        !isEmailValid&&email&&$('#invalid_forgotpassword_email').text('Invalid Email')
+        return
+    }
+    $('#resetpassword_text_spin').removeClass('d-none');
+    $('#resetpassword_text').addClass('d-none');
+    $('#forgot_message').addClass('d-none');
+  $.ajax({
+      url:"http://localhost:7000/forgotpassword",
+      method:"POST",
+      data:{email},
+      success:function(data)
+      {
+        $('#resetpassword_text').removeClass('d-none');
+        $('#resetpassword_text_spin').addClass('d-none');
+        $('#forgot_message').text(data.message)
+        $('#forgot_message').removeClass('d-none');
+      },
+      error:function(data){
+        $('#resetpassword_text').removeClass('d-none');
+        $('#resetpassword_text_spin').addClass('d-none');
+      }
+  });
+})
+//reset password
+$('#reset_button').on("click",function(event){
+  event.preventDefault();
+  console.log('reset')
+  const newPassword=$('#npassword').val()
+  const confirmNewPassword=$('#cpassword').val()
+  $('#reset_error').addClass('d-none')
+  if(!newPassword||!confirmNewPassword){
+    $('#reset_error').removeClass('d-none')
+    $('#reset_error').text('please fill all field')
+    return
+  }
+  if(newPassword!==confirmNewPassword){
+      $('#reset_error').removeClass('d-none')
+      $('#reset_error').text('password not match')
+      return
+  }
+  $('#reset_button').val("Loading...")
+$.ajax({
+    url:window.location.href,
+    method:"POST",
+    data:{password:newPassword},
+    success:function(data)
+    {
+      $('#resetpassword_text').removeClass('d-none');
+      $('#resetpassword_text_spin').addClass('d-none');
+      $('#forgot_message').text(data.message)
+      $('#forgot_message').removeClass('d-none');
+      $('#reset_button').val("Submit")
+      location.href = "/login"
+    },
+    error:function(data){
+      $('#reset_error').removeClass('d-none')
+      $('#reset_error').text("invalid or expired link, please try again")
+      $('#resetpassword_text').removeClass('d-none');
+      $('#resetpassword_text_spin').addClass('d-none');
+      $('#reset_button').val("Submit")
+    }
+});
+})
   //contact form
   $('#submit_contact_form').on("click",function(event){
     event.preventDefault();
@@ -151,22 +229,10 @@ const myParam = urlParams.get('error');
 if(myParam == "Google-Auth-Not-Exist") {
     $('#login_error').removeClass('d-none')
     $('#login_error').text("This account not associated with google please use your email and password to login")
-}
+  }
 if(myParam == "No-Auth-Redirect") {
     location.href = "/login"
 }
 
-//shop 
-//get catagory
-$('#logout_link').on("click",function(){
-    $.ajax({
-        url:"http://localhost:7000/getcategory",
-        method:"GET",
-        success:function(data)
-        {     console.log(data)
-            // data.map(e=>$( ".inner" ).append( `<a href="#" class="" data-filter="${}">${Weight Loss}</a>` ));
-        },
-    });
-  })
 });
   

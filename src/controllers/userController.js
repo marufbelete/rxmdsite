@@ -107,8 +107,7 @@ exports.loginUser = async (req, res, next) => {
         bouncer.reset(req);
         return res.cookie("access_token",token,{
           path:'/',
-          secure:true}).json({auth:true,token})
-        // return res.json({ token: token, auth: true, user: info });
+          secure:true}).json({auth:true,info})
       }
       handleError("Username or Password Incorrect", 400);
     }
@@ -201,19 +200,19 @@ exports.forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
     const token = jwt.sign({ email: email }, process.env.SECRET, {
-      expiresIn: "40m",
+      expiresIn: "2h",
     });
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
-      subject: "Account Confirmation Link",
-      text: "Follow the link to confirm your email!",
-      html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`,
+      subject: "Password Reset Link",
+      text: "Follow the link to reset your password!",
+      html: `${process.env.RESET_LINK}?token=${token}`,
     };
     await sendEmail(mailOptions);
     return res.json({
       status: true,
-      message: "email sent, please check your email.",
+      message: "password reset-link sent, please check your email. token will expired in 2 hour",
     });
   } catch (err) {
     next(err);
@@ -222,18 +221,21 @@ exports.forgotPassword = async (req, res, next) => {
 //reset password
 exports.resetPassword = async (req, res, next) => {
   try {
-    const token = req.params.token;
+    const {token} = req.query;
     const { password } = req.body;
+    console.log(token)
     const user = await isTokenValid(token);
+    console.log(user)
     const hashedPassword = await hashPassword(password);
-    await User.findByIdAndUpdate(
-      { username: user.email },
+    await User.update(
+      {password: hashedPassword  },
       {
-        password: hashedPassword,
+        where:{email: user.email}
       }
     );
-    return res.redirect(`http://localhost:7000/login`);
+    return res.json({success:true});
   } catch (err) {
+    console.log(err)
     next(err);
   }
 };
