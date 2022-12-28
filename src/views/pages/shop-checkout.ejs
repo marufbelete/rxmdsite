@@ -343,14 +343,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% for(let product of products.docs) {%> 
+                      <% for(let product of products.docs) {%>
                       <tr>
                         <td id="tel-product" data-productid="<%=product.id%>" class="selection-box">
                         <input type="checkbox" name="telehealth-appointment" id="telehealth-appt-checkbox"></td>
                         <td class="product-name">$<%=product?.product_name%> </td>
                         <td><span class="amount">$<%=product?.price%></span></td>
                       </tr>
-                      <% } %> 
+                      <% } %>
                       <tr>
                         <td>Order Total</td>
                         <td>&nbsp;</td>
