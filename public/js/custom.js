@@ -1,5 +1,12 @@
 var THEMEMASCOT = {};
-
+$("#billingAddressSameAsShipping").on('click', function(){
+  if($(this).prop("checked") == true){
+    $("#billingAddress").hide();
+  }
+  else if($(this).prop("checked") == false){
+    $("#billingAddress").show();
+  }
+});
 (function($) {
   "use strict";
 
@@ -946,7 +953,6 @@ var THEMEMASCOT = {};
       var $lightgallery_lightbox = $(".lightgallery-lightbox");
       if( $lightgallery_lightbox.length > 0 ) {
         $lightgallery_lightbox.lightGallery({
-          // Please read about gallery options here: http://sachinchoolur.github.io/lightGallery/docs/api.html
           // lightgallery core
           selector: '.lightgallery-trigger',
           mode: 'lg-fade', // Type of transition between images ('lg-fade' or 'lg-slide').
