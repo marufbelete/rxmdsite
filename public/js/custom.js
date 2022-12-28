@@ -816,7 +816,7 @@ $("#billingAddressSameAsShipping").on('click', function(){
         $ajaxload_popup.magnificPopup({
           items: [
             {
-              src: 'https://form.jotform.com/212587273457161',
+              src: 'https://hipaa.jotform.com/212587273457161',
               type: 'iframe' // this overrides default type
             }
           ],

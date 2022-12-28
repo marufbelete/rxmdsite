@@ -26,7 +26,7 @@ module.exports = (app) => {
   });
 
   router.get("/getstarted", function (req, res) {
-    res.redirect("https://form.jotform.com/212587273457161");
+    res.redirect("https://hipaa.jotform.com/212587273457161");
   });
 
   // router.get("/shop", function (req, res) {
