@@ -79,7 +79,7 @@ exports.loginUser = async (req, res, next) => {
     if (user && user.isLocalAuth) {
       //if not validated send email
       if (!user.isEmailConfirmed) {
-        const token = jwt.sign({ email: user.login_email }, process.env.SECRET);
+        const token = jwt.sign({ email: user.email }, process.env.SECRET);
         const mailOptions = {
           from: process.env.EMAIL,
           to: req.body.login_email,
@@ -243,8 +243,10 @@ exports.resetPassword = async (req, res, next) => {
 exports.confirmEmail = async (req, res, next) => {
   try {
     const { verifyToken } = req.query;
+    console.log(verifyToken)
     const user = await isTokenValid(verifyToken);
     if (user) {
+      console.log(user)
       const userInfo = await User.findOne({ where: { email: user.email } });
       userInfo.isEmailConfirmed = true;
       await userInfo.save();

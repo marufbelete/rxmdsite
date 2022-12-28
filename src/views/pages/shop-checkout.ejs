@@ -343,20 +343,18 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <% for(let product of products.docs) {%> 
                       <tr>
-                        <td class="selection-box"><input type="checkbox" name="telehealth-appointment" id="telehealth-appt-checkbox"></td>
-                        <td class="product-name">Telehealth Appointment</td>
-                        <td><span class="amount">$99.99</span></td>
+                        <td id="tel-product" data-productid="<%=product.id%>" class="selection-box">
+                        <input type="checkbox" name="telehealth-appointment" id="telehealth-appt-checkbox"></td>
+                        <td class="product-name">$<%=product?.product_name%> </td>
+                        <td><span class="amount">$<%=product?.price%></span></td>
                       </tr>
-                      <tr>
-                        <td class="selection-box"><input type="checkbox" name="telehealth-appointment" id="telehealth-appt-checkbox"></td>
-                        <td class="product-name">Labwork</td>
-                        <td><span class="amount">$44.99</span></td>
-                      </tr>
+                      <% } %> 
                       <tr>
                         <td>Order Total</td>
                         <td>&nbsp;</td>
-                        <td id="cart-total"></td>
+                        <td id="cart-total">$<%=products.total%></td>
                       </tr>
                     </tbody>
                   </table>
@@ -543,7 +541,7 @@
       <!-- Footer Scripts -->
       <script src="js/custom.js"></script>
       <scrip src="js/checkout.js"></scrip>
-
+      <script src="js/api_call.js"></script>
 
 </body>
 

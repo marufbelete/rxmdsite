@@ -2,6 +2,7 @@ const Product = require("../models/productModel");
 const { validationResult } = require("express-validator");
 const sharp = require("sharp")
 const fs = require("fs");
+const path = require("path");
 exports.addProduct = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -37,9 +38,10 @@ exports.addProduct = async (req, res, next) => {
       return res.json(new_product);
     }
     else {
-      const error = new Error("please add photot for the product")
-      error.statusCode = 400
-      throw error;
+      const new_product = await Product.create({
+        ...req.body
+      });
+      return res.json(new_product);
     }
   } catch (err) {
     next(err)
@@ -50,13 +52,21 @@ exports.getProduct = async (req, res, next) => {
   try {
     const { page, paginate } = req.query
     const options = {
-      include: ["brand", "category"],
-      attributes: { exclude: ['categoryId', 'brandId'] },
+      // include: ["brand", "category"],
+      // attributes: { exclude: ['categoryId', 'brandId'] },
       page: Number(page) || 1,
       paginate: Number(paginate) || 25,
-      order: [['product_name', 'DESC']]
+      order: [['product_name', 'ASC']]
     }
     const products = await Product.paginate(options)
+    const priceArr=[]
+    products.docs.map(e=>priceArr.push(Number(e.price)))
+    console.log(priceArr)
+    const totalPrice=priceArr.reduce((f,s)=>f+s,0)
+    console.log(totalPrice)
+    products.total=totalPrice
+    return res.render(path.join(__dirname, "..", "/views/pages/shop-checkout"),{products});
+
     return res.json(products);
   } catch (err) {
     next(err)
