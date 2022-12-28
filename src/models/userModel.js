@@ -54,6 +54,10 @@ const User = sequelize.define("user", {
   active: {
     type: Sequelize.TINYINT
   },
+  intake:{
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  }
 });
 
 sequelizePaginate.paginate(User)

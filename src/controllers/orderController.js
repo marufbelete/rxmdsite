@@ -3,9 +3,11 @@ const Payment = require("../models/paymentModel");
 const Shipping = require("../models/shippingModel");
 const Orderproduct = require("../models/orderproduct")
 const User = require("../models/userModel")
-const { isUserAdmin } = require("../helper/user");
+const { isUserAdmin,isIntakeFormComplted } = require("../helper/user");
 const Product = require("../models/productModel");
 const sequelize = require('../models/index');
+const { handleError } = require("../helper/handleError");
+
 exports.crerateOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
@@ -14,10 +16,14 @@ exports.crerateOrder = async (req, res, next) => {
       userId: req?.user?.sub,
       ...other
     }, { transaction: t });
+    if(!(await isIntakeFormComplted(req)))
+    {
+      handleError('Please complete the appointment form', 400)
+    }
     for await (const prod of products) {
       const product = await Product.findByPk(prod.id)
       await Orderproduct.create({
-        quantity: prod.quantity,
+        // quantity: prod.quantity,
         productId: prod.id,
         product_name: product.product_name,
         discount: product.discount,
