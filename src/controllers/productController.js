@@ -61,13 +61,12 @@ exports.getProduct = async (req, res, next) => {
     const products = await Product.paginate(options)
     const priceArr=[]
     products.docs.map(e=>priceArr.push(Number(e.price)))
-    console.log(priceArr)
     const totalPrice=priceArr.reduce((f,s)=>f+s,0)
-    console.log(totalPrice)
     products.total=totalPrice
-    return res.render(path.join(__dirname, "..", "/views/pages/shop-checkout"),{products});
-
-    return res.json(products);
+    const token = req.cookies.access_token;
+    console.log(token)
+    return res.render(path.join(__dirname, "..", "/views/pages/shop-checkout"),{products,token});
+    // return res.json(products);
   } catch (err) {
     next(err)
   }

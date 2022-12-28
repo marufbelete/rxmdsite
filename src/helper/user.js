@@ -56,6 +56,15 @@ const userIp = (request) => {
   return ip;
 };
 
+const isIntakeFormComplted = async(req) => {
+  const id=req?.user?.sub
+  const user=await User.findOne({where:{id}})
+  if (user?.intake) {
+    return true;
+  }
+  return false;
+};
+
 module.exports = {
   isEmailExist,
   isPasswordCorrect,
@@ -66,4 +75,5 @@ module.exports = {
   userIp,
   isUserAdmin,
   isTokenValid,
+  isIntakeFormComplted
 };

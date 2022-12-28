@@ -1,5 +1,6 @@
 const {authenticateJWT}=require('../middleware/auth.middleware')
-const {getProduct}=require('../controllers/productController')
+const {getProduct}=require('../controllers/productController');
+const { errorHandler } = require('../middleware/errohandling.middleware');
 module.exports = (app) => {
   const path = require("path");
   const router = require("express").Router();
@@ -36,7 +37,7 @@ module.exports = (app) => {
   //   res.render(path.join(__dirname, "..", "/views/pages/shop-cart"));
   // });
 
-  router.get("/checkout",authenticateJWT,getProduct);
+  router.get("/checkout",authenticateJWT,getProduct,errorHandler);
 
   // router.get("/products/details", function (req, res) {
   //   res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));

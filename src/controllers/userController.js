@@ -223,9 +223,7 @@ exports.resetPassword = async (req, res, next) => {
   try {
     const {token} = req.query;
     const { password } = req.body;
-    console.log(token)
     const user = await isTokenValid(token);
-    console.log(user)
     const hashedPassword = await hashPassword(password);
     await User.update(
       {password: hashedPassword  },
@@ -319,6 +317,26 @@ exports.contactFormEmail = async (req, res, next) => {
         return res.json({
           message: "email successfuly sent",
         });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.jotformWebhook = async (req, res, next) => {
+  try {
+  const {pretty}= req.body
+  const jot_pairs = pretty.replace(/\s/g, '').split(',') 
+  const jot_entries = jot_pairs.map(kv => kv.split(':'))
+  const jot_obj = Object.fromEntries(jot_entries)
+  const token=jot_obj.token
+  const user = await isTokenValid(token);
+  await User.update(
+    {intake: true},
+    {
+      where:{email: user.email}
+    }
+  );
+    return res.json({success:true});
   } catch (err) {
     next(err);
   }
