@@ -31,7 +31,6 @@ const Product = sequelize.define("product", {
   },
   stock: {
     type: Sequelize.INTEGER,
-    allowNull: false,
   },
   tax: {
     type: Sequelize.DECIMAL,
@@ -42,7 +41,6 @@ const Product = sequelize.define("product", {
   },
   image_url: {
     type: Sequelize.STRING,
-    allowNull: false,
     get() {
       return this.getDataValue('image_url')?.split(';')
     },

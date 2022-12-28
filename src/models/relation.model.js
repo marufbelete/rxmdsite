@@ -1,8 +1,8 @@
 
 const Product = require('./productModel')
 const Orderproduct = require('./orderproduct')
-const Brand = require('./brandModel')
-const Category = require('./categoryModel')
+// const Brand = require('./brandModel')
+// const Category = require('./categoryModel')
 const Order = require('./orderModel')
 const ProductSize = require('./productsizeModel')
 const Shipping = require('./shippingModel')
@@ -12,20 +12,20 @@ const Role = require('./roleModel')
 
 const Relation = () => {
   //product to brand
-  Brand.hasMany(Product, {
-    foreignKey: 'brandId'
-  })
-  Product.belongsTo(Brand, {
-    foreignKey: 'brandId'
-  })
+  // Brand.hasMany(Product, {
+  //   foreignKey: 'brandId'
+  // })
+  // Product.belongsTo(Brand, {
+  //   foreignKey: 'brandId'
+  // })
 
   //product to category
-  Category.hasMany(Product, {
-    foreignKey: 'categoryId'
-  })
-  Product.belongsTo(Category, {
-    foreignKey: 'categoryId'
-  })
+  // Category.hasMany(Product, {
+  //   foreignKey: 'categoryId'
+  // })
+  // Product.belongsTo(Category, {
+  //   foreignKey: 'categoryId'
+  // })
 
   //product to order
   Order.belongsToMany(Product, {

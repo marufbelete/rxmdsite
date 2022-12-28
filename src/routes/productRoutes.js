@@ -21,7 +21,7 @@ const filefilter = (req, file, cb) => {
 }
 const upload = multer({ storage: fileStorage, fileFilter: filefilter })
 
-router.post('/addproduct', authenticateJWT, authAdmin, upload.array('product_image', 3),
+router.post('/addproduct', authenticateJWT,  upload.array('product_image', 3),
   productValidate(), addProduct, errorHandler);
 router.get('/getproduct', authenticateJWT, getProduct, errorHandler);
 router.get('/getproductbyid/:id', authenticateJWT, getProductById, errorHandler);

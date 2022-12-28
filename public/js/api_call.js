@@ -233,6 +233,17 @@ if(myParam == "Google-Auth-Not-Exist") {
 if(myParam == "No-Auth-Redirect") {
     location.href = "/login"
 }
+//get all selected product for order
+//on order complete buton click
+
+// $('#pp-id').on('click',function(){
+//   const product_ordered=[]
+//   $('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').each(function(){
+//     product_ordered.push({productId:$(this).data('productid')})
+//   })
+//   console.log(product_ordered)
+//   //here make ajax call to compelete the order
+// })
 
 });
   
