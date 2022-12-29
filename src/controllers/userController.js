@@ -95,9 +95,10 @@ exports.loginUser = async (req, res, next) => {
           ? await issueLongtimeToken(
               user.id,
               user.role?.role,
+              login_email,
               process.env.SECRET
             )
-          : await issueToken(user.id, user.role.role, process.env.SECRET);
+          : await issueToken(user.id, user.role.role,login_email, process.env.SECRET);
         const info = {
           first_name: user.first_name,
           last_name: user.last_name,

@@ -13,13 +13,13 @@ const isPasswordCorrect = async (incomingPassword, existingPassword) => {
 };
 
 //check which data to sign
-const issueToken = async function (id, role, key) {
-  const token = jwt.sign({ sub: id, role }, key, { expiresIn: "24h" });
+const issueToken = async function (id, role,email, key) {
+  const token = jwt.sign({ sub: id, role,email }, key, { expiresIn: "24h" });
   return token;
 };
 
-const issueLongtimeToken = async function (id, role, key) {
-  const token = jwt.sign({ sub: id, role }, key, { expiresIn: "720h" });
+const issueLongtimeToken = async function (id, role,email, key) {
+  const token = jwt.sign({ sub: id, role,email }, key, { expiresIn: "720h" });
   return token;
 };
 

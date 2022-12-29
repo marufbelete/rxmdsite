@@ -41,7 +41,7 @@ exports.issueGoogleToken = async (req, res, next) => {
     if(req?.user[0]?.isLocalAuth){
       return res.redirect('/login?error=' + encodeURIComponent('Google-Auth-Not-Exist'))
     }
-    const token = await issueToken(req?.user[0]?.id, req?.user[0]?.role, process.env.SECRET)
+    const token = await issueToken(req?.user[0]?.id, req?.user[0]?.role,req?.user[0]?.email, process.env.SECRET)
     return res.cookie("access_token",token,{
       path:'/',
       secure:true}).redirect('/')
