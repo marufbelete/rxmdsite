@@ -814,15 +814,15 @@ $("#billingAddressSameAsShipping").on('click', function(){
       var $ajaxload_popup = $('.ajaxload-popup');
       if( $ajaxload_popup.length > 0 ) {
         $ajaxload_popup.magnificPopup({
-          type: 'ajax',
+          items: [
+            {
+              src: 'https://hipaa.jotform.com/212587273457161',
+              type: 'iframe' // this overrides default type
+            }
+          ],
+          mainClass: 'registrationForm',
           alignTop: true,
           overflowY: 'scroll', // as we know that popup content is tall we set scroll overflow by default to avoid jump
-          callbacks: {
-          parseAjax: function(mfpResponse) {
-            THEMEMASCOT.initialize.TM_sliderRange();
-            THEMEMASCOT.initialize.TM_ddslick();
-          }
-          }
         });
       }
 
