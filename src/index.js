@@ -32,7 +32,7 @@ const Relation = require('./models/relation.model')
 
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config')
 var corsOptions = {
-  origin: ["http://localhost:8081","http://localhost:7000"]
+  origin: ["http://localhost:8081","https://rxmdsite-production.up.railway.app","http://localhost:7000"]
 };
 
 app.use(cors(corsOptions));
