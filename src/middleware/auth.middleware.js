@@ -13,6 +13,7 @@ const authenticateJWT = (req, res, next) => {
         handleError("please login", 403);
       }
       req.user = user;
+      console.log(user)
       next();
     });
   } catch (error) {

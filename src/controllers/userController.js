@@ -82,7 +82,7 @@ exports.loginUser = async (req, res, next) => {
         const token = jwt.sign({ email: user.email }, process.env.SECRET);
         const mailOptions = {
           from: process.env.EMAIL,
-          to: req.body.login_email,
+          to: login_email,
           subject: "Account Confirmation Link",
           text: "Follow the link to confirm your email for TestRxMD",
           html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`,
@@ -332,6 +332,7 @@ exports.jotformWebhook = async (req, res, next) => {
   const token=jot_obj.token
   console.log(token)
   const user = await isTokenValid(token);
+  console.log(user)
   await User.update(
     {intake: true},
     {
