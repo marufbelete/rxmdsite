@@ -70,7 +70,6 @@ exports.loginUser = async (req, res, next) => {
   // Check if email exists
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(errors.array()[0].msg )
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
@@ -234,7 +233,6 @@ exports.resetPassword = async (req, res, next) => {
     );
     return res.json({success:true});
   } catch (err) {
-    console.log(err)
     next(err);
   }
 };
@@ -242,10 +240,8 @@ exports.resetPassword = async (req, res, next) => {
 exports.confirmEmail = async (req, res, next) => {
   try {
     const { verifyToken } = req.query;
-    console.log(verifyToken)
     const user = await isTokenValid(verifyToken);
     if (user) {
-      console.log(user)
       const userInfo = await User.findOne({ where: { email: user.email } });
       userInfo.isEmailConfirmed = true;
       await userInfo.save();
@@ -278,7 +274,6 @@ catch(err){
 
 exports.logOut=async (req, res, next) => {
   try {
-    console.log("logout")
     return res.status(200).clearCookie('access_token').redirect("/login");;
   } catch (err) {
     next(err);
@@ -293,7 +288,6 @@ exports.contactFormEmail = async (req, res, next) => {
   }
   try {
     const { name, email, phone, subject,message } = req.body;
-    console.log(req.body)
     const receiveOptions = {
       from:email ,
       to: process.env.EMAIL,
@@ -326,14 +320,11 @@ exports.contactFormEmail = async (req, res, next) => {
 exports.jotformWebhook = async (req, res, next) => {
   try {
   const {pretty}= req.body
-  console.log(pretty)
   const jot_pairs = pretty.replace(/\s/g, '').split(',') 
   const jot_entries = jot_pairs.map(kv => kv.split(':'))
   const jot_obj = Object.fromEntries(jot_entries)
   const token=jot_obj.token
-  console.log(token)
   const user = await isTokenValid(token);
-  console.log(user)
   await User.update(
     {intake: true},
     {
@@ -342,7 +333,6 @@ exports.jotformWebhook = async (req, res, next) => {
   );
     return res.json({success:true});
   } catch (err) {
-    console.log(err)
     next(err);
   }
 };
