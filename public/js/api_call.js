@@ -246,6 +246,16 @@ if(myParam == "No-Auth-Redirect") {
 //   console.log(product_ordered)
 //   //here make ajax call to compelete the order
 // })
+$('input[id="telehealth-appt-checkbox"]').on("click",function () {
+  let total_price=0
+  $('#telehealth-appt-checkbox:checked').parent('td').siblings('#product-price').each(function(){
+    let product_price=Number($(this).children('span').text())
+       total_price=total_price+product_price
+  })
+  $('#cart-total-price').text(total_price)
+
+});
+  
 
 });
   

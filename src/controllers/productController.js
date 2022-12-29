@@ -64,9 +64,7 @@ exports.getProduct = async (req, res, next) => {
     const totalPrice=priceArr.reduce((f,s)=>f+s,0)
     products.total=totalPrice
     const token = req.cookies.access_token;
-    console.log(token)
     return res.render(path.join(__dirname, "..", "/views/pages/shop-checkout"),{products,token});
-    // return res.json(products);
   } catch (err) {
     next(err)
   }
