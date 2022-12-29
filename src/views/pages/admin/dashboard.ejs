@@ -80,49 +80,46 @@
       <div class="main-content-area">
         <!-- Section: page title -->
 
-        <title>Admin Dashboard</title>
-        </head>
-
-        <body>
-          <div class="container-fluid">
-            <h1>Admin Dashboard</h1>
-            <nav class="nav nav-tabs" id="myTab" role="tablist">
-              <a class="nav-item nav-link active" id="products-tab" data-toggle="tab" href="#products" role="tab"
-                aria-controls="products" aria-selected="true">Products</a>
-              <a class="nav-item nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab"
-                aria-controls="users" aria-selected="false">Users</a>
-            </nav>
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="products" role="tabpanel" aria-labelledby="products-tab">
-                <h2>Edit Products</h2>
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Description</th>
-                      <th>Price</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody id="product-list">
-                    <!-- Product rows will be added here dynamically -->
-                  </tbody>
-                </table>
-              </div>
-              <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-                <h2>Edit Users</h2>
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody id="user-list">
-                    <!-- User rows will be added here dynamically -->
-                  </tbody>
-                </table>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
+<title>Admin Dashboard</title>
+</head>
+<body>
+  <div class="container-fluid">
+    <h1>Admin Dashboard</h1>
+    <nav class="nav nav-tabs" id="myTab" role="tablist">
+      <a class="nav-item nav-link active" id="products-tab" data-toggle="tab" href="#products" role="tab" aria-controls="products" aria-selected="true">Products</a>
+      <a class="nav-item nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Users</a>
+    </nav>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="products" role="tabpanel" aria-labelledby="products-tab">
+        <h2>Edit Products</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="product-list">
+            <!-- Product rows will be added here dynamically -->
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+        <h2>Edit Users</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="user-list">
+            <!-- User rows will be added here dynamically -->
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
