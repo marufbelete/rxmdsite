@@ -38,12 +38,10 @@ exports.googlePassport = (passport) => {
 }
 exports.issueGoogleToken = async (req, res, next) => {
   try {
-    console.log(req.user[0]?.isLocalAuth)
-    console.log(req.user[0]?.id,req.user[0]?.role)
-    if(req.user[0]?.isLocalAuth){
+    if(req?.user[0]?.isLocalAuth){
       return res.redirect('/login?error=' + encodeURIComponent('Google-Auth-Not-Exist'))
     }
-    const token = await issueToken(req.user[0]?.id, req.user[0]?.role, process.env.SECRET)
+    const token = await issueToken(req?.user[0]?.id, req?.user[0]?.role, process.env.SECRET)
     return res.cookie("access_token",token,{
       path:'/',
       secure:true}).redirect('/')
