@@ -1,6 +1,8 @@
 $(document).ready(function(){
+  // const base_url="http://localhost:7000"
+  const base_url="https://rxmdsite-production.up.railway.app/"
     $.ajax({
-        url:"http://localhost:7000/checkauth",
+        url:`${base_url}/checkauth`,
         method:"GET",
         success:function(data)
         {
@@ -42,7 +44,7 @@ $(document).ready(function(){
     $('#register_text').addClass('d-none');
     $('#register_text_spin').removeClass('d-none');
       $.ajax({
-          url:"http://localhost:7000/register",
+          url:`${base_url}/register`,
           method:"POST",
           data:{first_name, last_name, email, password},
           // dataType : "JSON",
@@ -70,7 +72,7 @@ $(document).ready(function(){
     $('#login_text').addClass('d-none');
     $('#login_text_spin').removeClass('d-none');
       $.ajax({
-          url:"http://localhost:7000/login",
+          url:`${base_url}/login`,
           method:"POST",
           data:{login_email,login_password,rememberme},
           success:function(data)
@@ -90,7 +92,7 @@ $(document).ready(function(){
 //logout
   $('#logout_link').on("click",function(){
     $.ajax({
-        url:"http://localhost:7000/logout",
+        url:`${base_url}/logout`,
         method:"GET",
         success:function(data)
         {
@@ -115,7 +117,7 @@ $('#forgot_password').on("click",function(event){
     $('#resetpassword_text').addClass('d-none');
     $('#forgot_message').addClass('d-none');
   $.ajax({
-      url:"http://localhost:7000/forgotpassword",
+      url:`${base_url}/forgotpassword`,
       method:"POST",
       data:{email},
       success:function(data)
@@ -197,7 +199,7 @@ $.ajax({
     $('#contact_text_spin').removeClass('d-none');
     $('#contact_text').addClass('d-none');
     $.ajax({
-        url:"http://localhost:7000/contactform",
+        url:`${base_url}/contactform`,
         method:"POST",
         data:{ name, email, phone, subject,message },
         success:function(data)

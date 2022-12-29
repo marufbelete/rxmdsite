@@ -36,7 +36,7 @@ router.use("/auth/google/callback",
        passport.authenticate("google",
               {
                      session: false,
-                     failureRedirect: "http://localhost:7000/login",
+                     failureRedirect: process.env.FAIL_REDIRECT,
               }), issueGoogleToken, errorHandler);
 
 module.exports = router;
