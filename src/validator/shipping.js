@@ -1,9 +1,9 @@
-const { check } = require("express-validator");
+// const { check } = require("express-validator");
 
-const shippingValidate = () => {
-  return [check("name", "shipping name is required").not().isEmpty()];
-};
+// const shippingValidate = () => {
+//   return [check("name", "shipping name is required").not().isEmpty()];
+// };
 
-module.exports = {
-  shippingValidate
-};
+// module.exports = {
+//   shippingValidate,
+// };

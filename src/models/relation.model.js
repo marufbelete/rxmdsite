@@ -1,14 +1,15 @@
+const Product = require("./productModel");
+const Orderproduct = require("./orderproduct");
+const Order = require("./orderModel");
+const Payment = require("./paymentModel");
+const User = require("./userModel");
+const Role = require("./roleModel");
 
-const Product = require('./productModel')
-const Orderproduct = require('./orderproduct')
+//UNUSED SHOP STUFF - SAVE FOR LATER
+// const ProductSize = require("./productsizeModel");
+// const Shipping = require("./shippingModel");
 // const Brand = require('./brandModel')
 // const Category = require('./categoryModel')
-const Order = require('./orderModel')
-const ProductSize = require('./productsizeModel')
-const Shipping = require('./shippingModel')
-const Payment = require('./paymentModel')
-const User = require('./userModel')
-const Role = require('./roleModel')
 
 const Relation = () => {
   //product to brand
@@ -29,63 +30,62 @@ const Relation = () => {
 
   //product to order
   Order.belongsToMany(Product, {
-    through: 'ProductOrder',
-    foreignKey: "orderId"
-  })
+    through: "ProductOrder",
+    foreignKey: "orderId",
+  });
   Product.belongsToMany(Order, {
-    through: 'ProductOrder',
-    foreignKey: "productId"
-  })
+    through: "ProductOrder",
+    foreignKey: "productId",
+  });
 
   //product to productsize
-  ProductSize.belongsToMany(Product, {
-    through: 'ProductSize',
-    foreignKey: "product_sizeId",
-  })
-  Product.belongsToMany(ProductSize, {
-    through: 'ProductSize',
-    foreignKey: "productId",
-  })
+  // ProductSize.belongsToMany(Product, {
+  //   through: "ProductSize",
+  //   foreignKey: "product_sizeId",
+  // });
+  // Product.belongsToMany(ProductSize, {
+  //   through: "ProductSize",
+  //   foreignKey: "productId",
+  // });
+
   //orderproduct to order
   Order.hasMany(Orderproduct, {
-    foreignKey: 'orderId'
-  })
+    foreignKey: "orderId",
+  });
   Orderproduct.belongsTo(Order, {
-    foreignKey: 'orderId'
-  })
-
+    foreignKey: "orderId",
+  });
 
   //order to shipping
-  Shipping.hasMany(Order, {
-    foreignKey: 'shippingId'
-  })
-  Order.belongsTo(Shipping, {
-    foreignKey: 'shippingId'
-  })
+  // Shipping.hasMany(Order, {
+  //   foreignKey: "shippingId",
+  // });
+  // Order.belongsTo(Shipping, {
+  //   foreignKey: "shippingId",
+  // });
 
   //order to payment
   Payment.hasMany(Order, {
-    foreignKey: 'paymentId'
-  })
+    foreignKey: "paymentId",
+  });
   Order.belongsTo(Payment, {
-    foreignKey: 'paymentId'
-  })
+    foreignKey: "paymentId",
+  });
 
   //order to user
   User.hasMany(Order, {
-    foreignKey: 'userId'
-  })
+    foreignKey: "userId",
+  });
   Order.belongsTo(User, {
-    foreignKey: 'userId'
-  })
+    foreignKey: "userId",
+  });
 
   //role to user
   Role.hasMany(User, {
-    foreignKey: 'roleId'
-  })
+    foreignKey: "roleId",
+  });
   User.belongsTo(Role, {
-    foreignKey: 'roleId'
-  })
-
-}
+    foreignKey: "roleId",
+  });
+};
 module.exports = Relation;

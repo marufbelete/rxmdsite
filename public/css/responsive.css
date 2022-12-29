@@ -1,10 +1,10 @@
 /*==================================================
 =            Bootstrap 5 Media Queries             =
 ==================================================*/
- 
- 
+
+
 /*==========  Mobile First Method  ==========*/
- 
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {}
 
@@ -34,16 +34,18 @@
 
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {}
- 
+
 /* X-Small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {}
 
 /*
-Apple iPhone 5, 5S & 5C 
+Apple iPhone 5, 5S & 5C
 Apple iPod Touch (5th generation)
 */
 @media (min-width: 1136px) and (max-width: 1279px) {
-	body {	font-size: 16px; }
+	body {
+		font-size: 16px;
+	}
 }
 
 /*
@@ -51,10 +53,25 @@ Apple iPhone 4 & 4S
 Apple iPod Touch (4th generation)
 */
 @media (min-width: 960px) and (max-width: 1135px) {
-	body {	font-size: 15px; }
-	h1 { font-size:3em; }		/* 39px */
-	h2 { font-size:2.3077em; }	/* 30px */
-	h3 { font-size:1.8461em; }	/* 24px */
+	body {
+		font-size: 15px;
+	}
+
+	h1 {
+		font-size: 3em;
+	}
+
+	/* 39px */
+	h2 {
+		font-size: 2.3077em;
+	}
+
+	/* 30px */
+	h3 {
+		font-size: 1.8461em;
+	}
+
+	/* 24px */
 }
 
 /*
@@ -70,10 +87,25 @@ Samsung Galaxy
 */
 /* Without side menu */
 @media (min-width: 768px) and (max-width: 959px) {
-	body {	font-size: 15px; }
-	h1 { font-size:3em; }		/* 39px */
-	h2 { font-size:2.3077em; }	/* 30px */
-	h3 { font-size:1.8461em; }	/* 24px */
+	body {
+		font-size: 15px;
+	}
+
+	h1 {
+		font-size: 3em;
+	}
+
+	/* 39px */
+	h2 {
+		font-size: 2.3077em;
+	}
+
+	/* 30px */
+	h3 {
+		font-size: 1.8461em;
+	}
+
+	/* 24px */
 }
 
 
@@ -89,10 +121,25 @@ HTC Desire, Desire Z, Desire S & One V
 Samsung Galaxy
 */
 @media (max-width: 767px) {
-	body {	font-size: 15px; }
-	h1 { font-size:2.5em; }		/* 30px */
-	h2 { font-size:2em; }		/* 24px */
-	h3 { font-size:1.6667em; }	/* 20px */
+	body {
+		font-size: 15px;
+	}
+
+	h1 {
+		font-size: 2.5em;
+	}
+
+	/* 30px */
+	h2 {
+		font-size: 2em;
+	}
+
+	/* 24px */
+	h3 {
+		font-size: 1.6667em;
+	}
+
+	/* 20px */
 }
 
 

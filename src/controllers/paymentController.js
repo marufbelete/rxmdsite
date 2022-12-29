@@ -10,9 +10,8 @@ exports.addPayment = async (req, res, next) => {
     const add_payment = new Payment({ ...req.body });
     const new_payment = await add_payment.save();
     return res.json(new_payment);
-  }
-  catch (err) {
-    next(err)
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -21,25 +20,28 @@ exports.getPayment = async (req, res, next) => {
     const payments = await Payment.findAll();
     return res.json(payments);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 exports.getPaymentById = async (req, res, next) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
     const payment = await Payment.findByPk(id);
     return res.json(payment);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 exports.editPayment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updated_payment = await Payment.update({ ...req.body }, { where: { id: id } });
+    const updated_payment = await Payment.update(
+      { ...req.body },
+      { where: { id: id } }
+    );
     return res.json(updated_payment);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
@@ -52,7 +54,6 @@ exports.deletePayment = async (req, res, next) => {
       message: "Payment method deleted",
     });
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
-

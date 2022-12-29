@@ -4053,7 +4053,7 @@ only screen and (min-resolution: 1.5dppx) {
 }
 
 .menuzord-menu>li>.megamenu .megamenu-row .browse:hover {
-  font-size:30px;
+  font-size: 30px;
   transition: all 500ms;
   font-size-adjust: 20px;
   color: rgba(20, 153, 191, 1);

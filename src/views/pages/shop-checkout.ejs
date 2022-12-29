@@ -290,7 +290,8 @@
                         data-text="w:normal;s:20,18,16,15;l:43,32,24,24;fw:600;a:left,left,left,center;"
                         data-dim="w:auto,auto,221px,auto;h:auto,auto,auto,35px;" data-frame_0="y:bottom;"
                         data-frame_1="st:2120;sp:1000;sR:2120;"
-                        data-frame_999="x:-50,-38,-28,-17;o:0;st:w;sp:1500;sR:5880;" style="z-index:12;">Before Ordering, Please Complete the
+                        data-frame_999="x:-50,-38,-28,-17;o:0;st:w;sp:1500;sR:5880;" style="z-index:12;">Before
+                        Ordering, Please Complete the
                       </rs-layer>
 
                     </rs-slide>
@@ -328,7 +329,8 @@
         <div class="container">
           <div class="section-content">
             <div class="text-center">
-              <h5>*** You must complete the <a href="https://hipaa.jotform.com/212587273457161?token=<%=token%>"> <u>Registration Form</u></a> before purchasing labwork or a telehealth appointment ***</h5>
+              <h5>*** You must complete the <a href="https://hipaa.jotform.com/212587273457161?token=<%=token%>">
+                  <u>Registration Form</u></a> before purchasing labwork or a telehealth appointment ***</h5>
             </div>
             <form id="checkout-form" action="#">
               <div class="row mt-30">
@@ -344,18 +346,23 @@
                     </thead>
                     <tbody>
                       <% for(let product of products.docs) {%>
-                      <tr>
-                        <td id="tel-product" data-productid="<%=product.id%>" class="selection-box">
-                        <input type="checkbox" name="telehealth-appointment" id="telehealth-appt-checkbox"></td>
-                        <td class="product-name"><%=product?.product_name%> </td>
-                        <td id="product-price">$<span class="amount"><%=product?.price%></span></td>
-                      </tr>
-                      <% } %>
-                      <tr>
-                        <td>Order Total</td>
-                        <td>&nbsp;</td>
-                        <td>$<span id="cart-total-price">0</span></td>
-                      </tr>
+                        <tr>
+                          <td id="tel-product" data-productid="<%=product.id%>" class="selection-box">
+                            <input type="checkbox" name="telehealth-appointment" id="telehealth-appt-checkbox">
+                          </td>
+                          <td class="product-name">
+                            <%=product?.product_name%>
+                          </td>
+                          <td id="product-price">$<span class="amount">
+                              <%=product?.price%>
+                            </span></td>
+                        </tr>
+                        <% } %>
+                          <tr>
+                            <td>Order Total</td>
+                            <td>&nbsp;</td>
+                            <td>$<span id="cart-total-price">0</span></td>
+                          </tr>
                     </tbody>
                   </table>
                 </div>

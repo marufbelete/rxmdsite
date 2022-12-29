@@ -5,5 +5,5 @@ const roleValidate = () => {
 };
 
 module.exports = {
-  roleValidate
+  roleValidate,
 };

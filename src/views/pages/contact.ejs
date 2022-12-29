@@ -193,23 +193,23 @@
                 <div class="col-md-12">
 
                   <!-- Contact Form -->
-                  <form id="contact_form" name="contact_form" class="contact-form-transparent"
-                    action="#" method="post">
+                  <form id="contact_form" name="contact_form" class="contact-form-transparent" action="#" method="post">
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="mb-3">
                           <label class="text-white">Name <small>*</small></label>
-                          <input id="contact_form_name" name="form_name" class="form-control" type="text" placeholder="Enter Name">
+                          <input id="contact_form_name" name="form_name" class="form-control" type="text"
+                            placeholder="Enter Name">
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="mb-3">
                           <label class="text-white">Email <small>*</small></label>
-                          <input id="contact_form_email" name="form_email" class="form-control required email" type="email"
-                            placeholder="Enter Email" required>
-                            <div class="d-none" id="invalid_email" style="color: red;">
-                              Email field required
-                            </div>
+                          <input id="contact_form_email" name="form_email" class="form-control required email"
+                            type="email" placeholder="Enter Email" required>
+                          <div class="d-none" id="invalid_email" style="color: red;">
+                            Email field required
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -219,15 +219,16 @@
                           <label class="text-white">Subject <small>*</small></label>
                           <input id="contact_form_subject" name="form_subject" class="form-control required" type="text"
                             placeholder="Enter Subject">
-                            <div class="d-none" id="invalid_subject" style="color: red;">
-                              Subject field required.
-                            </div>
+                          <div class="d-none" id="invalid_subject" style="color: red;">
+                            Subject field required.
+                          </div>
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="mb-3">
                           <label class="text-white">Phone</label>
-                          <input id="contact_form_phone" name="form_phone" class="form-control" type="text" placeholder="Enter Phone">
+                          <input id="contact_form_phone" name="form_phone" class="form-control" type="text"
+                            placeholder="Enter Phone">
                         </div>
                       </div>
                     </div>
@@ -235,9 +236,9 @@
                       <label class="text-white">Message</label>
                       <textarea id="contact_form_message" name="form_message" class="form-control required" rows="5"
                         placeholder="Enter Message"></textarea>
-                        <div class="d-none" id="invalid_message" style="color: red;">
-                          Message field required.
-                        </div>
+                      <div class="d-none" id="invalid_message" style="color: red;">
+                        Message field required.
+                      </div>
                     </div>
                     <div class="mb-3 tm-sc-button">
                       <input name="form_botcheck" class="form-control" type="hidden" value="" />
@@ -245,9 +246,9 @@
                         data-loading-text="Please wait...">
                         <span id="contact_text">Send your message</span>
                         <span id="contact_text_spin" class="d-none">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Sending your message...
-                      </span>
+                          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          Sending your message...
+                        </span>
                       </button>
                     </div>
                   </form>
@@ -262,13 +263,15 @@
                       <li><a href="#" data-tm-bg-color="#4C75A3"><i class="fab fa-vk"></i></a></li>
                     </ul>
                   </div>
-                    <!-- email sent notification -->
-                    <div style="position: absolute; top: 50%; right: 0;" id="contact_form_toast" class="toast align-items-center bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
+                  <!-- email sent notification -->
+                  <div style="position: absolute; top: 50%; right: 0;" id="contact_form_toast"
+                    class="toast align-items-center bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
                       <div class="toast-body">
                         Message sent successfuly!
                       </div>
-                      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
                     </div>
                   </div>
                   <!--  -->

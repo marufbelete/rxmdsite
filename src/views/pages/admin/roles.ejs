@@ -25,9 +25,12 @@
                 {% for role, index in roles %}
                 <tr>
                     <td>{{ role }}</td>
-                    <td><a href="/admin/accounts/n0/n0/n0/n0/{{ role }}/ASC/id/1">{{ roles[role] | formatNumber }}</a></td>
-                    <td><a href="/admin/accounts/n0/n0/active/n0/{{ role }}/ASC/id/1">{{ roles_active[role] if roles_active[role] else 0 }}</a></td>
-                    <td><a href="/admin/accounts/n0/n0/inactive/n0/{{ role }}/ASC/id/1">{{ roles_inactive[role] if roles_inactive[role] else 0 }}</a></td>
+                    <td><a href="/admin/accounts/n0/n0/n0/n0/{{ role }}/ASC/id/1">{{ roles[role] | formatNumber }}</a>
+                    </td>
+                    <td><a href="/admin/accounts/n0/n0/active/n0/{{ role }}/ASC/id/1">{{ roles_active[role] if
+                            roles_active[role] else 0 }}</a></td>
+                    <td><a href="/admin/accounts/n0/n0/inactive/n0/{{ role }}/ASC/id/1">{{ roles_inactive[role] if
+                            roles_inactive[role] else 0 }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
