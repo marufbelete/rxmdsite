@@ -347,14 +347,14 @@
                       <tr>
                         <td id="tel-product" data-productid="<%=product.id%>" class="selection-box">
                         <input type="checkbox" name="telehealth-appointment" id="telehealth-appt-checkbox"></td>
-                        <td class="product-name">$<%=product?.product_name%> </td>
-                        <td><span class="amount">$<%=product?.price%></span></td>
+                        <td class="product-name"><%=product?.product_name%> </td>
+                        <td id="product-price">$<span class="amount"><%=product?.price%></span></td>
                       </tr>
                       <% } %>
                       <tr>
                         <td>Order Total</td>
                         <td>&nbsp;</td>
-                        <td id="cart-total">$<%=products.total%></td>
+                        <td>$<span id="cart-total-price">0</span></td>
                       </tr>
                     </tbody>
                   </table>
