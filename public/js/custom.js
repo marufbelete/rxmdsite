@@ -835,13 +835,13 @@ $("#billingAddressSameAsShipping").on("click", function () {
           mainClass: "my-mfp-slide-bottom",
         });
       }
-
+     
       var $ajaxload_popup = $(".ajaxload-popup");
       if ($ajaxload_popup.length > 0) {
         $ajaxload_popup.magnificPopup({
           items: [
             {
-              src: "https://hipaa.jotform.com/212587273457161",
+              src:$ajaxload_popup.prop('href'),
               type: "iframe", // this overrides default type
             },
           ],

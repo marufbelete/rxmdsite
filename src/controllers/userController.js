@@ -72,7 +72,6 @@ exports.loginUser = async (req, res, next) => {
   // Check if email exists
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(errors.array()[0].msg);
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
@@ -84,7 +83,7 @@ exports.loginUser = async (req, res, next) => {
         const token = jwt.sign({ email: user.email }, process.env.SECRET);
         const mailOptions = {
           from: process.env.EMAIL,
-          to: req.body.login_email,
+          to: login_email,
           subject: "Account Confirmation Link",
           text: "Follow the link to confirm your email for TestRxMD",
           html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`,
@@ -100,9 +99,10 @@ exports.loginUser = async (req, res, next) => {
           ? await issueLongtimeToken(
               user.id,
               user.role?.role,
+              login_email,
               process.env.SECRET
             )
-          : await issueToken(user.id, user.role.role, process.env.SECRET);
+          : await issueToken(user.id, user.role.role,login_email, process.env.SECRET);
         const info = {
           first_name: user.first_name,
           last_name: user.last_name,
@@ -242,7 +242,6 @@ exports.resetPassword = async (req, res, next) => {
     );
     return res.json({ success: true });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -250,10 +249,8 @@ exports.resetPassword = async (req, res, next) => {
 exports.confirmEmail = async (req, res, next) => {
   try {
     const { verifyToken } = req.query;
-    console.log(verifyToken);
     const user = await isTokenValid(verifyToken);
     if (user) {
-      console.log(user);
       const userInfo = await User.findOne({ where: { email: user.email } });
       userInfo.isEmailConfirmed = true;
       await userInfo.save();
@@ -268,12 +265,14 @@ exports.checkAuth = (req, res, next) => {
   try {
     const token = req.cookies.access_token;
     if (token) {
+      let user_info
       jwt.verify(token, process.env.SECRET, (err, user) => {
         if (err) {
           handleError("permission denied", 403);
         }
+       user_info=user
       });
-      return res.json({ message: "success", auth: true });
+      return res.json({ message: "success", auth: true,user:user_info });
     } else {
       handleError("permission denied", 403);
     }
@@ -284,8 +283,7 @@ exports.checkAuth = (req, res, next) => {
 
 exports.logOut = async (req, res, next) => {
   try {
-    console.log("logout");
-    return res.status(200).clearCookie("access_token").redirect("/login");
+    return res.status(200).clearCookie('access_token').redirect("/login");;
   } catch (err) {
     next(err);
   }
@@ -298,8 +296,7 @@ exports.contactFormEmail = async (req, res, next) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    const { name, email, phone, subject, message } = req.body;
-    console.log(req.body);
+    const { name, email, phone, subject,message } = req.body;
     const receiveOptions = {
       from: email,
       to: process.env.EMAIL,
