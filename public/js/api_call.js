@@ -1,13 +1,12 @@
 $(document).ready(function(){
-  const base_url="http://localhost:7000"
-  // const base_url="https://rxmdsite-production.up.railway.app"
+  // const base_url="http://localhost:7000"
+  const base_url="https://rxmdsite-production.up.railway.app"
     $.ajax({
         url:`${base_url}/checkauth`,
         method:"GET",
         success:function(data)
         {
           // console.log(data)
-          console.log((data?.user?.role)?.toLowerCase()!=="admin");
           ((data?.user?.role)?.toLowerCase()!=="admin")&&$('#admin-page').addClass("d-none");
           ((data?.user?.role)?.toLowerCase()==="admin")&&$('#admin-page').removeClass("d-none");
             localStorage.setItem("isLoged","true");
@@ -27,7 +26,16 @@ $(document).ready(function(){
         isLoged!=="true"&&$('#logout_link').addClass('d-none');
         isLoged!=="true"&&$('#admin-page').addClass("d-none");
     }
-    checkLogin()
+        checkLogin()
+
+    //test...........
+  //   $(document).on("click","#test-click",function() {
+  //     checkLogin()
+  //     console.log("loaded")
+  // });
+  // $(".menu-item").trigger("load")
+  //........test end
+
 //register api call
     $('#register_user').on("click",
     function(event){
