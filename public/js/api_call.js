@@ -25,9 +25,9 @@ $(document).ready(function(){
         isLoged==="true"&&$('#logout_link').removeClass('d-none');
         isLoged!=="true"&&$('#login_link').removeClass('d-none');
         isLoged!=="true"&&$('#logout_link').addClass('d-none');
+        isLoged!=="true"&&$('#admin-page').addClass("d-none");
     }
     checkLogin()
-
 //register api call
     $('#register_user').on("click",
     function(event){
@@ -93,7 +93,8 @@ $(document).ready(function(){
   })
 
 //logout
-  $('#logout_link').on("click",function(){
+$(document).on("click",'#logout_link',function(event){
+    event.preventDefault();
     $.ajax({
         url:`${base_url}/logout`,
         method:"GET",
