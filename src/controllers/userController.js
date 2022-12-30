@@ -265,12 +265,14 @@ exports.checkAuth = (req, res, next) => {
   try {
     const token = req.cookies.access_token;
     if (token) {
+      let user_info
       jwt.verify(token, process.env.SECRET, (err, user) => {
         if (err) {
           handleError("permission denied", 403);
         }
+       user_info=user
       });
-      return res.json({ message: "success", auth: true });
+      return res.json({ message: "success", auth: true,user:user_info });
     } else {
       handleError("permission denied", 403);
     }

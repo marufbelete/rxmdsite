@@ -6,7 +6,10 @@ $(document).ready(function(){
         method:"GET",
         success:function(data)
         {
-            console.log("success")
+          // console.log(data)
+          console.log((data?.user?.role)?.toLowerCase()!=="admin");
+          ((data?.user?.role)?.toLowerCase()!=="admin")&&$('#admin').addClass("d-none");
+          ((data?.user?.role)?.toLowerCase()==="admin")&&$('#admin').removeClass("d-none");
             localStorage.setItem("isLoged","true");
             checkLogin()
         },
