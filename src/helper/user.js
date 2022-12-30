@@ -3,7 +3,10 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const isEmailExist = async (email) => {
-  const user = await User.findOne({ where: { email: email },include: ["role"] });
+  const user = await User.findOne({
+    where: { email: email },
+    include: ["role"],
+  });
   return user;
 };
 
@@ -56,9 +59,9 @@ const userIp = (request) => {
   return ip;
 };
 
-const isIntakeFormComplted = async(req) => {
-  const id=req?.user?.sub
-  const user=await User.findOne({where:{id}})
+const isIntakeFormComplted = async (req) => {
+  const id = req?.user?.sub;
+  const user = await User.findOne({ where: { id } });
   if (user?.intake) {
     return true;
   }
@@ -75,5 +78,5 @@ module.exports = {
   userIp,
   isUserAdmin,
   isTokenValid,
-  isIntakeFormComplted
+  isIntakeFormComplted,
 };

@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const { config } = require("../config/default")
+const { config } = require("../config/default");
 
 const sequelize = new Sequelize(config.db, config.user, config.password, {
   host: config.host,
@@ -8,8 +8,8 @@ const sequelize = new Sequelize(config.db, config.user, config.password, {
     max: config.pool.max,
     min: config.pool.min,
     acquire: config.pool.acquire,
-    idle: config.pool.idle
-  }
+    idle: config.pool.idle,
+  },
 });
 
 module.exports = sequelize;

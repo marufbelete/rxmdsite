@@ -32,18 +32,21 @@ exports.registerUser = async (req, res, next) => {
     };
     if (await isEmailExist(email)) {
       if (await isEmailVerified(email)) {
-        handleError('User already exists with this email', 400)
+        handleError("User already exists with this email", 400);
       }
       //this should be her other wise unhandled error will raise
-      else{
-        const hashedPassword = await hashPassword(password)
-        User.update({
-          first_name,
-          last_name,
-          password: hashedPassword,
-        },{where:{email:email}})
-        await sendEmail(mailOptions)
-        return res.json({success:true})
+      else {
+        const hashedPassword = await hashPassword(password);
+        User.update(
+          {
+            first_name,
+            last_name,
+            password: hashedPassword,
+          },
+          { where: { email: email } }
+        );
+        await sendEmail(mailOptions);
+        return res.json({ success: true });
       }
     }
     const user_role = await Role.findOne({ where: { role: "user" } });
@@ -58,12 +61,11 @@ exports.registerUser = async (req, res, next) => {
     });
     await user.save();
     await sendEmail(mailOptions);
-    return res.json({success:true})
+    return res.json({ success: true });
   } catch (err) {
     next(err);
   }
 };
-
 
 // Login a user
 exports.loginUser = async (req, res, next) => {
@@ -87,10 +89,13 @@ exports.loginUser = async (req, res, next) => {
           html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`,
         };
         await sendEmail(mailOptions);
-        handleError("It seems like you haven't verified your email yet. Please check your email for the confirmation link.", 400);
+        handleError(
+          "It seems like you haven't verified your email yet. Please check your email for the confirmation link.",
+          400
+        );
       }
       if (await isPasswordCorrect(login_password, user.password)) {
-         const token = rememberme
+        const token = rememberme
           ? await issueLongtimeToken(
               user.id,
               user.role?.role,
@@ -105,9 +110,12 @@ exports.loginUser = async (req, res, next) => {
           email: user.email,
         };
         bouncer.reset(req);
-        return res.cookie("access_token",token,{
-          path:'/',
-          secure:true}).json({auth:true,info})
+        return res
+          .cookie("access_token", token, {
+            path: "/",
+            secure: true,
+          })
+          .json({ auth: true, info });
       }
       handleError("Username or Password Incorrect", 400);
     }
@@ -212,7 +220,8 @@ exports.forgotPassword = async (req, res, next) => {
     await sendEmail(mailOptions);
     return res.json({
       status: true,
-      message: "password reset-link sent, please check your email. token will expired in 2 hour",
+      message:
+        "password reset-link sent, please check your email. token will expired in 2 hour",
     });
   } catch (err) {
     next(err);
@@ -221,17 +230,17 @@ exports.forgotPassword = async (req, res, next) => {
 //reset password
 exports.resetPassword = async (req, res, next) => {
   try {
-    const {token} = req.query;
+    const { token } = req.query;
     const { password } = req.body;
     const user = await isTokenValid(token);
     const hashedPassword = await hashPassword(password);
     await User.update(
-      {password: hashedPassword  },
+      { password: hashedPassword },
       {
-        where:{email: user.email}
+        where: { email: user.email },
       }
     );
-    return res.json({success:true});
+    return res.json({ success: true });
   } catch (err) {
     next(err);
   }
@@ -253,26 +262,24 @@ exports.confirmEmail = async (req, res, next) => {
   }
 };
 exports.checkAuth = (req, res, next) => {
-  try{
-  const token =req.cookies.access_token;
-  if (token) {
-    jwt.verify(token,process.env.SECRET, (err, user) => {
-      if (err) {
-        handleError("permission denied", 403);     
-      }
-    });
-    return res.json({message:"success",auth:true});
-  }
-  else {
-    handleError("permission denied", 403);
-  }
-}
-catch(err){
-    next(err)
+  try {
+    const token = req.cookies.access_token;
+    if (token) {
+      jwt.verify(token, process.env.SECRET, (err, user) => {
+        if (err) {
+          handleError("permission denied", 403);
+        }
+      });
+      return res.json({ message: "success", auth: true });
+    } else {
+      handleError("permission denied", 403);
+    }
+  } catch (err) {
+    next(err);
   }
 };
 
-exports.logOut=async (req, res, next) => {
+exports.logOut = async (req, res, next) => {
   try {
     return res.status(200).clearCookie('access_token').redirect("/login");;
   } catch (err) {
@@ -289,29 +296,29 @@ exports.contactFormEmail = async (req, res, next) => {
   try {
     const { name, email, phone, subject,message } = req.body;
     const receiveOptions = {
-      from:email ,
+      from: email,
       to: process.env.EMAIL,
       text: "customer request",
       subject: subject,
-      html: `You got a message from 
+      html: `You got a message from
       Email : ${email}
-      ${name&&'Name:'+name}
-      ${phone&&'Phone:'+phone}
+      ${name && "Name:" + name}
+      ${phone && "Phone:" + phone}
       Message: ${message}`,
     };
-      await sendEmail(receiveOptions);
-      //send automatic reply email
-      const replyOptions = {
-        from:process.env.EMAIL,
-        to: email,
-        text: "automatic reply,please don't reply",
-        subject: "reciving your request",
-        html: `we got your request we will contact you soon`,
-      };
-        await sendEmail(replyOptions);
-        return res.json({
-          message: "email successfuly sent",
-        });
+    await sendEmail(receiveOptions);
+    //send automatic reply email
+    const replyOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      text: "automatic reply,please don't reply",
+      subject: "reciving your request",
+      html: `we got your request we will contact you soon`,
+    };
+    await sendEmail(replyOptions);
+    return res.json({
+      message: "email successfuly sent",
+    });
   } catch (err) {
     next(err);
   }
@@ -319,19 +326,19 @@ exports.contactFormEmail = async (req, res, next) => {
 
 exports.jotformWebhook = async (req, res, next) => {
   try {
-  const {pretty}= req.body
-  const jot_pairs = pretty.replace(/\s/g, '').split(',') 
-  const jot_entries = jot_pairs.map(kv => kv.split(':'))
-  const jot_obj = Object.fromEntries(jot_entries)
-  const token=jot_obj.token
-  const user = await isTokenValid(token);
-  await User.update(
-    {intake: true},
-    {
-      where:{email: user.email}
-    }
-  );
-    return res.json({success:true});
+    const { pretty } = req.body;
+    const jot_pairs = pretty.replace(/\s/g, "").split(",");
+    const jot_entries = jot_pairs.map((kv) => kv.split(":"));
+    const jot_obj = Object.fromEntries(jot_entries);
+    const token = jot_obj.token;
+    const user = await isTokenValid(token);
+    await User.update(
+      { intake: true },
+      {
+        where: { email: user.email },
+      }
+    );
+    return res.json({ success: true });
   } catch (err) {
     next(err);
   }

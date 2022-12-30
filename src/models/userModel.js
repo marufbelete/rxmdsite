@@ -1,15 +1,15 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 const sequelize = require("./index");
-const sequelizePaginate = require('sequelize-paginate')
+const sequelizePaginate = require("sequelize-paginate");
 
 const User = sequelize.define("user", {
   first_name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   last_name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   email: {
     type: Sequelize.STRING,
@@ -31,34 +31,34 @@ const User = sequelize.define("user", {
     defaultValue: false,
   },
   address: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   apt: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   city: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   zip_code: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   state: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   country: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   phone_number: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
   },
   active: {
-    type: Sequelize.TINYINT
+    type: Sequelize.TINYINT,
   },
-  intake:{
+  intake: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
-  }
+  },
 });
 
-sequelizePaginate.paginate(User)
+sequelizePaginate.paginate(User);
 module.exports = User;

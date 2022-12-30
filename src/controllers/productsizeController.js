@@ -11,7 +11,7 @@ exports.addProductsize = async (req, res, next) => {
     const new_productsize = await add_productsize.save();
     return res.json(new_productsize);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
@@ -20,28 +20,30 @@ exports.getProductsize = async (req, res, next) => {
     const productsizes = await ProductSize.findAll();
     return res.json(productsizes);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
 exports.getProductsizeById = async (req, res, next) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
     const productsize = await ProductSize.findByPk(id);
     return res.json(productsize);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
 exports.editProductsize = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updated_productsize = await ProductSize.update({ ...req.body },
-      { where: { id: id } });
+    const updated_productsize = await ProductSize.update(
+      { ...req.body },
+      { where: { id: id } }
+    );
     return res.json(updated_productsize);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
@@ -54,7 +56,6 @@ exports.deleteProductsize = async (req, res, next) => {
       message: "Product deleted",
     });
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
-

@@ -10,7 +10,7 @@ exports.addRole = async (req, res, next) => {
     const new_role = await add_role.save();
     return res.json(new_role);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
@@ -19,25 +19,28 @@ exports.getRole = async (req, res, next) => {
     const roles = await Role.findAll();
     return res.json(roles);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 exports.getRoleById = async (req, res, next) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
     const role = await Role.findByPk(id);
     return res.json(role);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 exports.editRole = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updated_role = await Role.update({ ...req.body }, { where: { id: id } });
+    const updated_role = await Role.update(
+      { ...req.body },
+      { where: { id: id } }
+    );
     return res.json(updated_role);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
@@ -50,6 +53,6 @@ exports.deleteRole = async (req, res, next) => {
       message: "Role deleted",
     });
   } catch (err) {
-    next(err)
+    next(err);
   }
 };

@@ -1,5 +1,5 @@
 /*
- * Swiper slider 
+ * Swiper slider
  * -----------------------------------------------
 */
 .swiper-container {
@@ -31,34 +31,42 @@
 
 
 
-.swiper-photogallery-top, .swiper-fullscreen {
+.swiper-photogallery-top,
+.swiper-fullscreen {
   height: 100%;
   width: 100%;
 }
+
 .swiper-photogallery-thumbs {
   height: 100px;
   box-sizing: border-box;
   padding: 10px 0;
   position: absolute;
   bottom: 0;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
 }
+
 .swiper-photogallery-thumbs .swiper-slide {
   width: 100px;
   height: 100%;
   opacity: 0.4;
 }
-.swiper-photogallery-thumbs .swiper-slide-active, .swiper-photogallery-thumbs .swiper-slide:hover {
+
+.swiper-photogallery-thumbs .swiper-slide-active,
+.swiper-photogallery-thumbs .swiper-slide:hover {
   opacity: 1;
 }
-.swiper-container .swiper-button-prev, .swiper-container .swiper-button-next {
-}
+
+.swiper-container .swiper-button-prev,
+.swiper-container .swiper-button-next {}
+
 .swiper-slide .vertical-text {
   text-align: center;
   font-size: 18px;
   position: absolute;
   top: 40%;
 }
+
 .swiper-lazyload-slider .swiper-slide img {
   width: auto;
   height: auto;

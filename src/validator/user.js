@@ -5,7 +5,8 @@ const registerValidate = () => {
     check("first_name", "first name is required").not().isEmpty(),
     check("last_name", "last name is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
-    check("password",
+    check(
+      "password",
       "Please enter a password with 8 or more characters"
     ).isLength({ min: 6 }),
   ];
@@ -13,14 +14,8 @@ const registerValidate = () => {
 
 const loginValidate = () => {
   return [
-    check("login_email", "username or email is required")
-      .not()
-      .isEmpty(),
-    check(
-      "login_password",
-      "Please enter a password"
-    ).not()
-    .isEmpty(),
+    check("login_email", "username or email is required").not().isEmpty(),
+    check("login_password", "Please enter a password").not().isEmpty(),
   ];
 };
 const passwordChangeValidate = () => {
@@ -44,5 +39,5 @@ module.exports = {
   registerValidate,
   loginValidate,
   passwordChangeValidate,
-  contactFormValidate
+  contactFormValidate,
 };

@@ -6,12 +6,12 @@ const Category = sequelize.define("category", {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false
+    allowNull: false,
   },
   url: {
     type: Sequelize.STRING(45),
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 module.exports = Category;

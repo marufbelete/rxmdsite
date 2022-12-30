@@ -6,12 +6,12 @@ const Role = sequelize.define("role", {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false
+    allowNull: false,
   },
   role: {
     type: Sequelize.STRING(45),
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 module.exports = Role;

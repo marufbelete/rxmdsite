@@ -9,5 +9,5 @@ const productValidate = () => {
 };
 
 module.exports = {
-  productValidate
+  productValidate,
 };

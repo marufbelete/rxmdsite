@@ -1,6 +1,7 @@
-const {authenticateJWT}=require('../middleware/auth.middleware')
-const {getProduct}=require('../controllers/productController');
-const { errorHandler } = require('../middleware/errohandling.middleware');
+const { authenticateJWT } = require("../middleware/auth.middleware");
+const { getProduct } = require("../controllers/productController");
+const { errorHandler } = require("../middleware/errohandling.middleware");
+
 module.exports = (app) => {
   const path = require("path");
   const router = require("express").Router();
@@ -29,23 +30,7 @@ module.exports = (app) => {
     res.redirect("https://hipaa.jotform.com/212587273457161");
   });
 
-  // router.get("/shop", function (req, res) {
-  //   res.render(path.join(__dirname, "..", "/views/pages/shop"));
-  // });
-
-  // router.get("/cart", authenticateJWT,function (req, res) {
-  //   res.render(path.join(__dirname, "..", "/views/pages/shop-cart"));
-  // });
-
-  router.get("/checkout",authenticateJWT,getProduct,errorHandler);
-
-  // router.get("/products/details", function (req, res) {
-  //   res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));
-  // });
-
-  router.get("/forgotpw", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/forgotPassword"));
-  });
+  router.get("/checkout", authenticateJWT, getProduct, errorHandler);
 
   router.get("/forgotpw", function (req, res) {
     res.render(path.join(__dirname, "..", "/views/pages/forgotPassword"));
@@ -74,6 +59,19 @@ module.exports = (app) => {
   router.get("/tos", function (req, res) {
     res.render(path.join(__dirname, "..", "/views/pages/tos"));
   });
+
+  //  UNUSED STORE ROUTES FOR USE LATER
+  // router.get("/shop", function (req, res) {
+  //   res.render(path.join(__dirname, "..", "/views/pages/shop"));
+  // });
+
+  // router.get("/cart", authenticateJWT,function (req, res) {
+  //   res.render(path.join(__dirname, "..", "/views/pages/shop-cart"));
+  // });
+
+  // router.get("/products/details", function (req, res) {
+  //   res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));
+  // });
 
   app.use("/", router);
 };

@@ -64,5 +64,6 @@
   "bugs": {
     "url": "https://github.com/elipsion-dev/testrxmdsite/issues"
   },
-  "homepage": "https://github.com/elipsion-dev/testrxmdsite#readme"
+  "homepage": "https://github.com/elipsion-dev/testrxmdsite#readme",
+  "devDependencies": {}
 }
