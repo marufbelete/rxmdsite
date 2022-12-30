@@ -8,8 +8,8 @@ $(document).ready(function(){
         {
           // console.log(data)
           console.log((data?.user?.role)?.toLowerCase()!=="admin");
-          ((data?.user?.role)?.toLowerCase()!=="admin")&&$('#admin').addClass("d-none");
-          ((data?.user?.role)?.toLowerCase()==="admin")&&$('#admin').removeClass("d-none");
+          ((data?.user?.role)?.toLowerCase()!=="admin")&&$('#admin-page').addClass("d-none");
+          ((data?.user?.role)?.toLowerCase()==="admin")&&$('#admin-page').removeClass("d-none");
             localStorage.setItem("isLoged","true");
             checkLogin()
         },
