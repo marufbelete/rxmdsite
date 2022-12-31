@@ -46,7 +46,7 @@ router.get("/checkauth", checkAuth, errorHandler);
 router.get("/logout", logOut, errorHandler);
 router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandler);
 router.post("/jotformwebhook", multipart.array(), jotformWebhook, errorHandler);
-router.get("/dashboard", authenticateJWT, authAdmin, errorHandler);
+router.get("/dashboard", authenticateJWT, authAdmin, adminDashboard, errorHandler);
 
 //google auth
 router.get("/auth/google",

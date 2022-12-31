@@ -1,6 +1,6 @@
 $(document).ready(function(){
-  // const base_url="http://localhost:7000"
-  const base_url="https://rxmdsite-production.up.railway.app"
+  const base_url="http://localhost:7000"
+  // const base_url="https://rxmdsite-production.up.railway.app"
     $.ajax({
         url:`${base_url}/checkauth`,
         method:"GET",
@@ -260,7 +260,19 @@ $('input[id="telehealth-appt-checkbox"]').on("click",function () {
        total_price=total_price+product_price
   })
   $('#cart-total-price').text(total_price)
-
+});
+$('#product-select').on('change', function() {
+  console.log( this.value );
+  const id=this.value
+  $.ajax({
+    url:`${base_url}/getproductbyid/${id}`,
+    method:"GET",
+    success:function(data)
+    {
+      localStorage.setItem("isLoged","false");
+      location.href = "/login"
+    },
+});
 });
   
 

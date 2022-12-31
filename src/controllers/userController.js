@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const Role = require("../models/roleModel");
 const bouncer = require("../helper/bruteprotect");
+const Product = require("../models/productModel");
+const path = require("path");
 const {
   isEmailExist,
   issueToken,
@@ -291,6 +293,7 @@ exports.logOut = async (req, res, next) => {
 
 //contact for email
 exports.contactFormEmail = async (req, res, next) => {
+  console.log("contact email")
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
@@ -325,7 +328,23 @@ exports.contactFormEmail = async (req, res, next) => {
     next(err);
   }
 };
-
+exports.adminDashboard = async (req, res, next) => {
+  try {
+    console.log('dashboard')
+    const { page, paginate } = req.query;
+    const options = {
+      // include: ["brand", "category"],
+      // attributes: { exclude: ['categoryId', 'brandId'] },
+      page: Number(page) || 1,
+      paginate: Number(paginate) || 25,
+      order: [["product_name", "ASC"]],
+    };
+    const products = await Product.paginate(options);
+    return res.render(path.join(__dirname, "..", "/views/pages/dashboard"),{products});
+  } catch (err) {
+    next(err);
+  }
+};
 exports.jotformWebhook = async (req, res, next) => {
   try {
     const { pretty } = req.body;

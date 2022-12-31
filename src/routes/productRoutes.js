@@ -14,7 +14,6 @@ const { authAdmin } = require("../middleware/role.middleware");
 const multer = require("multer");
 const fileStorage = multer.memoryStorage();
 const filefilter = (req, file, cb) => {
-  console.log("filter");
   if (
     file.mimetype === "image/png" ||
     file.mimetype === "image/jpg" ||

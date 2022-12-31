@@ -70,12 +70,13 @@
     <a href="/checkout">Telehealth &amp; Labs</a>
   </li>
   <li class="menu-item">
+    <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
+  </li>
+  <li class="menu-item">
     <a href="/login" id="login_link">Sign In</a>
     <a href="#" id="logout_link" class="d-none">Sign out</a>
   </li>
-  <li class="menu-item">
-    <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
-  </li>
+  
   <%- include('../partials/headerBottom.ejs') %>
 
     <body class="tm-container-1300px has-side-panel side-panel-right">
@@ -266,8 +267,11 @@
                     </ul>
                   </div>
                   <!-- email sent notification -->
-                  <div style="position: absolute; top: 50%; right: 0;" id="contact_form_toast"
-                    class="toast align-items-center bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
+                  <div style="position: fixed; left: 50%; transform: translate(-50%, 0px); z-index: 9999; " id="contact_form_toast"
+                    class="toast bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
+
+                  <!-- <div style="position: absolute; top: 50%; right: 0;" id="contact_form_toast"
+                    class="toast align-items-center bg-dark" role="alert" aria-live="assertive" aria-atomic="true"> -->
                     <div class="d-flex">
                       <div class="toast-body">
                         Message sent successfuly!
