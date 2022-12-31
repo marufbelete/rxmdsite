@@ -332,11 +332,8 @@ exports.jotformWebhook = async (req, res, next) => {
     const jot_pairs = pretty.replace(/\s/g, "").split(",");
     const jot_entries = jot_pairs.map((kv) => kv.split(":"));
     const jot_obj = Object.fromEntries(jot_entries);
-    console.log(jot_obj)
     const token = jot_obj.token;
-    console.log(token)
     const user = await isTokenValid(token);
-    console.log(user)
     await User.update(
       { intake: true },
       {
@@ -345,7 +342,6 @@ exports.jotformWebhook = async (req, res, next) => {
     );
     return res.json({ success: true });
   } catch (err) {
-    console.log(err)
     next(err);
   }
 };

@@ -6,35 +6,30 @@ $(document).ready(function(){
         method:"GET",
         success:function(data)
         {
-          // console.log(data)
-          ((data?.user?.role)?.toLowerCase()!=="admin")&&$('#admin-page').addClass("d-none");
-          ((data?.user?.role)?.toLowerCase()==="admin")&&$('#admin-page').removeClass("d-none");
-            localStorage.setItem("isLoged","true");
-            checkLogin()
+          ((data?.user?.role)?.toLowerCase()!=="admin")&&localStorage.setItem("isAdmin","false");
+          ((data?.user?.role)?.toLowerCase()==="admin")&&localStorage.setItem("isAdmin","true");
+          localStorage.setItem("isLoged","true")
+          checkLogin()   
         },
         error:function(data){
             localStorage.setItem("isLoged","false");
-            checkLogin()
+            localStorage.setItem("isAdmin","false");
         }
     });
     
     const checkLogin=()=>{
         const isLoged=localStorage.getItem("isLoged");
+        const isAdmin=localStorage.getItem("isAdmin");
         isLoged==="true"&&$('#login_link').addClass('d-none');
         isLoged==="true"&&$('#logout_link').removeClass('d-none');
         isLoged!=="true"&&$('#login_link').removeClass('d-none');
         isLoged!=="true"&&$('#logout_link').addClass('d-none');
-        isLoged!=="true"&&$('#admin-page').addClass("d-none");
+        (isAdmin!=="true"||isLoged!=="true")&&$('#admin_link').addClass("d-none");
+        isLoged==="true"&&isAdmin==="true"&&$('#admin_link').removeClass("d-none");
     }
-        checkLogin()
+    checkLogin()
 
-    //test...........
-  //   $(document).on("click","#test-click",function() {
-  //     checkLogin()
-  //     console.log("loaded")
-  // });
-  // $(".menu-item").trigger("load")
-  //........test end
+ 
 
 //register api call
     $('#register_user').on("click",
@@ -89,7 +84,9 @@ $(document).ready(function(){
           success:function(data)
           {
             localStorage.setItem("isLoged","true");
-            location.href = "/"
+            ((data?.info?.role?.role)?.toLowerCase()!=="admin")&&localStorage.setItem("isAdmin","false");
+            ((data?.info?.role?.role)?.toLowerCase()==="admin")&&localStorage.setItem("isAdmin","true");
+            location.href = "/";
           },
           error:function(data){
             $('#login_error').removeClass('d-none')
@@ -148,7 +145,6 @@ $('#forgot_password').on("click",function(event){
 //reset password
 $('#reset_button').on("click",function(event){
   event.preventDefault();
-  console.log('reset')
   const newPassword=$('#npassword').val()
   const confirmNewPassword=$('#cpassword').val()
   $('#reset_error').addClass('d-none')
@@ -198,7 +194,6 @@ $.ajax({
     $('#invalid_email').addClass('d-none')
     $('#invalid_subject').addClass('d-none')
     $('#invalid_message').addClass('d-none')
-    console.log(subject)
     const isEmailValid=ValidateEmail(email)
     if(!email||!subject||!message||!isEmailValid){
         !email&&$('#invalid_email').removeClass('d-none')
