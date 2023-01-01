@@ -316,6 +316,12 @@ body.loggedin {
 }
 
 /* // */
+.table-users th{
+  font-size: 12px;
+}
+#user-table-body td{
+  font-size: 11px;
+}
 .delete-user{
   padding:2px;
   color: red;
