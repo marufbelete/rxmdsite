@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Role = require("../models/roleModel");
 const bouncer = require("../helper/bruteprotect");
 const Product = require("../models/productModel");
+const { Op } = require("sequelize");
 const path = require("path");
 const {
   isEmailExist,
@@ -154,12 +155,19 @@ exports.getUserById = async (req, res, next) => {
   }
 };
 //get user by email
-exports.getUserByEmail = async (req, res, next) => {
+exports.getUserByStatus = async (req, res, next) => {
   try {
-    console.log(req.params)
-    const { email } = req.params;
-    const user = await User.findOne(
-      {where:{email:email}, include: ["role"] });
+    let queryString
+    const { email,name } = req.query;
+    if(email){queryString={email:email}}
+    if(name){queryString={
+      [Op.or]: [{first_name:{[Op.like]: `%${name}%`}},
+       {last_name:{[Op.like]: `%${name}%`}}]
+    }
+  }
+    const user = await User.findAll(
+      {where:queryString, include: ["role"] });
+      console.log(user)
     return res.json(user);
   } catch (err) {
     next(err);

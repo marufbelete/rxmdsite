@@ -68,6 +68,9 @@
       <a href="/checkout">Telehealth &amp; Labs</a>
     </li>
     <li class="menu-item">
+      <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
+    </li>
+    <li class="menu-item">
       <a href="#" id="logout_link">Sign out</a>
     </li>
     <%- include('../partials/headerBottom.ejs') %>
@@ -141,13 +144,13 @@
                 </div>
                 <div class="form-group my-3">
                   <label for="edit-name">Name</label>
-                  <input type="text" disabled class="form-control" id="edit-name" placeholder="Enter name">
+                  <input type="text" class="form-control" id="edit-name" placeholder="Enter name">
                 </div>
                 <div class="form-group my-3">
                   <label for="activity">Has Logged In During the Last</label>
                   <p id="activity">
-                    <input type="text" class="date start" placeholder="Date Start" /> to
-                    <input type="text" class="date end" placeholder="Date End" />
+                    <input type="text" id="loged_at" class="date start" placeholder="Date Start" /> to
+                    <input type="text" id="loged_out_at" class="date end" placeholder="Date End" />
                   </p>
                   <!-- Datepair Script -->
                   <script>
