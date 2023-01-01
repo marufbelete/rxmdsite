@@ -105,12 +105,19 @@
                 <label for="product-name">Product Name:</label>
                 <input type="text" class="form-control" id="product-name">
               </div>
+              <!-- Product name input -->
+              <div class="form-group my-3">
+                <label for="product-name">Product Name:</label>
+                <input type="text" class="form-control" id="product-name">
+              </div>
               <!-- Product description input -->
+              <div class="form-group my-3">
               <div class="form-group my-3">
                 <label for="product-description">Product Description:</label>
                 <textarea class="form-control" id="product-description"></textarea>
               </div>
               <!-- Product price input -->
+              <div class="form-group my-3">
               <div class="form-group my-3">
                 <label for="product-price">Product Price:</label>
                 <input type="number" class="form-control" id="product-price">
@@ -174,14 +181,22 @@
               <!-- User table -->
               <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
+              <!-- User table -->
+              <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
                 <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                  <h3 id="myModalLabel">Delete</h3>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                   <h3 id="myModalLabel">Delete</h3>
                 </div>
                 <div class="modal-body">
                   <p></p>
+                  <p></p>
                 </div>
                 <div class="modal-footer">
+                  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                  <button data-dismiss="modal" class="btn red" id="btnYes">Confirm</button>
                   <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                   <button data-dismiss="modal" class="btn red" id="btnYes">Confirm</button>
                 </div>
@@ -213,8 +228,13 @@
           </div>
           <!-- end main-content -->
           <%- include('../partials/footer') %>
+          <!-- end main-content -->
+          <%- include('../partials/footer') %>
 
 
+            <!-- Footer Scripts -->
+            <script src="js/custom.js"></script>
+            <script src="js/api_call.js"></script>
             <!-- Footer Scripts -->
             <script src="js/custom.js"></script>
             <script src="js/api_call.js"></script>
