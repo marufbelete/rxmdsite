@@ -19,7 +19,11 @@ const { validationResult } = require("express-validator");
 const { sendEmail } = require("../helper/send_email");
 
 exports.registerUser = async (req, res, next) => {
+  for (let [k,v] of Object.entries(req.body)) {
+    console.log(k, v)
+  }
   const errors = validationResult(req);
+  console.log(errors.isEmpty() ? "No Errors": errors)
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
   }

@@ -40,10 +40,10 @@
   <link href="css/colors/theme-skin-color-set1.css" rel="stylesheet" type="text/css">
 
   <!-- External javascripts -->
-  <script src="js/jquery.js"></script>
+  <script src="js/jquery.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/javascript-plugins-bundle.js"></script>
+  <script src="js/javascript-plugins-bundle.min.js"></script>
   <script src="js/menuzord/js/menuzord.js"></script>
 
   <link href="style.css" rel="stylesheet" type="text/css">
@@ -127,7 +127,7 @@
                 </button>
             </div>
           </div>
-          
+
 
           <!-- User management section -->
           <h2 class="mb-4">User Management</h2>
@@ -147,26 +147,9 @@
                   <input type="text" class="form-control" id="edit-name" placeholder="Enter name">
                 </div>
                 <div class="form-group my-3">
-                  <label for="activity">Has Logged In During the Last</label>
-                  <p id="activity">
-                    <input type="text" id="loged_at" class="date start" placeholder="Date Start" /> to
-                    <input type="text" id="loged_out_at" class="date end" placeholder="Date End" />
-                  </p>
-                  <!-- Datepair Script -->
-                  <script>
-                    (function ($) {
-                      $('#activity .date').datepicker({
-                        'format': 'm/d/yyyy',
-                        'autoclose': true
-                      });
 
-                      // initialize datepair
-                      var activityDiv = document.getElementById('activity');
-                      var datepair = new Datepair(activityDiv);
-                    })(jQuery);
-                  </script>
 
-                </div>
+
                 <div class="text-center d-none" id="user_search_notify"></div>
                 <button type="submit" class="btn btn-primary" id="user_search">
                   <span id="search_user_text">Search Users</span>
@@ -208,6 +191,7 @@
                   <tr>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Type</th>
                     <th>Email</th>
                     <th>Email Confirmed</th>
                     <th>Address</th>
@@ -218,8 +202,8 @@
                     <th>Phone</th>
                     <th>Jotform Filled</th>
                     <th>Registered On</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th class='text-center'>Edit</th>
+                    <th class='text-center'>Delete</th>
                   </tr>
                 </thead>
                 <tbody id="user-table-body">
