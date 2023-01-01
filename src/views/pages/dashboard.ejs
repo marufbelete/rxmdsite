@@ -95,8 +95,6 @@
                     <option value=<%=product?.id%>><%=product?.product_name%>
                     </option>
                     <% } %>
-                      <!-- <option value="telehealth">Telehealth Visit</option>
-                  <option value="labwork">Labwork</option> -->
                 </select>
               </div>
               <!-- Product name input -->
@@ -114,10 +112,19 @@
                 <label for="product-price">Product Price:</label>
                 <input type="number" class="form-control" id="product-price">
               </div>
+              <!-- notify status -->
+              <div class="text-center d-none" id="product_notify"></div>
               <!-- Update product button -->
-              <button class="btn btn-primary my-3" id="update-product-button">Update Product</button>
+              <button class="btn btn-primary my-3" id="update-product-button">
+                <span id="update_product_text">Update Product</span>
+                <span id="update_product_text_spin" class="d-none">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Loading...
+                </span>
+                </button>
             </div>
           </div>
+          
 
           <!-- User management section -->
           <h2 class="mb-4">User Management</h2>
@@ -129,12 +136,12 @@
               <form id="searchUser">
                 <input type="hidden" id="edit-user-id">
                 <div class="form-group my-3">
-                  <label for="edit-name">Name</label>
-                  <input type="text" class="form-control" id="edit-name" placeholder="Enter name">
-                </div>
-                <div class="form-group my-3">
                   <label for="edit-email">Email</label>
                   <input type="email" class="form-control" id="edit-email" placeholder="Enter email">
+                </div>
+                <div class="form-group my-3">
+                  <label for="edit-name">Name</label>
+                  <input type="text" disabled class="form-control" id="edit-name" placeholder="Enter name">
                 </div>
                 <div class="form-group my-3">
                   <label for="activity">Has Logged In During the Last</label>
@@ -157,7 +164,14 @@
                   </script>
 
                 </div>
-                <button type="submit" class="btn btn-primary">Search Users</button>
+                <div class="text-center d-none" id="user_search_notify"></div>
+                <button type="submit" class="btn btn-primary" id="user_search">
+                  <span id="search_user_text">Search Users</span>
+                  <span id="search_user_text_spin" class="d-none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </span>
+                  </button>
                 <button type="button" class="btn btn-secondary" id="cancel-edit-user">Cancel</button>
               </form>
               <br>

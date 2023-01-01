@@ -23,7 +23,8 @@ const {
   logOut,
   checkAuth,
   contactFormEmail,
-  adminDashboard
+  adminDashboard,
+  getUserByEmail
 } = require("../controllers/userController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { authenticateJWT } = require("../middleware/auth.middleware");
@@ -41,6 +42,7 @@ router.post("/forgotpassword", forgotPassword, errorHandler);
 router.post("/resetpassword", resetPassword, errorHandler);
 router.get("/getusers", authenticateJWT, authAdmin, getUsers, errorHandler);
 router.get("/getuserbyid/:id", authenticateJWT, authAdmin, getUserById, errorHandler);
+router.get("/getuserbyemail/:email", authenticateJWT, authAdmin, getUserByEmail, errorHandler);
 router.get("/getloggeduser", authenticateJWT, getCurrentLoggedUser, errorHandler);
 router.get("/checkauth", checkAuth, errorHandler);
 router.get("/logout", logOut, errorHandler);

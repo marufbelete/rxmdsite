@@ -20,7 +20,7 @@ exports.addProduct = async (req, res, next) => {
         fs.mkdirSync("./images");
       }
 
-      for (let f = 0; f < req.files.length; f++) {
+      for (let f = 0; f < req?.files?.length; f++) {
         const uniquePrefix = Date.now() + "-" + Math.round(Math.random() * 1e9);
         const imagetype = req.files[f].mimetype.split("/")[1];
         const path = req.files[f].originalname;
@@ -75,9 +75,7 @@ exports.getProduct = async (req, res, next) => {
 exports.getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByPk(id, {
-      include: ["brand", "category"],
-    });
+    const product = await Product.findByPk(id);
     return res.json(product);
   } catch (err) {
     next(err);
@@ -94,7 +92,7 @@ exports.editProduct = async (req, res, next) => {
       throw error;
     }
     const imgurl = [];
-    if (req.files.length > 0) {
+    if (req?.files?.length > 0) {
       for (let f = 0; f < req.files.length; f++) {
         const uniquePrefix = Date.now() + "-" + Math.round(Math.random() * 1e9);
         const imagetype = req.files[f].mimetype.split("/")[1];
@@ -114,6 +112,7 @@ exports.editProduct = async (req, res, next) => {
     );
     return res.json(updated_product);
   } catch (err) {
+    console.log(err)
     next(err);
   }
 };

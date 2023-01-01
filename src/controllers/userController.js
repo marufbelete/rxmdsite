@@ -153,6 +153,18 @@ exports.getUserById = async (req, res, next) => {
     next(err);
   }
 };
+//get user by email
+exports.getUserByEmail = async (req, res, next) => {
+  try {
+    console.log(req.params)
+    const { email } = req.params;
+    const user = await User.findOne(
+      {where:{email:email}, include: ["role"] });
+    return res.json(user);
+  } catch (err) {
+    next(err);
+  }
+};
 // get current loged user
 exports.getCurrentLoggedUser = async (req, res, next) => {
   try {
