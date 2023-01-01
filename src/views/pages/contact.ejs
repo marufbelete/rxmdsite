@@ -70,6 +70,9 @@
     <a href="/checkout">Telehealth &amp; Labs</a>
   </li>
   <li class="menu-item">
+    <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
+  </li>
+  <li class="menu-item">
     <a href="/login" id="login_link">Sign In</a>
     <a href="#" id="logout_link" class="d-none">Sign out</a>
   </li>
@@ -264,14 +267,23 @@
                     </ul>
                   </div>
                   <!-- email sent notification -->
-                  <div style="position: absolute; top: 50%; right: 0;" id="contact_form_toast"
-                    class="toast align-items-center bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="d-flex">
-                      <div class="toast-body">
-                        Message sent successfuly!
+                  <div style="position: fixed; left: 50%; transform: translate(-50%, 0px); z-index: 9999; "
+                    id="contact_form_toast" class="toast bg-dark top-50 start-50 translate-middle" role="alert" aria-live="assertive" aria-atomic="true">
+
+                    <div id="contact_form_toast" class="toast align-items-center bg-dark" role="alert"
+                      aria-live="assertive" aria-atomic="true">
+                      <div class="d-flex">
+                        <div class="toast-body">
+                          Message sent successfuly!
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                          aria-label="Close"></button>
                       </div>
-                      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Close"></button>
+                    </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      <strong>Message Sent Successfuly!</strong> We will get back with you as soon as possible. Thanks
+                      for contacting TestRxMD!
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                   </div>
                   <!--  -->

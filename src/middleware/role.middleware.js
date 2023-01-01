@@ -1,11 +1,6 @@
 exports.authAdmin = (req, res, next) => {
-  let userz = req.user
-  for (const key in userz) {
-    if (userz.hasOwnProperty(key)) {
-      console.log(`${key}: ${userz[key]}`);
-    }
-  }
-  if (userrole === "admin") {
+  let {role} = req.user
+  if (role === "admin") {
     next();
     return;
   }
@@ -16,8 +11,8 @@ exports.authAdmin = (req, res, next) => {
 };
 
 exports.authUser = (req, res, next) => {
-  const userrole = req.user.role;
-  if (userrole === "user") {
+  const {role} = req.user;
+  if (role === "user") {
     next();
     return;
   }

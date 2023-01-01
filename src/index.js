@@ -84,26 +84,37 @@ sequelize
       //..........remove below when done..............///
       //.........create admin role and admin user...........///
       //......this should be removed once it create the admin role and admin user.....///
-      // const Role = require("./models/roleModel");
+      const Role = require("./models/roleModel");
+      const Product = require("./models/productModel");
 
-      // const addAdminRole = async () => {
-      //   const isAdmin = await Role.findOne({ where: { role: "admin" } });
-      //   if (!isAdmin) {
-      //     await Role.create({
-      //       role: "admin",
-      //     });
-      //   }
-      //   const isUser = await Role.findOne({ where: { role: "user" } });
-      //   if (!isUser) {
-      //     await Role.create({
-      //       role: "user",
-      //     });
-      //   }
-      //   return;
-      // };
-      // addAdminRole();
-      //................. should be removed after the first excution..........///
-      //................remove above when done.............................
+      const populateDB = async () => {
+        const isAdmin = await Role.findOne({ where: { role: "admin" } });
+        if (!isAdmin) {
+          await Role.create({
+            role: "admin",
+          });
+        }
+        const isUser = await Role.findOne({ where: { role: "user" } });
+        if (!isUser) {
+          await Role.create({
+            role: "user",
+          });
+        }
+        await Product.create({
+          product_name: "Labwork",
+          price: 100,
+          description: "Labwork Services from TestRxMD Lab Partner"
+        });
+        await Product.create({
+          product_name: "Telehealth Appointment",
+          price: 125,
+          description: "Telehealth Appointment Using Our Secure VSee Online Clinic"
+        });
+        return;
+      };
+      populateDB();
+      // ................. should be removed after the first excution..........///
+      // ................remove above when done.............................
       console.log(`Listening on port ${port}`);
     });
   })
