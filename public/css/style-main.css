@@ -3615,7 +3615,7 @@ header#header .nav-side-icon-list>li:last-child {
 
 #top-primary-nav .menuzord-menu>li>a,
 #top-primary-nav-clone .menuzord-menu>li>a {
-  font-size: 1rem;
+  font-size: 0.8rem;
   padding-left: 20px;
   padding-right: 20px;
 }
