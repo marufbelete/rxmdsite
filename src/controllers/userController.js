@@ -318,7 +318,6 @@ exports.logOut = async (req, res, next) => {
 //contact for email
 exports.contactFormEmail = async (req, res, next) => {
   console.log("contact email")
-  console.log("contact email")
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
@@ -349,23 +348,6 @@ exports.contactFormEmail = async (req, res, next) => {
     return res.json({
       message: "email successfuly sent",
     });
-  } catch (err) {
-    next(err);
-  }
-};
-exports.adminDashboard = async (req, res, next) => {
-  try {
-    console.log('dashboard')
-    const { page, paginate } = req.query;
-    const options = {
-      // include: ["brand", "category"],
-      // attributes: { exclude: ['categoryId', 'brandId'] },
-      page: Number(page) || 1,
-      paginate: Number(paginate) || 25,
-      order: [["product_name", "ASC"]],
-    };
-    const products = await Product.paginate(options);
-    return res.render(path.join(__dirname, "..", "/views/pages/dashboard"),{products});
   } catch (err) {
     next(err);
   }
