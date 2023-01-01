@@ -835,7 +835,7 @@ $("#billingAddressSameAsShipping").on("click", function () {
           mainClass: "my-mfp-slide-bottom",
         });
       }
-     
+
       var $ajaxload_popup = $(".ajaxload-popup");
       if ($ajaxload_popup.length > 0) {
         $ajaxload_popup.magnificPopup({
@@ -1853,16 +1853,20 @@ $("#billingAddressSameAsShipping").on("click", function () {
           indicatorSecondLevel: "<i class='fa fa-angle-right'></i>",
         });
       }
-   
+
       // var $nav_items = $("#top-primary-nav  #main-nav").clone();
       // $("#top-primary-nav-clone #main-nav-clone").append($nav_items);
       var $nav_items = $("#top-primary-nav  #main-nav").clone();
       const isLoged=localStorage.getItem("isLoged");
       const isAdmin=localStorage.getItem("isAdmin");
-      $nav_items[0].children[6].innerHTML =isLoged==="true"? "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    ":
+      if($nav_items[0].children[6]) {
+        $nav_items[0].children[6].innerHTML =isLoged==="true"? "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    ":
       "\n      <a href=\"login\" id=\"login_link\">Sign in</a>\n    ";
-      $nav_items[0].children[5].innerHTML =(isLoged==="true"&&isAdmin==="true")? "\n      <a href=\"dashboard\" id=\"admin_link\">Admin Dashboard</a>\n    ":
+      }
+      if($nav_items[0].children[5]) {
+        $nav_items[0].children[5].innerHTML =(isLoged==="true"&&isAdmin==="true")? "\n      <a href=\"dashboard\" id=\"admin_link\">Admin Dashboard</a>\n    ":
       "\n      <a href=\"#\" class=\"d-none\" id=\"admin_link\">Admin Dashboard</a>\n    ";
+      }
       (isAdmin!=="true"||isLoged!=="true")&&$('#admin_link').addClass("d-none");
       isLoged==="true"&&isAdmin==="true"&&$('#admin_link').removeClass("d-none");
       const base_url="http://localhost:7000"
@@ -1887,7 +1891,7 @@ $("#billingAddressSameAsShipping").on("click", function () {
             },
         });
       })
-     
+
       $("#top-primary-nav-clone #main-nav-clone").append($nav_items);
 
       //Clone Top Primary Nav
