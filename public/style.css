@@ -323,17 +323,17 @@ body.loggedin {
 #user-table-body td{
   font-size: 11px;
 }
-.delete-user{
-  padding:2px;
+.delete-user-icon{
+  padding:1px;
   color: red;
 }
-.delete-user:hover{
+.delete-user-icon:hover{
   cursor: pointer;
 }
-.edit-user{
+.edit-user-icon{
   color:blue;
 }
-.edit-user:hover{
+.edit-user-icon:hover{
   cursor: pointer;
 
 }
