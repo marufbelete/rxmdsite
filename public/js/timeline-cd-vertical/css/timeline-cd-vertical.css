@@ -1,4 +1,4 @@
-/* -------------------------------- 
+/* --------------------------------
 
 Patterns - reusable parts of our design
 
@@ -9,7 +9,7 @@ Patterns - reusable parts of our design
   }
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 Vertical Timeline - by CodyHouse.co
 
@@ -43,6 +43,7 @@ Vertical Timeline - by CodyHouse.co
     margin-top: 0;
     margin-bottom: 0;
   }
+
   .cd-timeline .cd-timeline__container::before {
     left: 50%;
     margin-left: -2px;
@@ -85,7 +86,7 @@ Vertical Timeline - by CodyHouse.co
   height: 40px;
   border-radius: 50%;
   -webkit-box-shadow: 0 0 0 4px white, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
-          box-shadow: 0 0 0 4px white, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 0 4px white, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
 }
 
 .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__img img {
@@ -110,12 +111,13 @@ Vertical Timeline - by CodyHouse.co
     margin-left: -30px;
     /* Force Hardware Acceleration */
     -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+    transform: translateZ(0);
   }
+
   .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__img.cd-timeline__img--bounce-in {
     visibility: visible;
     -webkit-animation: cd-bounce-1 0.6s;
-            animation: cd-bounce-1 0.6s;
+    animation: cd-bounce-1 0.6s;
   }
 }
 
@@ -123,16 +125,18 @@ Vertical Timeline - by CodyHouse.co
   0% {
     opacity: 0;
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
+
   60% {
     opacity: 1;
     -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    transform: scale(1.2);
   }
+
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 
@@ -140,16 +144,18 @@ Vertical Timeline - by CodyHouse.co
   0% {
     opacity: 0;
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
+
   60% {
     opacity: 1;
     -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    transform: scale(1.2);
   }
+
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 
@@ -165,7 +171,7 @@ Vertical Timeline - by CodyHouse.co
   border-radius: 0.25rem;
   padding: 1rem;
   -webkit-box-shadow: 0 3px 0 #d7e4ed;
-          box-shadow: 0 3px 0 #d7e4ed;
+  box-shadow: 0 3px 0 #d7e4ed;
 }
 
 .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__content:after {
@@ -192,8 +198,7 @@ Vertical Timeline - by CodyHouse.co
 }
 
 .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__content p,
-.cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__date {
-}
+.cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__date {}
 
 .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__content p {
   margin: 1rem 0;
@@ -210,12 +215,11 @@ Vertical Timeline - by CodyHouse.co
 }
 
 @media only screen and (min-width: 768px) {
-  .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__content h2 {
-  }
-  .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__content p {
-  }
-  .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__date {
-  }
+  .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__content h2 {}
+
+  .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__content p {}
+
+  .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__date {}
 }
 
 @media only screen and (min-width: 1200px) {
@@ -225,14 +229,16 @@ Vertical Timeline - by CodyHouse.co
     width: 45%;
     /* Force Hardware Acceleration */
     -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+    transform: translateZ(0);
   }
+
   .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__content::before {
     top: 24px;
     left: 100%;
     border-color: transparent;
     border-left-color: white;
   }
+
   .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__date {
     position: absolute;
     width: 45%;
@@ -240,9 +246,11 @@ Vertical Timeline - by CodyHouse.co
     top: 6px;
     margin-left: 0;
   }
+
   .cd-timeline .cd-timeline__container .cd-timeline__block.cd-timeline__block-reverse .cd-timeline__content {
     float: right;
   }
+
   .cd-timeline .cd-timeline__container .cd-timeline__block.cd-timeline__block-reverse .cd-timeline__content::before {
     top: 24px;
     left: auto;
@@ -250,31 +258,36 @@ Vertical Timeline - by CodyHouse.co
     border-color: transparent;
     border-right-color: white;
   }
+
   .cd-timeline .cd-timeline__container .cd-timeline__block.cd-timeline__block-reverse .cd-timeline__date {
     left: auto;
     text-align: right;
   }
+
   .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__content.cd-timeline__content--bounce-in {
     visibility: visible;
     -webkit-animation: cd-bounce-2 0.6s;
-            animation: cd-bounce-2 0.6s;
+    animation: cd-bounce-2 0.6s;
   }
+
   .cd-timeline .cd-timeline__container .cd-timeline__block .cd-timeline__date.cd-timeline__date--bounce-in {
     visibility: visible;
     -webkit-animation: cd-bounce-2 0.6s;
-            animation: cd-bounce-2 0.6s;
+    animation: cd-bounce-2 0.6s;
   }
 }
 
 @media only screen and (min-width: 1200px) {
+
   /* inverse bounce effect on even content blocks */
   .cd-timeline .cd-timeline__container .cd-timeline__block.cd-timeline__block-reverse .cd-timeline__content.cd-timeline__content--bounce-in {
     -webkit-animation: cd-bounce-2-inverse 0.6s;
-            animation: cd-bounce-2-inverse 0.6s;
+    animation: cd-bounce-2-inverse 0.6s;
   }
+
   .cd-timeline .cd-timeline__container .cd-timeline__block.cd-timeline__block-reverse .cd-timeline__date.cd-timeline__date--bounce-in {
     -webkit-animation: cd-bounce-2-inverse 0.6s;
-            animation: cd-bounce-2-inverse 0.6s;
+    animation: cd-bounce-2-inverse 0.6s;
   }
 }
 
@@ -282,16 +295,18 @@ Vertical Timeline - by CodyHouse.co
   0% {
     opacity: 0;
     -webkit-transform: translateX(-100px);
-            transform: translateX(-100px);
+    transform: translateX(-100px);
   }
+
   60% {
     opacity: 1;
     -webkit-transform: translateX(20px);
-            transform: translateX(20px);
+    transform: translateX(20px);
   }
+
   100% {
     -webkit-transform: translateX(0);
-            transform: translateX(0);
+    transform: translateX(0);
   }
 }
 
@@ -299,16 +314,18 @@ Vertical Timeline - by CodyHouse.co
   0% {
     opacity: 0;
     -webkit-transform: translateX(-100px);
-            transform: translateX(-100px);
+    transform: translateX(-100px);
   }
+
   60% {
     opacity: 1;
     -webkit-transform: translateX(20px);
-            transform: translateX(20px);
+    transform: translateX(20px);
   }
+
   100% {
     -webkit-transform: translateX(0);
-            transform: translateX(0);
+    transform: translateX(0);
   }
 }
 
@@ -316,16 +333,18 @@ Vertical Timeline - by CodyHouse.co
   0% {
     opacity: 0;
     -webkit-transform: translateX(100px);
-            transform: translateX(100px);
+    transform: translateX(100px);
   }
+
   60% {
     opacity: 1;
     -webkit-transform: translateX(-20px);
-            transform: translateX(-20px);
+    transform: translateX(-20px);
   }
+
   100% {
     -webkit-transform: translateX(0);
-            transform: translateX(0);
+    transform: translateX(0);
   }
 }
 
@@ -333,15 +352,17 @@ Vertical Timeline - by CodyHouse.co
   0% {
     opacity: 0;
     -webkit-transform: translateX(100px);
-            transform: translateX(100px);
+    transform: translateX(100px);
   }
+
   60% {
     opacity: 1;
     -webkit-transform: translateX(-20px);
-            transform: translateX(-20px);
+    transform: translateX(-20px);
   }
+
   100% {
     -webkit-transform: translateX(0);
-            transform: translateX(0);
+    transform: translateX(0);
   }
 }

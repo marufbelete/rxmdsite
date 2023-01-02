@@ -34,7 +34,8 @@
 		margin: 0 40px;
 		overflow: hidden;
 
-		&::after, &::before {
+		&::after,
+		&::before {
 			/* these are used to create a shadow effect at the sides of the timeline */
 			content: '';
 			position: absolute;
@@ -46,12 +47,12 @@
 
 		&::before {
 			left: 0;
-	    	@include background-image(linear-gradient(to right,$color-4, rgba($color-4, 0)));
+			@include background-image(linear-gradient(to right, $color-4, rgba($color-4, 0)));
 		}
 
 		&::after {
 			right: 0;
-			@include background-image(linear-gradient(to left,$color-4, rgba($color-4, 0)));
+			@include background-image(linear-gradient(to left, $color-4, rgba($color-4, 0)));
 		}
 	}
 
@@ -127,12 +128,13 @@
 
 	@include MQ(L) {
 		margin: 6em auto;
-		
+
 		&::before {
 			/* never visible - this is used in jQuery to check the current MQ */
 			content: 'desktop';
 		}
 	}
+
 	.events-content {
 		position: relative;
 		width: 100%;
@@ -160,20 +162,23 @@
 				@include transform(translateX(0));
 			}
 
-			&.enter-right, &.leave-right {
+			&.enter-right,
+			&.leave-right {
 				@include animation-name(cd-enter-right);
 			}
 
-			&.enter-left,  &.leave-left {
+			&.enter-left,
+			&.leave-left {
 				@include animation-name(cd-enter-left);
 			}
-			
-			&.leave-right, &.leave-left {
+
+			&.leave-right,
+			&.leave-left {
 				@include animation-direction(reverse);
 			}
 		}
-		
-		li > * {
+
+		li>* {
 			max-width: 800px;
 			margin: 0 auto;
 		}
@@ -201,7 +206,8 @@
 			color: shade($color-4, 40%);
 		}
 
-		em, p {
+		em,
+		p {
 			line-height: 1.6;
 		}
 
@@ -219,8 +225,9 @@
 				font-size: 1.8rem;
 			}
 		}
-		
+
 	}
+
 	.cd-timeline-navigation a {
 		/* these are the left/right arrows to navigate the timeline */
 		position: absolute;
@@ -236,7 +243,7 @@
 		text-indent: 100%;
 		white-space: nowrap;
 		@include transition(border-color .3s);
-		
+
 		&::after {
 			/* arrow icon */
 			content: '';

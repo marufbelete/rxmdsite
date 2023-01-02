@@ -18,7 +18,11 @@ body {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   color: #4a5361;
   margin: 0;
   padding: 0;
@@ -51,7 +55,8 @@ header a i {
   font-size: 16px;
 }
 
-header a:hover, header a:active {
+header a:hover,
+header a:active {
   color: #606c7e;
 }
 
@@ -88,7 +93,7 @@ aside h1 {
   justify-content: center;
 }
 
-aside > a {
+aside>a {
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -96,22 +101,23 @@ aside > a {
   padding: 15px 20px;
 }
 
-aside > a i {
+aside>a i {
   width: 40px;
 }
 
-aside > a:hover, aside > a.selected {
+aside>a:hover,
+aside>a.selected {
   background-color: #383d48;
   color: #fff;
   border-left: 3px solid #4a79b4;
   padding: 15px 17px;
 }
 
-aside > a.selected + .sub {
+aside>a.selected+.sub {
   display: flex;
 }
 
-aside > a .note {
+aside>a .note {
   background-color: #383c46;
   padding: 1px 5px;
   border-radius: 4px;
@@ -139,7 +145,8 @@ aside .sub a span {
   font-size: 12px;
 }
 
-aside .sub a:hover, aside .sub a.selected {
+aside .sub a:hover,
+aside .sub a.selected {
   color: #fff;
 }
 
@@ -241,7 +248,8 @@ main .content-header .search input {
   padding-right: 25px;
 }
 
-main .content-header .search input:hover, main .content-header .search input:active {
+main .content-header .search input:hover,
+main .content-header .search input:active {
   border-bottom: 1px solid #b5b9bd;
 }
 
@@ -290,7 +298,7 @@ main .tabs a.active {
   background-color: #fff;
 }
 
-main .tabs ~ .content-block {
+main .tabs~.content-block {
   margin-top: 0;
   box-shadow: 0px 6px 5px 1px rgba(0, 0, 0, 0.03);
 }
@@ -439,14 +447,16 @@ main .table table tbody .img {
   width: 50px;
 }
 
-main tbody td a, main .link1 {
+main tbody td a,
+main .link1 {
   text-decoration: none;
   color: #0060ba;
   border-bottom: 1px dotted;
   margin: 0 5px 0 0;
 }
 
-main tbody td a:hover, main .link1:hover {
+main tbody td a:hover,
+main .link1:hover {
   color: #003260;
 }
 
@@ -457,7 +467,9 @@ main .form {
   padding: 20px;
 }
 
-main .form input, main .form textarea, main .form select {
+main .form input,
+main .form textarea,
+main .form select {
   width: 100%;
   padding: 15px 5px;
   margin-bottom: 25px;
@@ -465,7 +477,12 @@ main .form input, main .form textarea, main .form select {
   border-bottom: 1px solid #dedfe1;
 }
 
-main .form input:hover, main .form input:active, main .form textarea:hover, main .form textarea:active, main .form select:hover, main .form select:active {
+main .form input:hover,
+main .form input:active,
+main .form textarea:hover,
+main .form textarea:active,
+main .form select:hover,
+main .form select:active {
   border-bottom: 1px solid #b5b9bd;
 }
 
@@ -537,7 +554,7 @@ main .links {
   padding-top: 20px;
 }
 
-main .links > a {
+main .links>a {
   display: inline-flex;
   text-decoration: none;
   background: #4a79b4;
@@ -549,15 +566,15 @@ main .links > a {
   border-radius: 4px;
 }
 
-main .links > a:hover {
+main .links>a:hover {
   background: #4672a9;
 }
 
-main .links > a.alt {
+main .links>a.alt {
   background: #b44a4a;
 }
 
-main .links > a.alt:hover {
+main .links>a.alt:hover {
   background: #a94646;
 }
 
@@ -603,24 +620,31 @@ main .pagination span {
   header {
     padding-left: 0;
   }
+
   .responsive-hidden {
     display: none;
   }
+
   .responsive-width-100 {
     width: 100% !important;
   }
+
   .responsive-flex-column {
     flex-flow: column;
   }
+
   main {
     padding: 70px 7px 20px 7px;
   }
+
   main .content-block {
     padding: 5px;
   }
+
   main .dashboard {
     flex-flow: column;
   }
+
   main .dashboard .stat {
     width: 100%;
   }

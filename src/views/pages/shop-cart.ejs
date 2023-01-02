@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+
+  <!-- Meta Tags -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="TestRxMD" />
+  <meta name="keywords"
+    content="testrxmd, clinic, testosterone, hormone, therapy, ed, erectile dysfunction, supplements, doctor, medical, energy, shop, medication, indiana, columbus, neiters" />
+  <meta name="author" content="Jacob Briggs" />
+
+  <!-- Page Title -->
+  <title>TestRxMD</title>
+
+  <!-- Favicon and Touch Icons -->
+  <link href="images/favicon.png" rel="shortcut icon" type="image/png">
+  <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
+  <link href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
+  <link href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+
+  <!-- Stylesheet -->
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="css/animate.min.css" rel="stylesheet" type="text/css">
+  <link href="css/javascript-plugins-bundle.css" rel="stylesheet" />
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+
+  <!-- CSS | menuzord megamenu skins -->
+  <link href="js/menuzord/css/menuzord.css" rel="stylesheet" />
+
+  <!-- CSS | Main style file -->
+  <link href="css/style-main.css" rel="stylesheet" type="text/css">
+  <link id="menuzord-menu-skins" href="css/menuzord-skins/menuzord-rounded-boxed.css" rel="stylesheet" />
+
+  <!-- CSS | Responsive media queries -->
+  <link href="css/responsive.css" rel="stylesheet" type="text/css">
+
+  <!-- CSS | Theme Color -->
+  <link href="css/colors/theme-skin-color-set1.css" rel="stylesheet" type="text/css">
+
+  <!-- External javascripts -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/javascript-plugins-bundle.min.js"></script>
+  <script src="js/menuzord/js/menuzord.js"></script>
+
+  <!-- timeline-horizontal-vertical -->
+  <link href="js/timeline-horizontal-vertical/css/timeline-horizontal-vertical.css" rel="stylesheet" type="text/css">
+  <script src="js/timeline-horizontal-vertical/js/timeline-horizontal-vertical.min.js"></script>
+  <script src="js/timeline-horizontal-vertical/js/custom.js"></script>
+
+  <link href="style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="tm-container-1300px has-side-panel side-panel-right">
+  <%- include('../partials/headerTop.ejs') %>
+    <li class="menu-item">
+      <a href="/">Home</a>
+    </li>
+    <li class="menu-item">
+      <a href="/services">Services</a>
+    </li>
+    <li class="menu-item">
+      <a href="/about">About</a>
+    </li>
+    <li class="menu-item">
+      <a href="/contact">Contact</a>
+    </li>
+    <li class="menu-item">
+      <a href="/login" id="login_link">Sign In</a>
+      <a href="#" id="logout_link" class="d-none">Sign out</a>
+    </li>
+    <li class="menu-item active">
+      <a href="javascript:void(0)">Shop</a>
+      <div class="megamenu megamenu-fullwidth megamenu-position-left">
+        <div class="megamenu-row">
+          <div class="col4">
+            <div class="widget">
+              <h4 class="widget-title">Most Popular Treatments</h4>
+              <ul class="product_list_widget">
+                <li class="mb-20">
+                  <div class="product-left">
+                    <a class="p-0" href="../shop-product-details.html">
+                      <img width="120" height="120" src="images/shop/product.jpg" class="thumbnail" alt="images">
+                    </a>
+                  </div>
+                  <div class="product-right">
+                    <a class="product-title p-0" href="shop-product-details.html">Beanie with
+                      Logo</a>
+                    <span class="amount"><span class="currencySymbol">$</span>11.99</span>
+                  </div>
+                </li>
+                <li class="mb-20">
+                  <div class="product-left">
+                    <a class="p-0" href="../shop-product-details.html">
+                      <img width="120" height="120" src="images/shop/product2.jpg" class="thumbnail" alt="images">
+                    </a>
+                  </div>
+                  <div class="product-right">
+                    <a class="product-title p-0" href="../shop-product-details.html">Hoodie</a>
+                    <div>
+                      <span class="amount"><span class="currencySymbol">$</span>29.99</span>
+                    </div>
+                  </div>
+                </li>
+                <li class="mb-20">
+                  <div class="product-left">
+                    <a class="p-0" href="shop-product-details.html">
+                      <img width="120" height="120" src="images/shop/product.jpg" class="thumbnail" alt="images">
+                    </a>
+                  </div>
+                  <div class="product-right">
+                    <a class="product-title p-0" href="../shop-product-details.html">Hoodie
+                      with
+                      Zipper</a>
+                    <span class="amount"><span class="currencySymbol">$</span>34.99</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col8">
+            <a href="/shop">
+              <h3 class="mt-10 browse">Click Here to Browse our Online Store!</h3>
+            </a>
+            <img class="img-fullwidth" src="images/shop/portfolio-big1.jpg" alt="images">
+          </div>
+        </div>
+      </div>
+    </li>
+
+    </ul>
+    </nav>
+    </div>
+    <div class="col-sm-auto align-self-center nav-side-icon-parent">
+      <ul class="list-inline nav-side-icon-list">
+        <li class="hidden-mobile-mode"><a href="#" id="top-nav-search-btn"><i class="search-icon fa fa-search"></i></a>
+        </li>
+        <li class="hidden-mobile-mode">
+          <div class="top-nav-mini-cart-icon-container">
+            <div class="top-nav-mini-cart-icon-contents">
+              <a class="mini-cart-icon" href="/cart" title="View your shopping cart">
+                <img src="images/shopping-cart.png" width="25" alt="cart"><span class="items-count">1</span>
+                <span class="cart-quick-info">1 item - <span class="amount"><span
+                      class="currencySymbol">$</span>18.00</span></span>
+              </a>
+              <div class="dropdown-content">
+                <ul class="cart_list product_list_widget">
+                  <li class="mini_cart_item">
+                    <a href="#" class="remove remove_from_cart_button" aria-label="Remove this item"
+                      data-product_id="18832" data-cart_item_key="#" data-product_sku="woo-beanie">&times;</a>
+                    <a href="#"> <img class="attachment-thumbnail" src="images/shop/product.jpg" width="300"
+                        height="300" alt="images" />Beanie</a>
+                    <span class="quantity">1 &times; <span class="amount">
+                        <span class="currencySymbol">$</span>18.00</span></span>
+                  </li>
+                </ul>
+                <p class="total"> <strong>Subtotal:</strong> <span class="woocommerce-Price-amount amount"><span
+                      class="currencySymbol">$</span>18.00</span> </p>
+                <div class="buttons cart-action-buttons">
+                  <div class="row">
+                    <div class="col-6 pe-1"><a href="/checkout"
+                        class="btn btn-theme-colored1 btn-block btn-sm checkout wc-forward">Checkout</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="hidden-mobile-mode">
+          <div id="side-panel-trigger" class="side-panel-trigger">
+            <a href="#">
+              <div class="hamburger-box">
+                <div class="hamburger-inner"></div>
+              </div>
+            </a>
+          </div>
+        </li>
+      </ul>
+      <div id="top-nav-search-form" class="clearfix">
+        <form action="#" method="GET">
+          <input type="text" name="s" value="" placeholder="Type and Press Enter..." autocomplete="off" />
+        </form>
+        <a href="#" id="close-search-btn"><i class="fa fa-times fa-2x"></i></a>
+      </div>
+    </div>
+    </div>
+    <div class="row d-block d-xl-none">
+      <div class="col-12">
+        <nav id="top-primary-nav-clone"
+          class="menuzord d-block d-xl-none default menuzord-color-default menuzord-border-boxed menuzord-responsive"
+          data-effect="slide" data-animation="none" data-align="right">
+          <ul id="main-nav-clone" class="menuzord-menu menuzord-right menuzord-indented scrollable">
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- These are needed to close the header top partial -->
+    </div>
+    </div>
+    </div>
+    </div>
+    </header>
+
+    <!-- Start main-content -->
+    <div class="main-content-area">
+      <!-- Section: page title -->
+      <section class="page-title layer-overlay overlay-dark-9 section-typo-light bg-img-center"
+        data-tm-bg-img="images/bg/bg1.jpg">
+        <div class="container pt-50 pb-50">
+          <div class="section-content">
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <h2 class="title">Shop Cart</h2>
+                <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumbs">
+                  <div class="breadcrumbs">
+                    <span><a href="/" rel="home">Home</a></span>
+                    <span><i class="fa fa-angle-right"></i></span>
+                    <span><a href="/shop">Shop</a></span>
+                    <span><i class="fa fa-angle-right"></i></span>
+                    <span class="active">Shopping Cart</span>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-content">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered tbl-shopping-cart">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Photo</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="cart_item">
+                        <td class="product-remove"><a title="Remove this item" class="remove" href="#">×</a></td>
+                        <td class="product-thumbnail"><a href="#"><img alt="product" src="images/shop/product.jpg"></a>
+                        </td>
+                        <td class="product-name"><a href="shop-product-details.html">Winter Black Jacket</a>
+                          <ul class="variation">
+                            <li class="variation-size">Size: <span>Medium</span></li>
+                          </ul>
+                        </td>
+                        <td class="product-price"><span class="amount">$36.00</span></td>
+                        <td class="product-quantity">
+                          <div class="quantity buttons_added">
+                            <input type="button" class="minus" value="-">
+                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1"
+                              name="quantity" min="1" step="1">
+                            <input type="button" class="plus" value="+">
+                          </div>
+                        </td>
+                        <td class="product-subtotal"><span class="amount">$36.00</span></td>
+                      </tr>
+                      <tr class="cart_item">
+                        <td class="product-remove"><a title="Remove this item" class="remove" href="#">×</a></td>
+                        <td class="product-thumbnail"><a href="#"><img alt="product" src="images/shop/product.jpg"></a>
+                        </td>
+                        <td class="product-name"><a href="shop-product-details.html">Swan Crop V-Neck Tee</a>
+                          <ul class="variation">
+                            <li class="variation-size">Size: <span>Small</span></li>
+                          </ul>
+                        </td>
+                        <td class="product-price"><span class="amount">$115.00</span></td>
+                        <td class="product-quantity">
+                          <div class="quantity buttons_added">
+                            <input type="button" class="minus" value="-">
+                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1"
+                              name="quantity" min="1" step="1">
+                            <input type="button" class="plus" value="+">
+                          </div>
+                        </td>
+                        <td class="product-subtotal"><span class="amount">$115.00</span></td>
+                      </tr>
+                      <tr class="cart_item">
+                        <td class="product-remove"><a title="Remove this item" class="remove" href="#">×</a></td>
+                        <td class="product-thumbnail"><a href="#"><img alt="product" src="images/shop/product.jpg"></a>
+                        </td>
+                        <td class="product-name"><a href="shop-product-details.html">Blue Solid Casual Shirt</a>
+                          <ul class="variation">
+                            <li class="variation-size">Size: <span>Large</span></li>
+                          </ul>
+                        </td>
+                        <td class="product-price"><span class="amount">$68.00</span></td>
+                        <td class="product-quantity">
+                          <div class="quantity buttons_added">
+                            <input type="button" class="minus" value="-">
+                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1"
+                              name="quantity" min="1" step="1">
+                            <input type="button" class="plus" value="+">
+                          </div>
+                        </td>
+                        <td class="product-subtotal"><span class="amount">$68.00</span></td>
+                      </tr>
+                      <tr class="cart_item">
+                        <td colspan="3">
+                          <div class="form-inline coupon-form">
+                            <div class="coupon mb-3">
+                              <input type="text" name="coupon_code" class="input-text form-control mr-1"
+                                id="coupon_code" value="" placeholder="Coupon code"> <button type="submit"
+                                class="button btn btn-theme-colored1" name="apply_coupon" value="Apply Coupon">Apply
+                                Coupon</button>
+                            </div>
+                          </div>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td><button type="button" class="-cart-update-btn btn btn-theme-colored2">Update Cart</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-12 mt-30">
+                <div class="row">
+                  <div class="col-md-5">
+                    <h4>Calculate Shipping</h4>
+                    <form class="form" action="#">
+                      <div class="mb-3 mb-10">
+                        <select class="form-control">
+                          <option>Select Country</option>
+                          <option>Australia</option>
+                          <option>UK</option>
+                          <option>USA</option>
+                        </select>
+                      </div>
+                      <div class="mb-3 mb-10">
+                        <input type="text" class="form-control" placeholder="State/country" value="">
+                      </div>
+                      <div class="mb-3 mb-10">
+                        <input type="text" class="form-control" placeholder="Postcod/zip" value="">
+                      </div>
+                      <div class="mb-3 mb-30">
+                        <button type="button" class="cart-update-total-button btn btn-theme-colored1">Update
+                          Totals</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-2">
+                  </div>
+                  <div class="col-md-5">
+                    <h4>Cart Totals</h4>
+                    <table class="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td>Cart Subtotal</td>
+                          <td>$180.00</td>
+                        </tr>
+                        <tr>
+                          <td>Shipping and Handling</td>
+                          <td>$70.00</td>
+                        </tr>
+                        <tr>
+                          <td>Order Total</td>
+                          <td>$250.00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <a class="cart-checkout-button btn btn-theme-colored1" href="/checkout">Proceed to
+                      Checkout</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- end main-content -->
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+      <!-- Footer Scripts -->
+      <script src="js/custom.js"></script>
+
+</body>
+
+</html>
+<script src="js/api_call.js"></script>
