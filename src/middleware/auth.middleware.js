@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { handleError } = require("../helper/handleError");
+const User = require("../models/userModel");
 
 const authenticateJWT = (req, res, next) => {
   try {
@@ -8,11 +9,15 @@ const authenticateJWT = (req, res, next) => {
     if (!token) {
       handleError("please login", 403);
     }
-    jwt.verify(token, process.env.SECRET, (err, user) => {
+    jwt.verify(token, process.env.SECRET, async(err, user) => {
       if (err) {
         handleError("please login", 403);
       }
       req.user = user;
+      const check_user=await User.findByPk(user.sub)
+      if(!check_user?.isActive){
+      handleError("This account is inactive, please contact our customer service", 403);
+      }
       next();
     });
   } catch (error) {

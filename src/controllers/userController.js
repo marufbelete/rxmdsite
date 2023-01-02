@@ -19,7 +19,11 @@ const { validationResult } = require("express-validator");
 const { sendEmail } = require("../helper/send_email");
 
 exports.registerUser = async (req, res, next) => {
+  for (let [k,v] of Object.entries(req.body)) {
+    console.log(k, v)
+  }
   const errors = validationResult(req);
+  console.log(errors.isEmpty() ? "No Errors": errors)
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
@@ -80,7 +84,7 @@ exports.loginUser = async (req, res, next) => {
   try {
     const { login_email, login_password, rememberme } = req.body;
     const user = login_email && (await isEmailExist(login_email));
-    if (user && user.isLocalAuth) {
+    if (user && user.isLocalAuth &&user.isActive) {
       //if not validated send email
       if (!user.isEmailConfirmed) {
         const token = jwt.sign({ email: user.email }, process.env.SECRET);
@@ -192,6 +196,21 @@ exports.updateUserInfo = async (req, res, next) => {
     }
     const updated_user = await User.update(
       { ...req.body },
+      { where: { id: id } }
+    );
+    return res.json(updated_user);
+  } catch (err) {
+    next(err);
+  }
+};
+//change user state
+exports.updateUserState = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const {state}=req.body
+    console.log(id,state)
+    const updated_user = await User.update(
+      { isActive:state },
       { where: { id: id } }
     );
     return res.json(updated_user);

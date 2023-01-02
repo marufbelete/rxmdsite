@@ -44,6 +44,10 @@ exports.googlePassport = (passport) => {
 exports.issueGoogleToken = async (req, res, next) => {
   try {
     console.log(req.user)
+    if(!req?.user[0]?.isActive){
+      return res.redirect(
+        "/login?error=" + encodeURIComponent("Google-Account-Not-Active")
+      );      }
     if (req?.user[0]?.isLocalAuth) {
       return res.redirect(
         "/login?error=" + encodeURIComponent("Google-Auth-Not-Exist")
