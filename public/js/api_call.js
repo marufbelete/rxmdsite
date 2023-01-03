@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url="https://rxmdsite-production.up.railway.app"
+  // const base_url = "http://localhost:7000";
+  const base_url="https://rxmdsite-production.up.railway.app"
 
   $("#populate").on("click", function () {
     loadTable()
@@ -10,6 +10,7 @@ $(document).ready(function () {
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
+      console.log(data)
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -396,7 +397,79 @@ $(document).ready(function () {
     $('#user_search_notify').addClass('d-none');
     $("#search_user_text").addClass("d-none");
     $("#search_user_text_spin").removeClass("d-none");
-    loadTable()
+    $("#user-table-body").empty();
+    $.ajax({
+      url: `${base_url}/getuserbystate?${searchString}`,
+      method: "GET",
+      success: function (data) {
+        if (data?.length == 0) {
+          $("#user_search_notify")
+            .text("user not found")
+            .removeClass("d-none alert alert-danger")
+            .addClass("alert alert-primary");
+        }
+        if (data?.length > 0) {
+          data?.forEach((user) => {
+            $("#user-table-body").append(`
+            <tr>
+          <td>${user.first_name||''}</td>
+          <td>${user.last_name||''}</td>
+          <td id="user-state" data-active=${user.isActive}>${user.isActive? "Active" : "Blocked"}</td>
+          <td>${user.roleId === 1 ? "Admin" : "User"}</td>
+          <td>${user.email||''}</td>
+          <td>${user.isEmailConfirmed}</td>
+          <td>${user.address||''}</td>
+          <td>${user.apt||''}</td>
+          <td>${user.city||''}</td>
+          <td>${user.state||''}</td>
+          <td>${user.zip_code||''}</td>
+          <td>${user.phone_number||''}</td>
+          <td>${user.intake}</td>
+          <td>${new Date(user.createdAt).toLocaleDateString()||''}</td>
+          <td>           
+          <span class="edit-user-icon" data-bs-toggle="modal" data-bs-target="#update_user" 
+          data-id="${user.id}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+           <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+          </svg>
+          </span>
+        </td>
+          <td>
+          ${!user.isActive?
+            `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
+          data-id="${user.id}">
+          <span style="color: #5C636A;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
+          <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
+        </svg>
+         </span>
+         </span>`:
+         `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
+             data-id="${user.id}">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+             <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+           </svg>
+          </span>`
+          } 
+          </td> 
+      </tr>
+          `);
+          });
+        }
+        // children('#edit-name').
+        // val(`${data?.first_name||''} ${data?.last_name||''}`)
+        $("#search_user_text").removeClass("d-none");
+        $("#search_user_text_spin").addClass("d-none");
+      },
+      error: function (data) {
+        $("#user_search_notify")
+          .text(data?.responseJSON?.message)
+          .removeClass("d-none alert alert-primary")
+          .addClass("alert alert-danger");
+        $("#search_user_text").removeClass("d-none");
+        $("#search_user_text_spin").addClass("d-none");
+      },
+    });
   });
   //update user
   $(document).on("click",'.edit-user-icon',function(){
