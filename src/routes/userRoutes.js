@@ -24,7 +24,8 @@ const {
   checkAuth,
   contactFormEmail,
   adminDashboard,
-  getUserByStatus
+  getUserByStatus,
+  updateUserState
 } = require("../controllers/userController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { authenticateJWT } = require("../middleware/auth.middleware");
@@ -36,6 +37,7 @@ const multipart = multer();
 router.post("/register", registerValidate(), registerUser, errorHandler);
 router.post("/login", loginValidate(), bouncer.block, loginUser, errorHandler);
 router.put("/updateuser/:id", authenticateJWT, updateUserInfo, errorHandler);
+router.put("/updateuserstate/:id", authenticateJWT, updateUserState, errorHandler);
 router.put("/changemypassword/", authenticateJWT, passwordChangeValidate(), changePassword, errorHandler);
 router.get("/confirm", confirmEmail, errorHandler);
 router.post("/forgotpassword", forgotPassword, errorHandler);

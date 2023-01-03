@@ -158,7 +158,7 @@
                     Loading...
                   </span>
                   </button>
-                <button type="button" class="btn btn-secondary" id="cancel-edit-user">Cancel</button>
+                <button type="button" class="btn btn-secondary" id="cancel-edit-user">Reset</button>
               </form>
               <br>
 
@@ -170,27 +170,139 @@
                 <button name='populate' id='populate' type="button" class="btn btn-sm btn-dark">Populate</button>
               </div>
 
+              <!-- Modal edit user -->
+              <div style="max-height: 600px; margin:40px 0px;" class="modal fade" id="update_user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="update-user-title">Update User</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="user-update-detail" class="modal-body">
+                      <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label" >First Name:</label>
+                        <input type="text" class="form-control" id="update-first-name">
+                      </div>
+                      <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Last Name:</label>
+                        <input type="text" class="form-control" id="update-last-name">
+                      </div> 
+                      <!-- <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">User Type:</label>
+                        <input type="text" class="form-control" id="update-user-type">
+                      </div>  -->
+                      <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="update-user-email">
+                      </div>
+                      <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Address:</label>
+                        <input type="text" class="form-control" id="update-user-address">
+                      </div> 
+                      <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Address Line 2:</label>
+                        <input type="text" class="form-control" id="update-user-addressline2">
+                      </div> 
+                      <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">City:</label>
+                        <input type="text" class="form-control" id="update-user-city">
+                      </div> 
+                      <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">State:</label>
+                        <input type="text" class="form-control" id="update-user-state">
+                      </div>
+                      <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Zip:</label>
+                        <input type="text" class="form-control" id="update-user-zip">
+                      </div>
+                      <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Phone:</label>
+                        <input type="text" class="form-control" id="update-user-phone">
+                      </div>
+                      <!-- <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Jotform Filled:</label>
+                        <input type="text" class="form-control" id="update-user-fotformfilled">
+                      </div> -->
+                    </div>
+                <div class="modal-footer">
+                      <button type="button" id="update-confirmation" class="btn btn-primary">
+                        <span id="delete_user_text">Confirm</span>
+                  <span id="delete_user_text_spin" class="d-none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </span>
+                      </button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <!-- Modal remove user confirm -->
+              <div class="modal fade" id="delete_user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="delete-user-title"></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="user-delete-detail" class="modal-body">
+                      
+                    </div>
+                <div class="modal-footer">
+                      <button type="button" id="delete-confirmation" class="btn btn-primary">
+                        <span id="delete_user_text">Confirm</span>
+                  <span id="delete_user_text_spin" class="d-none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </span>
+                      </button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
 
-              <!-- User table -->
-              <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+              <!-- Modal remove user success -->
+              <div class="modal fade" id="delete_user_success" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div id="delete-success">
+                      <div id="delete-user-success-icon" style="text-align: center;padding: 40px 0px; color: #47C9A2;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </svg>
+                      </div>
+                      <div id="delete-user-msg" style="text-align: center;"></div>
+                      <div class="modal-footer">
+                      <div style="margin: auto;"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div>
+                    </div>
+                  </div>
+                </div>
+                  
+              </div>
+            </div>
                 aria-hidden="true">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                   <h3 id="myModalLabel">Delete</h3>
                 </div>
                 <div class="modal-body">
-                  <p></p>
+                  <p> Are you sure you want to delete this user?</p>
                 </div>
                 <div class="modal-footer">
                   <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                   <button data-dismiss="modal" class="btn red" id="btnYes">Confirm</button>
                 </div>
-              </div>
+              </div> -->
+              <div class="table-responsive">
               <table class="table table-striped table-hover table-users">
                 <thead>
                   <tr>
-                    <th>First Name</th>
+                    <th >First Name</th>
                     <th>Last Name</th>
+                    <th>Active</th>
                     <th>Type</th>
                     <th>Email</th>
                     <th>Email Confirmed</th>
@@ -209,6 +321,7 @@
                 <tbody id="user-table-body">
                 </tbody>
               </table>
+            </div>
             </div>
           </div>
           <!-- end main-content -->

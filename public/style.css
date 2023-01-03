@@ -316,17 +316,24 @@ body.loggedin {
 }
 
 /* // */
-.delete-user{
-  padding:2px;
+
+.table-users th{
+  font-size: 12px;
+}
+#user-table-body td{
+  font-size: 12px;
+}
+.delete-user-icon{
+  padding:1px;
   color: red;
 }
-.delete-user:hover{
+.delete-user-icon:hover{
   cursor: pointer;
 }
-.edit-user{
+.edit-user-icon{
   color:blue;
 }
-.edit-user:hover{
+.edit-user-icon:hover{
   cursor: pointer;
 
 }

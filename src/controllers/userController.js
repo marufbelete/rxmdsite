@@ -5,6 +5,8 @@ const bouncer = require("../helper/bruteprotect");
 const Product = require("../models/productModel");
 const { Op } = require("sequelize");
 const path = require("path");
+const util = require('util');
+const asyncVerify = util.promisify(jwt.verify);
 const {
   isEmailExist,
   issueToken,
@@ -84,7 +86,7 @@ exports.loginUser = async (req, res, next) => {
   try {
     const { login_email, login_password, rememberme } = req.body;
     const user = login_email && (await isEmailExist(login_email));
-    if (user && user.isLocalAuth) {
+    if (user && user.isLocalAuth &&user.isActive) {
       //if not validated send email
       if (!user.isEmailConfirmed) {
         const token = jwt.sign({ email: user.email }, process.env.SECRET);
@@ -203,6 +205,21 @@ exports.updateUserInfo = async (req, res, next) => {
     next(err);
   }
 };
+//change user state
+exports.updateUserState = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const {state}=req.body
+    console.log(id,state)
+    const updated_user = await User.update(
+      { isActive:state },
+      { where: { id: id } }
+    );
+    return res.json(updated_user);
+  } catch (err) {
+    next(err);
+  }
+};
 //change password
 exports.changePassword = async (req, res, next) => {
   try {
@@ -287,21 +304,22 @@ exports.confirmEmail = async (req, res, next) => {
     next(err);
   }
 };
-exports.checkAuth = (req, res, next) => {
+exports.checkAuth = async(req, res, next) => {
   try {
     const token = req.cookies.access_token;
-    if (token) {
-      let user_info
-      jwt.verify(token, process.env.SECRET, (err, user) => {
-        if (err) {
-          handleError("permission denied", 403);
-        }
-       user_info=user
-      });
-      return res.json({ message: "success", auth: true,user:user_info });
-    } else {
-      handleError("permission denied", 403);
+    if (!token) {
+      handleError("please login", 403);
     }
+    const user=await asyncVerify(token, process.env.SECRET)
+    console.log(user?.sub)
+    if(user?.sub){
+      const check_user=await User.findByPk(user?.sub)
+      if(!check_user?.isActive){
+        handleError("This account is inactive, please contact our customer service", 403);
+      }
+      return res.json({ message: "success", auth: true,user:user });
+    }
+    handleError("please login", 403);
   } catch (err) {
     next(err);
   }
