@@ -8,7 +8,7 @@ const Product = require("../models/productModel");
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
 
-exports.crerateOrder = async (req, res, next) => {
+exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
     const { products, ...other } = req.body;
@@ -20,7 +20,7 @@ exports.crerateOrder = async (req, res, next) => {
       { transaction: t }
     );
     if (!(await isIntakeFormComplted(req))) {
-      handleError("Please complete the appointment form", 400);
+      handleError("Please complete the registration form", 400);
     }
     for await (const prod of products) {
       const product = await Product.findByPk(prod.id);
@@ -94,6 +94,7 @@ exports.getOrder = async (req, res, next) => {
     next(err);
   }
 };
+
 exports.getOrderById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -112,6 +113,7 @@ exports.getOrderById = async (req, res, next) => {
     next(err);
   }
 };
+
 exports.getMyOrder = async (req, res, next) => {
   try {
     const order = await Order.findAll({

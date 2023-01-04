@@ -10,6 +10,10 @@ module.exports = (app) => {
     res.render(path.join(__dirname, "..", "/views/pages/index"));
   });
 
+  router.get("/appt", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/appointment"));
+  });
+
   router.get("/home", function (req, res) {
     res.render(path.join(__dirname, "..", "/views/pages/index"));
   });
