@@ -43,6 +43,7 @@ googlePassport(passport);
 
 // Use static files
 app.use(express.static(path.join(__dirname, "../public")));
+app.use("/node", express.static(path.join(__dirname, "../node_modules")));
 
 // Middleware
 app.use(express.json());
@@ -102,12 +103,13 @@ sequelize
         await Product.create({
           product_name: "Labwork",
           price: 100,
-          description: "Labwork Services from TestRxMD Lab Partner"
+          description: "Labwork Services from TestRxMD Lab Partner",
         });
         await Product.create({
           product_name: "Telehealth Appointment",
           price: 125,
-          description: "Telehealth Appointment Using Our Secure VSee Online Clinic"
+          description:
+            "Telehealth Appointment Using Our Secure VSee Online Clinic",
         });
         return;
       };

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {
-  crerateOrder,
+  createOrder,
   deleteOrder,
   editOrder,
   getOrder,
@@ -12,7 +12,7 @@ const { errorHandler } = require("../middleware/errohandling.middleware");
 const { authenticateJWT } = require("../middleware/auth.middleware");
 const { authAdmin } = require("../middleware/role.middleware");
 
-router.post("/addorder", authenticateJWT, crerateOrder, errorHandler);
+router.post("/addorder", authenticateJWT, createOrder, errorHandler);
 router.get("/getorder", authenticateJWT, getOrder, errorHandler);
 router.get("/getmyorder", authenticateJWT, getMyOrder, errorHandler);
 router.get("/getorderbyid/:id", authenticateJWT, getOrderById, errorHandler);
