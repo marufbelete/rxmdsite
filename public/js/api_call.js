@@ -3,14 +3,14 @@ $(document).ready(function () {
   // const base_url="https://rxmdsite-production.up.railway.app"
 
   $("#populate").on("click", function () {
-    loadTable()
+    loadTable();
   });
 
   $.ajax({
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
-      console.log(data)
+      console.log(data);
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -336,65 +336,66 @@ $(document).ready(function () {
       },
     });
   });
-  $('#update-user-info').on("click", function () {
-    const user_id = $('#update-user-id').data('id');
-    const first_name = $('#update-user-id').data('id');
-    const last_name = $('#update-user-id').data('id');
-    const address = $('#update-user-id').data('id');
-    const city = $('#update-user-id').data('id');
-    const state = $('#update-user-id').data('id');
-    const zip = $('#update-user-id').data('id');
-    const phone = $('#update-user-id').data('id');
-    const jotformfilled = $('#update-user-id').data('id');
-    const addressline2=  $('#update-user-id').data('id');
-    console.log(selected_id)
+  $("#update-user-info").on("click", function () {
+    const user_id = $("#update-user-id").data("id");
+    const first_name = $("#update-user-id").data("id");
+    const last_name = $("#update-user-id").data("id");
+    const address = $("#update-user-id").data("id");
+    const city = $("#update-user-id").data("id");
+    const state = $("#update-user-id").data("id");
+    const zip = $("#update-user-id").data("id");
+    const phone = $("#update-user-id").data("id");
+    const jotformfilled = $("#update-user-id").data("id");
+    const addressline2 = $("#update-user-id").data("id");
+    console.log(selected_id);
     $("#update_product_text").addClass("d-none");
     $("#update_product_text_spin").removeClass("d-none");
     $.ajax({
       url: `${base_url}/updateuser/${user_id}`,
-      data: {first_name,last_name,},
+      data: { first_name, last_name },
       method: "PUT",
       success: function () {
-        $('#product_notify').text("product updated successfully").
-        removeClass('d-none alert alert-danger').addClass('alert alert-primary');
-        setTimeout(function() {
-          $('#product_notify').
-          addClass('d-none');
-      },3000);
+        $("#product_notify")
+          .text("product updated successfully")
+          .removeClass("d-none alert alert-danger")
+          .addClass("alert alert-primary");
+        setTimeout(function () {
+          $("#product_notify").addClass("d-none");
+        }, 3000);
         $("#update_product_text").removeClass("d-none");
         $("#update_product_text_spin").addClass("d-none");
       },
       error: function (data) {
-        $('#product_notify').text("something went wrong, please try again").
-        removeClass('d-none alert alert-primary').
-        addClass('alert alert-danger');
-        setTimeout(function() {
-          $('#product_notify').
-          addClass('d-none');
-      },3000);
+        $("#product_notify")
+          .text("something went wrong, please try again")
+          .removeClass("d-none alert alert-primary")
+          .addClass("alert alert-danger");
+        setTimeout(function () {
+          $("#product_notify").addClass("d-none");
+        }, 3000);
         $("#update_product_text").removeClass("d-none");
         $("#update_product_text_spin").addClass("d-none");
       },
-  
     });
   });
   //seacrh user
-  $('#user_search').on("click", function (event) {
+  $("#user_search").on("click", function (event) {
     event.preventDefault();
-    const user_name= $('div').children('#edit-name').val() 
-    const email=$('div').children('#edit-email').val()
-    // const loged_at= $('#loged_at').val() 
-    // const loged_out= $('#loged_out_at').val() 
-   let searchString
-    if(!email&&!user_name){
-      $('#user_search_notify').text("please fill atleast one query for usersearch")
-        .removeClass('d-none alert alert-danger').
-        addClass('alert alert-primary');
-      return 
+    const user_name = $("div").children("#edit-name").val();
+    const email = $("div").children("#edit-email").val();
+    // const loged_at= $('#loged_at').val()
+    // const loged_out= $('#loged_out_at').val()
+    let searchString;
+    if (!email && !user_name) {
+      $("#user_search_notify")
+        .text("please fill atleast one query for usersearch")
+        .removeClass("d-none alert alert-danger")
+        .addClass("alert alert-primary");
+      return;
     }
-    user_name?searchString=`name=${user_name}`:searchString
-    email?searchString=`email=${email}`:searchString
-    $('#user_search_notify').addClass('d-none');
+    user_name ? (searchString = `name=${user_name}`) : searchString;
+    email ? (searchString = `email=${email}`) : searchString;
+    $("#user_search_notify").addClass("d-none");
     $("#search_user_text").addClass("d-none");
     $("#search_user_text_spin").removeClass("d-none");
     $("#user-table-body").empty();
@@ -412,22 +413,24 @@ $(document).ready(function () {
           data?.forEach((user) => {
             $("#user-table-body").append(`
             <tr>
-          <td>${user.first_name||''}</td>
-          <td>${user.last_name||''}</td>
-          <td id="user-state" data-active=${user.isActive}>${user.isActive? "Active" : "Blocked"}</td>
+          <td>${user.first_name || ""}</td>
+          <td>${user.last_name || ""}</td>
+          <td id="user-state" data-active=${user.isActive}>${
+              user.isActive ? "Active" : "Blocked"
+            }</td>
           <td>${user.roleId === 1 ? "Admin" : "User"}</td>
-          <td>${user.email||''}</td>
+          <td>${user.email || ""}</td>
           <td>${user.isEmailConfirmed}</td>
-          <td>${user.address||''}</td>
-          <td>${user.apt||''}</td>
-          <td>${user.city||''}</td>
-          <td>${user.state||''}</td>
-          <td>${user.zip_code||''}</td>
-          <td>${user.phone_number||''}</td>
+          <td>${user.address || ""}</td>
+          <td>${user.apt || ""}</td>
+          <td>${user.city || ""}</td>
+          <td>${user.state || ""}</td>
+          <td>${user.zip_code || ""}</td>
+          <td>${user.phone_number || ""}</td>
           <td>${user.intake}</td>
-          <td>${new Date(user.createdAt).toLocaleDateString()||''}</td>
-          <td>           
-          <span class="edit-user-icon" data-bs-toggle="modal" data-bs-target="#update_user" 
+          <td>${new Date(user.createdAt).toLocaleDateString() || ""}</td>
+          <td>
+          <span class="edit-user-icon" data-bs-toggle="modal" data-bs-target="#update_user"
           data-id="${user.id}">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
@@ -435,23 +438,24 @@ $(document).ready(function () {
           </span>
         </td>
           <td>
-          ${!user.isActive?
-            `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
+          ${
+            !user.isActive
+              ? `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
           data-id="${user.id}">
           <span style="color: #5C636A;">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
           <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
         </svg>
          </span>
-         </span>`:
-         `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
+         </span>`
+              : `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
              data-id="${user.id}">
              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
            </svg>
           </span>`
-          } 
-          </td> 
+          }
+          </td>
       </tr>
           `);
           });
@@ -471,132 +475,163 @@ $(document).ready(function () {
       },
     });
   });
+
   //update user
-  $(document).on("click",'.edit-user-icon',function(){
-    const id=$(this).data('id')
-    $('#update-confirmation').data('id',id)
+  $(document).on("click", ".edit-user-icon", function () {
+    const id = $(this).data("id");
+    $("#update-confirmation").data("id", id);
     $.ajax({
       url: `${base_url}/getuserbyid/${id}`,
       type: "GET",
       success: (user) => {
         // console.log(user)
-        $("#update-first-name").val(user?.first_name||'')
-        $("#update-last-name").val(user?.last_name||'')
+        $("#update-first-name").val(user?.first_name || "");
+        $("#update-last-name").val(user?.last_name || "");
         // $("#update-user-type").val(user?.roleId===1?"Admin":"User")
-        $("#update-user-email").val(user?.email||'')
-        $("#update-user-address").val(user?.address||'')
-        $("#update-user-city").val(user?.city||'')
-        $("#update-user-state").val(user?.state||'')
-        $("#update-user-addressline2").val(user?.apt||'')
-        $("#update-user-zip").val(user?.zip_code||'')
-        $("#update-user-phone").val(user?.phone_number||'')
+        $("#update-user-email").val(user?.email || "");
+        $("#update-user-address").val(user?.address || "");
+        $("#update-user-city").val(user?.city || "");
+        $("#update-user-state").val(user?.state || "");
+        $("#update-user-addressline2").val(user?.apt || "");
+        $("#update-user-zip").val(user?.zip_code || "");
+        $("#update-user-phone").val(user?.phone_number || "");
         // $("#update-user-fotformfilled").val(user?.intake)
-        
-      }
-    })
-  })
-  $('#update-confirmation').on('click',function(){
-    const id=$(this).data('id')
-    const first_name=$("#update-first-name").val()
-    const last_name=$("#update-last-name").val()
-    const email=$("#update-user-email").val()
-    const address=$("#update-user-address").val()
-    const address_line_two=$("#update-user-addressline2").val()
-    const zip_code=$("#update-user-zip").val()
-    const phone_number=$("#update-user-phone").val()
-    const city=$("#update-user-city").val()
-    const state=$("#update-user-state").val()
+      },
+    });
+  });
+
+  $("#update-confirmation").on("click", function () {
+    const id = $(this).data("id");
+    const first_name = $("#update-first-name").val();
+    const last_name = $("#update-last-name").val();
+    const email = $("#update-user-email").val();
+    const address = $("#update-user-address").val();
+    const address_line_two = $("#update-user-addressline2").val();
+    const zip_code = $("#update-user-zip").val();
+    const phone_number = $("#update-user-phone").val();
+    const city = $("#update-user-city").val();
+    const state = $("#update-user-state").val();
     $("#delete_user_text").addClass("d-none");
     $("#delete_user_text_spin").removeClass("d-none");
     $.ajax({
       url: `${base_url}/updateuser/${id}`,
       method: "PUT",
-      data:{first_name,last_name,email,zip_code,phone_number,
-        address,address_line_two,state,city},
+      data: {
+        first_name,
+        last_name,
+        email,
+        zip_code,
+        phone_number,
+        address,
+        address_line_two,
+        state,
+        city,
+      },
       success: function (data) {
-        $("#delete_user").modal('hide');
-        $("#update_user").modal('hide');
-        $("#delete_user_success").modal('show');
-        $("#delete-user-success-icon").empty().append(
-          ` <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+        $("#delete_user").modal("hide");
+        $("#update_user").modal("hide");
+        $("#delete_user_success").modal("show");
+        $("#delete-user-success-icon")
+          .empty()
+          .append(
+            ` <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
         </svg>
-          `)
-        $("#delete-user-msg").text("User Updated successfully")
+          `
+          );
+        $("#delete-user-msg").text("User Updated successfully");
         $("#delete_user_text").removeClass("d-none");
         $("#delete_user_text_spin").addClass("d-none");
-        loadTable()
+        loadTable();
       },
       error: function (data) {
-        $("#delete_user").modal('hide');
-        $("#update_user").modal('hide');
-        $("#delete_user_success").modal('show');
-        $("#delete-user-success-icon").empty().append(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+        $("#delete_user").modal("hide");
+        $("#update_user").modal("hide");
+        $("#delete_user_success").modal("show");
+        $("#delete-user-success-icon")
+          .empty()
+          .append(
+            `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
-</svg>`)
-        $("#delete-user-msg").text("something went wrong. please try again")
+</svg>`
+          );
+        $("#delete-user-msg").text("something went wrong. please try again");
         $("#delete_user_text").removeClass("d-none");
         $("#delete_user_text_spin").addClass("d-none");
       },
     });
-  })
+  });
+
   //delete user
-  $('#delete-confirmation').on('click',function(){
-    const id=$(this).data('id')
-    const state=$(this).data('state')
+  $("#delete-confirmation").on("click", function () {
+    const id = $(this).data("id");
+    const state = $(this).data("state");
     $("#delete_user_text").addClass("d-none");
     $("#delete_user_text_spin").removeClass("d-none");
     $.ajax({
       url: `${base_url}/updateuserstate/${id}`,
       method: "PUT",
-      data:{state:!state},
+      data: { state: !state },
       success: function (data) {
-        $("#delete_user").modal('hide');
-        $("#update_user").modal('hide');
-        $("#delete_user_success").modal('show');
-        $("#delete-user-success-icon").empty().append(
-          ` <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+        $("#delete_user").modal("hide");
+        $("#update_user").modal("hide");
+        $("#delete_user_success").modal("show");
+        $("#delete-user-success-icon")
+          .empty()
+          .append(
+            ` <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
         </svg>
-          `)
-          state?$("#delete-user-msg").text("User deactivated successfully"):
-          $("#delete-user-msg").text("User Activated successfully")
+          `
+          );
+        state
+          ? $("#delete-user-msg").text("User deactivated successfully")
+          : $("#delete-user-msg").text("User Activated successfully");
         $("#delete_user_text").removeClass("d-none");
         $("#delete_user_text_spin").addClass("d-none");
-        loadTable()
+        loadTable();
       },
       error: function (data) {
-        $("#delete_user").modal('hide');
-        $("#update_user").modal('hide');
-        $("#delete_user_success").modal('show');
-        $("#delete-user-success-icon").empty().append(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+        $("#delete_user").modal("hide");
+        $("#update_user").modal("hide");
+        $("#delete_user_success").modal("show");
+        $("#delete-user-success-icon")
+          .empty()
+          .append(
+            `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
-</svg>`)
-        $("#delete-user-msg").text("something went wrong. please try again")
+</svg>`
+          );
+        $("#delete-user-msg").text("something went wrong. please try again");
         $("#delete_user_text").removeClass("d-none");
         $("#delete_user_text_spin").addClass("d-none");
       },
     });
-  })
-  $(document).on("click",'.delete-user-icon',function(){
-    const id=$(this).data('id')
-    const active=$(this).parent('td').siblings('#user-state').data('active')
-    active?$("#user-delete-detail").text("Are you sure you want to deactivate this user?"):
-    $("#user-delete-detail").text("Are you sure you want to Activate this user?")
-    active?$("#delete-user-title").text("Deactivate User"):
-    $("#delete-user-title").text("Activate User")
-    $('#delete-confirmation').data('id',id)
-    $('#delete-confirmation').data('state',active)
-  })
-  
-  $('#cancel-edit-user').on('click',function(){
-    $('div').children('#edit-email').val('')
-    $('div').children('#edit-name').val('')
-  })
+  });
 
-  const loadTable=()=>{
+  $(document).on("click", ".delete-user-icon", function () {
+    const id = $(this).data("id");
+    const active = $(this).parent("td").siblings("#user-state").data("active");
+    active
+      ? $("#user-delete-detail").text(
+          "Are you sure you want to deactivate this user?"
+        )
+      : $("#user-delete-detail").text(
+          "Are you sure you want to Activate this user?"
+        );
+    active
+      ? $("#delete-user-title").text("Deactivate User")
+      : $("#delete-user-title").text("Activate User");
+    $("#delete-confirmation").data("id", id);
+    $("#delete-confirmation").data("state", active);
+  });
+
+  $("#cancel-edit-user").on("click", function () {
+    $("div").children("#edit-email").val("");
+    $("div").children("#edit-name").val("");
+  });
+
+  const loadTable = () => {
     $("#user-table-body").empty();
     $.ajax({
       url: `${base_url}/getusers`,
@@ -606,22 +641,24 @@ $(document).ready(function () {
         users?.docs?.forEach((user) => {
           $("#user-table-body").append(`
           <tr>
-          <td>${user.first_name||''}</td>
-          <td>${user.last_name||''}</td>
-          <td id="user-state" data-active=${user.isActive}>${user.isActive? "Active" : "Blocked"}</td>
+          <td>${user.first_name || ""}</td>
+          <td>${user.last_name || ""}</td>
+          <td id="user-state" data-active=${user.isActive}>${
+            user.isActive ? "Active" : "Blocked"
+          }</td>
           <td>${user.roleId === 1 ? "Admin" : "User"}</td>
-          <td>${user.email||''}</td>
+          <td>${user.email || ""}</td>
           <td>${user.isEmailConfirmed}</td>
-          <td>${user.address||''}</td>
-          <td>${user.apt||''}</td>
-          <td>${user.city||''}</td>
-          <td>${user.state||''}</td>
-          <td>${user.zip_code||''}</td>
-          <td>${user.phone_number||''}</td>
+          <td>${user.address || ""}</td>
+          <td>${user.apt || ""}</td>
+          <td>${user.city || ""}</td>
+          <td>${user.state || ""}</td>
+          <td>${user.zip_code || ""}</td>
+          <td>${user.phone_number || ""}</td>
           <td>${user.intake}</td>
-          <td>${new Date(user.createdAt).toLocaleDateString()||''}</td>
-          <td>           
-          <span class="edit-user-icon" data-bs-toggle="modal" data-bs-target="#update_user" 
+          <td>${new Date(user.createdAt).toLocaleDateString() || ""}</td>
+          <td>
+          <span class="edit-user-icon" data-bs-toggle="modal" data-bs-target="#update_user"
           data-id="${user.id}">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
@@ -629,23 +666,24 @@ $(document).ready(function () {
           </span>
         </td>
           <td>
-          ${!user.isActive?
-            `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
+          ${
+            !user.isActive
+              ? `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
           data-id="${user.id}">
           <span style="color: #5C636A;">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
           <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
         </svg>
          </span>
-         </span>`:
-         `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
+         </span>`
+              : `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
              data-id="${user.id}">
              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
            </svg>
           </span>`
-          } 
-          </td> 
+          }
+          </td>
       </tr>
           `);
         });
@@ -657,5 +695,5 @@ $(document).ready(function () {
         );
       },
     });
-  }
-})
+  };
+});
