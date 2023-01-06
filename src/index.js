@@ -7,10 +7,10 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const { window } = new JSDOM();
+// const { window } = new JSDOM();
 const { document } = new JSDOM("").window;
 global.document = document;
-let $ = (jQuery = require("jquery")(window));
+// let $ = (jQuery = require("jquery")(window));
 require("dotenv").config();
 const sequelize = require("./models/index");
 const user_route = require("./routes/userRoutes");
@@ -85,7 +85,6 @@ sequelize
       //.........create admin role and admin user...........///
       //......this should be removed once it create the admin role and admin user.....///
       const Role = require("./models/roleModel");
-      const Product = require("./models/productModel");
 
       const populateDB = async () => {
         const isAdmin = await Role.findOne({ where: { role: "admin" } });
@@ -100,17 +99,6 @@ sequelize
             role: "user",
           });
         }
-        await Product.create({
-          product_name: "Labwork",
-          price: 100,
-          description: "Labwork Services from TestRxMD Lab Partner",
-        });
-        await Product.create({
-          product_name: "Telehealth Appointment",
-          price: 125,
-          description:
-            "Telehealth Appointment Using Our Secure VSee Online Clinic",
-        });
         return;
       };
       populateDB();

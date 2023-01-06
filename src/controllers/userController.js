@@ -19,13 +19,10 @@ const {
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
 const { sendEmail } = require("../helper/send_email");
+const { removeEmptyPair } = require("../helper/reusable");
 
 exports.registerUser = async (req, res, next) => {
-  for (let [k,v] of Object.entries(req.body)) {
-    console.log(k, v)
-  }
   const errors = validationResult(req);
-  console.log(errors.isEmpty() ? "No Errors": errors)
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
@@ -136,15 +133,15 @@ exports.loginUser = async (req, res, next) => {
 //get user
 exports.getUsers = async (req, res, next) => {
   try {
-    const { page, paginate } = req.query;
+    // const { page, paginate } = req.query;
     const options = {
       include: ["role"],
-      page: Number(page) || 1,
-      paginate: Number(paginate) || 25,
+      // page: Number(page) || 1,
+      // paginate: Number(paginate) || 1,
       order: [["first_name", "DESC"]],
       // where: { name: { [Op.like]: `%elliot%` } }
     };
-    const brands = await User.paginate(options);
+    const brands = await User.findAll(options);
     return res.json(brands);
   } catch (err) {
     next(err);
@@ -173,7 +170,6 @@ exports.getUserByStatus = async (req, res, next) => {
   }
     const user = await User.findAll(
       {where:queryString, include: ["role"] });
-      console.log(user)
     return res.json(user);
   } catch (err) {
     next(err);
@@ -196,8 +192,10 @@ exports.updateUserInfo = async (req, res, next) => {
     if (req.body.password) {
       delete req.body.password;
     }
+    const new_user_info=removeEmptyPair(req.body)
+    console.log(new_user_info)
     const updated_user = await User.update(
-      { ...req.body },
+      { ...new_user_info },
       { where: { id: id } }
     );
     return res.json(updated_user);
@@ -210,7 +208,6 @@ exports.updateUserState = async (req, res, next) => {
   try {
     const { id } = req.params;
     const {state}=req.body
-    console.log(id,state)
     const updated_user = await User.update(
       { isActive:state },
       { where: { id: id } }
@@ -311,7 +308,6 @@ exports.checkAuth = async(req, res, next) => {
       handleError("please login", 403);
     }
     const user=await asyncVerify(token, process.env.SECRET)
-    console.log(user?.sub)
     if(user?.sub){
       const check_user=await User.findByPk(user?.sub)
       if(!check_user?.isActive){
@@ -335,7 +331,6 @@ exports.logOut = async (req, res, next) => {
 
 //contact for email
 exports.contactFormEmail = async (req, res, next) => {
-  console.log("contact email")
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
@@ -372,16 +367,15 @@ exports.contactFormEmail = async (req, res, next) => {
 };
 exports.adminDashboard = async (req, res, next) => {
   try {
-    console.log('dashboard')
-    const { page, paginate } = req.query;
+    // const { page, paginate } = req.query;
     const options = {
       // include: ["brand", "category"],
       // attributes: { exclude: ['categoryId', 'brandId'] },
-      page: Number(page) || 1,
-      paginate: Number(paginate) || 25,
+      // page: Number(page) || 1,
+      // paginate: Number(paginate) || 25,
       order: [["product_name", "ASC"]],
     };
-    const products = await Product.paginate(options);
+    const products = await Product.findAll(options);
     return res.render(path.join(__dirname, "..", "/views/pages/dashboard"),{products});
   } catch (err) {
     next(err);

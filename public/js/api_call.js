@@ -10,7 +10,6 @@ $(document).ready(function () {
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
-      console.log(data);
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -336,55 +335,72 @@ $(document).ready(function () {
       },
     });
   });
-  $("#update-user-info").on("click", function () {
-    const user_id = $("#update-user-id").data("id");
-    const first_name = $("#update-user-id").data("id");
-    const last_name = $("#update-user-id").data("id");
-    const address = $("#update-user-id").data("id");
-    const city = $("#update-user-id").data("id");
-    const state = $("#update-user-id").data("id");
-    const zip = $("#update-user-id").data("id");
-    const phone = $("#update-user-id").data("id");
-    const jotformfilled = $("#update-user-id").data("id");
-    const addressline2 = $("#update-user-id").data("id");
-    console.log(selected_id);
-    $("#update_product_text").addClass("d-none");
-    $("#update_product_text_spin").removeClass("d-none");
+  
+  // show add new product
+  $("#add-product-button").on("click", function () {
+    $("#add_new_product").modal("show");
+  });
+
+  // save new product
+  $("#add-product-confirmation").on("click", function () {
+    $("#add_product_text").addClass("d-none");
+    $("#add_product_text_spin").removeClass("d-none");
+    const product_name=$("#new-product-name").val()
+    const price=$("#new-product-price").val()
+    const description=$("#new-product-description").val()
+    $("#add-new-product-error").addClass("d-none");
+    if(!product_name||!price){ 
+      $("#add_product_text").removeClass("d-none");
+      $("#add_product_text_spin").addClass("d-none");
+      !price&&$("#add-new-product-error").text("please add product price").removeClass("d-none");
+      !product_name&&$("#add-new-product-error").text("please add product name").removeClass("d-none");
+      return
+    }
     $.ajax({
-      url: `${base_url}/updateuser/${user_id}`,
-      data: { first_name, last_name },
-      method: "PUT",
-      success: function () {
-        $("#product_notify")
-          .text("product updated successfully")
-          .removeClass("d-none alert alert-danger")
-          .addClass("alert alert-primary");
-        setTimeout(function () {
-          $("#product_notify").addClass("d-none");
-        }, 3000);
-        $("#update_product_text").removeClass("d-none");
-        $("#update_product_text_spin").addClass("d-none");
+      url: `${base_url}/addproduct`,
+      method: "POST",
+      data: { product_name,price,description },
+      success: function (data) {
+        $("#add_product_text").removeClass("d-none");
+        $("#add_product_text_spin").addClass("d-none");
+        $("#add_new_product").modal("hide");
+        $("#delete_user_success").modal("show");
+        $("#new-product-name").val('')
+        $("#new-product-price").val('')
+        $("#new-product-description").val('')
+        $("#delete-user-success-icon")
+          .empty()
+          .append(
+            ` <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg>
+          `
+          );
+        $("#delete-user-msg").text("New product added successfully");
       },
       error: function (data) {
-        $("#product_notify")
-          .text("something went wrong, please try again")
-          .removeClass("d-none alert alert-primary")
-          .addClass("alert alert-danger");
-        setTimeout(function () {
-          $("#product_notify").addClass("d-none");
-        }, 3000);
-        $("#update_product_text").removeClass("d-none");
-        $("#update_product_text_spin").addClass("d-none");
+        $("#add_product_text").removeClass("d-none");
+        $("#add_product_text_spin").addClass("d-none");
+        $("#add_new_product").modal("hide");
+        $("#delete_user_success").modal("show");
+        $("#delete-user-success-icon")
+          .empty()
+          .append(
+            `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+</svg>`
+          );
+        $("#delete-user-msg").text("something went wrong. please try again");
       },
     });
   });
+
   //seacrh user
   $("#user_search").on("click", function (event) {
     event.preventDefault();
     const user_name = $("div").children("#edit-name").val();
     const email = $("div").children("#edit-email").val();
-    // const loged_at= $('#loged_at').val()
-    // const loged_out= $('#loged_out_at').val()
+ 
     let searchString;
     if (!email && !user_name) {
       $("#user_search_notify")
@@ -484,17 +500,15 @@ $(document).ready(function () {
       url: `${base_url}/getuserbyid/${id}`,
       type: "GET",
       success: (user) => {
-        // console.log(user)
-        $("#update-first-name").val(user?.first_name || "");
-        $("#update-last-name").val(user?.last_name || "");
-        // $("#update-user-type").val(user?.roleId===1?"Admin":"User")
-        $("#update-user-email").val(user?.email || "");
-        $("#update-user-address").val(user?.address || "");
-        $("#update-user-city").val(user?.city || "");
-        $("#update-user-state").val(user?.state || "");
-        $("#update-user-addressline2").val(user?.apt || "");
-        $("#update-user-zip").val(user?.zip_code || "");
-        $("#update-user-phone").val(user?.phone_number || "");
+        $("#update-first-name").val(user?.first_name);
+        $("#update-last-name").val(user?.last_name);
+        $("#update-user-email").val(user?.email);
+        $("#update-user-address").val(user?.address);
+        $("#update-user-city").val(user?.city);
+        $("#update-user-state").val(user?.state );
+        $("#update-user-addressline2").val(user?.apt );
+        $("#update-user-zip").val(user?.zip_code );
+        $("#update-user-phone").val(user?.phone_number );
         // $("#update-user-fotformfilled").val(user?.intake)
       },
     });
@@ -511,8 +525,8 @@ $(document).ready(function () {
     const phone_number = $("#update-user-phone").val();
     const city = $("#update-user-city").val();
     const state = $("#update-user-state").val();
-    $("#delete_user_text").addClass("d-none");
-    $("#delete_user_text_spin").removeClass("d-none");
+    $("#update_user_text").addClass("d-none");
+    $("#update_user_text_spin").removeClass("d-none");
     $.ajax({
       url: `${base_url}/updateuser/${id}`,
       method: "PUT",
@@ -540,8 +554,8 @@ $(document).ready(function () {
           `
           );
         $("#delete-user-msg").text("User Updated successfully");
-        $("#delete_user_text").removeClass("d-none");
-        $("#delete_user_text_spin").addClass("d-none");
+        $("#update_user_text").removeClass("d-none");
+        $("#update_user_text_spin").addClass("d-none");
         loadTable();
       },
       error: function (data) {
@@ -556,8 +570,8 @@ $(document).ready(function () {
 </svg>`
           );
         $("#delete-user-msg").text("something went wrong. please try again");
-        $("#delete_user_text").removeClass("d-none");
-        $("#delete_user_text_spin").addClass("d-none");
+        $("#update_user_text").removeClass("d-none");
+        $("#update_user_text_spin").addClass("d-none");
       },
     });
   });
@@ -630,15 +644,13 @@ $(document).ready(function () {
     $("div").children("#edit-email").val("");
     $("div").children("#edit-name").val("");
   });
-
   const loadTable = () => {
     $("#user-table-body").empty();
     $.ajax({
       url: `${base_url}/getusers`,
       type: "GET",
       success: (users) => {
-        console.log("success on click");
-        users?.docs?.forEach((user) => {
+        users?.forEach((user) => {
           $("#user-table-body").append(`
           <tr>
           <td>${user.first_name || ""}</td>
@@ -682,6 +694,7 @@ $(document).ready(function () {
              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
            </svg>
           </span>`
+          
           }
           </td>
       </tr>
@@ -696,4 +709,15 @@ $(document).ready(function () {
       },
     });
   };
+  //copmlete order
+   $('#complete-order').on('click',function(event){
+    event.preventDefault()
+    const product_ordered=[]
+    $('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').each(function(){
+      product_ordered.push({productId:$(this).data('productid')})
+    })
+    alert(product_ordered)
+    console.log(product_ordered)
+    //here make ajax call to compelete the order
+  })
 });

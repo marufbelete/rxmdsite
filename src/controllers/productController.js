@@ -3,19 +3,22 @@ const { validationResult } = require("express-validator");
 const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
+const { removeEmptyPair } = require("../helper/reusable");
 exports.addProduct = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ message: errors.array()[0].msg });
     }
+    console.log("add product")
     if (req.mimetypeError) {
       const error = new Error(req.mimetypeError);
       error.statusCode = 400;
       throw error;
     }
+    const new_product_info=removeEmptyPair(req.body)
     const imgurl = [];
-    if (req.files.length > 0) {
+    if (req?.files?.length > 0) {
       if (!fs.existsSync("./images")) {
         fs.mkdirSync("./images");
       }
@@ -32,34 +35,35 @@ exports.addProduct = async (req, res, next) => {
         imgurl.push(fullpath);
       }
       const new_product = await Product.create({
-        ...req.body,
+        ...new_product_info,
         image_url: imgurl,
       });
       return res.json(new_product);
     } else {
       const new_product = await Product.create({
-        ...req.body,
+        ...new_product_info,
       });
       return res.json(new_product);
     }
   } catch (err) {
+    console.log(err)
     next(err);
   }
 };
 
 exports.getProduct = async (req, res, next) => {
   try {
-    const { page, paginate } = req.query;
+    // const { page, paginate } = req.query;
     const options = {
       // include: ["brand", "category"],
       // attributes: { exclude: ['categoryId', 'brandId'] },
-      page: Number(page) || 1,
-      paginate: Number(paginate) || 25,
+      // page: Number(page) || 1,
+      // paginate: Number(paginate) || 25,
       order: [["product_name", "ASC"]],
     };
-    const products = await Product.paginate(options);
+    const products = await Product.findAll(options);
     const priceArr = [];
-    products.docs.map((e) => priceArr.push(Number(e.price)));
+    products?.map((e) => priceArr.push(Number(e.price)));
     const totalPrice = priceArr.reduce((f, s) => f + s, 0);
     products.total = totalPrice;
     const token = req.cookies.access_token;
@@ -86,6 +90,7 @@ exports.editProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
     const addImage = {};
+    const update_product_info=removeEmptyPair(req.body)
     if (req.mimetypeError) {
       const error = new Error(req.mimetypeError);
       error.statusCode = 400;
@@ -107,7 +112,7 @@ exports.editProduct = async (req, res, next) => {
       addImage.image_url = imgurl;
     }
     const updated_product = await Product.update(
-      { ...req.body, ...addImage },
+      { ...update_product_info, ...addImage },
       { where: { id: id } }
     );
     return res.json(updated_product);
