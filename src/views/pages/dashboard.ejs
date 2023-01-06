@@ -263,13 +263,17 @@
                       </div>
                       <div class="mb-3">
                         <label for="recipient-name" class="col-form-label">Phone:</label>
-                        <input type="number" class="form-control" id="update-user-phone">
+                        <input type="tel" class="form-control" id="update-user-phone"
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" maxlength="12" oninput="addDashes(this)">
                       </div>
-                      <!-- <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Jotform Filled:</label>
-                        <input type="text" class="form-control" id="update-user-fotformfilled">
-                      </div> -->
                     </div>
+                    <SCRIPT LANGUAGE="JavaScript">
+                      function addDashes(f) {
+                          f.value = f.value.replace(/\D/g, '');
+
+                          f.value = f.value.slice(0, 3) + "-" + f.value.slice(3, 6) + "-" + f.value.slice(6, 15);
+                      }
+                  </SCRIPT>
                 <div class="modal-footer">
                       <button type="button" id="update-confirmation" class="btn btn-primary">
                         <span id="update_user_text">Confirm</span>

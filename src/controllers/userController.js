@@ -141,8 +141,8 @@ exports.getUsers = async (req, res, next) => {
       order: [["first_name", "DESC"]],
       // where: { name: { [Op.like]: `%elliot%` } }
     };
-    const brands = await User.findAll(options);
-    return res.json(brands);
+    const users = await User.findAll(options);
+    return res.json(users);
   } catch (err) {
     next(err);
   }

@@ -496,6 +496,7 @@ $(document).ready(function () {
   $(document).on("click", ".edit-user-icon", function () {
     const id = $(this).data("id");
     $("#update-confirmation").data("id", id);
+    $("#update-user-phone").css('border-color','rgb(206, 212, 218)')
     $.ajax({
       url: `${base_url}/getuserbyid/${id}`,
       type: "GET",
@@ -508,12 +509,12 @@ $(document).ready(function () {
         $("#update-user-state").val(user?.state );
         $("#update-user-addressline2").val(user?.apt );
         $("#update-user-zip").val(user?.zip_code );
-        $("#update-user-phone").val(user?.phone_number );
+        $("#update-user-phone").val(formatPhoneNumber(user?.phone_number));
         // $("#update-user-fotformfilled").val(user?.intake)
       },
     });
   });
-
+ 
   $("#update-confirmation").on("click", function () {
     const id = $(this).data("id");
     const first_name = $("#update-first-name").val();
@@ -527,6 +528,13 @@ $(document).ready(function () {
     const state = $("#update-user-state").val();
     $("#update_user_text").addClass("d-none");
     $("#update_user_text_spin").removeClass("d-none");
+    if(!(formatPhoneNumber(phone_number)))
+    {
+      $("#update-user-phone").css('border-color','red')
+      $("#update_user_text").removeClass("d-none");
+      $("#update_user_text_spin").addClass("d-none");
+      return
+    }
     $.ajax({
       url: `${base_url}/updateuser/${id}`,
       method: "PUT",
@@ -535,7 +543,7 @@ $(document).ready(function () {
         last_name,
         email,
         zip_code,
-        phone_number,
+        phone_number:phone_number.replace(/-/g, ""),
         address,
         address_line_two,
         state,
@@ -666,7 +674,7 @@ $(document).ready(function () {
           <td>${user.city || ""}</td>
           <td>${user.state || ""}</td>
           <td>${user.zip_code || ""}</td>
-          <td>${user.phone_number || ""}</td>
+          <td>${formatPhoneNumber(user.phone_number) || ""}</td>
           <td>${user.intake}</td>
           <td>${new Date(user.createdAt).toLocaleDateString() || ""}</td>
           <td>
@@ -709,6 +717,14 @@ $(document).ready(function () {
       },
     });
   };
+  const formatPhoneNumber=(phoneNumberString) =>{
+    var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+    var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return  match[1] + '-' + match[2] + '-' + match[3];
+    }
+    return null;
+  }
   //copmlete order
    $('#complete-order').on('click',function(event){
     event.preventDefault()

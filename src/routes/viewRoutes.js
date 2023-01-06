@@ -1,6 +1,7 @@
 const { authenticateJWT } = require("../middleware/auth.middleware");
 const { getProduct } = require("../controllers/productController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
+const { getAppointment } = require("../controllers/appointment.controller");
 
 module.exports = (app) => {
   const path = require("path");
@@ -10,9 +11,7 @@ module.exports = (app) => {
     res.render(path.join(__dirname, "..", "/views/pages/index"));
   });
 
-  router.get("/appt", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/appointment"));
-  });
+  router.get("/appt", authenticateJWT, getAppointment, errorHandler);
 
   router.get("/home", function (req, res) {
     res.render(path.join(__dirname, "..", "/views/pages/index"));

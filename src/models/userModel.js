@@ -53,7 +53,7 @@ const User = sequelize.define("user", {
     type: Sequelize.STRING,
   },
   phone_number: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
   },
   active: {
     type: Sequelize.TINYINT,
