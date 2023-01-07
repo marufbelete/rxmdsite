@@ -7,11 +7,17 @@ const { isUserAdmin, isIntakeFormComplted } = require("../helper/user");
 const Product = require("../models/productModel");
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
+const {chargeCreditCard}=require('../functions/handlePayment');
 
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
     const { products, ...other } = req.body;
+    console.log("order product...................")
+    if (!(await isIntakeFormComplted(req))) {
+      handleError("Please complete the registration form", 400);
+    }
+    const payment_detail=await chargeCreditCard()
     const order = await Order.create(
       {
         userId: req?.user?.sub,
@@ -19,9 +25,6 @@ exports.createOrder = async (req, res, next) => {
       },
       { transaction: t }
     );
-    if (!(await isIntakeFormComplted(req))) {
-      handleError("Please complete the registration form", 400);
-    }
     for await (const prod of products) {
       const product = await Product.findByPk(prod.id);
       await Orderproduct.create(
@@ -33,7 +36,7 @@ exports.createOrder = async (req, res, next) => {
           description: product.description,
           price: product.price,
           tax: product.tax,
-          image_url: product.image_url,
+          // image_url: product.image_url,
           orderId: order.id,
         },
         { transaction: t }

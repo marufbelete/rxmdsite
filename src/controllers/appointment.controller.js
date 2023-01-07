@@ -22,6 +22,3 @@ exports.getAppointment = async (req, res, next) => {
       next(err);
     }
   };
-// , function (req, res) {
-//     res.render(path.join(__dirname, "..", "/views/pages/appointment"));
-//   }
