@@ -40,7 +40,7 @@
     <link href="css/responsive.css" rel="stylesheet" type="text/css">
 
     <!-- CSS | Theme Color -->
-    <link href="css/colors/theme-skin-color-set1.css" rel="stylesheet" type="text/css">
+    <link href="css/colors/theme-colors.css" rel="stylesheet" type="text/css">
 
     <!-- External javascripts -->
     <script src="js/jquery.min.js"></script>
@@ -189,7 +189,7 @@
                                     <div class="col-md-4 offset-md-4 col-sm-12">
                                         <div class="form-outline text-center">
                                             <input type="text" id="patient-form-firstname" class="form-control"
-                                                name="firstname" required />
+                                                name="firstname" required value=<%=user_info.first_name%> />
                                             <label class="form-label" for="patient-form-firstname">First
                                                 name</label>
                                         </div>
@@ -199,7 +199,7 @@
                                     <div class="col-md-4 offset-md-4 col-sm-12">
                                         <div class="form-outline text-center">
                                             <input type="text" name="lastname" id="patient-form-lastname"
-                                                class="form-control" required />
+                                                class="form-control" required value="<%=user_info.last_name%>"/>
                                             <label class="form-label" for="patient-form-lastname">Last name</label>
                                         </div>
                                     </div>
@@ -210,7 +210,7 @@
                                     <div class="col-md-4 offset-md-4 col-sm-12">
                                         <div class="form-outline text-center">
                                             <input type="email" id="patient-form-email" name="email" required
-                                                class="form-control" />
+                                                class="form-control" value=<%=user_info.email%> />
                                             <label class="form-label" for="patient-form-email">Email</label>
                                         </div>
                                     </div>
@@ -222,7 +222,7 @@
                                         <div class="form-outline text-center">
                                             <input type="tel" placeholder="Phone Number" id="patient-form-phone"
                                                 name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="form-control"
-                                                maxlength="12" oninput="addDashes(this)" required />
+                                                maxlength="12" oninput="addDashes(this)" value=<%=user_info.phone_number%> required />
                                             <label class="form-label" for="patient-form-phone">Phone # :
                                                 123-456-7890</label>
                                         </div>
@@ -262,6 +262,8 @@
             <!-- Footer Scripts -->
             <script src="js/custom.js"></script>
             <script src="js/vsee_api.js"></script>
+            <script src="js/api_call.js"></script>
+
             <script src="/node/jquery-datetimepicker/jquery.datetimepicker.js"></script>
 
 </body>
