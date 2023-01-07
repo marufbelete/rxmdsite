@@ -10,6 +10,7 @@ $(document).ready(function () {
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
+
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -400,7 +401,7 @@ $(document).ready(function () {
     event.preventDefault();
     const user_name = $("div").children("#edit-name").val();
     const email = $("div").children("#edit-email").val();
- 
+
     let searchString;
     if (!email && !user_name) {
       $("#user_search_notify")
@@ -497,6 +498,7 @@ $(document).ready(function () {
     const id = $(this).data("id");
     $("#update-confirmation").data("id", id);
     $("#update-user-phone").css('border-color','rgb(206, 212, 218)')
+
     $.ajax({
       url: `${base_url}/getuserbyid/${id}`,
       type: "GET",
@@ -510,11 +512,12 @@ $(document).ready(function () {
         $("#update-user-addressline2").val(user?.apt );
         $("#update-user-zip").val(user?.zip_code );
         $("#update-user-phone").val(formatPhoneNumber(user?.phone_number));
+
         // $("#update-user-fotformfilled").val(user?.intake)
       },
     });
   });
- 
+
   $("#update-confirmation").on("click", function () {
     const id = $(this).data("id");
     const first_name = $("#update-first-name").val();
@@ -535,6 +538,7 @@ $(document).ready(function () {
       $("#update_user_text_spin").addClass("d-none");
       return
     }
+
     $.ajax({
       url: `${base_url}/updateuser/${id}`,
       method: "PUT",
@@ -544,6 +548,7 @@ $(document).ready(function () {
         email,
         zip_code,
         phone_number:phone_number.replace(/-/g, ""),
+
         address,
         address_line_two,
         state,
@@ -564,6 +569,7 @@ $(document).ready(function () {
         $("#delete-user-msg").text("User Updated successfully");
         $("#update_user_text").removeClass("d-none");
         $("#update_user_text_spin").addClass("d-none");
+
         loadTable();
       },
       error: function (data) {
@@ -580,6 +586,7 @@ $(document).ready(function () {
         $("#delete-user-msg").text("something went wrong. please try again");
         $("#update_user_text").removeClass("d-none");
         $("#update_user_text_spin").addClass("d-none");
+
       },
     });
   });
@@ -648,10 +655,12 @@ $(document).ready(function () {
     $("#delete-confirmation").data("state", active);
   });
 
+
   $("#cancel-edit-user").on("click", function () {
     $("div").children("#edit-email").val("");
     $("div").children("#edit-name").val("");
   });
+
   const loadTable = () => {
     $("#user-table-body").empty();
     $.ajax({
@@ -702,7 +711,7 @@ $(document).ready(function () {
              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
            </svg>
           </span>`
-          
+
           }
           </td>
       </tr>
@@ -736,4 +745,5 @@ $(document).ready(function () {
     console.log(product_ordered)
     //here make ajax call to compelete the order
   })
+
 });
