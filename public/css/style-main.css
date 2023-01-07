@@ -1,14 +1,4 @@
 @charset "UTF-8";
-/*------------------------------------------------------------------
-[Master Stylesheet]
-
-Project:        Medinova
-Version:        1.0
-Last change:    02.16.2020
-Primary use:    HTML Template
-Author:         ThemeMascot
-URL:            https://themeforest.net/user/ThemeMascot
--------------------------------------------------------------------*/
 @import url(preloader.css);
 @import url(font-awesome5.css);
 @import url(pe-icon-7-stroke.css);
@@ -18,9 +8,6 @@ URL:            https://themeforest.net/user/ThemeMascot
 @import url(flaticon-set-contact.css);
 @import url("https://fonts.googleapis.com/css?family=Open Sans:300,400,500,600,700,800|Poppins:400,500,600,700,800,900");
 
-/*
-This file contains the common styles of this theme.
-*/
 /*------------------------------------------------------------------
 [table of contents]
 * reset.scss
@@ -4053,7 +4040,7 @@ only screen and (min-resolution: 1.5dppx) {
 }
 
 .menuzord-menu>li>.megamenu .megamenu-row .browse:hover {
-  font-size:30px;
+  font-size: 30px;
   transition: all 500ms;
   font-size-adjust: 20px;
   color: rgba(20, 153, 191, 1);
@@ -23221,7 +23208,7 @@ footer#footer.footer-inverted .widget.widget_recent_entries ul>li {
   height: 100%;
   z-index: -1;
   background-color: transparent;
-  background-image: url(../images/current-theme/testimonial-bg-hover.png);
+  background-image: url("../images/current-theme/title-line-bottom.png");
   background-position: bottom right;
   background-repeat: no-repeat;
   -webkit-transform: translateZ(300px) perspective(100px);

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
  * Datepicker for Bootstrap v1.9.0 (https://github.com/uxsolutions/bootstrap-datepicker)
  *
@@ -189,7 +190,7 @@
 .datepicker table tr td.today:active,
 .datepicker table tr td.today:hover.active,
 .datepicker table tr td.today:hover:active {
-  background-color: #fbf069\9
+  background-color: #fbf069 \9
 }
 
 .datepicker table tr td.today:hover:hover {
@@ -262,7 +263,7 @@
 .datepicker table tr td.range.today:active,
 .datepicker table tr td.range.today:hover.active,
 .datepicker table tr td.range.today:hover:active {
-  background-color: #efe24b\9
+  background-color: #efe24b \9
 }
 
 .datepicker table tr td.selected,
@@ -316,7 +317,7 @@
 .datepicker table tr td.selected:active,
 .datepicker table tr td.selected:hover.active,
 .datepicker table tr td.selected:hover:active {
-  background-color: #666\9
+  background-color: #666 \9
 }
 
 .datepicker table tr td.active,
@@ -370,7 +371,7 @@
 .datepicker table tr td.active:active,
 .datepicker table tr td.active:hover.active,
 .datepicker table tr td.active:hover:active {
-  background-color: #039\9
+  background-color: #039 \9
 }
 
 .datepicker table tr td span {
@@ -449,7 +450,7 @@
 .datepicker table tr td span.active:active,
 .datepicker table tr td span.active:hover.active,
 .datepicker table tr td span.active:hover:active {
-  background-color: #039\9
+  background-color: #039
 }
 
 .datepicker table tr td span.new,
@@ -2431,8 +2432,6 @@ screen and (max-height: 300px) {
   -ms-transform: translateZ(0);
   transform: translateZ(0)
 }
-
-@charset "UTF-8";
 
 /* Slider */
 .slick-loading .slick-list {
