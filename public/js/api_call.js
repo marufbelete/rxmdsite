@@ -683,8 +683,7 @@ $(document).ready(function () {
           <td>${user.city || ""}</td>
           <td>${user.state || ""}</td>
           <td>${user.zip_code || ""}</td>
-          <td>${formatPhoneNumber(user.phone_number) || ""}</td>
-
+          <td>${user.phone_number || ""}</td>
           <td>${user.intake}</td>
           <td>${new Date(user.createdAt).toLocaleDateString() || ""}</td>
           <td>

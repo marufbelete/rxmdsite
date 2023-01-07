@@ -4,7 +4,7 @@
   "description": "TestRxMD Website",
   "main": "src/index.js",
   "dependencies": {
-    "authorizenet": "^1.0.8",
+    "authorize-net": "^1.1.1",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.8",
     "cookie-parser": "^1.4.6",
