@@ -1,13 +1,15 @@
 const Order = require("../models/orderModel");
-const Payment = require("../models/paymentModel");
-const Shipping = require("../models/shippingModel");
 const Orderproduct = require("../models/orderproduct");
 const User = require("../models/userModel");
 const { isUserAdmin, isIntakeFormComplted } = require("../helper/user");
 const Product = require("../models/productModel");
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
-const {chargeCreditCard}=require('../functions/handlePayment');
+const { chargeCreditCard } = require('../functions/handlePayment');
+
+//Unused Shop stuff - save for later
+// const Payment = require("../models/paymentModel");
+// const Shipping = require("../models/shippingModel");
 
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
@@ -17,17 +19,19 @@ exports.createOrder = async (req, res, next) => {
     if (!(await isIntakeFormComplted(req))) {
       handleError("Please complete the registration form", 400);
     }
-    const payment_detail=await chargeCreditCard()
+    const payment_detail = await chargeCreditCard()
     const order = await Order.create(
       {
         userId: req?.user?.sub,
       },
       { transaction: t }
     );
-    let total_amount=0
+
+    let total_amount = 0
     for await (const prod of products) {
       const product = await Product.findByPk(prod.id);
-      total_amount=total_amount+(Number(prod.quantity)*Number(product.price))
+      total_amount = total_amount + (Number(prod.quantity) * Number(product.price))
+
       await Orderproduct.create(
         {
           productId: prod.id,
@@ -43,31 +47,33 @@ exports.createOrder = async (req, res, next) => {
       );
     }
     console.log(total_amount)
-    const payment_info={
-     amount:total_amount,
-     card_detail:{
-     cardNumber:payment_detail?.cardNumber,
-     expirtationDate:payment_detail?.expirtationDate?.
-      replace('/', ''),
-     cardCode:payment_detail?.cardCode,
-     firstName:payment_detail?.ownerFirstName,
-     lastName:payment_detail?.ownerLastName
-     },
-     billing_detail:{
-     firstName:payment_detail?.billingFirstName,
-     lastName:payment_detail?.billingLastName,
-     email:payment_detail?.email,
-     address:payment_detail?.address,
-     city:payment_detail?.city,
-     state:payment_detail?.state,
-     zip:payment_detail?.zip,
-     country:'USA'
-     }
-  }
-  console.log(payment_info)
-    const payment_response=await chargeCreditCard(payment_info)
+
+    const payment_info = {
+      amount: total_amount,
+      card_detail: {
+        cardNumber: payment_detail?.cardNumber,
+        expirtationDate: payment_detail?.expirtationDate?.
+          replace('/', ''),
+        cardCode: payment_detail?.cardCode,
+        firstName: payment_detail?.ownerFirstName,
+        lastName: payment_detail?.ownerLastName
+      },
+      billing_detail: {
+        firstName: payment_detail?.billingFirstName,
+        lastName: payment_detail?.billingLastName,
+        email: payment_detail?.email,
+        address: payment_detail?.address,
+        city: payment_detail?.city,
+        state: payment_detail?.state,
+        zip: payment_detail?.zip,
+        country: 'USA'
+      }
+    }
+    console.log(payment_info)
+    const payment_response = await chargeCreditCard(payment_info)
     console.log(payment_response)
-    order.transId=payment_response.transId
+    order.transId = payment_response.transId
+
     // order.total_amount_paid=
     await order.save({ transaction: t })
     await t.commit();
