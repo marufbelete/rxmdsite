@@ -12,21 +12,20 @@ const {chargeCreditCard}=require('../functions/handlePayment');
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
-    console.log("in making order")
-    const {payment_detail, product_ordered } = req.body;
+    const { products, ...other } = req.body;
+    console.log("order product...................")
     if (!(await isIntakeFormComplted(req))) {
       handleError("Please complete the registration form", 400);
     }
+    const payment_detail=await chargeCreditCard()
     const order = await Order.create(
       {
         userId: req?.user?.sub,
       },
       { transaction: t }
     );
-    console.log("done here")
-    console.log(order)
     let total_amount=0
-    for await (const prod of product_ordered) {
+    for await (const prod of products) {
       const product = await Product.findByPk(prod.id);
       total_amount=total_amount+(Number(prod.quantity)*Number(product.price))
       await Orderproduct.create(
@@ -35,9 +34,8 @@ exports.createOrder = async (req, res, next) => {
           product_name: product.product_name,
           discount: product.discount,
           description: product.description,
-          price: product?.price,
-          tax: product?.tax,
-          quantity:prod.quantity,
+          price: product.price,
+          tax: product.tax,
           // image_url: product.image_url,
           orderId: order.id,
         },
