@@ -1,14 +1,6 @@
 const { check, body } = require("express-validator");
 
 const registerValidate = () => {
-  // console.log("Inside Register Validate")
-  // console.log(check("first_name", "first name is required").not().isEmpty(),
-  // check("last_name", "last name is required").not().isEmpty(),
-  // check("email", "Please include a valid email").isEmail(),
-  // check(
-  //   "password",
-  //   "Please enter a password with 8 or more characters"
-  // ).isLength({ min: 8 }))
   return [
     check("first_name", "first name is required").not().isEmpty(),
     check("last_name", "last name is required").not().isEmpty(),

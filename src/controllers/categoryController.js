@@ -3,7 +3,6 @@ const { validationResult } = require("express-validator");
 
 exports.addCategory = async (req, res, next) => {
   try {
-    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ message: errors.array()[0].msg });
@@ -14,7 +13,6 @@ exports.addCategory = async (req, res, next) => {
     const new_category = await category.save();
     return res.json(new_category);
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
