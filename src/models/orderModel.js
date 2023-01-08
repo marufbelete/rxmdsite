@@ -9,10 +9,12 @@ const Order = sequelize.define("order", {
     autoIncrement: true,
     allowNull: false,
   },
+  transId:{
+    type: Sequelize.STRING
+  },
   order_date: {
     type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW,
-    allowNull: false,
+    defaultValue: Sequelize.NOW
   },
   delivery_date: {
     type: Sequelize.DATE,

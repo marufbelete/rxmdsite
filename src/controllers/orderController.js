@@ -21,15 +21,15 @@ exports.createOrder = async (req, res, next) => {
     const order = await Order.create(
       {
         userId: req?.user?.sub,
-        ...other,
       },
       { transaction: t }
     );
+    let total_amount=0
     for await (const prod of products) {
       const product = await Product.findByPk(prod.id);
+      total_amount=total_amount+(Number(prod.quantity)*Number(product.price))
       await Orderproduct.create(
         {
-          // quantity: prod.quantity,
           productId: prod.id,
           product_name: product.product_name,
           discount: product.discount,
@@ -42,6 +42,34 @@ exports.createOrder = async (req, res, next) => {
         { transaction: t }
       );
     }
+    console.log(total_amount)
+    const payment_info={
+     amount:total_amount,
+     card_detail:{
+     cardNumber:payment_detail?.cardNumber,
+     expirtationDate:payment_detail?.expirtationDate?.
+      replace('/', ''),
+     cardCode:payment_detail?.cardCode,
+     firstName:payment_detail?.ownerFirstName,
+     lastName:payment_detail?.ownerLastName
+     },
+     billing_detail:{
+     firstName:payment_detail?.billingFirstName,
+     lastName:payment_detail?.billingLastName,
+     email:payment_detail?.email,
+     address:payment_detail?.address,
+     city:payment_detail?.city,
+     state:payment_detail?.state,
+     zip:payment_detail?.zip,
+     country:'USA'
+     }
+  }
+  console.log(payment_info)
+    const payment_response=await chargeCreditCard(payment_info)
+    console.log(payment_response)
+    order.transId=payment_response.transId
+    // order.total_amount_paid=
+    await order.save({ transaction: t })
     await t.commit();
     return res.json(order);
   } catch (err) {
