@@ -1,7 +1,7 @@
 const Product = require("./productModel");
 const Orderproduct = require("./orderproduct");
 const Order = require("./orderModel");
-const Payment = require("./paymentModel");
+// const Payment = require("./paymentModel");
 const User = require("./userModel");
 const Role = require("./roleModel");
 
@@ -65,12 +65,12 @@ const Relation = () => {
   // });
 
   //order to payment
-  Payment.hasMany(Order, {
-    foreignKey: "paymentId",
-  });
-  Order.belongsTo(Payment, {
-    foreignKey: "paymentId",
-  });
+  // Payment.hasMany(Order, {
+  //   foreignKey: "paymentId",
+  // });
+  // Order.belongsTo(Payment, {
+  //   foreignKey: "paymentId",
+  // });
 
   //order to user
   User.hasMany(Order, {

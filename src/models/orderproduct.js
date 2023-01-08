@@ -11,7 +11,7 @@ const Orderproduct = sequelize.define("order_product", {
   },
   quantity: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    defaultValue:1
   },
   productId: {
     type: Sequelize.INTEGER,
@@ -33,12 +33,14 @@ const Orderproduct = sequelize.define("order_product", {
     type: Sequelize.FLOAT,
     allowNull: false,
   },
+  total_amount_paid:{
+    type: Sequelize.DECIMAL,
+  },
   tax: {
     type: Sequelize.DECIMAL,
   },
   image_url: {
     type: Sequelize.STRING,
-    allowNull: false,
     get() {
       return this.getDataValue("image_url")?.split(";");
     },

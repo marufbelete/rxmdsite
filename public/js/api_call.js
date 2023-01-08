@@ -741,9 +741,69 @@ $(document).ready(function () {
     $('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').each(function(){
       product_ordered.push({productId:$(this).data('productid')})
     })
-    alert(product_ordered)
-    console.log(product_ordered)
+    console.log(product_ordered);
+    console.log(!$("#checkout-form-ccNumber").val());
+      //please select one or more product
+      !($("#checkout-form-ccNumber").val())?$("#checkout-form-ccNumber").css('border-color','red'):
+      $("#checkout-form-ccNumber").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-ccExpiry").val()?$("#checkout-form-ccExpiry").css('border-color','red'):
+      $("#checkout-form-ccExpiry").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-cvc").val()?$("#checkout-form-cvc").css('border-color','red'):
+      $("#checkout-form-cvc").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-firstname-on-cc").val()?$("#checkout-form-firstname-on-cc").css('border-color','red'):
+      $("#checkout-form-firstname-on-cc").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-lastname-on-cc").val()?$("#checkout-form-lastname-on-cc").css('border-color','red'):
+      $("#checkout-form-lastname-on-cc").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-firstname").val()?$("#checkout-form-firstname").css('border-color','red'):
+      $("#checkout-form-firstname").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-lastname").val()?$("#checkout-form-lastname").css('border-color','red'):
+      $("#checkout-form-lastname").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-email").val()?$("#checkout-form-email").css('border-color','red'):
+      $("#checkout-form-email").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-address").val()?$("#checkout-form-address").css('border-color','red'):
+      $("#checkout-form-address").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-city").val()?$("#checkout-form-city").css('border-color','red'):
+      $("#checkout-form-city").css('border-color','rgb(206, 212, 218)')
+      !$('#checkout-form-state').val()?$("#checkout-form-state").css('border-color','red'):
+      $("#checkout-form-state").css('border-color','rgb(206, 212, 218)')
+      !$("#checkout-form-zip").val()?$("#checkout-form-zip").css('border-color','red'):
+      $("#checkout-form-zip").css('border-color','rgb(206, 212, 218)')
+      if(product_ordered.length===0){
+        return
+      }
+    $('#spinner-div').show();
+    $(this).prop('disabled', true);
+    const payment_detail={
+      cardNumber:$("#checkout-form-ccNumber").val(),
+      expirtationDate:$("#checkout-form-ccExpiry").val(),
+      cardCode:$("#checkout-form-cvc").val(),
+      ownerFirstName:$("#checkout-form-firstname-on-cc").val(),
+      ownerLastName:$("#checkout-form-lastname-on-cc").val(),
+      //billing info
+      billingFirstName:$("#checkout-form-firstname").val(),
+      billingLastName:$("#checkout-form-lastname").val(),
+      email:$("#checkout-form-email").val(),
+      address:$("#checkout-form-address").val(),
+      city:$("#checkout-form-city").val(),
+      state:$('#checkout-form-state').val(),
+      zip:$("#checkout-form-zip").val(),
+      }
     //here make ajax call to compelete the order
+    $.ajax({
+      url: `${base_url}/addorder`,
+      method: "POST",
+      data:{payment_detail,product_ordered},
+      success: function (data) {
+        $('#spinner-div').hide();
+        $(this).prop('disabled', false);
+        location.href = "/checkout";
+      },
+      error: function (data) {
+        $('#spinner-div').hide();
+        $(this).prop('disabled', false);
+      },
+    });
+    
   })
 
 });
