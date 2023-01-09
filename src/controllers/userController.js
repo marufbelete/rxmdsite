@@ -304,6 +304,7 @@ exports.confirmEmail = async (req, res, next) => {
 exports.checkAuth = async(req, res, next) => {
   try {
     const token = req.cookies.access_token;
+    console.log("test check auth.................")
     if (!token) {
       handleError("please login", 403);
     }

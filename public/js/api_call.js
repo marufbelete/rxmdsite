@@ -11,6 +11,7 @@ $(document).ready(function () {
     method: "GET",
     success: function (data) {
       console.log("error")
+      console.log(data)
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
