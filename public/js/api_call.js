@@ -10,7 +10,7 @@ $(document).ready(function () {
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
-
+      console.log("error")
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&

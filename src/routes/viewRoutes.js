@@ -30,7 +30,7 @@ module.exports = (app) => {
   });
 
   router.get("/getstarted", function (req, res) {
-    res.redirect("https://hipaa.jotform.com/212587273457161");
+    res.redirect("https://hipaa.jotform.com/212587273457161?token=<%=token%>");
   });
 
   router.get("/checkout", authenticateJWT, getProduct, errorHandler);
@@ -75,6 +75,10 @@ module.exports = (app) => {
   // router.get("/products/details", function (req, res) {
   //   res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));
   // });
+
+  router.get("*", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/404"))
+  })
 
   app.use("/", router);
 };

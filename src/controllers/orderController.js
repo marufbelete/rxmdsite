@@ -1,6 +1,4 @@
 const Order = require("../models/orderModel");
-const Payment = require("../models/paymentModel");
-const Shipping = require("../models/shippingModel");
 const Orderproduct = require("../models/orderproduct");
 const User = require("../models/userModel");
 const { isUserAdmin, isIntakeFormComplted } = require("../helper/user");

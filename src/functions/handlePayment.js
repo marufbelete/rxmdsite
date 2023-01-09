@@ -39,7 +39,6 @@ const chargeCreditCard=async(paymentInfo)=>{
         transactionRequestType.setAmount(paymentInfo?.amount);
         // transactionRequestType.setTransactionSettings(transactionSetting);
 
-
   const createRequest = new ApiContracts.CreateTransactionRequest();
   createRequest.setMerchantAuthentication(merchantAuthenticationType);
   createRequest.setTransactionRequest(transactionRequestType);
@@ -59,8 +58,6 @@ const chargeCreditCard=async(paymentInfo)=>{
     });
     // console.log(apiResponse.messages)
     // console.log(apiResponse.transactionResponse.errors)
-
-    // const response = new ApiContracts.CreateTransactionResponse(apiResponse);
     // const settleAmount = Response.getTransactionResponse().getSettleAmount();
     // console.log(settleAmount)
     if (Response != null) {
