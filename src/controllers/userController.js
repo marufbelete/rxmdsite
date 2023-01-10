@@ -83,7 +83,7 @@ exports.loginUser = async (req, res, next) => {
   try {
     const { login_email, login_password, rememberme } = req.body;
     const user = login_email && (await isEmailExist(login_email));
-    if (user && user.isLocalAuth &&user.isActive) {
+    if (user && user.isLocalAuth && user.isActive) {
       //if not validated send email
       if (!user.isEmailConfirmed) {
         const token = jwt.sign({ email: user.email }, process.env.SECRET);
@@ -103,12 +103,12 @@ exports.loginUser = async (req, res, next) => {
       if (await isPasswordCorrect(login_password, user.password)) {
         const token = rememberme
           ? await issueLongtimeToken(
-              user.id,
-              user.role?.role,
-              login_email,
-              process.env.SECRET
-            )
-          : await issueToken(user.id, user.role.role,login_email, process.env.SECRET);
+            user.id,
+            user.role?.role,
+            login_email,
+            process.env.SECRET
+          )
+          : await issueToken(user.id, user.role.role, login_email, process.env.SECRET);
         const info = {
           first_name: user.first_name,
           last_name: user.last_name,
@@ -161,15 +161,16 @@ exports.getUserById = async (req, res, next) => {
 exports.getUserByStatus = async (req, res, next) => {
   try {
     let queryString
-    const { email,name } = req.query;
-    if(email){queryString={email:email}}
-    if(name){queryString={
-      [Op.or]: [{first_name:{[Op.like]: `%${name}%`}},
-       {last_name:{[Op.like]: `%${name}%`}}]
+    const { email, name } = req.query;
+    if (email) { queryString = { email: email } }
+    if (name) {
+      queryString = {
+        [Op.or]: [{ first_name: { [Op.like]: `%${name}%` } },
+        { last_name: { [Op.like]: `%${name}%` } }]
+      }
     }
-  }
     const user = await User.findAll(
-      {where:queryString, include: ["role"] });
+      { where: queryString, include: ["role"] });
     return res.json(user);
   } catch (err) {
     next(err);
@@ -192,7 +193,7 @@ exports.updateUserInfo = async (req, res, next) => {
     if (req.body.password) {
       delete req.body.password;
     }
-    const new_user_info=removeEmptyPair(req.body)
+    const new_user_info = removeEmptyPair(req.body)
     console.log(new_user_info)
     const updated_user = await User.update(
       { ...new_user_info },
@@ -207,9 +208,9 @@ exports.updateUserInfo = async (req, res, next) => {
 exports.updateUserState = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const {state}=req.body
+    const { state } = req.body
     const updated_user = await User.update(
-      { isActive:state },
+      { isActive: state },
       { where: { id: id } }
     );
     return res.json(updated_user);
@@ -301,20 +302,20 @@ exports.confirmEmail = async (req, res, next) => {
     next(err);
   }
 };
-exports.checkAuth = async(req, res, next) => {
+exports.checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.access_token;
     console.log("test check auth.................")
     if (!token) {
       handleError("please login", 403);
     }
-    const user=await asyncVerify(token, process.env.SECRET)
-    if(user?.sub){
-      const check_user=await User.findByPk(user?.sub)
-      if(!check_user?.isActive){
+    const user = await asyncVerify(token, process.env.SECRET)
+    if (user?.sub) {
+      const check_user = await User.findByPk(user?.sub)
+      if (!check_user?.isActive) {
         handleError("This account is inactive, please contact our customer service", 403);
       }
-      return res.json({ message: "success", auth: true,user:user });
+      return res.json({ message: "success", auth: true, user: user });
     }
     handleError("please login", 403);
   } catch (err) {
@@ -323,8 +324,9 @@ exports.checkAuth = async(req, res, next) => {
 };
 
 exports.logOut = async (req, res, next) => {
+  console.log(document.cookie)
   try {
-    return res.status(200).clearCookie('access_token').redirect("/login");;
+    return res.status(200).clearCookie('access_token').redirect("/login");
   } catch (err) {
     next(err);
   }
@@ -337,7 +339,7 @@ exports.contactFormEmail = async (req, res, next) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    const { name, email, phone, subject,message } = req.body;
+    const { name, email, phone, subject, message } = req.body;
     const receiveOptions = {
       from: email,
       to: process.env.EMAIL,
@@ -377,7 +379,7 @@ exports.adminDashboard = async (req, res, next) => {
       order: [["product_name", "ASC"]],
     };
     const products = await Product.findAll(options);
-    return res.render(path.join(__dirname, "..", "/views/pages/dashboard"),{products});
+    return res.render(path.join(__dirname, "..", "/views/pages/dashboard"), { products });
   } catch (err) {
     next(err);
   }
