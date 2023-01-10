@@ -93,11 +93,11 @@ $("#billingAddressSameAsShipping").on("click", function () {
   function tmMasonryItemsHeightResizer(size, container) {
     if (container.hasClass("masonry-tiles")) {
       var padding = parseInt(
-          container
-            .find(".isotope-item:not(.isotope-item-sizer)")
-            .css("padding-left"),
-          10
-        ),
+        container
+          .find(".isotope-item:not(.isotope-item-sizer)")
+          .css("padding-left"),
+        10
+      ),
         masonry_default = container.find(".tm-masonry-default"),
         masonry_large_height = container.find(".tm-masonry-large-height"),
         masonry_large_wide = container.find(".tm-masonry-large-wide"),
@@ -841,7 +841,7 @@ $("#billingAddressSameAsShipping").on("click", function () {
         $ajaxload_popup.magnificPopup({
           items: [
             {
-              src:$ajaxload_popup.prop('href'),
+              src: $ajaxload_popup.prop('href'),
               type: "iframe", // this overrides default type
             },
           ],
@@ -889,9 +889,9 @@ $("#billingAddressSameAsShipping").on("click", function () {
           type: "ajax",
           closeBtnInside: false,
           callbacks: {
-            ajaxContentAdded: function (mfpResponse) {},
-            open: function () {},
-            close: function () {},
+            ajaxContentAdded: function (mfpResponse) { },
+            open: function () { },
+            close: function () { },
           },
         });
       }
@@ -1768,8 +1768,8 @@ $("#billingAddressSameAsShipping").on("click", function () {
           $body.css(
             "padding-top",
             $header_nav_wrapper.height() -
-              header_nav_wrapper_menuzordmenu_height -
-              admin_bar_height()
+            header_nav_wrapper_menuzordmenu_height -
+            admin_bar_height()
           );
         } else {
           $body.css("padding-top", 0);
@@ -1854,41 +1854,38 @@ $("#billingAddressSameAsShipping").on("click", function () {
         });
       }
 
-      // var $nav_items = $("#top-primary-nav  #main-nav").clone();
-      // $("#top-primary-nav-clone #main-nav-clone").append($nav_items);
+      // Custom Login Logout button change
       var $nav_items = $("#top-primary-nav  #main-nav").clone();
-      const isLoged=localStorage.getItem("isLoged");
-      const isAdmin=localStorage.getItem("isAdmin");
-      if($nav_items[0].children[6]) {
-        $nav_items[0].children[6].innerHTML =isLoged==="true"? "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    ":
-      "\n      <a href=\"login\" id=\"login_link\">Sign in</a>\n    ";
+      const isLoged = localStorage.getItem("isLoged");
+      const isAdmin = localStorage.getItem("isAdmin");
+      if ($nav_items[0].children[6]) {
+        $nav_items[0].children[6].innerHTML = isLoged === "true" ? "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    " :
+          "\n      <a href=\"login\" id=\"login_link\">Sign in</a>\n    ";
       }
-      if($nav_items[0].children[5]) {
-        $nav_items[0].children[5].innerHTML =(isLoged==="true"&&isAdmin==="true")? "\n      <a href=\"dashboard\" id=\"admin_link\">Admin Dashboard</a>\n    ":
-      "\n      <a href=\"#\" class=\"d-none\" id=\"admin_link\">Admin Dashboard</a>\n    ";
+      if ($nav_items[0].children[5]) {
+        $nav_items[0].children[5].innerHTML = (isLoged === "true" && isAdmin === "true") ? "\n      <a href=\"dashboard\" id=\"admin_link\">Admin Dashboard</a>\n    " :
+          "\n      <a href=\"#\" class=\"d-none\" id=\"admin_link\">Admin Dashboard</a>\n    ";
       }
-      (isAdmin!=="true"||isLoged!=="true")&&$('#admin_link').addClass("d-none");
-      isLoged==="true"&&isAdmin==="true"&&$('#admin_link').removeClass("d-none");
-      const base_url="http://localhost:7000"
+      (isAdmin !== "true" || isLoged !== "true") && $('#admin_link').addClass("d-none");
+      isLoged === "true" && isAdmin === "true" && $('#admin_link').removeClass("d-none");
+      const base_url = "http://localhost:7000"
       // const base_url="https://rxmdsite-production.up.railway.app"
       $.ajax({
-        url:`${base_url}/checkauth`,
-        method:"GET",
-        success:function(data)
-        {
-          $nav_items[0].children[6].innerHTML ="\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    "
+        url: `${base_url}/checkauth`,
+        method: "GET",
+        success: function (data) {
+          $nav_items[0].children[6].innerHTML = "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    "
         },
-    });
-      $document.on("click","#logout_link", function(e){
+      });
+      $document.on("click", "#logout_link", function (e) {
         console.log("clicked", e)
         $.ajax({
-            url:`${base_url}/logout`,
-            method:"GET",
-            success:function(data)
-            {
-              localStorage.setItem("isLoged","false");
-              location.href = "/login"
-            },
+          url: `${base_url}/logout`,
+          method: "GET",
+          success: function (data) {
+            localStorage.setItem("isLoged", "false");
+            location.href = "/login"
+          },
         });
       })
 
@@ -2163,8 +2160,8 @@ $("#billingAddressSameAsShipping").on("click", function () {
           $each_istope.imagesLoaded(function () {
             if ($each_istope.hasClass("masonry")) {
               var isotope_inner = $each_istope.children(
-                  ".isotope-layout-inner"
-                ),
+                ".isotope-layout-inner"
+              ),
                 size = $each_istope.find(".isotope-item-sizer").width();
               tmMasonryItemsHeightResizer(size, $each_istope);
 
@@ -2290,7 +2287,7 @@ $("#billingAddressSameAsShipping").on("click", function () {
     /* ---------------------------------------------------------------------- */
     /* ----------------------------- CountDown ------------------------------ */
     /* ---------------------------------------------------------------------- */
-    TM_finalCountdown: function () {},
+    TM_finalCountdown: function () { },
     TM_countDownTimer: function () {
       //Modern Circular
       var $timer_modern_circular = $(
@@ -2557,13 +2554,13 @@ $("#billingAddressSameAsShipping").on("click", function () {
             var $this = $(this).html(
               event.strftime(
                 "" +
-                  "<span>%w</span> " +
-                  word_weeks +
-                  " " +
-                  "<span>%d</span> " +
-                  word_days +
-                  "" +
-                  hour_format
+                "<span>%w</span> " +
+                word_weeks +
+                " " +
+                "<span>%d</span> " +
+                word_days +
+                "" +
+                hour_format
               )
             );
           });
@@ -2604,13 +2601,13 @@ $("#billingAddressSameAsShipping").on("click", function () {
             var $this = $(this).html(
               event.strftime(
                 "" +
-                  "<span>%m</span> " +
-                  word_month +
-                  " " +
-                  "<span>%n</span> " +
-                  word_days +
-                  "" +
-                  hour_format
+                "<span>%m</span> " +
+                word_month +
+                " " +
+                "<span>%n</span> " +
+                word_days +
+                "" +
+                hour_format
               )
             );
           });
@@ -2651,13 +2648,13 @@ $("#billingAddressSameAsShipping").on("click", function () {
             var $this = $(this).html(
               event.strftime(
                 "" +
-                  "<span>%w</span> " +
-                  word_weeks +
-                  " " +
-                  "<span>%d</span> " +
-                  word_days +
-                  "" +
-                  hour_format
+                "<span>%w</span> " +
+                word_weeks +
+                " " +
+                "<span>%d</span> " +
+                word_days +
+                "" +
+                hour_format
               )
             );
           });
@@ -2763,7 +2760,7 @@ $("#billingAddressSameAsShipping").on("click", function () {
     /* ---------------------------------------------------------------------- */
     /* ----------------------------- Instagram Feed ---------------------------- */
     /* ---------------------------------------------------------------------- */
-    TM_instagramFeed: function () {},
+    TM_instagramFeed: function () { },
 
     /* ---------------------------------------------------------------------- */
     /* ---------------------------- Flickr Feed ----------------------------- */
@@ -3073,7 +3070,7 @@ $("#billingAddressSameAsShipping").on("click", function () {
           afterResize: function (width, height) {
             $.force_appear();
           },
-          afterResponsive: function (isResponsive) {},
+          afterResponsive: function (isResponsive) { },
         });
       }
     },
