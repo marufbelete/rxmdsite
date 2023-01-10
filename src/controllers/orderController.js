@@ -32,8 +32,8 @@ exports.createOrder = async (req, res, next) => {
     );
     let total_amount=0
     for await (const prod of product_ordered) {
-      const product = await Product.findByPk(prod.productId);
-      total_amount=total_amount+(Number(prod?.quantity||1)*Number(product.price))
+      const product = await Product.findByPk(prod?.productId);
+      total_amount=total_amount+(Number(prod?.quantity||1)*Number(product?.price))
       await Orderproduct.create(
         {
           productId: prod?.productId,
@@ -81,7 +81,7 @@ exports.createOrder = async (req, res, next) => {
   }
     const payment_response=await chargeCreditCard(payment_info)
     order.transId=payment_response.transId
-    // order.total_amount_paid=
+    order.total_paid_amount=total_amount.toFixed(2)
     await order.save({ transaction: t })
     await t.commit();
     return res.json(order);

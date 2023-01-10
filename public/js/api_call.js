@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url="https://rxmdsite-production.up.railway.app"
+  const base_url = "http://localhost:7000";
+  // const base_url="https://rxmdsite-production.up.railway.app"
 
   $("#populate").on("click", function () {
     loadTable();
@@ -20,6 +20,7 @@ $(document).ready(function () {
     error: function (data) {
       localStorage.setItem("isLoged", "false");
       localStorage.setItem("isAdmin", "false");
+      checkLogin();
     },
   });
 
@@ -35,7 +36,6 @@ $(document).ready(function () {
     isLoged === "true" &&
     isAdmin === "true" &&
     $("#admin_link").removeClass("d-none");
-      console.log(isLoged);
   };
   checkLogin();
 
@@ -774,6 +774,7 @@ $(document).ready(function () {
       $("#select-product-error").addClass("d-none")
      
     $('#spinner-div').show();
+    $('#complete-order-error').addClass('d-none')
     // $(this).prop('disabled', true);
     const payment_detail={
       cardNumber:$("#checkout-form-ccNumber").val(),
@@ -802,6 +803,8 @@ $(document).ready(function () {
       },
       error: function (data) {
         $('#spinner-div').hide();
+        $('#complete-order-error').removeClass('d-none').
+        text(data.responseJSON.message)
         // $(this).prop('disabled', false);
       },
     });

@@ -9,6 +9,9 @@ const Order = sequelize.define("order", {
     autoIncrement: true,
     allowNull: false,
   },
+  total_paid_amount:{
+    type: Sequelize.STRING
+  },
   transId:{
     type: Sequelize.STRING
   },
