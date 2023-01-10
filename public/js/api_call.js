@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url="https://rxmdsite-production.up.railway.app"
+  // const base_url = "http://localhost:7000";
+  const base_url="https://rxmdsite-production.up.railway.app"
 
   $("#populate").on("click", function () {
     loadTable();
@@ -10,8 +10,6 @@ $(document).ready(function () {
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
-      console.log("error")
-      console.log(data)
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -33,10 +31,11 @@ $(document).ready(function () {
     isLoged !== "true" && $("#login_link").removeClass("d-none");
     isLoged !== "true" && $("#logout_link").addClass("d-none");
     (isAdmin !== "true" || isLoged !== "true") &&
-      $("#admin_link").addClass("d-none");
+    $("#admin_link").addClass("d-none");
     isLoged === "true" &&
-      isAdmin === "true" &&
-      $("#admin_link").removeClass("d-none");
+    isAdmin === "true" &&
+    $("#admin_link").removeClass("d-none");
+      console.log(isLoged);
   };
   checkLogin();
 
