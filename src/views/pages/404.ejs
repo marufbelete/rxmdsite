@@ -26,7 +26,6 @@
   <link href="css/animate.min.css" rel="stylesheet" type="text/css">
   <link href="css/javascript-plugins-bundle.css" rel="stylesheet" />
 
-
   <!-- CSS | menuzord megamenu skins -->
   <link href="js/menuzord/css/menuzord.css" rel="stylesheet" />
 
@@ -48,89 +47,77 @@
   <script src="js/menuzord/js/menuzord.js"></script>
 
   <link href="style.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body class="tm-container-1300px has-side-panel side-panel-right">
+  <%- include('../partials/headerTop.ejs') %>
+    <li class="menu-item">
+      <a href="#">Home</a>
+    </li>
+    <li class="menu-item">
+      <a href="/services">Services</a>
+    </li>
+    <li class="menu-item">
+      <a href="/about">About</a>
+    </li>
+    <li class="menu-item">
+      <a href="/contact">Contact</a>
+    </li>
+    <li class="menu-item">
+      <a href="/checkout">Telehealth &amp; Labs</a>
+    </li>
+    <li class="menu-item">
+      <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
+    </li>
+    <li class="menu-item">
+      <a href="/login" id="login_link">Sign in</a>
+      <a href="#" id="logout_link" class="d-none">Sign out</a>
+    </li>
+    <%- include('../partials/headerBottom.ejs') %>
 
-  <body class="tm-container-1300px has-side-panel side-panel-right">
-    <%- include('../partials/headerTop.ejs') %>
-      <li class="menu-item">
-        <a href="#">Home</a>
-      </li>
-      <li class="menu-item">
-        <a href="/services">Services</a>
-      </li>
-      <li class="menu-item">
-        <a href="/about">About</a>
-      </li>
-      <li class="menu-item">
-        <a href="/contact">Contact</a>
-      </li>
-      <li class="menu-item">
-        <a href="/checkout">Telehealth &amp; Labs</a>
-      </li>
-      <li class="menu-item">
-        <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
-      </li>
-      <li class="menu-item">
-        <a href="/login" id="login_link">Sign in</a>
-        <a href="#" id="logout_link" class="d-none">Sign out</a>
-      </li>
-
-      <%- include('../partials/headerBottom.ejs') %>
-        <!-- Start main-content -->
-        <!-- Start main-content -->
-        <div class="main-content-area">
-          <!-- Section: Home -->
-
-          <body class="tm-container-1300px">
-            <div id="wrapper" class="clearfix">
-
-              <!-- Start main-content -->
-              <div class="main-content-area">
-                <!-- Section: home -->
-                <section id="home" class="fullscreen bg-lightest">
-                  <div class="display-table">
-                    <div class="display-table-cell">
-                      <div class="container pt-0 pb-0">
-                        <div class="row">
-                          <div class="col-md-7 text-center">
-                            <h1 class="font-size-200 line-height-1 mt-0 mb-0 text-theme-colored1">404!</h1>
-                            <h2 class="mt-0">Oops! Page Not Found</h2>
-                            <p>The page you were looking for could not be found.</p>
-                            <a class="btn btn-theme-colored1 btn-round btn-circled" href="index-mp-layout1.html">Return
-                              Home
-                            </a>
-                          </div>
-                          <div class="col-md-4">
-                            <h3>Some Useful Links</h3>
-                            <div class="widget widget_nav_menu">
-                              <ul>
-                                <li><a href="/home">Home</a></li>
-                                <li><a href="/services">Services</a></li>
-                                <li><a href="/about">About</a></li>
-                                <li><a href="/contact">Contact</a></li>
-                                <li><a href="/checkout">Telehealth &amp; Labs</a></li>
-                                <li><a href="/privacypolicy">Privacy Policy</a></li>
-                                <li><a href="/tos">Terms of use</a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+      <!-- Start main-content -->
+      <div class="main-content-area">
+        <!-- Section: home -->
+        <section id="home" class="fullscreen bg-lightest">
+          <div class="display-table">
+            <div class="display-table-cell">
+              <div class="container pt-0 pb-0">
+                <div class="row">
+                  <div class="col-md-7 text-center">
+                    <h1 class="font-size-200 line-height-1 mt-0 mb-0 text-theme-colored1">404!</h1>
+                    <h2 class="mt-0">Oops! Page Not Found</h2>
+                    <p>The page you were looking for could not be found.</p>
+                    <a class="btn btn-theme-colored1 btn-round btn-circled" href="index-mp-layout1.html">Return
+                      Home
+                    </a>
+                  </div>
+                  <div class="col-md-4">
+                    <h3>Some Useful Links</h3>
+                    <div class="widget widget_nav_menu">
+                      <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/checkout">Telehealth &amp; Labs</a></li>
+                        <li><a href="/privacypolicy">Privacy Policy</a></li>
+                        <li><a href="/tos">Terms of use</a></li>
+                      </ul>
                     </div>
                   </div>
-                </section>
+                </div>
               </div>
-              <!-- end main-content -->
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- end main-content -->
 
-              <%- include('../partials/footer') %>
+      <%- include('../partials/footer') %>
 
-                <!-- Footer Scripts -->
-                <!-- JS | Custom script for all pages -->
-                <script src="js/custom.js"></script>
+        <!-- Footer Scripts -->
+        <script src="js/custom.js"></script>
 
-          </body>
+</body>
 
 </html>
