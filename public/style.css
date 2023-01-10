@@ -328,7 +328,9 @@ body.loggedin {
   z-index: 20000;
   transform: translate(-50%, -50%);
 }
-
+#select-product-error-text{
+color:red
+}
 /* above loader */
 .table-users th{
   font-size: 12px;

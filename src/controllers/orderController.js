@@ -12,8 +12,13 @@ const {chargeCreditCard}=require('../functions/handlePayment');
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
-    console.log("in making order")
     const {payment_detail, product_ordered } = req.body;
+    const {cardCode,expirtationDate,cardNumber,billingLastName,
+      email,billingFirstName,address,city,state,zip}=payment_detail
+      if(!cardCode||!expirtationDate||!cardNumber||!billingLastName||!
+        email||!billingFirstName||!address||!city||!state||!zip){
+          handleError("Please fill all field", 400);
+        }
     if (!(await isIntakeFormComplted(req))) {
       handleError("Please complete the registration form", 400);
     }
@@ -23,52 +28,56 @@ exports.createOrder = async (req, res, next) => {
       },
       { transaction: t }
     );
-    console.log("done here")
-    console.log(order)
     let total_amount=0
     for await (const prod of product_ordered) {
-      const product = await Product.findByPk(prod.id);
-      total_amount=total_amount+(Number(prod.quantity)*Number(product.price))
+      const product = await Product.findByPk(prod.productId);
+      total_amount=total_amount+(Number(prod?.quantity||1)*Number(product.price))
       await Orderproduct.create(
         {
-          productId: prod.id,
-          product_name: product.product_name,
-          discount: product.discount,
-          description: product.description,
+          productId: prod?.productId,
+          product_name: product?.product_name,
+          discount: product?.discount,
+          description: product?.description,
           price: product?.price,
           tax: product?.tax,
-          quantity:prod.quantity,
+          quantity:prod?.quantity,
           // image_url: product.image_url,
-          orderId: order.id,
+          orderId: order?.id,
         },
         { transaction: t }
       );
     }
-    console.log(total_amount)
+    //update the user address info
+    User.update({
+     address:address,
+     city:city,
+     state:state,
+     zip_code:zip,
+     country:'USA'
+    },{where:{id:req?.user?.sub}})
+
     const payment_info={
      amount:total_amount,
      card_detail:{
-     cardNumber:payment_detail?.cardNumber,
-     expirtationDate:payment_detail?.expirtationDate?.
+     cardNumber:cardNumber,
+     expirtationDate:expirtationDate?.
       replace('/', ''),
-     cardCode:payment_detail?.cardCode,
-     firstName:payment_detail?.ownerFirstName,
-     lastName:payment_detail?.ownerLastName
+     cardCode:cardCode,
+    //  firstName:payment_detail?.ownerFirstName,
+    //  lastName:payment_detail?.ownerLastName
      },
      billing_detail:{
-     firstName:payment_detail?.billingFirstName,
-     lastName:payment_detail?.billingLastName,
-     email:payment_detail?.email,
-     address:payment_detail?.address,
-     city:payment_detail?.city,
-     state:payment_detail?.state,
-     zip:payment_detail?.zip,
+     firstName:billingFirstName,
+     lastName:billingLastName,
+     email:email,
+     address:address,
+     city:city,
+     state:state,
+     zip:zip,
      country:'USA'
      }
   }
-  console.log(payment_info)
     const payment_response=await chargeCreditCard(payment_info)
-    console.log(payment_response)
     order.transId=payment_response.transId
     // order.total_amount_paid=
     await order.save({ transaction: t })

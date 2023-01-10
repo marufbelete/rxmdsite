@@ -12,8 +12,9 @@ const chargeCreditCard=async(paymentInfo)=>{
         creditCard.setCardNumber(paymentInfo.card_detail?.cardNumber);
         creditCard.setExpirationDate(paymentInfo.card_detail?.expirtationDate);
         creditCard.setCardCode(paymentInfo.card_detail?.cardCode);
-        creditCard.setFirstName(paymentInfo.card_detail?.firstName);
-        creditCard.setLastName(paymentInfo.card_detail?.lastName);
+        // creditCard.setCardholderName('John Smith');
+        // creditCard.setFirstName(paymentInfo.card_detail?.firstName);
+        // creditCard.setLastName(paymentInfo.card_detail?.lastName);
 
         const paymentType = new ApiContracts.PaymentType();
         paymentType.setCreditCard(creditCard);
