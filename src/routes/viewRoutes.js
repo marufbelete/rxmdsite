@@ -3,7 +3,7 @@ const { getProduct } = require("../controllers/productController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { getAppointment } = require("../controllers/appointment.controller");
 
-module.exports = (app) => {
+// module.exports = (app) => {
   const path = require("path");
   const router = require("express").Router();
 
@@ -80,5 +80,6 @@ module.exports = (app) => {
     res.render(path.join(__dirname, "..", "/views/pages/404"))
   })
 
-  app.use("/", router);
-};
+//   app.use("/", router);
+// };
+module.exports = router;
