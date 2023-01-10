@@ -26,7 +26,6 @@
   <link href="css/animate.min.css" rel="stylesheet" type="text/css">
   <link href="css/javascript-plugins-bundle.css" rel="stylesheet" />
 
-
   <!-- CSS | menuzord megamenu skins -->
   <link href="js/menuzord/css/menuzord.css" rel="stylesheet" />
 
@@ -48,94 +47,77 @@
   <script src="js/menuzord/js/menuzord.js"></script>
 
   <link href="style.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body class="tm-container-1300px has-side-panel side-panel-right">
+  <%- include('../partials/headerTop.ejs') %>
+    <li class="menu-item">
+      <a href="#">Home</a>
+    </li>
+    <li class="menu-item">
+      <a href="/services">Services</a>
+    </li>
+    <li class="menu-item">
+      <a href="/about">About</a>
+    </li>
+    <li class="menu-item">
+      <a href="/contact">Contact</a>
+    </li>
+    <li class="menu-item">
+      <a href="/checkout">Telehealth &amp; Labs</a>
+    </li>
+    <li class="menu-item">
+      <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
+    </li>
+    <li class="menu-item">
+      <a href="/login" id="login_link">Sign in</a>
+      <a href="#" id="logout_link" class="d-none">Sign out</a>
+    </li>
+    <%- include('../partials/headerBottom.ejs') %>
 
-  <body class="tm-container-1300px has-side-panel side-panel-right">
-    <%- include('../partials/headerTop.ejs') %>
       <!-- Start main-content -->
       <div class="main-content-area">
-        <!-- Section: Home -->
-        <section class="">
-          <!-- owl-animated-slider -->
-          <div class="tm-owl-slider">
-            <div class="slider-wrapper tm-owl-carousel-1col owl-theme owl-carousel" data-dots="true" data-nav="true"
-              data-duration="12000">
-              <div class="slide-item d-flex align-items-center">
-                <div class="image-layer" data-tm-bg-img="images/testrxmd/bg-rob-hero-home.jpeg"></div>
-                <div class="container" data-tm-padding-top="250px" data-tm-padding-bottom="250px">
-                  <div class="row">
-                    <div class="col-lg-7">
-                      <div class="content-box section-typo-light">
-                        <h1 class="title mt-0" data-tm-font-size="4rem">Testosterone Therapy</h1>
-                        <h3 class="sub-title mb-0">Specializing in testosterone replacement therapy to optimize
-                          performance, strength, focus and endurance</h3>
-                        <p class="paragraph">We offer a wide range of care with a primary focus in: TRT/HRT, Weight
-                          Management, Energy solutions and ED Treatment</p>
-                        <div class="btn-wrapper">
-                          <a href="#" class="btn btn-outline-light mr-10">Read More</a>
-                          <a href="#" class="btn btn-theme-colored2">Contact Us</a>
-                        </div>
-                      </div>
+        <!-- Section: home -->
+        <section id="home" class="fullscreen bg-lightest">
+          <div class="display-table">
+            <div class="display-table-cell">
+              <div class="container pt-0 pb-0">
+                <div class="row">
+                  <div class="col-md-7 text-center">
+                    <h1 class="font-size-200 line-height-1 mt-0 mb-0 text-theme-colored1">404!</h1>
+                    <h2 class="mt-0">Oops! Page Not Found</h2>
+                    <p>The page you were looking for could not be found.</p>
+                    <a class="btn btn-theme-colored1 btn-round btn-circled" href="index-mp-layout1.html">Return
+                      Home
+                    </a>
+                  </div>
+                  <div class="col-md-4">
+                    <h3>Some Useful Links</h3>
+                    <div class="widget widget_nav_menu">
+                      <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/checkout">Telehealth &amp; Labs</a></li>
+                        <li><a href="/privacypolicy">Privacy Policy</a></li>
+                        <li><a href="/tos">Terms of use</a></li>
+                      </ul>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
+      </div>
+      <!-- end main-content -->
 
-        <body class="tm-container-1300px">
-          <div id="wrapper" class="clearfix">
+      <%- include('../partials/footer') %>
 
-            <!-- Start main-content -->
-            <div class="main-content-area">
-              <!-- Section: home -->
-              <section id="home" class="fullscreen bg-lightest">
-                <div class="display-table">
-                  <div class="display-table-cell">
-                    <div class="container pt-0 pb-0">
-                      <div class="row">
-                        <div class="col-md-7 text-center">
-                          <h1 class="font-size-200 line-height-1 mt-0 mb-0 text-theme-colored1">404!</h1>
-                          <h2 class="mt-0">Oops! Page Not Found</h2>
-                          <p>The page you were looking for could not be found.</p>
-                          <a class="btn btn-theme-colored1 btn-round btn-circled" href="index-mp-layout1.html">Return
-                            Home
-                          </a>
-                        </div>
-                        <div class="col-md-4">
-                          <h3>Some Useful Links</h3>
-                          <div class="widget widget_nav_menu">
-                            <ul>
-                              <li><a href="/">Home</a></li>
-                              <li><a href="/services">Services</a></li>
-                              <li><a href="/about">About</a></li>
-                              <li><a href="#">Shop</a></li>
-                              <li><a href="/contact">Contact</a></li>
-                              <li><a href="https://hipaa.jotform.com/212587273457161">Get Started</a></li>
-                              <li><a href="#">Privacy Policy</a></li>
-                              <li><a href="#">Terms of use</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
-            <!-- end main-content -->
+        <!-- Footer Scripts -->
+        <script src="js/custom.js"></script>
 
-            <%- include('../partials/footer') %>
-
-              <!-- Footer Scripts -->
-              <!-- JS | Custom script for all pages -->
-              <script src="js/custom.js"></script>
-
-        </body>
+</body>
 
 </html>

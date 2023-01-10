@@ -1,13 +1,15 @@
 const Order = require("../models/orderModel");
-const Payment = require("../models/paymentModel");
-const Shipping = require("../models/shippingModel");
 const Orderproduct = require("../models/orderproduct");
 const User = require("../models/userModel");
 const { isUserAdmin, isIntakeFormComplted } = require("../helper/user");
 const Product = require("../models/productModel");
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
-const {chargeCreditCard}=require('../functions/handlePayment');
+const { chargeCreditCard } = require('../functions/handlePayment');
+
+//Unused Shop stuff - save for later
+// const Payment = require("../models/paymentModel");
+// const Shipping = require("../models/shippingModel");
 
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();

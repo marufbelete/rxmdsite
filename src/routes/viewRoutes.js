@@ -3,7 +3,7 @@ const { getProduct } = require("../controllers/productController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { getAppointment } = require("../controllers/appointment.controller");
 
-module.exports = (app) => {
+// module.exports = (app) => {
   const path = require("path");
   const router = require("express").Router();
 
@@ -30,7 +30,7 @@ module.exports = (app) => {
   });
 
   router.get("/getstarted", function (req, res) {
-    res.redirect("https://hipaa.jotform.com/212587273457161");
+    res.redirect("https://hipaa.jotform.com/212587273457161?token=<%=token%>");
   });
 
   router.get("/checkout", authenticateJWT, getProduct, errorHandler);
@@ -76,5 +76,10 @@ module.exports = (app) => {
   //   res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));
   // });
 
-  app.use("/", router);
-};
+  router.get("*", function (req, res) {
+    res.render(path.join(__dirname, "..", "/views/pages/404"))
+  })
+
+//   app.use("/", router);
+// };
+module.exports = router;
