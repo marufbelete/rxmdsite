@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
+const User = require("../models/userModel");
 const { removeEmptyPair } = require("../helper/reusable");
 exports.addProduct = async (req, res, next) => {
   try {
@@ -67,9 +68,21 @@ exports.getProduct = async (req, res, next) => {
     const totalPrice = priceArr.reduce((f, s) => f + s, 0);
     products.total = totalPrice;
     const token = req.cookies.access_token;
+    const id = req.user.sub;
+    const user = await User.findByPk(id, { include: ["role"] });
+    const billing_info={
+      firstName:user.first_name,
+      lastName:user.last_name,
+      email:user.email,
+      address:user.address,
+      city:user.city,
+      zipCode:user.zip_code,
+      state:user.state
+    }
+    console.log(billing_info)
     return res.render(
       path.join(__dirname, "..", "/views/pages/shop-checkout"),
-      { products, token }
+      { products,billing_info,token }
     );
   } catch (err) {
     next(err);

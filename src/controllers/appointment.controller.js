@@ -16,7 +16,6 @@ exports.getAppointment = async (req, res, next) => {
       path.join(__dirname, "..", "/views/pages/appointment"),
       { user_info }
     );
-    return res.json(user);
   } catch (err) {
     next(err);
   }

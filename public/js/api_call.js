@@ -10,7 +10,6 @@ $(document).ready(function () {
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
-
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -21,6 +20,7 @@ $(document).ready(function () {
     error: function (data) {
       localStorage.setItem("isLoged", "false");
       localStorage.setItem("isAdmin", "false");
+      checkLogin();
     },
   });
 
@@ -32,10 +32,10 @@ $(document).ready(function () {
     isLoged !== "true" && $("#login_link").removeClass("d-none");
     isLoged !== "true" && $("#logout_link").addClass("d-none");
     (isAdmin !== "true" || isLoged !== "true") &&
-      $("#admin_link").addClass("d-none");
+    $("#admin_link").addClass("d-none");
     isLoged === "true" &&
-      isAdmin === "true" &&
-      $("#admin_link").removeClass("d-none");
+    isAdmin === "true" &&
+    $("#admin_link").removeClass("d-none");
   };
   checkLogin();
 
@@ -741,8 +741,11 @@ $(document).ready(function () {
     $('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').each(function(){
       product_ordered.push({productId:$(this).data('productid')})
     })
-    console.log(product_ordered);
-    console.log(!$("#checkout-form-ccNumber").val());
+    if(product_ordered.length===0){
+      $("#select-product-error").removeClass("d-none")
+      $('body').scrollTo('.tbl-shopping-cart');
+      return
+    }
       //please select one or more product
       !($("#checkout-form-ccNumber").val())?$("#checkout-form-ccNumber").css('border-color','red'):
       $("#checkout-form-ccNumber").css('border-color','rgb(206, 212, 218)')
@@ -768,11 +771,11 @@ $(document).ready(function () {
       $("#checkout-form-state").css('border-color','rgb(206, 212, 218)')
       !$("#checkout-form-zip").val()?$("#checkout-form-zip").css('border-color','red'):
       $("#checkout-form-zip").css('border-color','rgb(206, 212, 218)')
-      if(product_ordered.length===0){
-        return
-      }
+      $("#select-product-error").addClass("d-none")
+     
     $('#spinner-div').show();
-    $(this).prop('disabled', true);
+    $('#complete-order-error').addClass('d-none')
+    // $(this).prop('disabled', true);
     const payment_detail={
       cardNumber:$("#checkout-form-ccNumber").val(),
       expirtationDate:$("#checkout-form-ccExpiry").val(),
@@ -795,15 +798,16 @@ $(document).ready(function () {
       data:{payment_detail,product_ordered},
       success: function (data) {
         $('#spinner-div').hide();
-        $(this).prop('disabled', false);
-        location.href = "/checkout";
+        // $(this).prop('disabled', false);
+        location.href = "/appt";
       },
       error: function (data) {
         $('#spinner-div').hide();
-        $(this).prop('disabled', false);
+        $('#complete-order-error').removeClass('d-none').
+        text(data.responseJSON.message)
+        // $(this).prop('disabled', false);
       },
     });
-    
   })
 
 });

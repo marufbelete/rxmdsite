@@ -13,6 +13,7 @@ global.document = document;
 // let $ = (jQuery = require("jquery")(window));
 require("dotenv").config();
 const sequelize = require("./models/index");
+const view_route = require("./routes/viewRoutes");
 const user_route = require("./routes/userRoutes");
 const role_route = require("./routes/roleRoutes");
 const order_route = require("./routes/orderRoutes");
@@ -54,13 +55,14 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 
 // Routes
-require("./routes/viewRoutes")(app);
+// require("./routes/viewRoutes")(app);
 app.use(user_route);
 app.use(role_route);
 app.use(payment_route);
 app.use(product_route);
 app.use(order_product_route);
 app.use(order_route);
+app.use(view_route);
 
 // UNUSED SHOP ROUTES FOR LATER
 // app.use(shipping_route);
