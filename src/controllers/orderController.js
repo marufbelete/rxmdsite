@@ -87,6 +87,8 @@ exports.createOrder = async (req, res, next) => {
     return res.json(order);
   } catch (err) {
     await t.rollback();
+    console.log("error n")
+    console.log(err)
     next(err);
   }
 };

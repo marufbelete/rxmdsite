@@ -10,6 +10,13 @@ const sequelize = new Sequelize(config.db, config.user, config.password, {
     acquire: config.pool.acquire,
     idle: config.pool.idle,
   },
+  // retry: {
+  //   match: [
+  //     Sequelize.ConnectionError,
+  //     error => /Lock wait timeout exceeded; try restarting transaction/.test(error.message)
+  //   ],
+  //   max: 2
+  // },
 });
 
 module.exports = sequelize;
