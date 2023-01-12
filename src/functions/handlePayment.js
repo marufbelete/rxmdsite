@@ -1,5 +1,6 @@
 const ApiContracts = require('authorizenet').APIContracts;
 const ApiControllers = require('authorizenet').APIControllers;
+const SDKConstants = require('authorizenet').Constants;
 const { handleError } = require("../helper/handleError");
 
 const chargeCreditCard=async(paymentInfo)=>{
@@ -36,6 +37,8 @@ const chargeCreditCard=async(paymentInfo)=>{
   createRequest.setTransactionRequest(transactionRequestType);
   
     const ctrl = new ApiControllers.CreateTransactionController(createRequest.getJSON());
+    // For PRODUCTION use the default is sandbox
+    ctrl.setEnvironment(SDKConstants.endpoint.production);
     const Response = await new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
         const error = new Error('This process take longer than expected, please try again ');
@@ -64,8 +67,6 @@ const chargeCreditCard=async(paymentInfo)=>{
 					}
 				}
       } else {
-        console.log(Response)
-        // handleError(Response.getTransactionResponse().getErrors().getError()[0].getErrorText(), 400);
         if(Response.getTransactionResponse() != null && Response.getTransactionResponse().getErrors() != null){
           handleError(Response.getTransactionResponse().getErrors().getError()[0].getErrorText(),403);
         }
@@ -81,41 +82,3 @@ module.exports={
 }
 
 
-
-
-// if(response != null){
-//   if(response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK){
-//     if(response.getTransactionResponse().getMessages() != null){
-//       console.log('Successfully created transaction with Transaction ID: ' + response.getTransactionResponse().getTransId());
-//       console.log('Response Code: ' + response.getTransactionResponse().getResponseCode());
-//       console.log('Message Code: ' + response.getTransactionResponse().getMessages().getMessage()[0].getCode());
-//       console.log('Description: ' + response.getTransactionResponse().getMessages().getMessage()[0].getDescription());
-//     }
-//     else {
-//       console.log('Failed Transaction.');
-//       if(response.getTransactionResponse().getErrors() != null){
-//         console.log('Error Code: ' + response.getTransactionResponse().getErrors().getError()[0].getErrorCode());
-//         console.log('Error message: ' + response.getTransactionResponse().getErrors().getError()[0].getErrorText());
-//       }
-//     }
-//   }
-//   else {
-//     console.log('Failed Transaction. ');
-//     if(response.getTransactionResponse() != null && response.getTransactionResponse().getErrors() != null){
-    
-//       console.log('Error Code: ' + response.getTransactionResponse().getErrors().getError()[0].getErrorCode());
-//       console.log('Error message: ' + response.getTransactionResponse().getErrors().getError()[0].getErrorText());
-//     }
-//     else {
-//       console.log('Error Code: ' + response.getMessages().getMessage()[0].getCode());
-//       console.log('Error message: ' + response.getMessages().getMessage()[0].getText());
-//     }
-//   }
-// }
-// else {
-//   console.log('Null Response.');
-// }
-
-// callback(response);
-// });
-// }

@@ -1,11 +1,13 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url="https://rxmdsite-production.up.railway.app"
+  const base_url = "http://localhost:7000";
+  // const base_url="https://rxmdsite-production.up.railway.app"
 
   $("#populate").on("click", function () {
     loadTable();
   });
-
+  $("#populate-order").on("click", function () {
+    loadOrderTable();
+  });
   $.ajax({
     url: `${base_url}/checkauth`,
     method: "GET",
@@ -716,6 +718,63 @@ $(document).ready(function () {
           </td>
       </tr>
           `);
+        });
+      },
+      error: (error) => {
+        console.error(error);
+        alert(
+          "Error retrieving users from database, please tell Jacob this isn't working!"
+        );
+      },
+    });
+  };
+  const loadOrderTable = () => {
+    $("#order-table-body").empty();
+    $.ajax({
+      url: `${base_url}/getorders`,
+      type: "GET",
+      success: (orders) => {
+        orders?.forEach((order) => {
+          $("#order-table-body").append(`
+          <tr>
+          <td>${order?.user?.first_name+' '+order?.user?.last_name || ""}</td>
+          <td>${order?.user?.phone || ""}</td>
+          <td>${order?.user?.email || ""}</td>
+          <td>${order?.user?.address || ""}</td>
+          <td>${order?.user?.city || ""}</td>
+          <td>${order?.user?.state || ""}</td>
+          <td>${order?.user?.country || ""}</td>
+          <td>
+          <ul>
+          ${
+              order?.order_products?.map((product) => {
+                  return `<li id="product-li" class="product-li-name">${product.product_name}</li>`
+              }).join('')
+          }
+          </ul>
+          </td>
+          <td>
+          <ul>
+          ${
+              order?.order_products?.map((product) => {
+                  return `<li id="product-li" class="product-li-quantity">${product.quantity}</li>`
+              }).join('')
+          }
+          </ul>
+          </td>
+          <td>
+          <ul>
+          ${
+              order?.order_products?.map((product) => {
+                  return `<li id="product-li" class="product-li-price">${product.price}</li>`
+              }).join('')
+          }
+          </ul>
+          </td>
+          <td>${order?.total_paid_amount || ""}</td>
+          <td>${order?.transId || ""}</td>
+          <td>${new Date(order?.order_date).toLocaleDateString() || ""}</td>
+      </tr>`);
         });
       },
       error: (error) => {

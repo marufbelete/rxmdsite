@@ -7,7 +7,13 @@
 body {
   margin: 0;
 }
-
+#jotform-hover:hover{
+cursor: pointer;
+color:#1e1ecf
+}
+#jotform-hover>u:hover{
+  color:#1e1ecf
+  }
 .login,
 .register {
   width: 400px;
@@ -332,10 +338,35 @@ body.loggedin {
 color:red
 }
 /* above loader */
+#product-li{
+  font-size: 12px;
+  padding-bottom: 6px;
+  /* height: 45px;
+  list-style: none; */
+  /* border-bottom: 0.8px solid #000; */
+}
+.product-li-name{
+  width:200px
+}
+.product-li-quantity{
+  width:70px
+}
+.product-li-price{
+  width:100px
+}
+#table-user,#table-order
+{
+  overflow:scroll; 
+  max-height:400px;
+}
+td ul {
+  width: 100%;
+  display: inline-block;
+}
 .table-users th{
   font-size: 12px;
 }
-#user-table-body td{
+#user-table-body td,#order-table-body td{
   font-size: 12px;
 }
 .delete-user-icon{

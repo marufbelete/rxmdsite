@@ -98,43 +98,41 @@ exports.getOrder = async (req, res, next) => {
     const { page, paginate } = req.query;
     if (isUserAdmin(req)) {
       const options = {
-        attributes: ["id", "order_date", "delivery_date"],
+        attributes: ["id","total_paid_amount","order_date","transId"],
         include: [
           {
             model: User,
-            attributes: ["id", "first_name", "last_name", "email", "address"],
+            attributes: ["id", "first_name", "last_name", "email", "address","city","state","country"],
           },
-          { model: Shipping, attributes: ["id", "name"] },
-          { model: Payment, attributes: ["id", "payment_method"] },
           {
             model: Orderproduct,
-            attributes: {
-              exclude: ["createdAt", "updatedAt"],
-            },
+            attributes: ["id", "product_name", "quantity", "price"],
           },
         ],
-        page: Number(page) || 1,
-        paginate: Number(paginate) || 25,
+        // page: Number(page) || 1,
+        // paginate: Number(paginate) || 25,
         order: [["order_date", "DESC"]],
       };
-      const orders = await Order.paginate(options);
+      const orders = await Order.findAll(options);
       return res.json(orders);
     }
 
     const options = {
       where: { userId: req?.user?.sub },
-      attributes: ["id", "order_date", "delivery_date"],
+      attributes: ["id","total_paid_amount","order_date"],
       include: [
-        { model: User },
-        { model: Shipping },
-        { model: Payment },
-        { model: Orderproduct },
+        { model: User, 
+          attributes: ["id", "first_name", "last_name", "email", "address"],
+        },
+        { model: Orderproduct,
+          attributes: ["id", "product_name", "quantity", "price"],
+        },
       ],
-      page: Number(page) || 1,
-      paginate: Number(paginate) || 25,
+      // page: Number(page) || 1,
+      // paginate: Number(paginate) || 25,
       order: [["order_date", "DESC"]],
     };
-    const orders = await Order.paginate(options);
+    const orders = await Order.findAll(options);
     return res.json(orders);
   } catch (err) {
     next(err);
@@ -146,13 +144,13 @@ exports.getOrderById = async (req, res, next) => {
     const { id } = req.params;
     if (isUserAdmin(req)) {
       const order = await Order.findByPk(id, {
-        include: ["user", "shipping", "payment", "order_products"],
+        include: ["user","order_products"],
       });
       return res.json(order);
     }
     const order = await Order.findByPk(id, {
       where: { userId: req?.user?.sub },
-      include: ["user", "shipping", "payment", "order_products"],
+      include: ["user","order_products"],
     });
     return res.json(order);
   } catch (err) {
@@ -164,7 +162,7 @@ exports.getMyOrder = async (req, res, next) => {
   try {
     const order = await Order.findAll({
       where: { userId: req?.user?.sub },
-      include: ["user", "shipping", "payment", "order_products"],
+      include: ["user", "order_products"],
     });
     return res.json(order);
   } catch (err) {
