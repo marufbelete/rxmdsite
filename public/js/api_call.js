@@ -338,7 +338,7 @@ $(document).ready(function () {
       },
     });
   });
-  
+
   // show add new product
   $("#add-product-button").on("click", function () {
     $("#add_new_product").modal("show");
@@ -348,21 +348,21 @@ $(document).ready(function () {
   $("#add-product-confirmation").on("click", function () {
     $("#add_product_text").addClass("d-none");
     $("#add_product_text_spin").removeClass("d-none");
-    const product_name=$("#new-product-name").val()
-    const price=$("#new-product-price").val()
-    const description=$("#new-product-description").val()
+    const product_name = $("#new-product-name").val()
+    const price = $("#new-product-price").val()
+    const description = $("#new-product-description").val()
     $("#add-new-product-error").addClass("d-none");
-    if(!product_name||!price){ 
+    if (!product_name || !price) {
       $("#add_product_text").removeClass("d-none");
       $("#add_product_text_spin").addClass("d-none");
-      !price&&$("#add-new-product-error").text("please add product price").removeClass("d-none");
-      !product_name&&$("#add-new-product-error").text("please add product name").removeClass("d-none");
+      !price && $("#add-new-product-error").text("please add product price").removeClass("d-none");
+      !product_name && $("#add-new-product-error").text("please add product name").removeClass("d-none");
       return
     }
     $.ajax({
       url: `${base_url}/addproduct`,
       method: "POST",
-      data: { product_name,price,description },
+      data: { product_name, price, description },
       success: function (data) {
         $("#add_product_text").removeClass("d-none");
         $("#add_product_text_spin").addClass("d-none");
@@ -434,9 +434,8 @@ $(document).ready(function () {
             <tr>
           <td>${user.first_name || ""}</td>
           <td>${user.last_name || ""}</td>
-          <td id="user-state" data-active=${user.isActive}>${
-              user.isActive ? "Active" : "Blocked"
-            }</td>
+          <td id="user-state" data-active=${user.isActive}>${user.isActive ? "Active" : "Blocked"
+              }</td>
           <td>${user.roleId === 1 ? "Admin" : "User"}</td>
           <td>${user.email || ""}</td>
           <td>${user.isEmailConfirmed}</td>
@@ -457,9 +456,8 @@ $(document).ready(function () {
           </span>
         </td>
           <td>
-          ${
-            !user.isActive
-              ? `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
+          ${!user.isActive
+                ? `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
           data-id="${user.id}">
           <span style="color: #5C636A;">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
@@ -467,13 +465,13 @@ $(document).ready(function () {
         </svg>
          </span>
          </span>`
-              : `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
+                : `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
              data-id="${user.id}">
              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
            </svg>
           </span>`
-          }
+              }
           </td>
       </tr>
           `);
@@ -499,7 +497,7 @@ $(document).ready(function () {
   $(document).on("click", ".edit-user-icon", function () {
     const id = $(this).data("id");
     $("#update-confirmation").data("id", id);
-    $("#update-user-phone").css('border-color','rgb(206, 212, 218)')
+    $("#update-user-phone").css('border-color', 'rgb(206, 212, 218)')
 
     $.ajax({
       url: `${base_url}/getuserbyid/${id}`,
@@ -510,9 +508,9 @@ $(document).ready(function () {
         $("#update-user-email").val(user?.email);
         $("#update-user-address").val(user?.address);
         $("#update-user-city").val(user?.city);
-        $("#update-user-state").val(user?.state );
-        $("#update-user-addressline2").val(user?.apt );
-        $("#update-user-zip").val(user?.zip_code );
+        $("#update-user-state").val(user?.state);
+        $("#update-user-addressline2").val(user?.apt);
+        $("#update-user-zip").val(user?.zip_code);
         $("#update-user-phone").val(formatPhoneNumber(user?.phone_number));
 
         // $("#update-user-fotformfilled").val(user?.intake)
@@ -533,9 +531,8 @@ $(document).ready(function () {
     const state = $("#update-user-state").val();
     $("#update_user_text").addClass("d-none");
     $("#update_user_text_spin").removeClass("d-none");
-    if(!(formatPhoneNumber(phone_number)))
-    {
-      $("#update-user-phone").css('border-color','red')
+    if (!(formatPhoneNumber(phone_number))) {
+      $("#update-user-phone").css('border-color', 'red')
       $("#update_user_text").removeClass("d-none");
       $("#update_user_text_spin").addClass("d-none");
       return
@@ -549,7 +546,7 @@ $(document).ready(function () {
         last_name,
         email,
         zip_code,
-        phone_number:phone_number.replace(/-/g, ""),
+        phone_number: phone_number.replace(/-/g, ""),
 
         address,
         address_line_two,
@@ -645,11 +642,11 @@ $(document).ready(function () {
     const active = $(this).parent("td").siblings("#user-state").data("active");
     active
       ? $("#user-delete-detail").text(
-          "Are you sure you want to deactivate this user?"
-        )
+        "Are you sure you want to deactivate this user?"
+      )
       : $("#user-delete-detail").text(
-          "Are you sure you want to Activate this user?"
-        );
+        "Are you sure you want to Activate this user?"
+      );
     active
       ? $("#delete-user-title").text("Deactivate User")
       : $("#delete-user-title").text("Activate User");
@@ -674,9 +671,8 @@ $(document).ready(function () {
           <tr>
           <td>${user.first_name || ""}</td>
           <td>${user.last_name || ""}</td>
-          <td id="user-state" data-active=${user.isActive}>${
-            user.isActive ? "Active" : "Blocked"
-          }</td>
+          <td id="user-state" data-active=${user.isActive}>${user.isActive ? "Active" : "Blocked"
+            }</td>
           <td>${user.roleId === 1 ? "Admin" : "User"}</td>
           <td>${user.email || ""}</td>
           <td>${user.isEmailConfirmed}</td>
@@ -697,8 +693,7 @@ $(document).ready(function () {
           </span>
         </td>
           <td>
-          ${
-            !user.isActive
+          ${!user.isActive
               ? `<span class="delete-user-icon" data-bs-toggle="modal" data-bs-target="#delete_user"
           data-id="${user.id}">
           <span style="color: #5C636A;">
@@ -714,7 +709,7 @@ $(document).ready(function () {
            </svg>
           </span>`
 
-          }
+            }
           </td>
       </tr>
           `);
@@ -742,7 +737,7 @@ $(document).ready(function () {
         orders?.forEach((order) => {
           $("#order-table-body").append(`
           <tr>
-          <td>${order?.user?.first_name+' '+order?.user?.last_name || ""}</td>
+          <td>${order?.user?.first_name + ' ' + order?.user?.last_name || ""}</td>
           <td>${order?.user?.phone || ""}</td>
           <td>${order?.user?.email || ""}</td>
           <td>${order?.user?.address || ""}</td>
@@ -751,29 +746,26 @@ $(document).ready(function () {
           <td>${order?.user?.country || ""}</td>
           <td>
           <ul>
-          ${
-              order?.order_products?.map((product) => {
-                  return `<li id="product-li" class="product-li-name">${product.product_name}</li>`
-              }).join('')
-          }
+          ${order?.order_products?.map((product) => {
+            return `<li id="product-li" class="product-li-name">${product.product_name}</li>`
+          }).join('')
+            }
           </ul>
           </td>
           <td>
           <ul>
-          ${
-              order?.order_products?.map((product) => {
-                  return `<li id="product-li" class="product-li-quantity">${product.quantity}</li>`
-              }).join('')
-          }
+          ${order?.order_products?.map((product) => {
+              return `<li id="product-li" class="product-li-quantity">${product.quantity}</li>`
+            }).join('')
+            }
           </ul>
           </td>
           <td>
           <ul>
-          ${
-              order?.order_products?.map((product) => {
-                  return `<li id="product-li" class="product-li-price">${product.price}</li>`
-              }).join('')
-          }
+          ${order?.order_products?.map((product) => {
+              return `<li id="product-li" class="product-li-price">${product.price}</li>`
+            }).join('')
+            }
           </ul>
           </td>
           <td>${order?.total_paid_amount || ""}</td>
@@ -790,77 +782,79 @@ $(document).ready(function () {
       },
     });
   };
-  const formatPhoneNumber=(phoneNumberString) =>{
+  const formatPhoneNumber = (phoneNumberString) => {
     var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
     var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
     if (match) {
-      return  match[1] + '-' + match[2] + '-' + match[3];
+      return match[1] + '-' + match[2] + '-' + match[3];
     }
     return null;
   }
 
   //copmlete order
-   $('#complete-order').on('click',function(event){
+  $('#complete-order').on('click', function (event) {
     event.preventDefault()
-    const product_ordered=[]
-    $('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').each(function(){
-      product_ordered.push({productId:$(this).data('productid')})
+    const product_ordered = []
+    $('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').each(function () {
+      product_ordered.push({ productId: $(this).data('productid') })
     })
-    if(product_ordered.length===0){
+    if (product_ordered.length === 0) {
+
       $("#select-product-error").removeClass("d-none")
       $('body').scrollTo('.tbl-shopping-cart');
       return
     }
-      //please select one or more product
-      !($("#checkout-form-ccNumber").val())?$("#checkout-form-ccNumber").css('border-color','red'):
-      $("#checkout-form-ccNumber").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-ccExpiry").val()?$("#checkout-form-ccExpiry").css('border-color','red'):
-      $("#checkout-form-ccExpiry").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-cvc").val()?$("#checkout-form-cvc").css('border-color','red'):
-      $("#checkout-form-cvc").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-firstname-on-cc").val()?$("#checkout-form-firstname-on-cc").css('border-color','red'):
-      $("#checkout-form-firstname-on-cc").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-lastname-on-cc").val()?$("#checkout-form-lastname-on-cc").css('border-color','red'):
-      $("#checkout-form-lastname-on-cc").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-firstname").val()?$("#checkout-form-firstname").css('border-color','red'):
-      $("#checkout-form-firstname").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-lastname").val()?$("#checkout-form-lastname").css('border-color','red'):
-      $("#checkout-form-lastname").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-email").val()?$("#checkout-form-email").css('border-color','red'):
-      $("#checkout-form-email").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-address").val()?$("#checkout-form-address").css('border-color','red'):
-      $("#checkout-form-address").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-city").val()?$("#checkout-form-city").css('border-color','red'):
-      $("#checkout-form-city").css('border-color','rgb(206, 212, 218)')
-      !$('#checkout-form-state').val()?$("#checkout-form-state").css('border-color','red'):
-      $("#checkout-form-state").css('border-color','rgb(206, 212, 218)')
-      !$("#checkout-form-zip").val()?$("#checkout-form-zip").css('border-color','red'):
-      $("#checkout-form-zip").css('border-color','rgb(206, 212, 218)')
-      $("#select-product-error").addClass("d-none")
-     
+    //please select one or more product
+    !($("#checkout-form-ccNumber").val()) ? $("#checkout-form-ccNumber").css('border-color', 'red') :
+      $("#checkout-form-ccNumber").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-ccExpiry").val() ? $("#checkout-form-ccExpiry").css('border-color', 'red') :
+      $("#checkout-form-ccExpiry").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-cvc").val() ? $("#checkout-form-cvc").css('border-color', 'red') :
+      $("#checkout-form-cvc").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-firstname-on-cc").val() ? $("#checkout-form-firstname-on-cc").css('border-color', 'red') :
+      $("#checkout-form-firstname-on-cc").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-lastname-on-cc").val() ? $("#checkout-form-lastname-on-cc").css('border-color', 'red') :
+      $("#checkout-form-lastname-on-cc").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-firstname").val() ? $("#checkout-form-firstname").css('border-color', 'red') :
+      $("#checkout-form-firstname").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-lastname").val() ? $("#checkout-form-lastname").css('border-color', 'red') :
+      $("#checkout-form-lastname").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-email").val() ? $("#checkout-form-email").css('border-color', 'red') :
+      $("#checkout-form-email").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-address").val() ? $("#checkout-form-address").css('border-color', 'red') :
+      $("#checkout-form-address").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-city").val() ? $("#checkout-form-city").css('border-color', 'red') :
+      $("#checkout-form-city").css('border-color', 'rgb(206, 212, 218)')
+    !$('#checkout-form-state').val() ? $("#checkout-form-state").css('border-color', 'red') :
+      $("#checkout-form-state").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-zip").val() ? $("#checkout-form-zip").css('border-color', 'red') :
+      $("#checkout-form-zip").css('border-color', 'rgb(206, 212, 218)')
+    $("#select-product-error").addClass("d-none")
+
     $('#spinner-div').show();
     $('#complete-order-error').addClass('d-none')
     // $(this).prop('disabled', true);
-    const payment_detail={
-      cardNumber:$("#checkout-form-ccNumber").val(),
-      expirtationDate:$("#checkout-form-ccExpiry").val(),
-      cardCode:$("#checkout-form-cvc").val(),
-      ownerFirstName:$("#checkout-form-firstname-on-cc").val(),
-      ownerLastName:$("#checkout-form-lastname-on-cc").val(),
+    const payment_detail = {
+      cardNumber: $("#checkout-form-ccNumber").val(),
+      expirtationDate: $("#checkout-form-ccExpiry").val(),
+      cardCode: $("#checkout-form-cvc").val(),
+      ownerFirstName: $("#checkout-form-firstname-on-cc").val(),
+      ownerLastName: $("#checkout-form-lastname-on-cc").val(),
+
       //billing info
-      billingFirstName:$("#checkout-form-firstname").val(),
-      billingLastName:$("#checkout-form-lastname").val(),
-      email:$("#checkout-form-email").val(),
-      address:$("#checkout-form-address").val(),
-      city:$("#checkout-form-city").val(),
-      state:$('#checkout-form-state').val(),
-      zip:$("#checkout-form-zip").val(),
-      }
+      billingFirstName: $("#checkout-form-firstname").val(),
+      billingLastName: $("#checkout-form-lastname").val(),
+      email: $("#checkout-form-email").val(),
+      address: $("#checkout-form-address").val(),
+      city: $("#checkout-form-city").val(),
+      state: $('#checkout-form-state').val(),
+      zip: $("#checkout-form-zip").val(),
+    }
     //here make ajax call to compelete the order
     $.ajax({
       url: `${base_url}/addorder`,
       method: "POST",
-      data:{payment_detail,product_ordered},
+      data: { payment_detail, product_ordered },
       success: function (data) {
         $('#spinner-div').hide();
         let isAppointment=product_ordered.find(e=>e.productId==131)
