@@ -7,6 +7,7 @@ const { getAppointment } = require("../controllers/appointment.controller");
 const path = require("path");
 const router = require("express").Router();
 
+
 router.get("/", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"));
 });
@@ -83,3 +84,4 @@ router.get("*", function (req, res) {
 //   app.use("/", router);
 // };
 module.exports = router;
+

@@ -13,6 +13,7 @@ const chargeCreditCard=async(paymentInfo)=>{
         creditCard.setExpirationDate(paymentInfo.card_detail?.expirtationDate);
         creditCard.setCardCode(paymentInfo.card_detail?.cardCode);
 
+
         const paymentType = new ApiContracts.PaymentType();
         paymentType.setCreditCard(creditCard);
 
@@ -48,6 +49,7 @@ const chargeCreditCard=async(paymentInfo)=>{
       ctrl.execute((error, res) => {
         clearTimeout(timeout);
         const apiResponse = ctrl.getResponse();
+
         const response = new ApiContracts.CreateTransactionResponse(apiResponse);
         if (error) {
           reject(error);
@@ -76,9 +78,9 @@ const chargeCreditCard=async(paymentInfo)=>{
       }
     }
     handleError("payment gatway not responding", 404);
+
 }
 module.exports={
   chargeCreditCard
 }
-
 

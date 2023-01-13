@@ -34,10 +34,10 @@ $(document).ready(function () {
     isLoged !== "true" && $("#login_link").removeClass("d-none");
     isLoged !== "true" && $("#logout_link").addClass("d-none");
     (isAdmin !== "true" || isLoged !== "true") &&
-      $("#admin_link").addClass("d-none");
+    $("#admin_link").addClass("d-none");
     isLoged === "true" &&
-      isAdmin === "true" &&
-      $("#admin_link").removeClass("d-none");
+    isAdmin === "true" &&
+    $("#admin_link").removeClass("d-none");
   };
   checkLogin();
 
@@ -793,6 +793,7 @@ $(document).ready(function () {
       product_ordered.push({ productId: $(this).data('productid') })
     })
     if (product_ordered.length === 0) {
+
       $("#select-product-error").removeClass("d-none")
       $('body').scrollTo('.tbl-shopping-cart');
       return
@@ -833,6 +834,7 @@ $(document).ready(function () {
       cardCode: $("#checkout-form-cvc").val(),
       ownerFirstName: $("#checkout-form-firstname-on-cc").val(),
       ownerLastName: $("#checkout-form-lastname-on-cc").val(),
+
       //billing info
       billingFirstName: $("#checkout-form-firstname").val(),
       billingLastName: $("#checkout-form-lastname").val(),
@@ -856,6 +858,7 @@ $(document).ready(function () {
         $('#spinner-div').hide();
         $('#complete-order-error').removeClass('d-none').
           text(data.responseJSON.message)
+
         // $(this).prop('disabled', false);
       },
     });
