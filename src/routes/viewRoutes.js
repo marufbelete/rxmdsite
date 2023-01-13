@@ -4,82 +4,84 @@ const { errorHandler } = require("../middleware/errohandling.middleware");
 const { getAppointment } = require("../controllers/appointment.controller");
 
 // module.exports = (app) => {
-  const path = require("path");
-  const router = require("express").Router();
+const path = require("path");
+const router = require("express").Router();
 
-  router.get("/", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/index"));
-  });
 
-  router.get("/appt", authenticateJWT, getAppointment, errorHandler);
+router.get("/", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/index"));
+});
 
-  router.get("/home", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/index"));
-  });
+router.get("/appt", authenticateJWT, getAppointment, errorHandler);
 
-  router.get("/about", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/about"));
-  });
+router.get("/home", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/index"));
+});
 
-  router.get("/services", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/services"));
-  });
+router.get("/about", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/about"));
+});
 
-  router.get("/contact", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/contact"));
-  });
+router.get("/services", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/services"));
+});
 
-  router.get("/getstarted", function (req, res) {
-    res.redirect("https://hipaa.jotform.com/212587273457161?token=<%=token%>");
-  });
+router.get("/contact", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/contact"));
+});
 
-  router.get("/checkout", authenticateJWT, getProduct, errorHandler);
+router.get("/getstarted", function (req, res) {
+  res.redirect("https://hipaa.jotform.com/212587273457161?token=<%=token%>");
+});
 
-  router.get("/forgotpw", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/forgotPassword"));
-  });
+router.get("/checkout", authenticateJWT, getProduct, errorHandler);
 
-  router.get("/login", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/login"));
-  });
+router.get("/forgotpw", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/forgotPassword"));
+});
 
-  router.get("/register", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/register"));
-  });
+router.get("/login", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/login"));
+});
 
-  router.get("/resetpassword", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/resetpassword"));
-  });
+router.get("/register", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/register"));
+});
 
-  router.get("/registered", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/registerSuccess"));
-  });
+router.get("/resetpassword", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/resetpassword"));
+});
 
-  router.get("/privacypolicy", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/privacyPolicy"));
-  });
+router.get("/registered", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/registerSuccess"));
+});
 
-  router.get("/tos", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/tos"));
-  });
+router.get("/privacypolicy", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/privacyPolicy"));
+});
 
-  //  UNUSED STORE ROUTES FOR USE LATER
-  // router.get("/shop", function (req, res) {
-  //   res.render(path.join(__dirname, "..", "/views/pages/shop"));
-  // });
+router.get("/tos", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/tos"));
+});
 
-  // router.get("/cart", authenticateJWT,function (req, res) {
-  //   res.render(path.join(__dirname, "..", "/views/pages/shop-cart"));
-  // });
+//  UNUSED STORE ROUTES FOR USE LATER
+// router.get("/shop", function (req, res) {
+//   res.render(path.join(__dirname, "..", "/views/pages/shop"));
+// });
 
-  // router.get("/products/details", function (req, res) {
-  //   res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));
-  // });
+// router.get("/cart", authenticateJWT,function (req, res) {
+//   res.render(path.join(__dirname, "..", "/views/pages/shop-cart"));
+// });
 
-  router.get("*", function (req, res) {
-    res.render(path.join(__dirname, "..", "/views/pages/404"))
-  })
+// router.get("/products/details", function (req, res) {
+//   res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));
+// });
+
+router.get("*", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/404"))
+})
 
 //   app.use("/", router);
 // };
 module.exports = router;
+

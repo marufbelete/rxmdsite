@@ -33,9 +33,6 @@ const Orderproduct = sequelize.define("order_product", {
     type: Sequelize.FLOAT,
     allowNull: false,
   },
-  total_amount_paid:{
-    type: Sequelize.DECIMAL,
-  },
   tax: {
     type: Sequelize.DECIMAL,
   },

@@ -10,6 +10,7 @@ const config = {
     acquire: 50000,
     idle: 15000,
   },
+  
 };
 
 module.exports = {

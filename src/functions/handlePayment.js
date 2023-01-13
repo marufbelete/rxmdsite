@@ -1,9 +1,9 @@
 const ApiContracts = require('authorizenet').APIContracts;
 const ApiControllers = require('authorizenet').APIControllers;
+const SDKConstants = require('authorizenet').Constants;
+const { handleError } = require("../helper/handleError");
 
-// new test
 const chargeCreditCard=async(paymentInfo)=>{
-  console.log(process.env.APILOGINID,process.env.TRANSACTIONKEY)
     const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
     merchantAuthenticationType.setName(process.env.APILOGINID);
     merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
@@ -12,9 +12,7 @@ const chargeCreditCard=async(paymentInfo)=>{
         creditCard.setCardNumber(paymentInfo.card_detail?.cardNumber);
         creditCard.setExpirationDate(paymentInfo.card_detail?.expirtationDate);
         creditCard.setCardCode(paymentInfo.card_detail?.cardCode);
-        // creditCard.setCardholderName('John Smith');
-        // creditCard.setFirstName(paymentInfo.card_detail?.firstName);
-        // creditCard.setLastName(paymentInfo.card_detail?.lastName);
+
 
         const paymentType = new ApiContracts.PaymentType();
         paymentType.setCreditCard(creditCard);
@@ -28,27 +26,30 @@ const chargeCreditCard=async(paymentInfo)=>{
         billTo.setZip(paymentInfo.billing_detail?.zip);
         billTo.setCountry(paymentInfo.billing_detail?.country);
         billTo.setEmail(paymentInfo.billing_detail?.email);
-        //setting
-        // const transactionSetting = new ApiContracts.SettingType();
-        // transactionSetting.setSettingName('duplicateWindow');
-        // transactionSetting.setSettingValue('120');
 
         const transactionRequestType = new ApiContracts.TransactionRequestType();
         transactionRequestType.setTransactionType(ApiContracts.TransactionTypeEnum.AUTHCAPTURETRANSACTION);
         transactionRequestType.setPayment(paymentType);
         transactionRequestType.setBillTo(billTo);
         transactionRequestType.setAmount(paymentInfo?.amount);
-        // transactionRequestType.setTransactionSettings(transactionSetting);
 
   const createRequest = new ApiContracts.CreateTransactionRequest();
   createRequest.setMerchantAuthentication(merchantAuthenticationType);
   createRequest.setTransactionRequest(transactionRequestType);
-
+  
     const ctrl = new ApiControllers.CreateTransactionController(createRequest.getJSON());
+    // For PRODUCTION use the default is sandbox
+    ctrl.setEnvironment(SDKConstants.endpoint.production);
     const Response = await new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        const error = new Error('This process take longer than expected, please try again ');
+        error.statusCode = 408;
+        reject(error);
+      }, 47000);
       ctrl.execute((error, res) => {
+        clearTimeout(timeout);
         const apiResponse = ctrl.getResponse();
-        console.log(apiResponse)
+
         const response = new ApiContracts.CreateTransactionResponse(apiResponse);
         if (error) {
           reject(error);
@@ -57,26 +58,29 @@ const chargeCreditCard=async(paymentInfo)=>{
         }
       });
     });
-    // console.log(apiResponse.messages)
-    // console.log(apiResponse.transactionResponse.errors)
-    // const settleAmount = Response.getTransactionResponse().getSettleAmount();
-    // console.log(settleAmount)
     if (Response != null) {
-      console.log("response is not null")
-      console.log(Response.getMessages())
       if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
-        console.log("payment success")
-        return Response.getTransactionResponse()
-        // Transaction was successful
+        if(Response.getTransactionResponse().getMessages() != null){
+          return Response.getTransactionResponse()
+        }
+        else {
+					if(Response.getTransactionResponse().getErrors() != null){
+						handleError(Response.getTransactionResponse().getErrors().getError()[0].getErrorText(),403);
+					}
+				}
       } else {
-        console.log(Response.getTransactionResponse())
-        console.log("payment fail")
-        // throw error
-        // Transaction failed
+        if(Response.getTransactionResponse() != null && Response.getTransactionResponse().getErrors() != null){
+          handleError(Response.getTransactionResponse().getErrors().getError()[0].getErrorText(),403);
+        }
+        else {
+          handleError(Response.getMessages().getMessage()[0].getText(),403);
+        }
       }
     }
-  
+    handleError("payment gatway not responding", 404);
+
 }
 module.exports={
   chargeCreditCard
 }
+
