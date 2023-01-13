@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url="https://rxmdsite-production.up.railway.app"
+  // const base_url = "http://localhost:7000";
+  const base_url="https://rxmdsite-production.up.railway.app"
 
   $("#populate").on("click", function () {
     loadTable();
