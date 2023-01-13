@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url="https://rxmdsite-production.up.railway.app"
+  const base_url = "http://localhost:7000";
+  // const base_url="https://rxmdsite-production.up.railway.app"
 
   $("#populate").on("click", function () {
     loadTable();
@@ -728,6 +728,11 @@ $(document).ready(function () {
       },
     });
   };
+  $('#order_success_modal').modal({
+    backdrop: 'static',
+    keyboard: false
+})
+
   const loadOrderTable = () => {
     $("#order-table-body").empty();
     $.ajax({
@@ -793,6 +798,7 @@ $(document).ready(function () {
     }
     return null;
   }
+
   //copmlete order
    $('#complete-order').on('click',function(event){
     event.preventDefault()
@@ -857,16 +863,40 @@ $(document).ready(function () {
       data:{payment_detail,product_ordered},
       success: function (data) {
         $('#spinner-div').hide();
-        // $(this).prop('disabled', false);
-        location.href = "/appt";
+        let isAppointment=product_ordered.find(e=>e.productId==131)
+        let appName=$("tr").find(`[data-productid='${131}']`).siblings('.product-name').text().toUpperCase()
+        let isLab=product_ordered.find(e=>e.productId==133)
+        let labName=$("tr").find(`[data-productid='${133}']`).siblings('.product-name').text().toUpperCase()
+        if(isAppointment?.productId){
+          $("#order_success_text").text("Procced")
+          $("#order-confirmation").removeClass("btn-secondary").addClass("btn-primary")
+          $('#close-mod-btn').addClass('d-none');
+          $("#order-confirmation").addClass("procced-to-checkout")
+          !isLab?.productId&&isAppointment?.productId&&$("#order-success-message").
+          text(`You have successfully bought ${appName}. Please procced with your schedule`)
+          isLab?.productId&&isAppointment?.productId&&$("#order-success-message").
+          text(`You have successfully bought ${labName} and ${appName}. Please procced with your schedule`)
+        }
+        else{
+      $("#order_success_text").text("Close")
+      $("#order-confirmation").addClass("btn-secondary").removeClass("btn-primary")
+      $('#order_success_text').attr('data-bs-dismiss', 'modal');
+      $("#order-confirmation").removeClass("procced-to-checkout")
+      $('#close-mod-btn').removeClass('d-none');
+      $("#order-success-message").text(`You have successfully bought ${labName}. Your order will arrive soon`)
+    }
+   
+    $("#order_success_modal").modal('show')
       },
       error: function (data) {
         $('#spinner-div').hide();
         $('#complete-order-error').removeClass('d-none').
         text(data.responseJSON.message)
-        // $(this).prop('disabled', false);
       },
     });
+  })
+  $(document).on("click",".procced-to-checkout",function(){
+    location.href='/appt'
   })
 
 });

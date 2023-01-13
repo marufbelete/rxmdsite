@@ -1868,8 +1868,8 @@ $("#billingAddressSameAsShipping").on("click", function () {
       }
       (isAdmin !== "true" || isLoged !== "true") && $('#admin_link').addClass("d-none");
       isLoged === "true" && isAdmin === "true" && $('#admin_link').removeClass("d-none");
-      // const base_url = "http://localhost:7000"
-      const base_url="https://rxmdsite-production.up.railway.app"
+      const base_url = "http://localhost:7000"
+      // const base_url="https://rxmdsite-production.up.railway.app"
       $.ajax({
         url: `${base_url}/checkauth`,
         method: "GET",
@@ -1878,7 +1878,6 @@ $("#billingAddressSameAsShipping").on("click", function () {
         },
       });
       $document.on("click", "#logout_link", function (e) {
-        console.log("clicked", e)
         $.ajax({
           url: `${base_url}/logout`,
           method: "GET",
