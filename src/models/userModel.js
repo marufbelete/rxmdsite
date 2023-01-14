@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
-const sequelizePaginate = require("sequelize-paginate");
+// const sequelizePaginate = require("sequelize-paginate");
 
 const User = sequelize.define("user", {
   first_name: {
@@ -64,5 +64,5 @@ const User = sequelize.define("user", {
   },
 });
 
-sequelizePaginate.paginate(User);
+// sequelizePaginate.paginate(User);
 module.exports = User;

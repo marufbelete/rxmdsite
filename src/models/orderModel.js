@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
-const sequelizePaginate = require("sequelize-paginate");
+// const sequelizePaginate = require("sequelize-paginate");
 
 const Order = sequelize.define("order", {
   id: {
@@ -24,5 +24,5 @@ const Order = sequelize.define("order", {
   },
 });
 
-sequelizePaginate.paginate(Order);
+// sequelizePaginate.paginate(Order);
 module.exports = Order;

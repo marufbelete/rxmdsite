@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
-const sequelizePaginate = require("sequelize-paginate");
+// const sequelizePaginate = require("sequelize-paginate");
 const Product = sequelize.define("product", {
   id: {
     type: Sequelize.INTEGER,
@@ -50,5 +50,5 @@ const Product = sequelize.define("product", {
   },
 });
 
-sequelizePaginate.paginate(Product);
+// sequelizePaginate.paginate(Product);
 module.exports = Product;
