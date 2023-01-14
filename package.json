@@ -4,7 +4,6 @@
   "description": "TestRxMD Website",
   "main": "src/index.js",
   "dependencies": {
-    "api": "^5.0.6",
     "authorizenet": "^1.0.8",
     "axios": "^1.2.2",
     "bcryptjs": "^2.4.3",
