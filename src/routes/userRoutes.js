@@ -27,6 +27,7 @@ const {
   getUserByStatus,
   updateUserState
 } = require("../controllers/userController");
+const {createAppointment, createClient}=require("../controllers/appointment.controller")
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { authenticateJWT } = require("../middleware/auth.middleware");
 const { issueGoogleToken } = require("../auth/google");
@@ -51,7 +52,8 @@ router.get("/logout", logOut, errorHandler);
 router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandler);
 router.post("/jotformwebhook", multipart.array(), jotformWebhook, errorHandler);
 router.get("/dashboard", authenticateJWT, authAdmin, adminDashboard, errorHandler);
-
+router.post("/createappt",createAppointment,errorHandler)
+router.post("/crateclient",createClient,errorHandler)
 //google auth
 router.get("/auth/google",
   passport.authenticate("google", {

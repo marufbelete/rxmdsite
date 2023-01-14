@@ -599,6 +599,41 @@
       </div>
       <h2>Loading....</h2>
   </div>
+<div id="test-modal">Test Modal</div>
+  <!-- order success modal -->
+  <div style="max-height: 500px; margin:40px 0px;" class="modal fade" id="order_success_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="update-user-title">Order Success</h3>
+          <button id="close-mod-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="user-update-detail" class="modal-body">
+          <div class="text-center">
+            <span style="color: #07DBA6;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
+             </span>
+          </div>
+          <div class="mb-3">
+         <h5 class="text-center" id="order-success-message"></h5>
+          </div>
+      </div>  
+    <div class="modal-footer">
+          <button type="button" id="order-confirmation" class="btn btn-primary">
+            <span id="order_success_text"></span>
+      <span id="order_success_text_spin" class="d-none">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+      </span>
+          </button>
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+        </div>
+      </div>
+      
+    </div>
+  </div>
     <!-- end main-content -->
 
     <!-- Footer -->

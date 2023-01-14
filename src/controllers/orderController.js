@@ -95,7 +95,7 @@ exports.createOrder = async (req, res, next) => {
 
 exports.getOrder = async (req, res, next) => {
   try {
-    const { page, paginate } = req.query;
+    // const { page, paginate } = req.query;
     if (isUserAdmin(req)) {
       const options = {
         attributes: ["id","total_paid_amount","order_date","transId"],

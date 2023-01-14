@@ -3,22 +3,22 @@ const { isUserAdmin } = require("../helper/user");
 exports.getOrderProduct = async (req, res, next) => {
   try {
     const { orderId } = req.params;
-    const { page, paginate } = req.query;
+    // const { page, paginate } = req.query;
     if (isUserAdmin(req)) {
       const options = {
         where: { orderId },
-        page: Number(page) || 1,
-        paginate: Number(paginate) || 25,
+        // page: Number(page) || 1,
+        // paginate: Number(paginate) || 25,
       };
-      const products = await Orderproduct.paginate(options);
+      const products = await Orderproduct.findAll(options);
       return res.json(products);
     }
     const options = {
       where: { orderId, "$Order.userId$": req?.user?.sub },
-      page: Number(page) || 1,
-      paginate: Number(paginate) || 25,
+      // page: Number(page) || 1,
+      // paginate: Number(paginate) || 25,
     };
-    const products = await Orderproduct.paginate(options);
+    const products = await Orderproduct.findAll(options);
     return res.json(products);
   } catch (err) {
     next(err);
