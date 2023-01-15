@@ -24,54 +24,59 @@ exports.getAppointment = async (req, res, next) => {
     next(err);
   }
 };
-exports.createClient = async (req, res, next) => {
-  try {
-     const response=await create_client();
-     //save vcita client id to db
-     return res.json(response)
-  } catch (err) {
-    console.log(err.response)
-    next(err);
-  }
-};
-exports.createAppointment = async (req, res, next) => {
-  try {
-           // comment this for test only
-    // const id = req.user.sub;
-    // const user = await User.findByPk(id);
-    // let client_id=user.client_id
-    // if(!user.client_id){
-    // const client=await create_client();
-    // user.client_id=client.id
-    // await user.save()
-    // client_id=client.id
-    // }
-    const data = {
-        service_id: "b7e3onotccbodfml",
-        staff_id:"160rl9jdj153rzzt",
-        business_id:"iqx89rw1t8g4vwuh",
-        client_id:"02xt1t7ge3o1j5r",
-        start_time:'2022-12-01T10:00:00Z',
-    };
-    //send email about the appointment
-    const response=await axios.post('https://api.vcita.biz/business/scheduling/v1/bookings', data, config)
-    return res.json(response.data)
-  } catch (err) {
-    console.log(err?.response.data)
-    next(err);
-  }
-};
+
+// exports.createClient = async (req, res, next) => {
+//   try {
+//      const response=await create_client();
+//      //save vcita client id to db
+//      return res.json(response)
+//   } catch (err) {
+//     console.log(err.response)
+//     next(err);
+//   }
+// };
+// exports.createAppointment = async (req, res, next) => {
+//   try {
+//            // comment this for test only
+//     // const id = req.user.sub;
+//     // const user = await User.findByPk(id);
+//     // let client_id=user.client_id
+//     // if(!user.client_id){
+//     // const client=await create_client();
+//     // user.client_id=client.id
+//     // await user.save()
+//     // client_id=client.id
+//     // }
+//     const data = {
+//         service_id: "b7e3onotccbodfml",
+//         staff_id:"160rl9jdj153rzzt",
+//         business_id:"iqx89rw1t8g4vwuh",
+//         client_id:"02xt1t7ge3o1j5r",
+//         start_time:'2022-12-01T10:00:00Z',
+//     };
+//     //send email about the appointment
+//     const response=await axios.post('https://api.vcita.biz/business/scheduling/v1/bookings', data, config)
+//     return res.json(response.data)
+//   } catch (err) {
+//     console.log(err?.response.data)
+//     next(err);
+//   }
+// };
 // run the webhook when the server start
 exports.subscribeWebhook = async () => {
 const webhookUrl = 'https://rxmdsite-production.up.railway.app/webhook';
 const event = 'appointment.create';
-
+try{
 const data = {
   target_url: webhookUrl,
   events: event
 };                                 
   const respoonse=await axios.post('https://api.vcita.biz/platform/v1/webhook/subscribe', data, config)
   console.log(respoonse.data)
+}
+catch (err) {
+  console.log(err?.response)
+}
 }
 
 exports.appointmentCreated = async (req, res, next) => {

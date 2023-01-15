@@ -6,7 +6,6 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const jsdom = require("jsdom");
-const {subscribeWebhook}=require("./controllers/appointment.controller")
 const { JSDOM } = jsdom;
 // const { window } = new JSDOM();
 const { document } = new JSDOM("").window;
@@ -14,6 +13,7 @@ global.document = document;
 // let $ = (jQuery = require("jquery")(window));
 require("dotenv").config();
 const sequelize = require("./models/index");
+const {subscribeWebhook}=require("./controllers/appointment.controller")
 const view_route = require("./routes/viewRoutes");
 const user_route = require("./routes/userRoutes");
 const role_route = require("./routes/roleRoutes");
@@ -84,11 +84,7 @@ sequelize
   .sync()
   .then(async (result) => {
     app.listen(port, () => {
-      //..........remove below when done..............///
-      //.........create admin role and admin user...........///
-      //......this should be removed once it create the admin role and admin user.....///
       const Role = require("./models/roleModel");
-
       const populateDB = async () => {
         const isAdmin = await Role.findOne({ where: { role: "admin" } });
         if (!isAdmin) {
@@ -106,11 +102,9 @@ sequelize
       };
       populateDB();
       subscribeWebhook();
-      // ................. should be removed after the first excution..........///
-      // ................remove above when done.............................
       console.log(`Listening on port ${port}`);
     });
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error.response.data);
   });

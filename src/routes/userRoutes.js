@@ -52,8 +52,6 @@ router.get("/logout", logOut, errorHandler);
 router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandler);
 router.post("/jotformwebhook", multipart.array(), jotformWebhook, errorHandler);
 router.get("/dashboard", authenticateJWT, authAdmin, adminDashboard, errorHandler);
-router.post("/createappt",createAppointment,errorHandler)
-router.post("/crateclient",createClient,errorHandler)
 //google auth
 router.get("/auth/google",
   passport.authenticate("google", {
