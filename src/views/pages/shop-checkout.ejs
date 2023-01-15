@@ -15,11 +15,10 @@
   <title>TestRxMD</title>
 
   <!-- Favicon and Touch Icons -->
-  <link href="images/favicon.png" rel="shortcut icon" type="image/png">
-  <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
-  <link href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
-  <link href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
-  <link href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="manifest" href="images/site.webmanifest">
 
   <!-- Stylesheet -->
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -332,8 +331,8 @@
         <div class="container">
           <div class="section-content">
             <div class="text-center">
-              <h5>*** You must complete the <a src="https://hipaa.jotform.com/212587273457161?token=<%=token%>" 
-                id="jotform-hover" class="ajaxload-popup text-success">
+              <h5>*** You must complete the <a src="https://hipaa.jotform.com/212587273457161?token=<%=token%>"
+                  id="jotform-hover" class="ajaxload-popup text-success">
                   <u>Registration Form</u></a> before purchasing labwork or a telehealth appointment ***</h5>
             </div>
             <form id="checkout-form" action="/authorizeNet" method="post">
@@ -370,7 +369,8 @@
                     </tbody>
                   </table>
                   <div class="d-none text-center" id="select-product-error">
-                    <h5 id="select-product-error-text">Please select one or more product</h5></div>
+                    <h5 id="select-product-error-text">Please select one or more product</h5>
+                  </div>
                 </div>
                 <div class="col-md-12 mt-60">
                   <div class="card payment-method">
@@ -389,8 +389,8 @@
                             <div class="form-group text-center">
                               <label>CARD NUMBER</label>
                               <div class="input-group px-5">
-                                <input id="checkout-form-ccNumber" type="tel" class="form-control"
-                                 maxlength="16" placeholder="Credit or Debit Card Number" />
+                                <input id="checkout-form-ccNumber" type="tel" class="form-control" maxlength="16"
+                                  placeholder="Credit or Debit Card Number" />
                               </div>
                             </div>
                           </div>
@@ -399,8 +399,9 @@
                           <div class="col-xs-6 col-md-6">
                             <div class="form-group text-center px-5 py-3">
                               <label>EXP DATE</label>
-                              <input type="text" pattern="[0-9/]*" placeholder="MM/YY" maxlength="5" id="checkout-form-ccExpiry"
-                              oninput="addSlash(this)" placeholder="MM/YY" class="form-control" />
+                              <input type="text" pattern="[0-9/]*" placeholder="MM/YY" maxlength="5"
+                                id="checkout-form-ccExpiry" oninput="addSlash(this)" placeholder="MM/YY"
+                                class="form-control" />
 
                             </div>
                           </div>
@@ -408,17 +409,18 @@
                             function addSlash(e) {
                               let inputValue = e.value;
                               if (inputValue.length === 2) {
-                                  e.value = inputValue + '/';
+                                e.value = inputValue + '/';
                               }
                               if (inputValue.indexOf('/') !== inputValue.lastIndexOf('/')) {
-                                  e.value = inputValue.substring(0, inputValue.length - 1);
+                                e.value = inputValue.substring(0, inputValue.length - 1);
                               }
                             }
-                        </SCRIPT>
+                          </SCRIPT>
                           <div class="col-xs-6 col-md-6 pull-right">
                             <div class="form-group px-5 py-3 text-center">
                               <label>SEC CODE</label>
-                              <input maxlength="4" id="checkout-form-cvc" type="tel" class="form-control" placeholder="CVC" />
+                              <input maxlength="4" id="checkout-form-cvc" type="tel" class="form-control"
+                                placeholder="CVC" />
                             </div>
                           </div>
                         </div>
@@ -438,7 +440,7 @@
                             </div>
                           </div>
                         </div>
-                        
+
                       </div>
 
                       <div class="row">
@@ -452,13 +454,15 @@
                               <div class="row mb-4">
                                 <div class="col">
                                   <div class="form-outline">
-                                    <input type="text" id="checkout-form-firstname" class="form-control" value="<%=billing_info?.firstName%>"/>
+                                    <input type="text" id="checkout-form-firstname" class="form-control"
+                                      value="<%=billing_info?.firstName%>" />
                                     <label class="form-label" for="checkout-form-firstname">First name</label>
                                   </div>
                                 </div>
                                 <div class="col">
                                   <div class="form-outline">
-                                    <input type="text" id="checkout-form-lastname" class="form-control" value="<%=billing_info?.lastName%>"/>
+                                    <input type="text" id="checkout-form-lastname" class="form-control"
+                                      value="<%=billing_info?.lastName%>" />
                                     <label class="form-label" for="checkout-form-lastname">Last name</label>
                                   </div>
                                 </div>
@@ -466,7 +470,8 @@
 
                               <!-- Email input -->
                               <div class="form-outline mb-4">
-                                <input type="email" id="checkout-form-email" class="form-control" value="<%=billing_info?.email%>"/>
+                                <input type="email" id="checkout-form-email" class="form-control"
+                                  value="<%=billing_info?.email%>" />
                                 <label class="form-label" for="checkout-form-email">Email</label>
                               </div>
 
@@ -480,7 +485,8 @@
                               <div class="row mb-4">
                                 <div class="col">
                                   <div class="form-outline">
-                                    <input type="text" id="checkout-form-address" class="form-control" value="<%=billing_info?.address%>"/>
+                                    <input type="text" id="checkout-form-address" class="form-control"
+                                      value="<%=billing_info?.address%>" />
                                     <label class="form-label" for="checkout-form-address">Address</label>
                                   </div>
                                 </div>
@@ -488,7 +494,8 @@
                                 <div class="col">
                                   <div class="form-outline">
 
-                                    <input type="text" id="checkout-form-city" class="form-control" value="<%=billing_info?.city%>"/>
+                                    <input type="text" id="checkout-form-city" class="form-control"
+                                      value="<%=billing_info?.city%>" />
                                     <label class="form-label" for="checkout-form-city">City</label>
                                   </div>
                                 </div>
@@ -500,57 +507,109 @@
                                     <select id="checkout-form-state" class="form-control">
                                       <option value="">Select State</option>
 
-                                      <option value="AL" <%= billing_info?.state === 'AL' ? 'selected' : ''%>>Alabama</option>
-                                      <option value="AK" <%= billing_info?.state === 'AK' ? 'selected' : ''%>>Alaska</option>
-                                      <option value="AZ" <%= billing_info?.state === 'AZ' ? 'selected' : ''%>>Arizona</option>
-                                      <option value="AR" <%= billing_info?.state === 'AR' ? 'selected' : ''%>>Arkansas</option>
-                                      <option value="CA" <%= billing_info?.state === 'CA' ? 'selected' : ''%>>California</option>
-                                      <option value="CO" <%= billing_info?.state === 'CO' ? 'selected' : ''%>>Colorado</option>
-                                      <option value="CT" <%= billing_info?.state === 'CT' ? 'selected' : ''%>>Connecticut</option>
-                                      <option value="DE" <%= billing_info?.state === 'DE' ? 'selected' : ''%>>Delaware</option>
-                                      <option value="DC" <%= billing_info?.state === 'DC' ? 'selected' : ''%>>District Of Columbia</option>
-                                      <option value="FL" <%= billing_info?.state === 'FL' ? 'selected' : ''%> <%= billing_info?.state === 'FL' ? 'selected' : ''%>>Florida</option>
-                                      <option value="GA" <%= billing_info?.state === 'GA' ? 'selected' : ''%>>Georgia</option>
-                                      <option value="HI" <%= billing_info?.state === 'HI' ? 'selected' : ''%>>Hawaii</option>
-                                      <option value="ID" <%= billing_info?.state === 'ID' ? 'selected' : ''%>>Idaho</option>
-                                      <option value="IL" <%= billing_info?.state === 'IL' ? 'selected' : ''%>>Illinois</option>
-                                      <option value="IN" <%= billing_info?.state === 'IN' ? 'selected' : ''%>>Indiana</option>
-                                      <option value="IA" <%= billing_info?.state === 'IA' ? 'selected' : ''%>>Iowa</option>
-                                      <option value="KS" <%= billing_info?.state === 'KS' ? 'selected' : ''%>>Kansas</option>
-                                      <option value="KY" <%= billing_info?.state === 'KY' ? 'selected' : ''%>>Kentucky</option>
-                                      <option value="LA" <%= billing_info?.state === 'LA' ? 'selected' : ''%>>Louisiana</option>
-                                      <option value="ME" <%= billing_info?.state === 'ME' ? 'selected' : ''%>>Maine</option>
-                                      <option value="MD" <%= billing_info?.state === 'MD' ? 'selected' : ''%>>Maryland</option>
-                                      <option value="MA" <%= billing_info?.state === 'MA' ? 'selected' : ''%>>Massachusetts</option>
-                                      <option value="MI" <%= billing_info?.state === 'MI' ? 'selected' : ''%>>Michigan</option>
-                                      <option value="MN" <%= billing_info?.state === 'MN' ? 'selected' : ''%>>Minnesota</option>
-                                      <option value="MS" <%= billing_info?.state === 'MS' ? 'selected' : ''%>>Mississippi</option>
-                                      <option value="MO" <%= billing_info?.state === 'MO' ? 'selected' : ''%>>Missouri</option>
-                                      <option value="MT" <%= billing_info?.state === 'MT' ? 'selected' : ''%>>Montana</option>
-                                      <option value="NE" <%= billing_info?.state === 'NE' ? 'selected' : ''%>>Nebraska</option>
-                                      <option value="NV" <%= billing_info?.state === 'NV' ? 'selected' : ''%>>Nevada</option>
-                                      <option value="NH" <%= billing_info?.state === 'NH' ? 'selected' : ''%>>New Hampshire</option>
-                                      <option value="NJ" <%= billing_info?.state === 'NJ' ? 'selected' : ''%>>New Jersey</option>
-                                      <option value="NM" <%= billing_info?.state === 'NM' ? 'selected' : ''%>>New Mexico</option>
-                                      <option value="NY" <%= billing_info?.state === 'NY' ? 'selected' : ''%>>New York</option>
-                                      <option value="NC" <%= billing_info?.state === 'NC' ? 'selected' : ''%>>North Carolina</option>
-                                      <option value="ND" <%= billing_info?.state === 'ND' ? 'selected' : ''%>>North Dakota</option>
-                                      <option value="OH" <%= billing_info?.state === 'OH' ? 'selected' : ''%>>Ohio</option>
-                                      <option value="OK" <%= billing_info?.state === 'OK' ? 'selected' : ''%>>Oklahoma</option>
-                                      <option value="OR" <%= billing_info?.state === 'OR' ? 'selected' : ''%>>Oregon</option>
-                                      <option value="PA" <%= billing_info?.state === 'PA' ? 'selected' : ''%>>Pennsylvania</option>
-                                      <option value="RI" <%= billing_info?.state === 'RI' ? 'selected' : ''%>>Rhode Island</option>
-                                      <option value="SC" <%= billing_info?.state === 'SC' ? 'selected' : ''%>>South Carolina</option>
-                                      <option value="SD" <%= billing_info?.state === 'SD' ? 'selected' : ''%>>South Dakota</option>
-                                      <option value="TN" <%= billing_info?.state === 'TN' ? 'selected' : ''%>>Tennessee</option>
-                                      <option value="TX" <%= billing_info?.state === 'TX' ? 'selected' : ''%>>Texas</option>
-                                      <option value="UT" <%= billing_info?.state === 'UT' ? 'selected' : ''%>>Utah</option>
-                                      <option value="VT" <%= billing_info?.state === 'VT' ? 'selected' : ''%>>Vermont</option>
-                                      <option value="VA" <%= billing_info?.state === 'VA' ? 'selected' : ''%>>Virginia</option>
-                                      <option value="WA" <%= billing_info?.state === 'WA' ? 'selected' : ''%>>Washington</option>
-                                      <option value="WV" <%= billing_info?.state === 'WV' ? 'selected' : ''%>>West Virginia</option>
-                                      <option value="WI" <%= billing_info?.state === 'WI' ? 'selected' : ''%>>Wisconsin</option>
-                                      <option value="WY" <%= billing_info?.state === 'WY' ? 'selected' : ''%>>Wyoming</option>
+                                      <option value="AL" <%=billing_info?.state==='AL' ? 'selected' : '' %>>Alabama
+                                      </option>
+                                      <option value="AK" <%=billing_info?.state==='AK' ? 'selected' : '' %>>Alaska
+                                      </option>
+                                      <option value="AZ" <%=billing_info?.state==='AZ' ? 'selected' : '' %>>Arizona
+                                      </option>
+                                      <option value="AR" <%=billing_info?.state==='AR' ? 'selected' : '' %>>Arkansas
+                                      </option>
+                                      <option value="CA" <%=billing_info?.state==='CA' ? 'selected' : '' %>>California
+                                      </option>
+                                      <option value="CO" <%=billing_info?.state==='CO' ? 'selected' : '' %>>Colorado
+                                      </option>
+                                      <option value="CT" <%=billing_info?.state==='CT' ? 'selected' : '' %>>Connecticut
+                                      </option>
+                                      <option value="DE" <%=billing_info?.state==='DE' ? 'selected' : '' %>>Delaware
+                                      </option>
+                                      <option value="DC" <%=billing_info?.state==='DC' ? 'selected' : '' %>>District Of
+                                        Columbia</option>
+                                      <option value="FL" <%=billing_info?.state==='FL' ? 'selected' : '' %>
+                                        <%= billing_info?.state==='FL' ? 'selected' : '' %>>Florida
+                                      </option>
+                                      <option value="GA" <%=billing_info?.state==='GA' ? 'selected' : '' %>>Georgia
+                                      </option>
+                                      <option value="HI" <%=billing_info?.state==='HI' ? 'selected' : '' %>>Hawaii
+                                      </option>
+                                      <option value="ID" <%=billing_info?.state==='ID' ? 'selected' : '' %>>Idaho
+                                      </option>
+                                      <option value="IL" <%=billing_info?.state==='IL' ? 'selected' : '' %>>Illinois
+                                      </option>
+                                      <option value="IN" <%=billing_info?.state==='IN' ? 'selected' : '' %>>Indiana
+                                      </option>
+                                      <option value="IA" <%=billing_info?.state==='IA' ? 'selected' : '' %>>Iowa
+                                      </option>
+                                      <option value="KS" <%=billing_info?.state==='KS' ? 'selected' : '' %>>Kansas
+                                      </option>
+                                      <option value="KY" <%=billing_info?.state==='KY' ? 'selected' : '' %>>Kentucky
+                                      </option>
+                                      <option value="LA" <%=billing_info?.state==='LA' ? 'selected' : '' %>>Louisiana
+                                      </option>
+                                      <option value="ME" <%=billing_info?.state==='ME' ? 'selected' : '' %>>Maine
+                                      </option>
+                                      <option value="MD" <%=billing_info?.state==='MD' ? 'selected' : '' %>>Maryland
+                                      </option>
+                                      <option value="MA" <%=billing_info?.state==='MA' ? 'selected' : '' %>
+                                        >Massachusetts</option>
+                                      <option value="MI" <%=billing_info?.state==='MI' ? 'selected' : '' %>>Michigan
+                                      </option>
+                                      <option value="MN" <%=billing_info?.state==='MN' ? 'selected' : '' %>>Minnesota
+                                      </option>
+                                      <option value="MS" <%=billing_info?.state==='MS' ? 'selected' : '' %>>Mississippi
+                                      </option>
+                                      <option value="MO" <%=billing_info?.state==='MO' ? 'selected' : '' %>>Missouri
+                                      </option>
+                                      <option value="MT" <%=billing_info?.state==='MT' ? 'selected' : '' %>>Montana
+                                      </option>
+                                      <option value="NE" <%=billing_info?.state==='NE' ? 'selected' : '' %>>Nebraska
+                                      </option>
+                                      <option value="NV" <%=billing_info?.state==='NV' ? 'selected' : '' %>>Nevada
+                                      </option>
+                                      <option value="NH" <%=billing_info?.state==='NH' ? 'selected' : '' %>>New
+                                        Hampshire</option>
+                                      <option value="NJ" <%=billing_info?.state==='NJ' ? 'selected' : '' %>>New Jersey
+                                      </option>
+                                      <option value="NM" <%=billing_info?.state==='NM' ? 'selected' : '' %>>New Mexico
+                                      </option>
+                                      <option value="NY" <%=billing_info?.state==='NY' ? 'selected' : '' %>>New York
+                                      </option>
+                                      <option value="NC" <%=billing_info?.state==='NC' ? 'selected' : '' %>>North
+                                        Carolina</option>
+                                      <option value="ND" <%=billing_info?.state==='ND' ? 'selected' : '' %>>North Dakota
+                                      </option>
+                                      <option value="OH" <%=billing_info?.state==='OH' ? 'selected' : '' %>>Ohio
+                                      </option>
+                                      <option value="OK" <%=billing_info?.state==='OK' ? 'selected' : '' %>>Oklahoma
+                                      </option>
+                                      <option value="OR" <%=billing_info?.state==='OR' ? 'selected' : '' %>>Oregon
+                                      </option>
+                                      <option value="PA" <%=billing_info?.state==='PA' ? 'selected' : '' %>>Pennsylvania
+                                      </option>
+                                      <option value="RI" <%=billing_info?.state==='RI' ? 'selected' : '' %>>Rhode Island
+                                      </option>
+                                      <option value="SC" <%=billing_info?.state==='SC' ? 'selected' : '' %>>South
+                                        Carolina</option>
+                                      <option value="SD" <%=billing_info?.state==='SD' ? 'selected' : '' %>>South Dakota
+                                      </option>
+                                      <option value="TN" <%=billing_info?.state==='TN' ? 'selected' : '' %>>Tennessee
+                                      </option>
+                                      <option value="TX" <%=billing_info?.state==='TX' ? 'selected' : '' %>>Texas
+                                      </option>
+                                      <option value="UT" <%=billing_info?.state==='UT' ? 'selected' : '' %>>Utah
+                                      </option>
+                                      <option value="VT" <%=billing_info?.state==='VT' ? 'selected' : '' %>>Vermont
+                                      </option>
+                                      <option value="VA" <%=billing_info?.state==='VA' ? 'selected' : '' %>>Virginia
+                                      </option>
+                                      <option value="WA" <%=billing_info?.state==='WA' ? 'selected' : '' %>>Washington
+                                      </option>
+                                      <option value="WV" <%=billing_info?.state==='WV' ? 'selected' : '' %>>West
+                                        Virginia</option>
+                                      <option value="WI" <%=billing_info?.state==='WI' ? 'selected' : '' %>>Wisconsin
+                                      </option>
+                                      <option value="WY" <%=billing_info?.state==='WY' ? 'selected' : '' %>>Wyoming
+                                      </option>
                                     </select>
                                     <label class="form-label" for="checkout-form-state">State</label>
                                   </div>
@@ -574,8 +633,8 @@
                         <div class="row text-center py-4">
                           <div class="col-xs-12">
                             <button type='submit' id="complete-order" class="btn btn-theme-colored1 btn-lg btn-block">
-                             Complete Order
-                              </button>
+                              Complete Order
+                            </button>
 
                           </div>
                         </div>
@@ -588,7 +647,7 @@
           </div>
         </div>
         </form>
-       
+
     </div>
     </div>
     </section>
