@@ -13,6 +13,7 @@ global.document = document;
 // let $ = (jQuery = require("jquery")(window));
 require("dotenv").config();
 const sequelize = require("./models/index");
+const {subscribeWebhook}=require("./controllers/appointment.controller")
 const view_route = require("./routes/viewRoutes");
 const user_route = require("./routes/userRoutes");
 const role_route = require("./routes/roleRoutes");
@@ -83,11 +84,7 @@ sequelize
   .sync()
   .then(async (result) => {
     app.listen(port, () => {
-      //..........remove below when done..............///
-      //.........create admin role and admin user...........///
-      //......this should be removed once it create the admin role and admin user.....///
       const Role = require("./models/roleModel");
-
       const populateDB = async () => {
         const isAdmin = await Role.findOne({ where: { role: "admin" } });
         if (!isAdmin) {
@@ -104,11 +101,10 @@ sequelize
         return;
       };
       populateDB();
-      // ................. should be removed after the first excution..........///
-      // ................remove above when done.............................
+      subscribeWebhook();
       console.log(`Listening on port ${port}`);
     });
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error.response.data);
   });

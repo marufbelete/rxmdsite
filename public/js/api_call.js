@@ -861,27 +861,29 @@ $(document).ready(function () {
         let appName=$("tr").find(`[data-productid='${131}']`).siblings('.product-name').text().toUpperCase()
         let isLab=product_ordered.find(e=>e.productId==133)
         let labName=$("tr").find(`[data-productid='${133}']`).siblings('.product-name').text().toUpperCase()
-        if(isAppointment?.productId){
+        
+      if(isAppointment?.productId&&isLab?.productId){
           $("#order_success_text").text("Procced")
           $("#order-confirmation").removeClass("btn-secondary").addClass("btn-primary")
           $('#close-mod-btn').addClass('d-none');
           $("#order-confirmation").addClass("procced-to-checkout")
-          !isLab?.productId&&isAppointment?.productId&&$("#order-success-message").
-          text(`You have successfully bought ${appName}. Please procced with your schedule`)
-          isLab?.productId&&isAppointment?.productId&&$("#order-success-message").
+          $("#order-success-message").
           text(`You have successfully bought ${labName} and ${appName}. Please procced with your schedule`)
+          $("#order_success_modal").modal('show')
         }
-        else{
+      else if(isAppointment?.productId){
+        location.href='/appt'
+        }
+      else{
       $("#order_success_text").text("Close")
       $("#order-confirmation").addClass("btn-secondary").removeClass("btn-primary")
       $('#order_success_text').attr('data-bs-dismiss', 'modal');
       $("#order-confirmation").removeClass("procced-to-checkout")
       $('#close-mod-btn').removeClass('d-none');
       $("#order-success-message").text(`You have successfully bought ${labName}. Your order will arrive soon`)
+      $("#order_success_modal").modal('show')
     }
-   
-    $("#order_success_modal").modal('show')
-      },
+  },
       error: function (data) {
         $('#spinner-div').hide();
         $('#complete-order-error').removeClass('d-none').
