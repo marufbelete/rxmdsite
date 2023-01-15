@@ -24030,18 +24030,11 @@ footer#footer.footer-inverted .widget.widget_recent_entries ul>li {
   transform: scale(0.8);
 }
 
-/*
- * Shortcode: pricing-tables.scss
- * -----------------------------------------------
-*/
-/*
- * progress-bar.scss
- * -----------------------------------------------
-*/
-/*
- * Shortcode: section-title.scss
- * -----------------------------------------------
-*/
+#indexFAQ ol>li::marker {
+  font-weight: bold;
+}
+
+
 .tm-sc-section-title .title-wrapper .subtitle {
   font-family: "Playfair Display", serif;
   font-weight: 400;

@@ -45,8 +45,6 @@
   <script src="js/javascript-plugins-bundle.min.js"></script>
   <script src="js/menuzord/js/menuzord.js"></script>
 
-  <link href="style.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body class="tm-container-1300px has-side-panel side-panel-right">
@@ -135,23 +133,21 @@
                         </ul>
                         <h5><i class="fas fa-id-card text-theme-colored1"></i> Online Appointments Available!</h5>
                         <p>Can't make it to the clinic? We can see you online. Click below to get started</p>
-                        <div class="tm-sc-button text-center"> <a href="#" target="_self"
+                        <div class="tm-sc-button text-center"> <a href="/checkout" target="_self"
                             class="btn btn-theme-colored1 btn-sm">Get Started </a></div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="mb-md-30 col-sm-12 col-lg-4 col-md-6">
-                  <h2>TestRxMD</h2>
+                  <h2 class="mt-5">TestRxMD</h2>
                   <p><em>TestRx MD is dedicated to helping you find the best version of yourself. We are here to help
                       discover that new you through our featured services.</em></p>
                   <p>If you have a busy schedule and can't make it in to the office, no problem. We can do your
                     appointment online! Our team can do a tele-health consultation to talk about your goals and discuss
                     your therapy options.</p>
-                  <div class="tm-sc-button mt-20"> <a href="#" target="_self" class="btn btn-theme-colored1 btn-sm">
-                      Read
-                      more </a></div>
                 </div>
+
                 <div class="col-sm-12 col-lg-4 hidden-md-down">
                   <img width="340" height="464" src="images/testrxmd/services-weightlifter.jpeg"
                     class="attachment-large" alt="images" />
@@ -251,22 +247,25 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-12 col-md-12 col-lg-5">
+
+                <!-- FAQ -->
+                <div id="indexFAQ" class="col-sm-12 col-md-12 col-lg-5">
                   <img src="images/about/w6.jpg" class="attachment-full mb-10" alt="images" />
                   <div class="accordion tm-accordion accordion-classic accordion-theme-colored1" id="accordion500">
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="heading501">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
                           data-bs-target="#collapse501" aria-expanded="true" aria-controls="collapse501">
-                          <strong>What is TestRxMD's most popular product</strong>
+                          <strong>How much does it cost?</strong>
                         </button>
                       </h2>
                       <div id="collapse501" class="accordion-collapse collapse show" aria-labelledby="heading501"
                         data-bs-parent="#accordion500">
                         <div class="accordion-body">
-                          Our most popular treatment is HRT. HRT is available via injections, creams, pills and patches.
-                          We will customize a hormone treatment plan based on your individual needs. We will actively
-                          monitor your hormone levels and make changes as needed to regain the vitality of your youth.
+                          We charge $125 for initial bloodwork/labs (we can use labs that have been
+                          drawn in the last 3 months). Therapies vary in cost but start at $100/month (TRT specifically
+                          starts at $200/month). All subsequent lab draws would be included in your monthly rate for
+                          whatever therapy you choose.
                         </div>
                       </div>
                     </div>
@@ -274,16 +273,29 @@
                       <h2 class="accordion-header" id="heading502">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                           data-bs-target="#collapse502" aria-expanded="false" aria-controls="collapse502">
-                          <strong>Can you really help me lose weight?</strong>
+                          <strong>Do you accept insurance?</strong>
                         </button>
                       </h2>
                       <div id="collapse502" class="accordion-collapse collapse" aria-labelledby="heading502"
                         data-bs-parent="#accordion500">
                         <div class="accordion-body">
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                          squid.
-                          3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
-                          laborum eiusmod. Brunch 3 wolf moon tempor
+                          <strong>We don’t accept insurance for a couple of reasons:</strong>
+                          <ol type="i">
+                            <li>In our experience less than 10-15% of clients would have levels low enough
+                              for insurance to cover their therapy. If they do decide to cover the cost of your therapy,
+                              and subsequent lab
+                              results come back normal/high, you would be at risk of losing
+                              coverage of your therapy altogether.</li>
+                            <li>By not taking insurance we are able to treat the client as we see fit. We don’t
+                              have insurance companies dictating how we are able to practice medicine. We truly believe
+                              this
+                              brings a much higher level of care to the client. I encourage you to see what you think.
+                            </li>
+                          </ol>
+                          <p class="mt-3 mb--10">We do accept HSA/Flex spending cards. This is a feature that a lot of
+                            clients like to
+                            take
+                            advantage of. Keeps more money in your bank account.</p>
                         </div>
                       </div>
                     </div>
@@ -291,16 +303,63 @@
                       <h2 class="accordion-header" id="heading503">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                           data-bs-target="#collapse503" aria-expanded="false" aria-controls="collapse503">
-                          <strong>I would like more information on the treatments you offer.</strong>
+                          <strong>How long does it take to get my meds?</strong>
                         </button>
                       </h2>
                       <div id="collapse503" class="accordion-collapse collapse" aria-labelledby="heading503"
                         data-bs-parent="#accordion500">
                         <div class="accordion-body">
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                          squid.
-                          3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
-                          laborum eiusmod. Brunch 3 wolf moon tempor
+                          <ol type="I">
+                            <li> <strong>If you need labs drawn:</strong></li>
+                            <ol type="a">
+                              <li>After the lab draw is conducted, we schedule a follow-up appointment for a week out.
+                                This
+                                gives the lab plenty of time to post your results. Normally the results come back after
+                                3-4 days, but we build in a cushion for any
+                                delays.
+                                If
+                                your labs get posted earlier, you’ll have access through our patient portal. You will
+                                receive
+                                an email with a link to your results.</li>
+
+                              <li>After the follow-up appointment any medication deemed necessary will be sent in to our
+                                mail-order compounding pharmacy. We use expedited (FedEx 2nd Day) shipping (no sig req..
+                                if
+                                you would like to require a signature.. just ask).</li>
+                              <li>From start to finish you are looking at around 10 days until meds
+                                arrive at your door in a FedEx box.</li>
+                            </ol>
+                            <li class="mt-3">
+                              <strong>If you already have current labs (within the last 3 months):</strong>
+                            </li>
+                            <ol type="a">
+                              <li>You get to essentially skip ahead to part b in the previous section.</li>
+                              <li>From start to finish,
+                                after your consult, you would be looking at around 3 days (1 day to process
+                                and 2-day shipping).</li>
+                            </ol>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="heading503">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                          data-bs-target="#collapse504" aria-expanded="false" aria-controls="collapse504">
+                          <strong>What is covered in our ALL-INCLUSIVE therapies?</strong>
+                        </button>
+                      </h2>
+                      <div id="collapse504" class="accordion-collapse collapse" aria-labelledby="heading504"
+                        data-bs-parent="#accordion500">
+                        <div class="accordion-body">
+                          <strong>After the initial lab draw ($125), the following will be included in your monthly
+                            fee:</strong>
+                          <ul>
+                            <li>😷 - Doctor Consults/Physical Exams</li>
+                            <li>🩸 - Quarterly Labs (more if needed)</li>
+                            <li>💊 - Cost of Medication (and any supplies needed to administer)</li>
+                            <li>📦 - Cost of expedited shipping to your door!</li>
+                          </ul>
                         </div>
                       </div>
                     </div>
@@ -330,9 +389,10 @@
                           <div class="testimonial-inner">
                             <div class="testimonial-text-holder">
                               <div class="author-text">
-                                One Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, iste, architecto
-                                ullam tenetur quia nemo ratione tempora consectetur quos minus ut quo nulla ipsa aliquid
-                                neque molestias et qui sunt.
+                                I love these guys, they are spectacular. John is very knowledgeable, and they have
+                                helped me tremendously. I'm back at the top of my game and honestly feel better than I
+                                have in
+                                years. So glad I found this place!
                               </div>
                               <div class="star-rating">
                                 <span style="width: 100%"></span>
@@ -341,12 +401,12 @@
                             <div class="testimonial-author-details">
                               <div class="testimonial-image-holder">
                                 <div class="author-thumb">
-                                  <img width="75" height="75" src="images/testimonials/3.jpg"
+                                  <img width="75" height="75" src="images/testimonials/1.jpg"
                                     class="img-thumbnail rounded-circle" alt="images" />
                                 </div>
                               </div>
                               <div class="testimonial-author-info-holder">
-                                <h5 class="name">Robert Jonson</h5>
+                                <h5 class="name">Brandon Hinton</h5>
                               </div>
                             </div>
                           </div>
@@ -358,9 +418,9 @@
                           <div class="testimonial-inner">
                             <div class="testimonial-text-holder">
                               <div class="author-text">
-                                One Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, iste, architecto
-                                ullam tenetur quia nemo ratione tempora consectetur quos minus ut quo nulla ipsa aliquid
-                                neque molestias et qui sunt.
+                                If you guys out there are looking for testosterone replacement therapy, look no
+                                further! These guys are awesome, helpful and go the extra mile for their patients! Can't
+                                suggest this place enough.
                               </div>
                               <div class="star-rating">
                                 <span style="width: 100%"></span>
@@ -369,12 +429,12 @@
                             <div class="testimonial-author-details">
                               <div class="testimonial-image-holder">
                                 <div class="author-thumb">
-                                  <img width="75" height="75" src="images/testimonials/3.jpg"
+                                  <img width="75" height="75" src="images/testimonials/2.jpg"
                                     class="img-thumbnail rounded-circle" alt="images" />
                                 </div>
                               </div>
                               <div class="testimonial-author-info-holder">
-                                <h5 class="name">Jessica Bela</h5>
+                                <h5 class="name">Jimmy Leinbach</h5>
                               </div>
                             </div>
                           </div>
@@ -386,9 +446,10 @@
                           <div class="testimonial-inner">
                             <div class="testimonial-text-holder">
                               <div class="author-text">
-                                One Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, iste, architecto
-                                ullam tenetur quia nemo ratione tempora consectetur quos minus ut quo nulla ipsa aliquid
-                                neque molestias et qui sunt.
+                                The products at TestRxMD are excellent and have made a huge difference for me!
+                                So happy I took the leap and
+                                gave this place a shot. Looking for cutting-edge Nootropics or Testosterone?
+                                This is the place to call.
                               </div>
                               <div class="star-rating">
                                 <span style="width: 84%"></span>
@@ -397,12 +458,12 @@
                             <div class="testimonial-author-details">
                               <div class="testimonial-image-holder">
                                 <div class="author-thumb">
-                                  <img width="75" height="75" src="images/testimonials/2.jpg"
+                                  <img width="75" height="75" src="images/testimonials/3.png"
                                     class="img-thumbnail rounded-circle" alt="images">
                                 </div>
                               </div>
                               <div class="testimonial-author-info-holder">
-                                <h5 class="name">Mark Smith</h5>
+                                <h5 class="name">Jacob Briggs</h5>
                               </div>
                             </div>
                           </div>
@@ -414,9 +475,9 @@
                           <div class="testimonial-inner">
                             <div class="testimonial-text-holder">
                               <div class="author-text">
-                                One Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, iste, architecto
-                                ullam tenetur quia nemo ratione tempora consectetur quos minus ut quo nulla ipsa aliquid
-                                neque molestias et qui sunt.
+                                Great service, super friendly, and everything works as described. These guys really know
+                                their stuff. Been doing TrT and
+                                Sermorelin and my body hasn't felt this good in years!!!
                               </div>
                               <div class="star-rating">
                                 <span style="width: 96%"></span>
@@ -425,12 +486,12 @@
                             <div class="testimonial-author-details">
                               <div class="testimonial-image-holder">
                                 <div class="author-thumb">
-                                  <img width="75" height="75" src="images/testimonials/1.jpg"
+                                  <img width="75" height="75" src="images/testimonials/4.png"
                                     class="img-thumbnail rounded-circle" alt="images" />
                                 </div>
                               </div>
                               <div class="testimonial-author-info-holder">
-                                <h5 class="name">Rebecca Williams</h5>
+                                <h5 class="name">Dalton Dickerson</h5>
                               </div>
                             </div>
                           </div>
@@ -459,9 +520,6 @@
                         <h2 class="title icon-bottom"> <span class="">Popular </span> <span
                             class="text-theme-colored1">Treatments</span></h2>
                         <div class="title-seperator-line"></div>
-                        <div class="paragraph">
-                          <p>Explore Our Treatment Options in our Online Store!</p>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -498,18 +556,6 @@
                               <div class="staff-content">
                                 <h5 class="name"><a href="#">ED Treatment</a></h5>
                                 <div class="speciality">Viagra</div>
-                                <ul class="contact-info">
-                                </ul>
-                                <div class="staff-working-hours">
-                                  <ul class="working-hours">
-                                    <li class="clearfix">
-                                      <div class="value">$200.00</div>
-                                    </li>
-                                  </ul>
-                                </div>
-                                <div class="staff-btn">
-                                  <div class="clearfix"></div>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -536,18 +582,6 @@
                               <div class="staff-content">
                                 <h5 class="name"><a href="#">Hormone Replacement</a></h5>
                                 <div class="speciality">Testosterone</div>
-                                <ul class="contact-info">
-                                </ul>
-                                <div class="staff-working-hours">
-                                  <ul class="working-hours">
-                                    <li class="clearfix">
-                                      <div class="value">$200.00</div>
-                                    </li>
-                                  </ul>
-                                </div>
-                                <div class="staff-btn">
-                                  <div class="clearfix"></div>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -574,18 +608,6 @@
                               <div class="staff-content">
                                 <h5 class="name"><a href="#">Weight Loss</a></h5>
                                 <div class="speciality">Xenical</div>
-                                <ul class="contact-info">
-                                </ul>
-                                <div class="staff-working-hours">
-                                  <ul class="working-hours">
-                                    <li class="clearfix">
-                                      <div class="value">$200.00</div>
-                                    </li>
-                                  </ul>
-                                </div>
-                                <div class="staff-btn">
-                                  <div class="clearfix"></div>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -613,17 +635,6 @@
                                 <h5 class="name"><a href="#">HGH</a></h5>
                                 <div class="speciality">Human Growth Hormone</div>
                                 <ul class="contact-info">
-                                </ul>
-                                <div class="staff-working-hours">
-                                  <ul class="working-hours">
-                                    <li class="clearfix">
-                                      <div class="value">$200.00</div>
-                                    </li>
-                                  </ul>
-                                </div>
-                                <div class="staff-btn">
-                                  <div class="clearfix"></div>
-                                </div>
                               </div>
                             </div>
                           </div>
