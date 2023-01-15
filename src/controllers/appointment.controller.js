@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const path = require("path");
 const { formatPhoneNumber } = require('../helper/reusable')
 const axios = require('axios');
-const { create_client,config } = require("../functions/vcitafunc");
+const { config } = require("../functions/vcitafunc");
 
 exports.getAppointment = async (req, res, next) => {
   try {
@@ -64,12 +64,12 @@ exports.getAppointment = async (req, res, next) => {
 // };
 // run the webhook when the server start
 exports.subscribeWebhook = async () => {
-const webhookUrl = 'https://rxmdsite-production.up.railway.app/webhook';
-const event = 'appointment.create';
+const webhookUrl = 'https://rxmdsite-production.up1.railway.app/webhook';
+const event = 'appointment/requested';
 try{
 const data = {
   target_url: webhookUrl,
-  events: event
+  event: event
 };                                 
   const respoonse=await axios.post('https://api.vcita.biz/platform/v1/webhook/subscribe', data, config)
   console.log(respoonse.data)
