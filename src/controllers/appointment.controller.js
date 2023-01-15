@@ -80,17 +80,17 @@ catch (err) {
 }
 
 exports.appointmentCreatedWebhook = async (req, res, next) => {
+  console.log("appointment created")
   console.log(req)
-  console.log(" appointment created")
   const token = req.query.jwt_token;
   const secret = 'your_secret_key';
-  console.log(token)
+  console.log(token);
   try {
     const decoded = jwt.verify(token, secret);
     console.log(decoded);
   }
 catch (err) {
-  console.log(err?.response.data)
+  console.log(err?.response?.data)
   next(err);
 }
 }
