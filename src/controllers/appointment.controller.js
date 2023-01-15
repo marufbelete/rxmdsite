@@ -14,10 +14,11 @@ exports.getAppointment = async (req, res, next) => {
       email: user.email,
       phone_number: formatPhoneNumber(user.phone_number)
     }
+    const token = req.cookies.access_token;
     console.log(user_info)
     return res.render(
       path.join(__dirname, "..", "/views/pages/appointment"),
-      { user_info }
+      { user_info, token }
     );
   } catch (err) {
     next(err);
@@ -60,3 +61,38 @@ exports.createAppointment = async (req, res, next) => {
     next(err);
   }
 };
+// run the webhook when the server start
+exports.subscribeWebhook = async (req, res, next) => {
+  try {
+const webhookUrl = 'https://rxmdsite-production.up.railway.app/webhook';
+const event = 'appointment.create';
+
+const data = {
+  target_url: webhookUrl,
+  events: event
+};                                 
+  const respoonse=await axios.post('https://api.vcita.biz/platform/v1/webhook/subscribe', data, config)
+  console.log(respoonse.data)
+ 
+}
+catch (err) {
+  console.log(err?.response.data)
+  next(err);
+}
+}
+
+exports.appointmentCreated = async (req, res, next) => {
+  console.log(req)
+  const token = req.query.jwt_token;
+  const secret = 'your_secret_key';
+  console.log(token)
+  try {
+    const decoded = jwt.verify(token, secret);
+    console.log(decoded);
+  }
+catch (err) {
+  console.log(err?.response.data)
+  next(err);
+}
+}
+
