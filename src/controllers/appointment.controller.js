@@ -64,7 +64,7 @@ exports.getAppointment = async (req, res, next) => {
 // };
 // run the webhook when the server start
 exports.subscribeWebhook = async () => {
-const webhookUrl = 'https://rxmdsite-production.up1.railway.app/vcitawebhook';
+const webhookUrl = 'https://rxmdsite-production.up.railway.app/vcitawebhook';
 const event = 'appointment/scheduled';
 try{
 const data = {
