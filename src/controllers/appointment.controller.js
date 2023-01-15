@@ -81,8 +81,8 @@ catch (err) {
 
 exports.appointmentCreatedWebhook = async (req, res, next) => {
   console.log("appointment created")
-  console.log(req)
-  const token = req.query.token;
+  console.log(req.body)
+  const token = req.body.token;
   const secret = 'your_secret_key';
   console.log(token);
   try {
