@@ -64,7 +64,7 @@ exports.getAppointment = async (req, res, next) => {
 // };
 // run the webhook when the server start
 exports.subscribeWebhook = async () => {
-const webhookUrl = 'https://rxmdsite-production.up1.railway.app/webhook';
+const webhookUrl = 'https://rxmdsite-production.up1.railway.app/vcitawebhook';
 const event = 'appointment/requested';
 try{
 const data = {
@@ -79,7 +79,7 @@ catch (err) {
 }
 }
 
-exports.appointmentCreated = async (req, res, next) => {
+exports.appointmentCreatedWebhook = async (req, res, next) => {
   console.log(req)
   console.log(" appointment created")
   const token = req.query.jwt_token;
