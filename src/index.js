@@ -6,6 +6,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const jsdom = require("jsdom");
+const {subscribeWebhook}=require("./controllers/appointment.controller")
 const { JSDOM } = jsdom;
 // const { window } = new JSDOM();
 const { document } = new JSDOM("").window;
@@ -104,6 +105,7 @@ sequelize
         return;
       };
       populateDB();
+      subscribeWebhook();
       // ................. should be removed after the first excution..........///
       // ................remove above when done.............................
       console.log(`Listening on port ${port}`);

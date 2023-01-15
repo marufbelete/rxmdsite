@@ -62,8 +62,7 @@ exports.createAppointment = async (req, res, next) => {
   }
 };
 // run the webhook when the server start
-exports.subscribeWebhook = async (req, res, next) => {
-  try {
+exports.subscribeWebhook = async () => {
 const webhookUrl = 'https://rxmdsite-production.up.railway.app/webhook';
 const event = 'appointment.create';
 
@@ -73,16 +72,11 @@ const data = {
 };                                 
   const respoonse=await axios.post('https://api.vcita.biz/platform/v1/webhook/subscribe', data, config)
   console.log(respoonse.data)
- 
-}
-catch (err) {
-  console.log(err?.response.data)
-  next(err);
-}
 }
 
 exports.appointmentCreated = async (req, res, next) => {
   console.log(req)
+  console.log(" appointment created")
   const token = req.query.jwt_token;
   const secret = 'your_secret_key';
   console.log(token)
