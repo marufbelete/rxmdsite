@@ -118,6 +118,7 @@ exports.loginUser = async (req, res, next) => {
         bouncer.reset(req);
         return res
           .cookie("access_token", token, {
+            domain: ".",
             path: "/",
             secure: true,
           })
