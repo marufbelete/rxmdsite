@@ -15,6 +15,7 @@ exports.getAppointment = async (req, res, next) => {
       phone_number: formatPhoneNumber(user.phone_number)
     }
     const token = req.cookies.access_token;
+    res.header('token', req.cookies.access_token);
     console.log(user_info)
     return res.render(
       path.join(__dirname, "..", "/views/pages/appointment"),
