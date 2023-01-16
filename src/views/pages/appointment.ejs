@@ -145,9 +145,10 @@
                             below to select a date and time that works for you. Once you submit the form, a verification
                             email with a secure link to the online clinic will be sent to your email. </p>
                     </div>
-                    <iframe src="https://www.vcita.com/widgets/scheduler/iqx89rw1t8g4vwuh?frontage_iframe=true&token=<%=token%>"
+                    <iframe src="https://www.vcita.com/widgets/scheduler/iqx89rw1t8g4vwuh?frontage_iframe=true"
                         width="100%" height="800px" frameborder="0">
-                        <a href='https://www.vcita.com/v/iqx89rw1t8g4vwuh/online_scheduling?frontage_iframe=true&invite=vr_sched_pb-iqx89rw1t8g4vwuh&token=<%=token%>'>Online
+                        <input type="hidden" name="token" value="<%=token%>">
+                        <a href='https://www.vcita.com/v/iqx89rw1t8g4vwuh/online_scheduling?frontage_iframe=true&invite=vr_sched_pb-iqx89rw1t8g4vwuh'>Online
                         Scheduling with TestRx MD</a>
                     </iframe>
                 </section>
