@@ -2,7 +2,7 @@ const { authenticateJWT } = require("../middleware/auth.middleware");
 const { getProduct } = require("../controllers/productController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { getAppointment } = require("../controllers/appointment.controller");
-
+const {checkAppointmentLeft}= require("../middleware/role.middleware");
 // module.exports = (app) => {
 const path = require("path");
 const router = require("express").Router();
@@ -12,7 +12,7 @@ router.get("/", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"));
 });
 
-router.get("/appt", getAppointment, errorHandler);
+router.get("/appt",authenticateJWT,checkAppointmentLeft, getAppointment, errorHandler);
 
 router.get("/home", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"));

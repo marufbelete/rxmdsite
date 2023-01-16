@@ -50,14 +50,15 @@ exports.createOrder = async (req, res, next) => {
       );
     }
     //update the user address info
-    User.update({
-     address:address,
-     city:city,
-     state:state,
-     zip_code:zip,
-     country:'USA'
-    },{where:{id:req?.user?.sub}})
-
+    const user=await User.findByPk(req?.user?.sub)
+     user.address=address
+     user.city=city
+     user.state=state
+     user.zip_code=zip
+     user.country='USA'
+     user.left_appointment=user.left_appointment+1
+     await user.save({ transaction: t })
+    
     const payment_info={
      amount:total_amount,
      card_detail:{
@@ -65,8 +66,6 @@ exports.createOrder = async (req, res, next) => {
      expirtationDate:expirtationDate?.
       replace('/', ''),
      cardCode:cardCode,
-    //  firstName:payment_detail?.ownerFirstName,
-    //  lastName:payment_detail?.ownerLastName
      },
      billing_detail:{
      firstName:billingFirstName,

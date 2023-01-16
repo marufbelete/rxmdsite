@@ -25,6 +25,12 @@ const authenticateJWT = async (req, res, next) => {
 
   } catch (error) {
     if (req.method == "GET") {
+      if(req.url==='/checkout')
+        {
+          return res.redirect(
+            "/login?error=" + encodeURIComponent("No-Auth-Redirect/checkout")
+          );
+        }
       return res.redirect(
         "/login?error=" + encodeURIComponent("No-Auth-Redirect")
       );

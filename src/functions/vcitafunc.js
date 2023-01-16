@@ -6,12 +6,11 @@ const config = {
             'Content-Type': 'application/json'
         }
     };
-const create_client=async()=>{
+const create_client=async(user)=>{
       const data = {
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'marufbelete9@gmail.com',
-        phone: '555-555-5555'
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
       };
       const response=await axios.post('https://api.vcita.biz/platform/v1/clients', data, config)
       return response.data
@@ -21,16 +20,6 @@ const get_client=async()=>{
   return response.data
 }
 
-const send_message=async()=>{
-    const data = {
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'marufbelete9@gmail.com',
-      phone: '555-555-5555'
-    };
-    const response=await axios.post('https://api.vcita.biz/platform/v1/messages', data, config)
-    return response.data
-}
 module.exports={
     create_client,
     get_client,

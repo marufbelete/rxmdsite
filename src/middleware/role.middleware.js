@@ -1,3 +1,5 @@
+const User = require("../models/userModel");
+
 exports.authAdmin = (req, res, next) => {
   let {role} = req.user
   if (role === "admin") {
@@ -19,4 +21,14 @@ exports.authUser = (req, res, next) => {
   return res
     .status(403)
     .json({ message: "you do not have priviledge", status: false });
+};
+
+exports.checkAppointmentLeft = async(req, res, next) => {
+  const {sub} = req.user;
+  const user = await User.findByPk(sub);
+  if (user.left_appointment>0) {
+    next();
+    return;
+  }
+  return res.redirect("/");
 };

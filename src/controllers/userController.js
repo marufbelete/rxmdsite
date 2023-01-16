@@ -6,6 +6,7 @@ const Product = require("../models/productModel");
 const { Op } = require("sequelize");
 const path = require("path");
 const util = require('util');
+const { create_client} = require("../functions/vcitafunc");
 const asyncVerify = util.promisify(jwt.verify);
 const {
   isEmailExist,
@@ -40,7 +41,6 @@ exports.registerUser = async (req, res, next) => {
       if (await isEmailVerified(email)) {
         handleError("User already exists with this email", 400);
       }
-      //this should be her other wise unhandled error will raise
       else {
         const hashedPassword = await hashPassword(password);
         User.update(
@@ -57,6 +57,10 @@ exports.registerUser = async (req, res, next) => {
     }
     const user_role = await Role.findOne({ where: { role: "user" } });
     const hashedPassword = await hashPassword(password);
+    const vcita_user=await create_client({
+      first_name,
+      last_name,
+      email})
     const user = new User({
       first_name,
       last_name,
@@ -64,8 +68,11 @@ exports.registerUser = async (req, res, next) => {
       roleId: user_role.id,
       password: hashedPassword,
       isLocalAuth: true,
+      client_id:vcita_user?.data?.client?.id
     });
     await user.save();
+    //create client on the vcita
+    
     await sendEmail(mailOptions);
     return res.json({ success: true });
   } catch (err) {
@@ -82,6 +89,12 @@ exports.loginUser = async (req, res, next) => {
   }
   try {
     const { login_email, login_password, rememberme } = req.body;
+    // const err=req.query.error
+    // let redirect_to='/'
+    // if(err&&err.includes('/'))
+    // {
+    //   redirect_to= `${err.split('/')[1]}`
+    // }
     const user = login_email && (await isEmailExist(login_email));
     if (user && user.isLocalAuth && user.isActive) {
       //if not validated send email
@@ -106,7 +119,7 @@ exports.loginUser = async (req, res, next) => {
             user.id,
             user.role?.role,
             login_email,
-            process.env.SECRET
+            process.env.SECRET,
           )
           : await issueToken(user.id, user.role.role, login_email, process.env.SECRET);
         const info = {
@@ -114,11 +127,12 @@ exports.loginUser = async (req, res, next) => {
           last_name: user.last_name,
           role: user.role,
           email: user.email,
+          // redirect_to
         };
+        console.log(info)
         bouncer.reset(req);
         return res
           .cookie("access_token", token, {
-            domain: "vcita.com",
             path: "/",
             secure: true,
           })

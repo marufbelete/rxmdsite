@@ -34,10 +34,7 @@ var corsOptions = {
   origin: [
     "http://localhost:8081",
     "https://rxmdsite-production.up.railway.app",
-    "http://localhost:7000",
-    "https://www.vcita.com"
-  ],
-  credentials: true
+    "http://localhost:7000"],
 };
 
 app.use(cors(corsOptions));

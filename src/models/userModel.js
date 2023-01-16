@@ -62,6 +62,13 @@ const User = sequelize.define("user", {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
   },
+  left_appointment:{
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
+  client_id: {
+    type: Sequelize.STRING,
+  },
 });
 
 // sequelizePaginate.paginate(User);

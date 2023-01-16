@@ -1,7 +1,16 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url="https://rxmdsite-production.up.railway.app"
-
+  const base_url = "http://localhost:7000";
+  // const base_url="https://rxmdsite-production.up.railway.app"
+const new_url = window?.location?.search;
+if(new_url.includes('checkout')){
+  localStorage.setItem("toCheckout", "true");
+}
+const check_url = window?.location?.href;
+if(check_url==='http://localhost:7000/'&&localStorage.getItem("toCheckout")==="true")
+{
+  localStorage.removeItem("toCheckout")
+  location.href="/checkout"
+}
   $("#populate").on("click", function () {
     loadTable();
   });
@@ -84,16 +93,17 @@ $(document).ready(function () {
     $("#login_text").addClass("d-none");
     $("#login_text_spin").removeClass("d-none");
     $.ajax({
-      url: `${base_url}/login`,
+      url: window.location.href,
       method: "POST",
       data: { login_email, login_password, rememberme },
       success: function (data) {
+        console.log(data)
         localStorage.setItem("isLoged", "true");
         data?.info?.role?.role?.toLowerCase() !== "admin" &&
           localStorage.setItem("isAdmin", "false");
         data?.info?.role?.role?.toLowerCase() === "admin" &&
           localStorage.setItem("isAdmin", "true");
-        location.href = "/";
+        location.href = '/';
       },
       error: function (data) {
         $("#login_error").removeClass("d-none");
@@ -252,9 +262,9 @@ $(document).ready(function () {
       "This account is deactivated, please contact our customer service"
     );
   }
-  if (myParam == "No-Auth-Redirect") {
-    location.href = "/login";
-  }
+  // if (myParam == "No-Auth-Redirect") {
+  //   location.href = "/login";
+  // }
   //get all selected product for order
   //on order complete buton click
 
