@@ -13,7 +13,7 @@ global.document = document;
 // let $ = (jQuery = require("jquery")(window));
 require("dotenv").config();
 const sequelize = require("./models/index");
-const {subscribeWebhook}=require("./controllers/appointment.controller")
+const { subscribeWebhook } = require("./controllers/appointment.controller")
 const view_route = require("./routes/viewRoutes");
 const user_route = require("./routes/userRoutes");
 const role_route = require("./routes/roleRoutes");
@@ -105,5 +105,5 @@ sequelize
     });
   })
   .catch((error) => {
-    console.log(error.response.data);
+    console.log(error);
   });

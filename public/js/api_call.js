@@ -208,7 +208,12 @@ if(check_url==='http://localhost:7000/'&&localStorage.getItem("toCheckout")==="t
     const message = $("#contact_form_message").val();
     const phone = $("#contact_form_phone").val();
     const subject = $("#contact_form_subject").val();
-
+    const bot_val=$("#form_botcheck").val()
+    if(bot_val){
+      console.log("redirect")
+      location.href="/"
+      return
+    }
     $("#invalid_email").addClass("d-none");
     $("#invalid_subject").addClass("d-none");
     $("#invalid_message").addClass("d-none");
