@@ -12,7 +12,7 @@ router.get("/", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"));
 });
 
-router.get("/appt", authenticateJWT, getAppointment, errorHandler);
+router.get("/appt", getAppointment, errorHandler);
 
 router.get("/home", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"));
