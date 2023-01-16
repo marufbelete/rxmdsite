@@ -118,7 +118,7 @@ exports.loginUser = async (req, res, next) => {
         bouncer.reset(req);
         return res
           .cookie("access_token", token, {
-            domain: ["vcita.com","rxmdsite-production.up.railway.app"],
+            domain: "*",
             path: "/",
             secure: true,
           })
