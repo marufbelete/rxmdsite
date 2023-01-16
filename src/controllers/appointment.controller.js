@@ -6,21 +6,19 @@ const { config } = require("../functions/vcitafunc");
 
 exports.getAppointment = async (req, res, next) => {
   try {
-    const id = req.user.sub;
-    const user = await User.findByPk(id, { include: ["role"] });
-    const user_info = {
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      phone_number: formatPhoneNumber(user.phone_number)
-    }
-    const token = req.cookies.access_token;
-    res.header('token', req.cookies.access_token);
-    console.log(user_info)
+    // const id = req.user.sub;
+    // const user = await User.findByPk(id, { include: ["role"] });
+    // const user_info = {
+    //   first_name: user.first_name,
+    //   last_name: user.last_name,
+    //   email: user.email,
+    //   phone_number: formatPhoneNumber(user.phone_number)
+    // }
+    // const token = req.cookies.access_token;
+    // res.header('token', req.cookies.access_token);
+    // console.log(user_info)
     return res.render(
-      path.join(__dirname, "..", "/views/pages/appointment"),
-      { user_info, token }
-    );
+      path.join(__dirname, "..", "/views/pages/appointment"));
   } catch (err) {
     next(err);
   }
