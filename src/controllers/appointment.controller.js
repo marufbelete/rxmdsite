@@ -83,8 +83,8 @@ exports.appointmentCreatedWebhook = async (req, res, next) => {
   console.log("appointment created")
   console.log(req.body)
   const token = req.query;
-  const toke = req.cookies;
-  console.log(toke)
+  const head = req.headers;
+  console.log(head)
   // const secret = 'your_secret_key';
   console.log(token);
   try {
