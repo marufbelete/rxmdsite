@@ -16,6 +16,11 @@ const create_client=async()=>{
       const response=await axios.post('https://api.vcita.biz/platform/v1/clients', data, config)
       return response.data
 }
+const get_client=async()=>{
+  const response=await axios.get('https://api.vcita.biz/platform/v1/clients/str1sw0jb7sjvrgh',config)
+  return response.data
+}
+
 const send_message=async()=>{
     const data = {
       first_name: 'John',
@@ -28,5 +33,6 @@ const send_message=async()=>{
 }
 module.exports={
     create_client,
+    get_client,
     config
 }
