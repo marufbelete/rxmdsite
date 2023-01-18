@@ -293,8 +293,8 @@ exports.forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
     const user =await User.findOne({where:{email:email}})
-    if(!user||!user.isLocalAuth){
-      handleError("User With this email not found to reset the password")
+    if(!user||!user.isLocalAuth||!user.isEmailConfirmed){
+      handleError("User With this email not found to reset the password",403)
     }
     const token = jwt.sign({ email: email }, process.env.SECRET, {
       expiresIn: "2h",
@@ -339,6 +339,10 @@ exports.resetPassword = async (req, res, next) => {
     const { token } = req.query;
     const { password } = req.body;
     const user = await isTokenValid(token);
+    const user_info =await User.findOne({where:{email:user.email}})
+    if(!user_info||!user_info.isLocalAuth||!user_info.isEmailConfirmed){
+      handleError("User With this email not found to reset the password",403)
+    }
     const hashedPassword = await hashPassword(password);
     await User.update(
       { password: hashedPassword },

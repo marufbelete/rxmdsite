@@ -156,8 +156,11 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
         $("#forgot_message").removeClass("d-none");
       },
       error: function (data) {
+        console.log(data.responseJSON.message)
         $("#resetpassword_text").removeClass("d-none");
         $("#resetpassword_text_spin").addClass("d-none");
+        $("#forgot_message").text(data.responseJSON.message);
+        $("#forgot_message").removeClass("d-none");
       },
     });
   });
