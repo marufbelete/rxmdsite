@@ -38,7 +38,6 @@ const chargeCreditCard=async(paymentInfo)=>{
   createRequest.setTransactionRequest(transactionRequestType);
   
     const ctrl = new ApiControllers.CreateTransactionController(createRequest.getJSON());
-    // For PRODUCTION use the default is sandbox
     ctrl.setEnvironment(SDKConstants.endpoint.production);
     const Response = await new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
