@@ -6,7 +6,6 @@ const Product = require("../models/productModel");
 const { Op } = require("sequelize");
 const path = require("path");
 const util = require('util');
-const { create_client} = require("../functions/vcitafunc");
 const asyncVerify = util.promisify(jwt.verify);
 const {
   isEmailExist,
@@ -21,7 +20,7 @@ const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
 const { sendEmail } = require("../helper/send_email");
 const { removeEmptyPair } = require("../helper/reusable");
-
+const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
 exports.registerUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -34,8 +33,25 @@ exports.registerUser = async (req, res, next) => {
       from: process.env.EMAIL,
       to: email,
       subject: "TestRxMD Account Confirmation Link",
-      text: "Follow the link to confirm your email!",
-      html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`,
+      html: `
+      <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+      <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+      TestRxMD Email Confirmation
+      </h1>
+      <p style="text-align:start;padding:10px 20px;">
+      Follow the link to confirm your email.
+      <a href="${process.env.CONFIRM_LINK}?verifyToken=${token}">click here<a/>
+      </p>
+      <div style="text-align:center;padding-bottom:30px">
+      <img src="cid:unique@kreata.ae"/>
+      </div>
+      </div>
+    `,
+    attachments: [{
+      filename: 'testrxmd.gif',
+      path: filePath,
+      cid: 'unique@kreata.ae' //same cid value as in the html img src
+    }]
     };
     if (await isEmailExist(email)) {
       if (await isEmailVerified(email)) {
@@ -57,10 +73,6 @@ exports.registerUser = async (req, res, next) => {
     }
     const user_role = await Role.findOne({ where: { role: "user" } });
     const hashedPassword = await hashPassword(password);
-    const vcita_user=await create_client({
-      first_name,
-      last_name,
-      email})
     const user = new User({
       first_name,
       last_name,
@@ -68,7 +80,6 @@ exports.registerUser = async (req, res, next) => {
       roleId: user_role.id,
       password: hashedPassword,
       isLocalAuth: true,
-      client_id:vcita_user?.data?.client?.id
     });
     await user.save();
     //create client on the vcita
@@ -104,8 +115,26 @@ exports.loginUser = async (req, res, next) => {
           from: process.env.EMAIL,
           to: login_email,
           subject: "Account Confirmation Link",
-          text: "Follow the link to confirm your email for TestRxMD",
-          html: `${process.env.CONFIRM_LINK}?verifyToken=${token}`,
+          html: `
+          <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+          <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+          TestRxMD Email Confirmation
+          </h1>
+          <p style="text-align:start;padding:10px 20px;">
+          Follow the link to confirm your email.
+          <a href="${process.env.CONFIRM_LINK}?verifyToken=${token}">click here<a/>
+          </p>
+          <div style="text-align:center;padding-bottom:30px">
+          <img src="cid:unique@kreata.be"/>
+          </div>
+          </div>
+        `,
+        attachments: [{
+          filename: 'testrxmd.gif',
+          path: filePath,
+          cid: 'unique@kreata.be' //same cid value as in the html img src
+        }]
+          
         };
         await sendEmail(mailOptions);
         handleError(
@@ -263,6 +292,10 @@ exports.changePassword = async (req, res, next) => {
 exports.forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
+    const user =await User.findOne({where:{email:email}})
+    if(!user||!user.isLocalAuth){
+      handleError("User With this email not found to reset the password")
+    }
     const token = jwt.sign({ email: email }, process.env.SECRET, {
       expiresIn: "2h",
     });
@@ -270,8 +303,25 @@ exports.forgotPassword = async (req, res, next) => {
       from: process.env.EMAIL,
       to: email,
       subject: "Password Reset Link",
-      text: "Follow the link to reset your password!",
-      html: `${process.env.RESET_LINK}?token=${token}`,
+      html: `
+      <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+      <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+      TestRxMD Password Reset
+      </h1>
+      <p style="text-align:start;padding:10px 20px;">
+      Follow the link to reset your password!.
+      <a href="${process.env.RESET_LINK}?token=${token}">click here<a/>
+      </p>
+      <div style="text-align:center;padding-bottom:30px">
+      <img src="cid:unique@kreata.be"/>
+      </div>
+      </div>
+    `,
+    attachments: [{
+      filename: 'testrxmd.gif',
+      path: filePath,
+      cid: 'unique@kreata.be' //same cid value as in the html img src
+    }]
     };
     await sendEmail(mailOptions);
     return res.json({
@@ -358,22 +408,54 @@ exports.contactFormEmail = async (req, res, next) => {
     const receiveOptions = {
       from: email,
       to: process.env.EMAIL,
-      text: "customer request",
       subject: subject,
-      html: `You got a message from
-      Email : ${email}
-      ${name && "Name:" + name}
-      ${phone && "Phone:" + phone}
-      Message: ${message}`,
+      html: `
+      <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+      <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+      Customer Request
+      </h1>
+      <p style="text-align:start;padding:10px 20px;">
+      You have message from client.
+      </p>
+      <p>${name && "Name:" + name}</p>
+      <p>${phone && "Phone:" + phone}</p>
+      <p>Email : ${email}</p>
+      <p>Message: ${message}</p>
+      <div style="text-align:center;padding-bottom:30px">
+      <img src="cid:unique@kreata.ae"/>
+      </div>
+      </div>
+    `,
+    attachments: [{
+      filename: 'testrxmd.gif',
+      path: filePath,
+      cid: 'unique@kreata.ae' //same cid value as in the html img src
+    }]
     };
     await sendEmail(receiveOptions);
     //send automatic reply email
     const replyOptions = {
       from: process.env.EMAIL,
       to: email,
-      text: "automatic reply,please don't reply",
-      subject: "reciving your request",
-      html: `we got your request we will contact you soon`,
+      subject: "Request Recieved",
+      html: `
+      <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+      <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+      TESTRXMD Request Recieved
+      </h1>
+      <p style="text-align:start;padding:10px 20px;">
+      we got your request we will contact you soon.
+      </p>
+      <div style="text-align:center;padding-bottom:30px">
+      <img src="cid:unique@kreata.ae"/>
+      </div>
+      </div>
+    `,
+    attachments: [{
+      filename: 'testrxmd.gif',
+      path: filePath,
+      cid: 'unique@kreata.ae' //same cid value as in the html img src
+    }]
     };
     await sendEmail(replyOptions);
     return res.json({

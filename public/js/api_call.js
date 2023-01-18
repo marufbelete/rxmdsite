@@ -1,12 +1,12 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url="https://rxmdsite-production.up.railway.app"
+  // const base_url = "http://localhost:7000";
+  const base_url="https://rxmdsite-production.up.railway.app"
 const new_url = window?.location?.search;
 if(new_url.includes('checkout')){
   localStorage.setItem("toCheckout", "true");
 }
 const check_url = window?.location?.href;
-if(check_url==='http://localhost:7000/'&&localStorage.getItem("toCheckout")==="true")
+if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
 {
   localStorage.removeItem("toCheckout")
   location.href="/checkout"
@@ -845,7 +845,6 @@ if(check_url==='http://localhost:7000/'&&localStorage.getItem("toCheckout")==="t
     !$("#checkout-form-zip").val() ? $("#checkout-form-zip").css('border-color', 'red') :
       $("#checkout-form-zip").css('border-color', 'rgb(206, 212, 218)')
     $("#select-product-error").addClass("d-none")
-
     $('#spinner-div').show();
     $('#complete-order-error').addClass('d-none')
     // $(this).prop('disabled', true);
@@ -897,6 +896,11 @@ if(check_url==='http://localhost:7000/'&&localStorage.getItem("toCheckout")==="t
       $('#close-mod-btn').removeClass('d-none');
       $("#order-success-message").text(`You have successfully bought ${labName}. Your order will arrive soon`)
       $("#order_success_modal").modal('show')
+      $("#checkout-form-firstname-on-cc").val('')
+      $("#checkout-form-lastname-on-cc").val('')
+      $("#checkout-form-cvc").val('')
+      $("#checkout-form-ccNumber").val('')
+      $("#checkout-form-ccExpiry").val('')
     }
   },
       error: function (data) {

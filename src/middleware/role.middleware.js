@@ -24,9 +24,9 @@ exports.authUser = (req, res, next) => {
 };
 
 exports.checkAppointmentLeft = async(req, res, next) => {
-  const {sub} = req.user;
+  const {sub} = req?.user;
   const user = await User.findByPk(sub);
-  if (user.left_appointment>0) {
+  if (user.left_appointment) {
     next();
     return;
   }

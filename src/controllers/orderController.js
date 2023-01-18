@@ -6,7 +6,8 @@ const Product = require("../models/productModel");
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
 const { chargeCreditCard } = require('../functions/handlePayment');
-
+const { sendEmail } = require("../helper/send_email");
+const path = require('path');
 //Unused Shop stuff - save for later
 // const Payment = require("../models/paymentModel");
 // const Shipping = require("../models/shippingModel");
@@ -31,8 +32,10 @@ exports.createOrder = async (req, res, next) => {
       { transaction: t }
     );
     let total_amount=0
+    let is_appointment_exist=false
     for await (const prod of product_ordered) {
       const product = await Product.findByPk(prod?.productId);
+      if(prod?.productId==131){is_appointment_exist=true}
       total_amount=total_amount+(Number(prod?.quantity||1)*Number(product?.price))
       await Orderproduct.create(
         {
@@ -50,15 +53,15 @@ exports.createOrder = async (req, res, next) => {
       );
     }
     //update the user address info
-    const user=await User.findByPk(req?.user?.sub)
-     user.address=address
-     user.city=city
-     user.state=state
-     user.zip_code=zip
-     user.country='USA'
-     user.left_appointment=user.left_appointment+1
-     await user.save({ transaction: t })
-    
+    await User.update({
+     address:address,
+     city:city,
+     state:state,
+     zip_code:zip,
+     country:'USA',
+     left_appointment:is_appointment_exist},
+    {where:{id:req?.user?.sub},transaction: t })
+
     const payment_info={
      amount:total_amount,
      card_detail:{
@@ -83,11 +86,38 @@ exports.createOrder = async (req, res, next) => {
     order.total_paid_amount=total_amount.toFixed(2)
     await order.save({ transaction: t })
     await t.commit();
+    const user=await User.findByPk(req?.user?.sub)
+    const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: user?.email,
+      subject: "TestRxMD Appointment Order Confirmation",
+      html: `
+      <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+      <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+      You Have successfuly Purchased An Appointment
+      </h1>
+      <p style="text-align:start;padding:10px 20px;">
+      Thank you for purchasing a Telehealth appointment with TestRxMD. We look forward to working with you! 
+      We hope that you were able to get your appointment scheduled online with no problems, but in the unlikely event
+      that you were unable to complete the scheduling process after your purchase, please call us at (812) 296-6499 and 
+      we will get you scheduled right away.
+      </p>
+      <div style="text-align:center;padding-bottom:30px">
+      <img src="cid:unique@kreata.ee"/>
+      </div>
+      </div>
+    `,
+    attachments: [{
+      filename: 'testrxmd.gif',
+      path: filePath,
+      cid: 'unique@kreata.ee' //same cid value as in the html img src
+    }]
+    };
+    is_appointment_exist&&sendEmail(mailOptions)
     return res.json(order);
   } catch (err) {
     await t.rollback();
-    console.log("error n")
-    console.log(err)
     next(err);
   }
 };

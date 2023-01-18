@@ -2,7 +2,6 @@ const User = require("../models/userModel");
 const Role = require("../models/roleModel");
 const { issueToken } = require("../helper/user");
 const { Op } = require("sequelize");
-const { create_client} = require("../functions/vcitafunc");
 const passportGoogle = require("passport-google-oauth20");
 const GoogleStrategy = passportGoogle.Strategy;
 exports.googlePassport = (passport) => {
@@ -16,10 +15,6 @@ exports.googlePassport = (passport) => {
       async function (accessToken, refreshToken, profile, done) {
         try {
           const user_role = await Role.findOne({ where: { role: "user" } });
-          const vcita_user=await create_client({
-            first_name:profile?._json?.given_name,
-            last_name:profile?._json?.family_name,
-            email:profile?._json?.email})
           const userInfo = {
             first_name: profile?._json?.given_name,
             last_name: profile?._json?.family_name,
@@ -27,7 +22,6 @@ exports.googlePassport = (passport) => {
             roleId: user_role?.id,
             googleId: profile?._json?.sub,
             isEmailConfirmed: profile?._json?.email_verified,
-            client_id:vcita_user?.data?.client?.id
           }; 
           const user = await User.findOrCreate({
             where: {
@@ -49,8 +43,6 @@ exports.googlePassport = (passport) => {
 };
 exports.issueGoogleToken = async (req, res, next) => {
   try {
-    console.log("query ...........")
-    console.log(req)
     if(!req?.user[0]?.isActive){
       return res.redirect(
         "/login?error=" + encodeURIComponent("Google-Account-Not-Active")
