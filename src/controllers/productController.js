@@ -11,7 +11,6 @@ exports.addProduct = async (req, res, next) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ message: errors.array()[0].msg });
     }
-    console.log("add product")
     if (req.mimetypeError) {
       const error = new Error(req.mimetypeError);
       error.statusCode = 400;
@@ -47,19 +46,13 @@ exports.addProduct = async (req, res, next) => {
       return res.json(new_product);
     }
   } catch (err) {
-    console.log(err)
     next(err);
   }
 };
 
 exports.getProduct = async (req, res, next) => {
   try {
-    // const { page, paginate } = req.query;
     const options = {
-      // include: ["brand", "category"],
-      // attributes: { exclude: ['categoryId', 'brandId'] },
-      // page: Number(page) || 1,
-      // paginate: Number(paginate) || 25,
       order: [["product_name", "ASC"]],
     };
     const products = await Product.findAll(options);
@@ -79,7 +72,6 @@ exports.getProduct = async (req, res, next) => {
       zipCode:user.zip_code,
       state:user.state
     }
-    console.log(billing_info)
     return res.render(
       path.join(__dirname, "..", "/views/pages/shop-checkout"),
       { products,billing_info,token }
@@ -130,7 +122,6 @@ exports.editProduct = async (req, res, next) => {
     );
     return res.json(updated_product);
   } catch (err) {
-    console.log(err)
     next(err);
   }
 };

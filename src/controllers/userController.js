@@ -100,12 +100,6 @@ exports.loginUser = async (req, res, next) => {
   }
   try {
     const { login_email, login_password, rememberme } = req.body;
-    // const err=req.query.error
-    // let redirect_to='/'
-    // if(err&&err.includes('/'))
-    // {
-    //   redirect_to= `${err.split('/')[1]}`
-    // }
     const user = login_email && (await isEmailExist(login_email));
     if (user && user.isLocalAuth && user.isActive) {
       //if not validated send email
@@ -158,7 +152,6 @@ exports.loginUser = async (req, res, next) => {
           email: user.email,
           // redirect_to
         };
-        console.log(info)
         bouncer.reset(req);
         return res
           .cookie("access_token", token, {
@@ -177,13 +170,9 @@ exports.loginUser = async (req, res, next) => {
 //get user
 exports.getUsers = async (req, res, next) => {
   try {
-    // const { page, paginate } = req.query;
     const options = {
       include: ["role"],
-      // page: Number(page) || 1,
-      // paginate: Number(paginate) || 1,
       order: [["first_name", "DESC"]],
-      // where: { name: { [Op.like]: `%elliot%` } }
     };
     const users = await User.findAll(options);
     return res.json(users);
@@ -238,7 +227,6 @@ exports.updateUserInfo = async (req, res, next) => {
       delete req.body.password;
     }
     const new_user_info = removeEmptyPair(req.body)
-    console.log(new_user_info)
     const updated_user = await User.update(
       { ...new_user_info },
       { where: { id: id } }
@@ -374,7 +362,6 @@ exports.confirmEmail = async (req, res, next) => {
 exports.checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.access_token;
-    console.log("test check auth.................")
     if (!token) {
       handleError("please login", 403);
     }
@@ -393,7 +380,6 @@ exports.checkAuth = async (req, res, next) => {
 };
 
 exports.logOut = async (req, res, next) => {
-  console.log(document.cookie)
   try {
     return res.status(200).clearCookie('access_token').redirect("/login");
   } catch (err) {
@@ -471,12 +457,7 @@ exports.contactFormEmail = async (req, res, next) => {
 };
 exports.adminDashboard = async (req, res, next) => {
   try {
-    // const { page, paginate } = req.query;
     const options = {
-      // include: ["brand", "category"],
-      // attributes: { exclude: ['categoryId', 'brandId'] },
-      // page: Number(page) || 1,
-      // paginate: Number(paginate) || 25,
       order: [["product_name", "ASC"]],
     };
     const products = await Product.findAll(options);

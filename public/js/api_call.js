@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url="https://rxmdsite-production.up.railway.app"
+  const base_url = "http://localhost:7000";
+  // const base_url="https://rxmdsite-production.up.railway.app"
 const new_url = window?.location?.search;
 if(new_url.includes('checkout')){
   localStorage.setItem("toCheckout", "true");
@@ -97,7 +97,6 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
       method: "POST",
       data: { login_email, login_password, rememberme },
       success: function (data) {
-        console.log(data)
         localStorage.setItem("isLoged", "true");
         data?.info?.role?.role?.toLowerCase() !== "admin" &&
           localStorage.setItem("isAdmin", "false");
@@ -156,7 +155,6 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
         $("#forgot_message").removeClass("d-none");
       },
       error: function (data) {
-        console.log(data.responseJSON.message)
         $("#resetpassword_text").removeClass("d-none");
         $("#resetpassword_text_spin").addClass("d-none");
         $("#forgot_message").text(data.responseJSON.message);
@@ -213,7 +211,6 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
     const subject = $("#contact_form_subject").val();
     const bot_val=$("#form_botcheck").val()
     if(bot_val){
-      console.log("redirect")
       location.href="/"
       return
     }
@@ -270,20 +267,6 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
       "This account is deactivated, please contact our customer service"
     );
   }
-  // if (myParam == "No-Auth-Redirect") {
-  //   location.href = "/login";
-  // }
-  //get all selected product for order
-  //on order complete buton click
-
-  // $('#pp-id').on('click',function(){
-  //   const product_ordered=[]
-  //   $('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').each(function(){
-  //     product_ordered.push({productId:$(this).data('productid')})
-  //   })
-  //   console.log(product_ordered)
-  //   //here make ajax call to compelete the order
-  // })
   $('input[id="telehealth-appt-checkbox"]').on("click", function () {
     let total_price = 0;
     $("#telehealth-appt-checkbox:checked")
@@ -734,7 +717,6 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
         });
       },
       error: (error) => {
-        console.error(error);
         alert(
           "Error retrieving users from database, please tell Jacob this isn't working!"
         );
@@ -793,7 +775,6 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
         });
       },
       error: (error) => {
-        console.error(error);
         alert(
           "Error retrieving users from database, please tell Jacob this isn't working!"
         );

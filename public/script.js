@@ -3,7 +3,6 @@ ajax_form.onsubmit = (event) => {
   event.preventDefault();
   if (document.querySelector(".g-")) {
     g.ready(() => {
-      console.log(document.querySelector(".g-").dataset.sitekey);
       g.execute(document.querySelector(".g-").dataset.sitekey, {
         action: "submit",
       }).then((captcha_token) => {

@@ -13,7 +13,6 @@ const chargeCreditCard=async(paymentInfo)=>{
         creditCard.setExpirationDate(paymentInfo.card_detail?.expirtationDate);
         creditCard.setCardCode(paymentInfo.card_detail?.cardCode);
 
-
         const paymentType = new ApiContracts.PaymentType();
         paymentType.setCreditCard(creditCard);
 
