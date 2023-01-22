@@ -246,7 +246,9 @@ $(document).ready(function () {
           $("#contact_text_spin").addClass("d-none");
         },
       });
-    });
+    };
+  });
+
   function ValidateEmail(email) {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (email?.match(mailformat)) {
@@ -869,7 +871,7 @@ $(document).ready(function () {
           $('#close-mod-btn').addClass('d-none');
           $("#order-confirmation").addClass("procced-to-checkout")
           $("#order-success-message").
-            text(`You have successfully bought Labwork and a Telehealth Appointment from TestRxMD. (Need info here about where to go/who to call). Please press the Continue button to schedule your appointment.`)
+            text(`You have successfully purchased Labwork and a Telehealth Appointment from TestRxMD. Please call (812) 477-5518 to schedule you labwork appointment at your nearest Labcorp facility. Please write that number down and then click continue to schedule your telehealth appointment.`)
           $("#order_success_modal").modal('show')
         }
         else if (isAppointment?.productId) {
@@ -881,7 +883,9 @@ $(document).ready(function () {
           $('#order_success_text').attr('data-bs-dismiss', 'modal');
           $("#order-confirmation").removeClass("procced-to-checkout")
           $('#close-mod-btn').removeClass('d-none');
-          $("#order-success-message").text(`You have successfully purchased Labwork.`)
+          $("#order-success-message").html(function () {
+            return `You have successfully purchased Labwork from TestRxMD. Please call (812) 477-5518 or click <a href="https://www.labcorp.com/labs-and-appointments" style="color: blue;" target="_blank">HERE</a> to schedule your labwork appointment at your nearest Labcorp facility.`;
+          });
           $("#order_success_modal").modal('show')
           $("#checkout-form-firstname-on-cc").val('')
           $("#checkout-form-lastname-on-cc").val('')
