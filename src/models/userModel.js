@@ -65,6 +65,10 @@ const User = sequelize.define("user", {
   left_appointment:{
     type: Sequelize.BOOLEAN,
     defaultValue: false,
+  },
+  appointment:{
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   }
 });
 

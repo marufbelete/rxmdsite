@@ -897,5 +897,10 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
   $(document).on("click",".procced-to-checkout",function(){
     location.href='/appt'
   })
+  setTimeout(()=>{$('#continue-schedule').attr("disabled", false)},30000)
+  $('#continue-schedule').on('click',()=>{
+  $('#appointment-form').removeClass('d-none')
+  $('#continue-schedule').addClass('d-none')
+  })
 
 });

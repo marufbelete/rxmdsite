@@ -137,14 +137,27 @@
                 </div>
             </section>
 
-            <div id="appointment-form">
+            <div class="container text-center pb-5" style="padding-top: 70px;">
+                <p class="lead">
+                    It is very important that you do not close this tab or refresh your browser.
+                 Please call (812) 477-5518 or click 
+                <a href="https://www.labcorp.com/labs-and-appointments" style="color: blue;" target="_blank">HERE</a> 
+                which will open in a new tab, to schedule your lab work appt. 
+                Once you have scheduled your labs, please press the continue button and use 
+                the scheduling calendar to create your telehealth consult. Your consult should occur 
+                at least 5-7 days after your labwork appt.
+                </p> 
+              
+            </div>
+
+            <div id="appointment-form" class="d-none">
                 <section>
-                    <div class="container text-center">
+                    <!-- <div class="container text-center">
                         <p class="lead">Now that you have filled the patient registration and purchased a telehealth
                             appointment, we would like to schedule a good time for you. Please use the selection methods
                             below to select a date and time that works for you. Once you submit the form, a verification
                             email with a secure link to the online clinic will be sent to your email. </p>
-                    </div>
+                    </div> -->
                     <iframe
                         src="https://www.vcita.com/widgets/scheduler/iqx89rw1t8g4vwuh?frontage_iframe=true"
 
@@ -154,6 +167,11 @@
                             Scheduling with TestRx MD</a>
                     </iframe>
                 </section>
+            </div>
+            <div class="text-center pb-5">
+                <button type="button" id="continue-schedule" disabled class="btn btn-primary">
+                    Continue to schedule
+                </button>
             </div>
             <!-- end main-content -->
 
