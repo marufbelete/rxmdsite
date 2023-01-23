@@ -57,13 +57,13 @@ app.set("view engine", "ejs");
 // require("./routes/viewRoutes")(app);
 app.use(user_route);
 app.use(role_route);
-app.use(payment_route);
 app.use(product_route);
 app.use(order_product_route);
 app.use(order_route);
 app.use(view_route);
 
 // UNUSED SHOP ROUTES FOR LATER
+// app.use(payment_route);
 // app.use(shipping_route);
 // app.use(category_route);
 // app.use(brand_route);

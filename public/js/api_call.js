@@ -1,16 +1,15 @@
 $(document).ready(function () {
   const base_url = "http://localhost:7000";
   // const base_url="https://rxmdsite-production.up.railway.app"
-const new_url = window?.location?.search;
-if(new_url.includes('checkout')){
-  localStorage.setItem("toCheckout", "true");
-}
-const check_url = window?.location?.href;
-if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
-{
-  localStorage.removeItem("toCheckout")
-  location.href="/checkout"
-}
+  const new_url = window?.location?.search;
+  if (new_url.includes('checkout')) {
+    localStorage.setItem("toCheckout", "true");
+  }
+  const check_url = window?.location?.href;
+  if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true") {
+    localStorage.removeItem("toCheckout")
+    location.href = "/checkout"
+  }
   $("#populate").on("click", function () {
     loadTable();
   });
@@ -43,10 +42,10 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
     isLoged !== "true" && $("#login_link").removeClass("d-none");
     isLoged !== "true" && $("#logout_link").addClass("d-none");
     (isAdmin !== "true" || isLoged !== "true") &&
-    $("#admin_link").addClass("d-none");
+      $("#admin_link").addClass("d-none");
     isLoged === "true" &&
-    isAdmin === "true" &&
-    $("#admin_link").removeClass("d-none");
+      isAdmin === "true" &&
+      $("#admin_link").removeClass("d-none");
   };
   checkLogin();
 
@@ -209,41 +208,47 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
     const message = $("#contact_form_message").val();
     const phone = $("#contact_form_phone").val();
     const subject = $("#contact_form_subject").val();
-    const bot_val=$("#form_botcheck").val()
-    if(bot_val){
-      location.href="/"
-      return
-    }
-    $("#invalid_email").addClass("d-none");
-    $("#invalid_subject").addClass("d-none");
-    $("#invalid_message").addClass("d-none");
-    const isEmailValid = ValidateEmail(email);
-    if (!email || !subject || !message || !isEmailValid) {
-      !email && $("#invalid_email").removeClass("d-none");
-      !isEmailValid && email && $("#invalid_email").removeClass("d-none");
-      !isEmailValid && email && $("#invalid_email").text("Invalid Email");
-      !subject && $("#invalid_subject").removeClass("d-none");
-      !message && $("#invalid_message").removeClass("d-none");
-      return;
-    }
-    $("#contact_text_spin").removeClass("d-none");
-    $("#contact_text").addClass("d-none");
-    $.ajax({
-      url: `${base_url}/contactform`,
-      method: "POST",
-      data: { name, email, phone, subject, message },
-      success: function (data) {
-        $("#contact_form_toast").toast("show");
-        $("#contact_text").removeClass("d-none");
-        $("#contact_text_spin").addClass("d-none");
-      },
-      error: function (data) {
-        alert("email not sent");
-        $("#contact_text").removeClass("d-none");
-        $("#contact_text_spin").addClass("d-none");
-      },
-    });
+    const bot_val = $("#form_botcheck").val()
+    if (bot_val) {
+      console.log("redirect")
+      location.href = "/"
+      const bot_val = $("#form_botcheck").val()
+      if (bot_val) {
+        location.href = "/"
+        return
+      }
+      $("#invalid_email").addClass("d-none");
+      $("#invalid_subject").addClass("d-none");
+      $("#invalid_message").addClass("d-none");
+      const isEmailValid = ValidateEmail(email);
+      if (!email || !subject || !message || !isEmailValid) {
+        !email && $("#invalid_email").removeClass("d-none");
+        !isEmailValid && email && $("#invalid_email").removeClass("d-none");
+        !isEmailValid && email && $("#invalid_email").text("Invalid Email");
+        !subject && $("#invalid_subject").removeClass("d-none");
+        !message && $("#invalid_message").removeClass("d-none");
+        return;
+      }
+      $("#contact_text_spin").removeClass("d-none");
+      $("#contact_text").addClass("d-none");
+      $.ajax({
+        url: `${base_url}/contactform`,
+        method: "POST",
+        data: { name, email, phone, subject, message },
+        success: function (data) {
+          $("#contact_form_toast").toast("show");
+          $("#contact_text").removeClass("d-none");
+          $("#contact_text_spin").addClass("d-none");
+        },
+        error: function (data) {
+          alert("email not sent");
+          $("#contact_text").removeClass("d-none");
+          $("#contact_text_spin").addClass("d-none");
+        },
+      });
+    };
   });
+
   function ValidateEmail(email) {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (email?.match(mailformat)) {
@@ -726,7 +731,7 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
   $('#order_success_modal').modal({
     backdrop: 'static',
     keyboard: false
-})
+  })
 
   const loadOrderTable = () => {
     $("#order-table-body").empty();
@@ -855,47 +860,49 @@ if(check_url==`${base_url}/`&&localStorage.getItem("toCheckout")==="true")
       data: { payment_detail, product_ordered },
       success: function (data) {
         $('#spinner-div').hide();
-        let isAppointment=product_ordered.find(e=>e.productId==131)
-        let appName=$("tr").find(`[data-productid='${131}']`).siblings('.product-name').text().toUpperCase()
-        let isLab=product_ordered.find(e=>e.productId==133)
-        let labName=$("tr").find(`[data-productid='${133}']`).siblings('.product-name').text().toUpperCase()
-        
-      if(isAppointment?.productId&&isLab?.productId){
+        let isAppointment = product_ordered.find(e => e.productId == 131)
+        let appName = $("tr").find(`[data-productid='${131}']`).siblings('.product-name').text().toUpperCase()
+        let isLab = product_ordered.find(e => e.productId == 133)
+        let labName = $("tr").find(`[data-productid='${133}']`).siblings('.product-name').text().toUpperCase()
+
+        if (isAppointment?.productId && isLab?.productId) {
           $("#order_success_text").text("Procced")
           $("#order-confirmation").removeClass("btn-secondary").addClass("btn-primary")
           $('#close-mod-btn').addClass('d-none');
           $("#order-confirmation").addClass("procced-to-checkout")
           $("#order-success-message").
-          text(`You have successfully bought ${labName} and ${appName}. Please procced with your schedule`)
+            text(`You have successfully purchased Labwork and a Telehealth Appointment from TestRxMD. Please call (812) 477-5518 to schedule you labwork appointment at your nearest Labcorp facility. Please write that number down and then click continue to schedule your telehealth appointment.`)
           $("#order_success_modal").modal('show')
         }
-      else if(isAppointment?.productId){
-        location.href='/appt'
+        else if (isAppointment?.productId) {
+          location.href = '/appt'
         }
-      else{
-      $("#order_success_text").text("Close")
-      $("#order-confirmation").addClass("btn-secondary").removeClass("btn-primary")
-      $('#order_success_text').attr('data-bs-dismiss', 'modal');
-      $("#order-confirmation").removeClass("procced-to-checkout")
-      $('#close-mod-btn').removeClass('d-none');
-      $("#order-success-message").text(`You have successfully bought ${labName}. Your order will arrive soon`)
-      $("#order_success_modal").modal('show')
-      $("#checkout-form-firstname-on-cc").val('')
-      $("#checkout-form-lastname-on-cc").val('')
-      $("#checkout-form-cvc").val('')
-      $("#checkout-form-ccNumber").val('')
-      $("#checkout-form-ccExpiry").val('')
-    }
-  },
+        else {
+          $("#order_success_text").text("Close")
+          $("#order-confirmation").addClass("btn-secondary").removeClass("btn-primary")
+          $('#order_success_text').attr('data-bs-dismiss', 'modal');
+          $("#order-confirmation").removeClass("procced-to-checkout")
+          $('#close-mod-btn').removeClass('d-none');
+          $("#order-success-message").html(function () {
+            return `You have successfully purchased Labwork from TestRxMD. Please call (812) 477-5518 or click <a href="https://www.labcorp.com/labs-and-appointments" style="color: blue;" target="_blank">HERE</a> to schedule your labwork appointment at your nearest Labcorp facility.`;
+          });
+          $("#order_success_modal").modal('show')
+          $("#checkout-form-firstname-on-cc").val('')
+          $("#checkout-form-lastname-on-cc").val('')
+          $("#checkout-form-cvc").val('')
+          $("#checkout-form-ccNumber").val('')
+          $("#checkout-form-ccExpiry").val('')
+        }
+      },
       error: function (data) {
         $('#spinner-div').hide();
         $('#complete-order-error').removeClass('d-none').
-        text(data.responseJSON.message)
+          text(data.responseJSON.message)
       },
     });
   })
-  $(document).on("click",".procced-to-checkout",function(){
-    location.href='/appt'
+  $(document).on("click", ".procced-to-checkout", function () {
+    location.href = '/appt'
   })
   setTimeout(()=>{$('#continue-schedule').attr("disabled", false)},30000)
   $('#continue-schedule').on('click',()=>{
