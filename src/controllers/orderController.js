@@ -50,7 +50,7 @@ exports.createOrder = async (req, res, next) => {
           price: product?.price,
           tax: product?.tax,
           quantity:prod?.quantity,
-          // image_url: product.image_url,
+          image_url: product?.image_url,
           orderId: order?.id,
         },
         { transaction: t }

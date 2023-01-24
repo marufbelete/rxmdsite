@@ -291,7 +291,7 @@ $(document).ready(function () {
       method: "GET",
       success: function (data) {
         $("div").children("#product-name").val(data.product_name);
-        $("div").children("#product-description").val(data.description);
+        // $("div").children("#product-description").val(data.description);
         $("div").children("#product-price").val(data.price);
         // $("div").children("#product-type").val(data.type);
         $("div").children("#product-type-select").val(data.type).change();
@@ -311,7 +311,7 @@ $(document).ready(function () {
   $("#update-product-button").on("click", function () {
     let selected_id = $("#product-select").find(":selected").val();
     const product_name = $("div").children("#product-name").val();
-    const description = $("div").children("#product-description").val();
+    // const description = $("div").children("#product-description").val();
     const price = $("div").children("#product-price").val();
     const type = $("div").children("#product-type-select").val();
     console.log(type)
@@ -319,7 +319,7 @@ $(document).ready(function () {
     $("#update_product_text_spin").removeClass("d-none");
     $.ajax({
       url: `${base_url}/editproduct/${selected_id}`,
-      data: { product_name, price, description,type },
+      data: { product_name, price, type },
       method: "PUT",
       success: function () {
         $("#product_notify")
@@ -357,7 +357,7 @@ $(document).ready(function () {
     $("#add_product_text_spin").removeClass("d-none");
     const product_name = $("#new-product-name").val()
     const price = $("#new-product-price").val()
-    const description = $("#new-product-description").val()
+    // const description = $("#new-product-description").val()
     const type = $("#new-product-type-select").val()
     $("#add-new-product-error").addClass("d-none");
     if (!product_name || !price) {
@@ -370,7 +370,7 @@ $(document).ready(function () {
     $.ajax({
       url: `${base_url}/addproduct`,
       method: "POST",
-      data: { product_name, price, description,type },
+      data: { product_name, price,type },
       success: function (data) {
         $("#add_product_text").removeClass("d-none");
         $("#add_product_text_spin").addClass("d-none");
@@ -378,7 +378,7 @@ $(document).ready(function () {
         $("#delete_user_success").modal("show");
         $("#new-product-name").val('')
         $("#new-product-price").val('')
-        $("#new-product-description").val('')
+        // $("#new-product-description").val('')
         $("#delete-user-success-icon")
           .empty()
           .append(

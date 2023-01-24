@@ -24,7 +24,7 @@ const product_route = require("./routes/productRoutes");
 // const shipping_route = require("./routes/shippingRoutes");
 // const brand_route = require("./routes/brandRoutes");
 // const category_route = require("./routes/categoryRoutes");
-
+const {addInitialProduct}=require('./helper/initial_product')
 const { googlePassport } = require("./auth/google");
 const Relation = require("./models/relation.model");
 
@@ -99,6 +99,7 @@ sequelize
         return;
       };
       populateDB();
+      addInitialProduct();
       console.log(`Listening on port ${port}`);
     });
   })

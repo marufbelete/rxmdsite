@@ -21,9 +21,9 @@ const Product = sequelize.define("product", {
     allowNull: false,
     defaultValue: 0,
   },
-  description: {
-    type: Sequelize.STRING,
-  },
+  // description: {
+  //   type: Sequelize.STRING,
+  // },
   active: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
