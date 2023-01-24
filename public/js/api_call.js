@@ -209,10 +209,6 @@ $(document).ready(function () {
     const phone = $("#contact_form_phone").val();
     const subject = $("#contact_form_subject").val();
     const bot_val = $("#form_botcheck").val()
-    if (bot_val) {
-      console.log("redirect")
-      location.href = "/"
-      const bot_val = $("#form_botcheck").val()
       if (bot_val) {
         location.href = "/"
         return
@@ -246,7 +242,7 @@ $(document).ready(function () {
           $("#contact_text_spin").addClass("d-none");
         },
       });
-    };
+    
   });
 
   function ValidateEmail(email) {
@@ -297,6 +293,9 @@ $(document).ready(function () {
         $("div").children("#product-name").val(data.product_name);
         $("div").children("#product-description").val(data.description);
         $("div").children("#product-price").val(data.price);
+        // $("div").children("#product-type").val(data.type);
+        $("div").children("#product-type-select").val(data.type).change();
+
       },
     });
   };
@@ -314,11 +313,13 @@ $(document).ready(function () {
     const product_name = $("div").children("#product-name").val();
     const description = $("div").children("#product-description").val();
     const price = $("div").children("#product-price").val();
+    const type = $("div").children("#product-type-select").val();
+    console.log(type)
     $("#update_product_text").addClass("d-none");
     $("#update_product_text_spin").removeClass("d-none");
     $.ajax({
       url: `${base_url}/editproduct/${selected_id}`,
-      data: { product_name, price, description },
+      data: { product_name, price, description,type },
       method: "PUT",
       success: function () {
         $("#product_notify")
@@ -357,6 +358,7 @@ $(document).ready(function () {
     const product_name = $("#new-product-name").val()
     const price = $("#new-product-price").val()
     const description = $("#new-product-description").val()
+    const type = $("#new-product-type-select").val()
     $("#add-new-product-error").addClass("d-none");
     if (!product_name || !price) {
       $("#add_product_text").removeClass("d-none");
@@ -368,7 +370,7 @@ $(document).ready(function () {
     $.ajax({
       url: `${base_url}/addproduct`,
       method: "POST",
-      data: { product_name, price, description },
+      data: { product_name, price, description,type },
       success: function (data) {
         $("#add_product_text").removeClass("d-none");
         $("#add_product_text_spin").addClass("d-none");
@@ -859,22 +861,11 @@ $(document).ready(function () {
       method: "POST",
       data: { payment_detail, product_ordered },
       success: function (data) {
+        console.log(data)
         $('#spinner-div').hide();
-        let isAppointment = product_ordered.find(e => e.productId == 131)
-        let appName = $("tr").find(`[data-productid='${131}']`).siblings('.product-name').text().toUpperCase()
-        let isLab = product_ordered.find(e => e.productId == 133)
-        let labName = $("tr").find(`[data-productid='${133}']`).siblings('.product-name').text().toUpperCase()
-
-        if (isAppointment?.productId && isLab?.productId) {
-          $("#order_success_text").text("Procced")
-          $("#order-confirmation").removeClass("btn-secondary").addClass("btn-primary")
-          $('#close-mod-btn').addClass('d-none');
-          $("#order-confirmation").addClass("procced-to-checkout")
-          $("#order-success-message").
-            text(`You have successfully purchased Labwork and a Telehealth Appointment from TestRxMD. Please call (812) 477-5518 to schedule you labwork appointment at your nearest Labcorp facility. Please write that number down and then click continue to schedule your telehealth appointment.`)
-          $("#order_success_modal").modal('show')
-        }
-        else if (isAppointment?.productId) {
+        let isAppointmentExist = data.is_appointment_exist
+        
+        if (isAppointmentExist) {
           location.href = '/appt'
         }
         else {
@@ -884,7 +875,11 @@ $(document).ready(function () {
           $("#order-confirmation").removeClass("procced-to-checkout")
           $('#close-mod-btn').removeClass('d-none');
           $("#order-success-message").html(function () {
-            return `You have successfully purchased Labwork from TestRxMD. Please call (812) 477-5518 or click <a href="https://www.labcorp.com/labs-and-appointments" style="color: blue;" target="_blank">HERE</a> to schedule your labwork appointment at your nearest Labcorp facility.`;
+            return `
+            Thank you for renewing  ${data.product_names.slice(0, -1).join(', ')}${data.product_names.length > 1 ?
+            ' and ' : ''}${data.product_names[data.product_names.length - 1]} with TestRxMD. 
+            We will begin working on your order immediately. If you have any questions or concerns, please call (812) 296-6499.
+            `;
           });
           $("#order_success_modal").modal('show')
           $("#checkout-form-firstname-on-cc").val('')

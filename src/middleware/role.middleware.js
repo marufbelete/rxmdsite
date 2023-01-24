@@ -30,5 +30,5 @@ exports.checkAppointmentLeft = async(req, res, next) => {
     next();
     return;
   }
-  return res.redirect("/");
+  return res.redirect("/checkout");
 };

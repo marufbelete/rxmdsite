@@ -55,14 +55,23 @@ exports.getProduct = async (req, res, next) => {
     const options = {
       order: [["product_name", "ASC"]],
     };
-    const products = await Product.findAll(options);
+    const id = req.user.sub;
+    const user = await User.findByPk(id);
+    let products;
+    if(user.appointment){
+      products = await Product.findAll({
+        ...options,where:{type:'treatment'}});
+    }
+    else{
+      products = await Product.findAll({
+        ...options,where:{type:'product'}});
+    }
     const priceArr = [];
     products?.map((e) => priceArr.push(Number(e.price)));
     const totalPrice = priceArr.reduce((f, s) => f + s, 0);
     products.total = totalPrice;
     const token = req.cookies.access_token;
-    const id = req.user.sub;
-    const user = await User.findByPk(id, { include: ["role"] });
+
     const billing_info={
       firstName:user.first_name,
       lastName:user.last_name,

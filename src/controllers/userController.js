@@ -461,7 +461,9 @@ exports.adminDashboard = async (req, res, next) => {
       order: [["product_name", "ASC"]],
     };
     const products = await Product.findAll(options);
-    return res.render(path.join(__dirname, "..", "/views/pages/dashboard"), { products });
+    const product_type=await Product.getAttributes().type.values;
+    return res.render(path.join(__dirname, "..", "/views/pages/dashboard"),
+     { products,product_type });
   } catch (err) {
     next(err);
   }

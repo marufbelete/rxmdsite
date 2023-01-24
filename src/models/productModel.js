@@ -39,6 +39,10 @@ const Product = sequelize.define("product", {
     type: Sequelize.INTEGER,
     defaultValue: 0,
   },
+  type:{
+    type: Sequelize.ENUM("product", "treatment"),
+    defaultValue: "product"
+  },
   image_url: {
     type: Sequelize.STRING,
     get() {
