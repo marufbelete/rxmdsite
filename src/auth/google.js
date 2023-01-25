@@ -61,6 +61,7 @@ exports.issueGoogleToken = async (req, res, next) => {
     return res
       .cookie("access_token", token, {
         path: "/",
+        httpOnly:true,
         secure: true,
       })
       .redirect("/");

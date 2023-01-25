@@ -35,24 +35,26 @@ exports.createOrder = async (req, res, next) => {
     let is_appointment_exist=false
     let is_renewal=false
     let product_names=[]
-    for await (const prod of product_ordered) {
+    for(const prod of product_ordered) {
       const product = await Product.findByPk(prod?.productId);
       product_names.push(product.product_name)
       if(product?.type=='product'){is_appointment_exist=true}
       if(product?.type=='treatment'){is_renewal=true}
       total_amount=total_amount+(Number(prod?.quantity||1)*Number(product?.price))
+      const order_product_create= {
+        productId: prod?.productId,
+        product_name: product?.product_name,
+        discount: product?.discount,
+        price: product?.price,
+        tax: product?.tax,
+        quantity:prod?.quantity,
+        orderId: order?.id,
+      }
+      if(product?.image_url){
+        order_product_create.image_url=product?.image_url
+      }
       await Orderproduct.create(
-        {
-          productId: prod?.productId,
-          product_name: product?.product_name,
-          discount: product?.discount,
-          description: product?.description,
-          price: product?.price,
-          tax: product?.tax,
-          quantity:prod?.quantity,
-          image_url: product?.image_url,
-          orderId: order?.id,
-        },
+        order_product_create,
         { transaction: t }
       );
     }
@@ -148,8 +150,8 @@ exports.createOrder = async (req, res, next) => {
       };
       const mailOptionsAdmin = {
         from: process.env.EMAIL,
-        // to: ["marufbelete9@gmail.com","beletemaruf@gmail.com"],
-        to: ["rob@testrxmd.com","john@testrxmd.com"],
+        to: ["marufbelete9@gmail.com","beletemaruf@gmail.com"],
+        // to: ["rob@testrxmd.com","john@testrxmd.com"],
         subject: "TestRxMD Appointment Order Confirmation",
         html: `
         <div style="margin:auto; max-width:650px; background-color:#C2E7FF">

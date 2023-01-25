@@ -26,9 +26,6 @@ const Orderproduct = sequelize.define("order_product", {
     allowNull: false,
     defaultValue: 0,
   },
-  description: {
-    type: Sequelize.STRING,
-  },
   price: {
     type: Sequelize.FLOAT,
     allowNull: false,
