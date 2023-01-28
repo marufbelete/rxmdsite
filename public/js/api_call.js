@@ -1,6 +1,6 @@
 $(document).ready(function () {
-//   const base_url = "http://localhost:7000";
-  const base_url="https://testrxmdsite-preview-production.up.railway.app"
+  //   const base_url = "http://localhost:7000";
+  const base_url = "https://www.testrxmd.com"
   const new_url = window?.location?.search;
   if (new_url.includes('checkout')) {
     localStorage.setItem("toCheckout", "true");
@@ -209,40 +209,40 @@ $(document).ready(function () {
     const phone = $("#contact_form_phone").val();
     const subject = $("#contact_form_subject").val();
     const bot_val = $("#form_botcheck").val()
-      if (bot_val) {
-        location.href = "/"
-        return
-      }
-      $("#invalid_email").addClass("d-none");
-      $("#invalid_subject").addClass("d-none");
-      $("#invalid_message").addClass("d-none");
-      const isEmailValid = ValidateEmail(email);
-      if (!email || !subject || !message || !isEmailValid) {
-        !email && $("#invalid_email").removeClass("d-none");
-        !isEmailValid && email && $("#invalid_email").removeClass("d-none");
-        !isEmailValid && email && $("#invalid_email").text("Invalid Email");
-        !subject && $("#invalid_subject").removeClass("d-none");
-        !message && $("#invalid_message").removeClass("d-none");
-        return;
-      }
-      $("#contact_text_spin").removeClass("d-none");
-      $("#contact_text").addClass("d-none");
-      $.ajax({
-        url: `${base_url}/contactform`,
-        method: "POST",
-        data: { name, email, phone, subject, message },
-        success: function (data) {
-          $("#contact_form_toast").toast("show");
-          $("#contact_text").removeClass("d-none");
-          $("#contact_text_spin").addClass("d-none");
-        },
-        error: function (data) {
-          alert("email not sent");
-          $("#contact_text").removeClass("d-none");
-          $("#contact_text_spin").addClass("d-none");
-        },
-      });
-    
+    if (bot_val) {
+      location.href = "/"
+      return
+    }
+    $("#invalid_email").addClass("d-none");
+    $("#invalid_subject").addClass("d-none");
+    $("#invalid_message").addClass("d-none");
+    const isEmailValid = ValidateEmail(email);
+    if (!email || !subject || !message || !isEmailValid) {
+      !email && $("#invalid_email").removeClass("d-none");
+      !isEmailValid && email && $("#invalid_email").removeClass("d-none");
+      !isEmailValid && email && $("#invalid_email").text("Invalid Email");
+      !subject && $("#invalid_subject").removeClass("d-none");
+      !message && $("#invalid_message").removeClass("d-none");
+      return;
+    }
+    $("#contact_text_spin").removeClass("d-none");
+    $("#contact_text").addClass("d-none");
+    $.ajax({
+      url: `${base_url}/contactform`,
+      method: "POST",
+      data: { name, email, phone, subject, message },
+      success: function (data) {
+        $("#contact_form_toast").toast("show");
+        $("#contact_text").removeClass("d-none");
+        $("#contact_text_spin").addClass("d-none");
+      },
+      error: function (data) {
+        alert("email not sent");
+        $("#contact_text").removeClass("d-none");
+        $("#contact_text_spin").addClass("d-none");
+      },
+    });
+
   });
 
   function ValidateEmail(email) {
@@ -370,7 +370,7 @@ $(document).ready(function () {
     $.ajax({
       url: `${base_url}/addproduct`,
       method: "POST",
-      data: { product_name, price,type },
+      data: { product_name, price, type },
       success: function (data) {
         $("#add_product_text").removeClass("d-none");
         $("#add_product_text_spin").addClass("d-none");
@@ -864,7 +864,7 @@ $(document).ready(function () {
         console.log(data)
         $('#spinner-div').hide();
         let isAppointmentExist = data.is_appointment_exist
-        
+
         if (isAppointmentExist) {
           location.href = '/appt'
         }
@@ -877,7 +877,7 @@ $(document).ready(function () {
           $("#order-success-message").html(function () {
             return `
             Thank you for renewing  ${data.product_names.slice(0, -1).join(', ')}${data.product_names.length > 1 ?
-            ' and ' : ''}${data.product_names[data.product_names.length - 1]} with TestRxMD. 
+                ' and ' : ''}${data.product_names[data.product_names.length - 1]} with TestRxMD.
             We will begin working on your order immediately. If you have any questions or concerns, please call (812) 296-6499.
             `;
           });
@@ -899,10 +899,10 @@ $(document).ready(function () {
   $(document).on("click", ".procced-to-checkout", function () {
     location.href = '/appt'
   })
-  setTimeout(()=>{$('#continue-schedule').attr("disabled", false)},30000)
-  $('#continue-schedule').on('click',()=>{
-  $('#appointment-form').removeClass('d-none')
-  $('#continue-schedule').addClass('d-none')
+  setTimeout(() => { $('#continue-schedule').attr("disabled", false) }, 30000)
+  $('#continue-schedule').on('click', () => {
+    $('#appointment-form').removeClass('d-none')
+    $('#continue-schedule').addClass('d-none')
   })
 
 });

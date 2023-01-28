@@ -1870,8 +1870,8 @@ var THEMEMASCOT = {};
       }
       (isAdmin !== "true" || isLoged !== "true") && $('#admin_link').addClass("d-none");
       isLoged === "true" && isAdmin === "true" && $('#admin_link').removeClass("d-none");
-//       const base_url = "http://localhost:7000"
-      const base_url="https://testrxmdsite-preview-production.up.railway.app"
+      //       const base_url = "http://localhost:7000"
+      const base_url = "https://www.testrxmdsite.com"
       $.ajax({
         url: `${base_url}/checkauth`,
         method: "GET",
