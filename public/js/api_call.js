@@ -1,13 +1,13 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url = "https://www.testrxmd.com"
+  // const base_url = "http://localhost:7000";
+  const base_url = "https://website-production-9e49.up.railway.app"
   const new_url = window?.location?.search;
   if (new_url.includes('checkout')) {
     localStorage.setItem("toCheckout", "true");
   }
   const check_url = window?.location?.href;
   if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true"
-  && localStorage.getItem("redirectLogin") === "true") {
+    && localStorage.getItem("redirectLogin") === "true") {
     localStorage.removeItem("toCheckout")
     localStorage.removeItem("redirectLogin")
     location.href = "/checkout"
@@ -103,10 +103,9 @@ $(document).ready(function () {
           localStorage.setItem("isAdmin", "false");
         data?.info?.role?.role?.toLowerCase() === "admin" &&
           localStorage.setItem("isAdmin", "true");
-          if(localStorage.getItem("toCheckout") === "true")
-          {
-            localStorage.setItem("redirectLogin", "true");
-          }
+        if (localStorage.getItem("toCheckout") === "true") {
+          localStorage.setItem("redirectLogin", "true");
+        }
         location.href = '/';
       },
       error: function (data) {
