@@ -1,5 +1,5 @@
 {
-  "name": "testrxmdsite",
+  "name": "TestRxMD",
   "version": "2.0.0",
   "description": "TestRxMD Website",
   "main": "src/index.js",
@@ -32,11 +32,11 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js"
+    "start": "node src/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elipsion-dev/testrxmdsite.git"
+    "url": "git+https://github.com/testrxmd/website.git"
   },
   "keywords": [
     "testrxmd",
@@ -60,7 +60,7 @@
   "author": "Jacob Briggs",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/elipsion-dev/testrxmdsite/issues"
+    "url": "https://github.com/testrxmd/website/issues"
   },
-  "homepage": "https://github.com/elipsion-dev/testrxmdsite#readme"
+  "homepage": "https://github.com/testrxmd/website#readme"
 }
