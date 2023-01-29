@@ -6,8 +6,10 @@ $(document).ready(function () {
     localStorage.setItem("toCheckout", "true");
   }
   const check_url = window?.location?.href;
-  if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true") {
+  if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true"
+  && localStorage.getItem("redirectLogin") === "true") {
     localStorage.removeItem("toCheckout")
+    localStorage.removeItem("redirectLogin")
     location.href = "/checkout"
   }
   $("#populate").on("click", function () {
@@ -101,6 +103,10 @@ $(document).ready(function () {
           localStorage.setItem("isAdmin", "false");
         data?.info?.role?.role?.toLowerCase() === "admin" &&
           localStorage.setItem("isAdmin", "true");
+          if(localStorage.getItem("toCheckout") === "true")
+          {
+            localStorage.setItem("redirectLogin", "true");
+          }
         location.href = '/';
       },
       error: function (data) {
