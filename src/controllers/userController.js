@@ -22,6 +22,7 @@ const { sendEmail } = require("../helper/send_email");
 const { removeEmptyPair } = require("../helper/reusable");
 const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
 exports.registerUser = async (req, res, next) => {
+  console.log("err")
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
