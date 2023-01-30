@@ -4,14 +4,7 @@ $(document).ready(function () {
   const new_url = window?.location?.search;
   if (new_url.includes('checkout')) {
     localStorage.setItem("toCheckout", "true");
-  }
-  const check_url = window?.location?.href;
-  if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true"
-  && localStorage.getItem("redirectLogin") === "true") {
-    localStorage.removeItem("toCheckout")
-    localStorage.removeItem("redirectLogin")
-    location.href = "/checkout"
-  }
+  }  
   $("#populate").on("click", function () {
     loadTable();
   });
@@ -22,6 +15,11 @@ $(document).ready(function () {
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
+      const check_url = window?.location?.href;
+      if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true") {
+        localStorage.removeItem("toCheckout")
+        location.href = "/checkout"
+      }
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -103,10 +101,10 @@ $(document).ready(function () {
           localStorage.setItem("isAdmin", "false");
         data?.info?.role?.role?.toLowerCase() === "admin" &&
           localStorage.setItem("isAdmin", "true");
-          if(localStorage.getItem("toCheckout") === "true")
-          {
-            localStorage.setItem("redirectLogin", "true");
-          }
+          // if(localStorage.getItem("toCheckout") === "true")
+          // {
+          //   localStorage.setItem("redirectLogin", "true");
+          // }
         location.href = '/';
       },
       error: function (data) {
