@@ -2407,7 +2407,9 @@ blockquote.footer-cite-theme-colored footer {
   background-color: #2c8ede;
   border-color: #2087dc;
 }
-
+.btn-hover-strong-color:hover {
+  background-color: #018dff;
+}
 .btn-check:focus+.btn-theme-colored1,
 .btn-theme-colored1:focus {
   color: #000;

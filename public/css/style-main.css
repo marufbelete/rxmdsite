@@ -2421,7 +2421,6 @@ header#header .nav-side-icon-list>li .custom-button {
     padding: 20px 0;
   }
 }
-
 .menuzord-menu>li>a {
   padding: 7px 16px;
   display: inline-block;
@@ -2433,7 +2432,12 @@ header#header .nav-side-icon-list>li .custom-button {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: transparent;
 }
-
+@media (min-width: 1200px) {
+  .menuzord-menu>li>a  {
+    padding: 7px 10px;
+    margin:1px 2px;
+  }
+}
 /* Active/hover state (Menu items) */
 .menuzord-menu>li.active>a,
 .menuzord-menu>li:hover>a {
