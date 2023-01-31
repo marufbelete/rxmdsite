@@ -264,18 +264,20 @@
                   </form>
                   <div class="text-center">
                     <ul class="styled-icons icon-dark icon-lg icon-circled">
-                      <li><a class="social-link" href="https://www.facebook.com/testrxmd"><i
-                            class="fab fa-facebook"></i></a></li>
-                      <li><a class="social-link" href="https://www.instagram.com/testrxmd/"><i
-                            class="fab fa-instagram"></i></a>
+                      <li><a class="social-link hover_color" href="https://www.facebook.com/testrxmd"><i
+                            class="fab fa-facebook fa-1x"></i></a></li>
+                      <li><a class="social-link hover_color" href="https://www.instagram.com/testrxmd/"><i
+                            class="fab fa-instagram fa-1x"></i></a>
                       </li>
-                      <li><a class="social-link" href="mailto:info@testrxmd"><i class="fa fa-envelope"></i></a>
+                      <li><a class="social-link hover_color" href="mailto:info@testrxmd"><i
+                            class="fa fa-envelope fa-1x"></i></a>
                       </li>
-                      <li><a class="social-link" href="tel:812-296-6499"><i class="fa fa-phone"></i></a></li>
+                      <li><a class="social-link hover_color" href="tel:812-296-6499"><i
+                            class="fa fa-phone fa-1x"></i></a></li>
                       </li>
-                      <li><a class="social-link"
+                      <li><a class="social-link hover_color"
                           href="https://www.google.com/maps/place/TestRx+MD/@39.2296795,-85.8986729,15z/data=!4m5!3m4!1s0x0:0x90ff532080fce25a!8m2!3d39.2296795!4d-85.8986729"><i
-                            class="fab fa-google"></i></a></li>
+                            class="fab fa-google fa-1x"></i></a></li>
                       </li>
                     </ul>
                   </div>
@@ -300,42 +302,11 @@
                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                   </div>
-                  <!--  -->
-
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
-
-        <!-- Contact Form Validation-->
-        <!-- <script>
-          (function ($) {
-            $("#contact_form").validate({
-              submitHandler: function (form) {
-                var form_btn = $(form).find('button[type="submit"]');
-                var form_result_div = '#form-result';
-                $(form_result_div).remove();
-                form_btn.before('<div id="form-result" class="alert alert-success" role="alert" style="display: none;"></div>');
-                var form_btn_old_msg = form_btn.html();
-                form_btn.html(form_btn.prop('disabled', true).data("loading-text"));
-                $(form).ajaxSubmit({
-                  dataType: 'json',
-                  success: function (data) {
-                    if (data.status === 'true') {
-                      $(form).find('.form-control').val('');
-                    }
-                    form_btn.prop('disabled', false).html(form_btn_old_msg);
-                    $(form_result_div).html(data.message).fadeIn('slow');
-                    setTimeout(function () { $(form_result_div).fadeOut('slow') }, 6000);
-                  }
-                });
-              }
-            });
-          })(jQuery); -->
-        <!-- </script> -->
-
-      </div>
-      </div>
-      </div>
-      </div>
-      </section>
       </div>
       <!-- end main-content -->
       <%- include('../partials/footer') %>

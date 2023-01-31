@@ -15366,6 +15366,11 @@ body .vc_row .tm-stretched-bg-active.vc_column_container .vc_column-inner:before
  * Shortcode: styled-icons.scss
  * -----------------------------------------------
 */
+
+.hover_color:hover {
+  color: blue !important
+}
+
 .styled-icons li {
   display: inline-block;
   margin-bottom: 5px;
