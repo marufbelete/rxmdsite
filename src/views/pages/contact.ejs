@@ -120,9 +120,9 @@
                     class="icon-box text-center iconbox-theme-colored1 animate-icon-on-hover animate-icon-rotate mb-50">
                     <div class="icon-box-wrapper">
                       <div class="icon-wrapper mb-30">
-                        <a href="tel:812-296-6499" class="icon icon-type-font-icon icon-dark icon-circled">
+                        <div class="icon icon-type-font-icon icon-dark icon-circled">
                           <i class="flaticon-contact-044-call-1"></i>
-                        </a>
+                        </div>
                       </div>
                       <div class="icon-text">
                         <a href="tel:812-296-6499">
@@ -139,14 +139,14 @@
                     class="icon-box text-center iconbox-theme-colored1 animate-icon-on-hover animate-icon-rotate mb-50">
                     <div class="icon-box-wrapper">
                       <div class="icon-wrapper mb-30">
-                        <a href="mailto:Info@TestRxMD.com" class="icon icon-type-font-icon icon-dark icon-circled"> <i
-                            class="flaticon-contact-043-email-1"></i>
-                        </a>
+                        <div class="icon icon-type-font-icon
+                        icon-dark icon-circled"> <i class="flaticon-contact-043-email-1"></i>
+                        </div>
                       </div>
                       <div class="icon-text">
-                        <a href="mailto:Info@TestRxMD.com">
+                        <a href="#contact_form" class="contact-add-link" style="cursor:hand">
                           <h5 class="icon-box-title mt-0">Email</h5>
-                          <div class="content">Info@TestRxMD.com</div>
+                          <div class="content">Send Us A Message</div>
                         </a>
                       </div>
                       <div class="clearfix"></div>
@@ -158,9 +158,8 @@
                     class="icon-box text-center iconbox-theme-colored1 animate-icon-on-hover animate-icon-rotate mb-50">
                     <div class="icon-box-wrapper">
                       <div class="icon-wrapper mb-30">
-                        <a href="https://goo.gl/maps/yY7jJaMh5f8JuRQ27"
-                          class="icon icon-type-font-icon icon-dark icon-circled"> <i
-                            class="flaticon-contact-025-world"></i> </a>
+                        <div class="icon icon-type-font-icon icon-dark icon-circled"> <i
+                            class="flaticon-contact-025-world"></i> </div>
                       </div>
                       <div class="icon-text">
                         <a href="https://goo.gl/maps/yY7jJaMh5f8JuRQ27">
@@ -177,6 +176,17 @@
           </div>
         </section>
 
+        <!-- preloading -->
+        <div id="loading">
+          <div class="col-3 load-cont">
+            <div class="snippet" data-title="dot-pulse">
+              <div class="stage">
+                <div class="dot-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end preloading -->
         <!-- Section: Contact -->
         <section data-tm-bg-img="images/pattern/p14.png">
           <div class="container">
@@ -241,7 +251,8 @@
                     </div>
                     <div class="mb-3 tm-sc-button">
                       <input name="form_botcheck" id="form_botcheck" class="form-control" type="hidden" value="" />
-                      <button id="submit_contact_form" type="submit" class="btn btn-theme-colored1 btn-flat btn-block"
+                      <button id="submit_contact_form" type="submit"
+                        class="btn btn-theme-colored1 btn-hover-strong-color btn-flat btn-block"
                         data-loading-text="Please wait...">
                         <span id="contact_text">Send your message</span>
                         <span id="contact_text_spin" class="d-none">
