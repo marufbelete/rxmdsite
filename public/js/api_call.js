@@ -5,8 +5,9 @@ $(document).ready(function () {
   setTimeout(function () {
     $('#loading').hide();
   },1000)
-  const base_url = "http://localhost:7000";
+  // const base_url = "http://localhost:7000";
   // const base_url = "https://www.testrxmd.com"
+  const base_url = "rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
   if (new_url.includes('checkout')) {
     localStorage.setItem("toCheckout", "true");

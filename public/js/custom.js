@@ -1870,8 +1870,10 @@ var THEMEMASCOT = {};
       }
       (isAdmin !== "true" || isLoged !== "true") && $('#admin_link').addClass("d-none");
       isLoged === "true" && isAdmin === "true" && $('#admin_link').removeClass("d-none");
-      const base_url = "http://localhost:7000"
+      // const base_url = "http://localhost:7000"
       // const base_url = "https://www.testrxmd.com"
+      const base_url = "rxmdsite-production.up.railway.app";
+
       $.ajax({
         url: `${base_url}/checkauth`,
         method: "GET",
