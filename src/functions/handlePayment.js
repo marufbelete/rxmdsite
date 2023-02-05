@@ -37,7 +37,7 @@ const chargeCreditCard=async(paymentInfo)=>{
   createRequest.setTransactionRequest(transactionRequestType);
   
     const ctrl = new ApiControllers.CreateTransactionController(createRequest.getJSON());
-    ctrl.setEnvironment(SDKConstants.endpoint.production);
+    // ctrl.setEnvironment(SDKConstants.endpoint.production);
     const Response = await new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
         const error = new Error('This process take longer than expected, please try again ');
