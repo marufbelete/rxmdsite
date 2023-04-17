@@ -3,6 +3,12 @@ const sequelize = require("./index");
 // const sequelizePaginate = require("sequelize-paginate");
 
 const User = sequelize.define("user", {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
   first_name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -69,7 +75,11 @@ const User = sequelize.define("user", {
   appointment:{
     type: Sequelize.BOOLEAN,
     defaultValue: false,
-  }
+  },
+  affiliateLink: {
+    type: Sequelize.STRING,
+  },
+  //possibly add upId,uppId,subId from .net
 });
 
 // sequelizePaginate.paginate(User);

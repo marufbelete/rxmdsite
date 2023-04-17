@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const RefreshToken=require("../models/refreshToken.model")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -16,18 +17,20 @@ const isPasswordCorrect = async (incomingPassword, existingPassword) => {
 };
 
 //check which data to sign
-const issueToken = async function (id, role,email, key) {
-  const token = jwt.sign({ sub: id, role,email }, key, { expiresIn: "24h" });
+const issueToken = async function (id, role,email,rememberme, key,expirey) {
+  const token = jwt.sign({ sub: id, role,email,rememberme }, key, { expiresIn: expirey });
   return token;
 };
 
-const issueLongtimeToken = async function (id, role,email, key) {
-  const token = jwt.sign({ sub: id, role,email }, key, { expiresIn: "720h" });
-  return token;
-};
-
-const isTokenValid = async function (token) {
-  const user = jwt.verify(token, process.env.SECRET, (err, user) => {
+const saveRefershToken=async(userId,refresh_token)=>{
+  const refreshToken=new RefreshToken({
+    userId,
+    token:refresh_token
+  })
+  return await refreshToken.save()
+}
+const isTokenValid = async function (token,secret) {
+  const user = jwt.verify(token,secret, (err, user) => {
     if (err) {
       return null;
     }
@@ -67,16 +70,30 @@ const isIntakeFormComplted = async (req) => {
   }
   return false;
 };
+const isRefreshTokenExist=async(refreshToken,userId)=>{
+  const token=await RefreshToken.findOne({where:
+  {userId:userId,token:refreshToken}})
+  return token
+}
+ const removeRefreshToken=async(refreshToken)=>{
+  return await RefreshToken.destroy({where:{token:refreshToken}})
+}
+const removeAllRefreshToken=async(userId)=>{
+  return await RefreshToken.destroy({where:{userId}})
+}
 
 module.exports = {
   isEmailExist,
   isPasswordCorrect,
   isEmailVerified,
   issueToken,
-  issueLongtimeToken,
   hashPassword,
   userIp,
+  saveRefershToken,
   isUserAdmin,
   isTokenValid,
   isIntakeFormComplted,
+  isRefreshTokenExist,
+  removeRefreshToken,
+  removeAllRefreshToken
 };

@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const Role = require("../models/roleModel");
-const { issueToken } = require("../helper/user");
+const { issueToken, saveRefershToken } = require("../helper/user");
 const { Op } = require("sequelize");
 const passportGoogle = require("passport-google-oauth20");
 const GoogleStrategy = passportGoogle.Strategy;
@@ -52,19 +52,34 @@ exports.issueGoogleToken = async (req, res, next) => {
         "/login?error=" + encodeURIComponent("Google-Auth-Not-Exist")
       );
     }
-    const token = await issueToken(
+    const access_token = await issueToken(
       req?.user[0]?.id,
       req?.user[0]?.role?.role,
       req?.user[0]?.email,
-      process.env.SECRET
+      false,
+      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_EXPIRES
     );
-    return res
-      .cookie("access_token", token, {
+    const refresh_token=await issueToken(
+      req?.user[0]?.id,
+      req?.user[0]?.role?.role,
+      req?.user[0]?.email,
+      false,
+      process.env.REFRESH_TOKEN_SECRET,
+      process.env.REFRESH_TOKEN_EXPIRES);
+
+      res.cookie("access_token", access_token, {
         path: "/",
         httpOnly:true,
-        secure: true,
+        // secure: true,
       })
-      .redirect("/");
+      res.cookie("refresh_token", refresh_token, {
+        path: "/",
+        httpOnly:true,
+        // secure: true,
+      })
+      await saveRefershToken(req?.user[0]?.id,refresh_token)
+      return res.redirect("/");
   } catch (err) {
     next(err);
   }

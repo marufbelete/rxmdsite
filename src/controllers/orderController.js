@@ -8,6 +8,7 @@ const { handleError } = require("../helper/handleError");
 const { chargeCreditCard } = require('../functions/handlePayment');
 const { sendEmail } = require("../helper/send_email");
 const path = require('path');
+//require Affliate
 //Unused Shop stuff - save for later
 // const Payment = require("../models/paymentModel");
 // const Shipping = require("../models/shippingModel");
@@ -58,6 +59,9 @@ exports.createOrder = async (req, res, next) => {
         { transaction: t }
       );
     }
+  //check if the person was affliated and give commision
+  //for the affliator
+
     //update the user address info
     await User.update({
      address:address,

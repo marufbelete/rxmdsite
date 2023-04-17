@@ -1,28 +1,53 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-//   const base_url = "https://website-production-9e49.up.railway.app"
-  const base_url = "https://www.testrxmd.com"
+  const base_url = "http://localhost:7000";
+  // const base_url = "https://www.testrxmd.com"
+  // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
   if (new_url.includes('checkout')) {
     localStorage.setItem("toCheckout", "true");
-  }
-  const check_url = window?.location?.href;
-  if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true"
-    && localStorage.getItem("redirectLogin") === "true") {
-    localStorage.removeItem("toCheckout")
-    localStorage.removeItem("redirectLogin")
-    location.href = "/checkout"
-  }
+  }  
   $("#populate").on("click", function () {
     loadTable();
   });
   $("#populate-order").on("click", function () {
     loadOrderTable();
   });
+
+  const showJotForm= localStorage.getItem("showJotForm")
+if(showJotForm=== "true")
+{
+  localStorage.removeItem("showJotForm")
+  let $ajaxload_popup = $(".ajaxload-popup");
+        console.log('in the api_call')
+        console.log($ajaxload_popup.length)
+        if ($ajaxload_popup.length > 0) {
+          console.log("hello from inside api_call")
+          $ajaxload_popup.magnificPopup({
+            items: [
+              {
+                src: $ajaxload_popup.prop('href'),
+                type: "iframe", // this overrides default type
+              },
+            ],
+            mainClass: "registrationForm",
+            alignTop: true,
+            overflowY: "scroll", // as we know that popup content is tall we set scroll overflow by default to avoid jump
+          }).magnificPopup('open'); // open the popup window when the plugin is initialized
+        }
+        // $('.ajaxload-popup').on('load', function() {
+        //   $(this).click();
+        // });
+}
   $.ajax({
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
+      const check_url = window?.location?.href;
+      if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true") {
+        localStorage.removeItem("toCheckout")
+        location.href = "/checkout"
+        localStorage.setItem("showJotForm", "true");
+      }
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -97,16 +122,14 @@ $(document).ready(function () {
     $.ajax({
       url: window.location.href,
       method: "POST",
-      data: { login_email, login_password, rememberme },
+      contentType: 'application/json',
+      data: JSON.stringify({ login_email, login_password, rememberme }),
       success: function (data) {
         localStorage.setItem("isLoged", "true");
         data?.info?.role?.role?.toLowerCase() !== "admin" &&
           localStorage.setItem("isAdmin", "false");
         data?.info?.role?.role?.toLowerCase() === "admin" &&
           localStorage.setItem("isAdmin", "true");
-        if (localStorage.getItem("toCheckout") === "true") {
-          localStorage.setItem("redirectLogin", "true");
-        }
         location.href = '/';
       },
       error: function (data) {
@@ -320,7 +343,6 @@ $(document).ready(function () {
     // const description = $("div").children("#product-description").val();
     const price = $("div").children("#product-price").val();
     const type = $("div").children("#product-type-select").val();
-    console.log(type)
     $("#update_product_text").addClass("d-none");
     $("#update_product_text_spin").removeClass("d-none");
     $.ajax({
@@ -867,7 +889,6 @@ $(document).ready(function () {
       method: "POST",
       data: { payment_detail, product_ordered },
       success: function (data) {
-        console.log(data)
         $('#spinner-div').hide();
         let isAppointmentExist = data.is_appointment_exist
 
@@ -912,3 +933,6 @@ $(document).ready(function () {
   })
 
 });
+$(window).on('load', function () {
+  $('#loading').hide();
+})

@@ -32,7 +32,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "start:dev":"nodemon src/index.js",
+    "db:migrate":"npx sequelize-cli db:migrate",
+    "db:migrate:undo":"npx sequelize-cli db:migrate:undo"
   },
   "repository": {
     "type": "git",

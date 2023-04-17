@@ -839,7 +839,9 @@ var THEMEMASCOT = {};
       }
 
       var $ajaxload_popup = $(".ajaxload-popup");
+      console.log($ajaxload_popup.length)
       if ($ajaxload_popup.length > 0) {
+        console.log("hello from inside")
         $ajaxload_popup.magnificPopup({
           items: [
             {
@@ -1870,16 +1872,11 @@ var THEMEMASCOT = {};
       }
       (isAdmin !== "true" || isLoged !== "true") && $('#admin_link').addClass("d-none");
       isLoged === "true" && isAdmin === "true" && $('#admin_link').removeClass("d-none");
-      // const base_url = "http://localhost:7000"
-//       const base_url = "https://website-production-9e49.up.railway.app"
-      const base_url = "https://www.testrxmd.com"
-      $.ajax({
-        url: `${base_url}/checkauth`,
-        method: "GET",
-        success: function (data) {
-          $nav_items[0].children[6].innerHTML = "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    "
-        },
-      });
+      const base_url = "http://localhost:7000"
+      // const base_url = "https://www.testrxmd.com"
+      // const base_url = "https://rxmdsite-production.up.railway.app";
+
+     
       $document.on("click", "#logout_link", function (e) {
         $.ajax({
           url: `${base_url}/logout`,
@@ -1890,6 +1887,14 @@ var THEMEMASCOT = {};
           },
         });
       })
+
+      $.ajax({
+        url: `${base_url}/checkauth`,
+        method: "GET",
+        success: function (data) {
+          $nav_items[0].children[6].innerHTML = "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    "
+        },
+      });
 
       $("#top-primary-nav-clone #main-nav-clone").append($nav_items);
 

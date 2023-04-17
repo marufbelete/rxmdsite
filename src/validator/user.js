@@ -14,7 +14,7 @@ const registerValidate = () => {
 
 const loginValidate = () => {
   return [
-    check("login_email", "username or email is required").not().isEmpty(),
+    check("login_email", "username field is required").not().isEmpty(),
     check("login_password", "Please enter a password").not().isEmpty(),
   ];
 };

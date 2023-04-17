@@ -14,7 +14,10 @@ const {
   isEmailVerified,
   isPasswordCorrect,
   isTokenValid,
-  issueLongtimeToken,
+  saveRefershToken,
+  removeRefreshToken,
+  removeAllRefreshToken,
+  isRefreshTokenExist,
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
@@ -28,7 +31,7 @@ exports.registerUser = async (req, res, next) => {
   }
   try {
     const { first_name, last_name, email, password } = req.body;
-    const token = jwt.sign({ email: email }, process.env.SECRET);
+    const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET);
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
@@ -73,6 +76,7 @@ exports.registerUser = async (req, res, next) => {
     }
     const user_role = await Role.findOne({ where: { role: "user" } });
     const hashedPassword = await hashPassword(password);
+    //affiliatedBy:userId
     const user = new User({
       first_name,
       last_name,
@@ -104,7 +108,7 @@ exports.loginUser = async (req, res, next) => {
     if (user && user.isLocalAuth && user.isActive) {
       //if not validated send email
       if (!user.isEmailConfirmed) {
-        const token = jwt.sign({ email: user.email }, process.env.SECRET);
+        const token = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET);
         const mailOptions = {
           from: process.env.EMAIL,
           to: login_email,
@@ -137,28 +141,49 @@ exports.loginUser = async (req, res, next) => {
         );
       }
       if (await isPasswordCorrect(login_password, user.password)) {
-        const token = rememberme
-          ? await issueLongtimeToken(
+        
+        const access_token = 
+          await issueToken(
             user.id,
             user.role?.role,
             login_email,
-            process.env.SECRET,
+            rememberme,
+            process.env.ACCESS_TOKEN_SECRET,
+            process.env.ACCESS_TOKEN_EXPIRES
           )
-          : await issueToken(user.id, user.role.role, login_email, process.env.SECRET);
+          const refresh_token = rememberme
+          ? await issueToken(
+            user.id,
+            user.role?.role,
+            login_email,
+            rememberme,
+            process.env.REFRESH_TOKEN_SECRET,
+            process.env.LONG_REFRESH_TOKEN_EXPIRY
+          )
+          : await issueToken(user.id, user.role.role,
+             login_email,rememberme, process.env.REFRESH_TOKEN_SECRET,
+             process.env.REFRESH_TOKEN_EXPIRES);
+
         const info = {
           first_name: user.first_name,
           last_name: user.last_name,
           role: user.role,
           email: user.email,
-          // redirect_to
         };
         bouncer.reset(req);
+        res.cookie('access_token',access_token, {
+          path: "/",
+          httpOnly:true,
+          // secure: true,
+        })
+        res.cookie('refresh_token',refresh_token, {
+          path: "/",
+          httpOnly:true,
+          // secure: true,
+        })
+        await saveRefershToken(user.id,refresh_token)
         return res
-          .cookie("access_token", token, {
-            path: "/",
-            httpOnly:true,
-            secure: true,
-          })
+          .status(200)
           .json({ auth: true, info });
       }
       handleError("Username or Password Incorrect", 400);
@@ -285,7 +310,7 @@ exports.forgotPassword = async (req, res, next) => {
     if(!user||!user.isLocalAuth||!user.isEmailConfirmed){
       handleError("User With this email not found to reset the password",403)
     }
-    const token = jwt.sign({ email: email }, process.env.SECRET, {
+    const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "2h",
     });
     const mailOptions = {
@@ -327,7 +352,7 @@ exports.resetPassword = async (req, res, next) => {
   try {
     const { token } = req.query;
     const { password } = req.body;
-    const user = await isTokenValid(token);
+    const user = await isTokenValid(token,process.env.ACCESS_TOKEN_SECRET);
     const user_info =await User.findOne({where:{email:user.email}})
     if(!user_info||!user_info.isLocalAuth||!user_info.isEmailConfirmed){
       handleError("User With this email not found to reset the password",403)
@@ -348,7 +373,7 @@ exports.resetPassword = async (req, res, next) => {
 exports.confirmEmail = async (req, res, next) => {
   try {
     const { verifyToken } = req.query;
-    const user = await isTokenValid(verifyToken);
+    const user = await isTokenValid(verifyToken,process.env.ACCESS_TOKEN_SECRET);
     if (user) {
       const userInfo = await User.findOne({ where: { email: user.email } });
       userInfo.isEmailConfirmed = true;
@@ -362,12 +387,12 @@ exports.confirmEmail = async (req, res, next) => {
 };
 exports.checkAuth = async (req, res, next) => {
   try {
-    const token = req.cookies.access_token;
+    const token = req.cookies.refresh_token;
     if (!token) {
       handleError("please login", 403);
     }
-    const user = await asyncVerify(token, process.env.SECRET)
-    if (user?.sub) {
+    const user = await asyncVerify(token, process.env.REFRESH_TOKEN_SECRET)
+    if (user && user?.sub) {
       const check_user = await User.findByPk(user?.sub)
       if (!check_user?.isActive) {
         handleError("This account is inactive, please contact our customer service", 403);
@@ -382,7 +407,10 @@ exports.checkAuth = async (req, res, next) => {
 
 exports.logOut = async (req, res, next) => {
   try {
-    return res.status(200).clearCookie('access_token').redirect("/login");
+    const {refresh_token} = req.cookies;
+    refresh_token && await removeRefreshToken(refresh_token)
+    res.clearCookie('access_token')
+    return res.status(200).clearCookie('refresh_token').redirect("/login");
   } catch (err) {
     next(err);
   }
@@ -476,7 +504,7 @@ exports.jotformWebhook = async (req, res, next) => {
     const jot_entries = jot_pairs.map((kv) => kv.split(":"));
     const jot_obj = Object.fromEntries(jot_entries);
     const token = jot_obj.token;
-    const user = await isTokenValid(token);
+    const user = await isTokenValid(token,process.env.REFRESH_TOKEN_SECRET);
     await User.update(
       { intake: true },
       {

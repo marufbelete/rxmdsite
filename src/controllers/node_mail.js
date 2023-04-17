@@ -7,7 +7,7 @@ const path = require('path');
 const resetEmail = async (req, res, next) => {
   try {
     const email = req.body.email;
-    const token = jwt.sign({ email: email }, process.env.SECRET, {
+    const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "20m",
     });
     const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
@@ -52,7 +52,7 @@ const resetPassword = async (req, res, next) => {
       error.code = 403;
       throw error;
     }
-    jwt.verify(token, process.env.SECRET, async (err, user) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, user) => {
       if (err) {
         if (err.name == "TokenExpiredError") {
           return res
