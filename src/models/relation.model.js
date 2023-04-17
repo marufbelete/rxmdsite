@@ -5,6 +5,7 @@ const User = require("./userModel");
 const Role = require("./roleModel");
 const RefreshToken=require("./refreshToken.model");
 const Affliate = require("./affiliateModel");
+const Subscription=require("./subscriptionModel")
 
 const Relation = () => {
   //product to order
@@ -53,7 +54,13 @@ const Relation = () => {
   Affliate.belongsTo(Order,{
     foreignKey: 'orderId'
   })
-
+  // user-subscription
+  User.hasOne(Subscription,{
+    foreignKey: 'userId'
+  })
+  Subscription.belongsTo(User,{
+    foreignKey: 'userId'
+  })
    //token to user
    User.hasMany(RefreshToken, {
     foreignKey: "userId",

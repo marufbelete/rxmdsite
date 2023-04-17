@@ -197,7 +197,7 @@ $(".select2_el").select2({
                 $('.chat-input input').val('')
                 $('#bot-typing').removeClass('hide')
                 scrollBottom()
-                senMessageToBot(message)
+                sendMessageToBot(message)
             }
         }); 
         $('#send-message-bot').click(function () {
@@ -208,11 +208,11 @@ $(".select2_el").select2({
                 $('.chat-input input').val('')
                 $('#bot-typing').removeClass('hide')
                 scrollBottom()
-                senMessageToBot(message)
+                sendMessageToBot(message)
             }
          
         });
-function senMessageToBot(message){
+function sendMessageToBot(message){
     $.ajax({
         url: `${base_url}/chatcompliation`,
         method: "POST",
