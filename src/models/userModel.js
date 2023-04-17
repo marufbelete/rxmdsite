@@ -79,7 +79,7 @@ const User = sequelize.define("user", {
   affiliateLink: {
     type: Sequelize.STRING,
   },
-  //possibly add upId,uppId,subId from .net
+ 
 });
 
 // sequelizePaginate.paginate(User);

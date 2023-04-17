@@ -883,6 +883,8 @@ if(showJotForm=== "true")
       state: $('#checkout-form-state').val(),
       zip: $("#checkout-form-zip").val(),
     }
+    
+   
     //here make ajax call to compelete the order
     $.ajax({
       url: `${base_url}/addorder`,

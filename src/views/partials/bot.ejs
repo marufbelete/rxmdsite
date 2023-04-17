@@ -39,8 +39,6 @@
         <div class="chat-bubble you">Welcome to our site,
             how can I help you today
         </div>
-        <div class="chat-bubble me">Hello</div>
-
         <div id="bot-typing" class="chat-bubble you hide">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto;display: block;shape-rendering: auto;width: 43px;height: 20px;" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
                 <circle cx="0" cy="44.1678" r="15" fill="#ffffff">
@@ -169,6 +167,8 @@ $(".select2_el").select2({
   let time = day + ', ' + hour + ':' + minutes + ' '+ ampm;
   $("#current-date-time").text(time);
 
+  const base_url = "http://localhost:7000";
+  // const base_url = "https://www.testrxmd.com"
  //Toggle fullscreen
         $(".chat-bot-icon").click(function (e) {
             $(this).children('img').toggleClass('hide');
@@ -197,6 +197,7 @@ $(".select2_el").select2({
                 $('.chat-input input').val('')
                 $('#bot-typing').removeClass('hide')
                 scrollBottom()
+                senMessageToBot(message)
             }
         }); 
         $('#send-message-bot').click(function () {
@@ -207,9 +208,25 @@ $(".select2_el").select2({
                 $('.chat-input input').val('')
                 $('#bot-typing').removeClass('hide')
                 scrollBottom()
+                senMessageToBot(message)
             }
          
         });
+function senMessageToBot(message){
+    $.ajax({
+        url: `${base_url}/chatcompliation`,
+        method: "POST",
+        data: {message},
+        success: function (data) {
+            console.log(data)
+        $('#bot-typing').addClass('hide')
+        $(`<div class="chat-bubble you">${data.message}</div>`).insertBefore('.chat-body #bot-typing');
+        },
+        error: function (data) {
+            $(`<div class="chat-bubble you">system is busy</div>`).insertBefore('.chat-body #bot-typing');
+        },
+    });
+}
 function scrollBottom(){
     $('.chat-body').animate({
         scrollTop: $('.chat-body').get(0).scrollHeight

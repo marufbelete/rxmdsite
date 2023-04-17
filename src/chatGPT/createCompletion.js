@@ -1,19 +1,19 @@
 const {openai } =require('./gptAPI.js')
 
-exports.createCompletion = async (req, res, next) => {
+exports.createCompletion = async (req, res) => {
   const prompt=req.body.message
     try {
         const gptResponse = await openai.createCompletion({
-          model: '',
+          model: 'text-davinci-003',
           prompt: prompt,
           max_tokens: 200
         })
         if (gptResponse.data) {
           console.log('choices: ', gptResponse.data.choices)
-          res.json(gptResponse.data.choices[0])
+          const outputText = gptResponse.data.choices[0].text.replace(/\n/g, "");
+          return res.json({message:outputText})
         }
       } catch (err) {
-        err.message='system is busy plase try again later'
-        next(err)
+        console.log(err)
       }
   };

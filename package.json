@@ -23,6 +23,7 @@
     "mysql2": "^2.3.3",
     "nodemailer": "^6.9.0",
     "nodemon": "^2.0.20",
+    "openai": "^3.2.1",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
@@ -33,9 +34,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
-    "start:dev":"nodemon src/index.js",
-    "db:migrate":"npx sequelize-cli db:migrate",
-    "db:migrate:undo":"npx sequelize-cli db:migrate:undo"
+    "start:dev": "nodemon src/index.js",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo"
   },
   "repository": {
     "type": "git",
