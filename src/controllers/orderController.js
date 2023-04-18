@@ -5,7 +5,8 @@ const { isUserAdmin, isIntakeFormComplted } = require("../helper/user");
 const Product = require("../models/productModel");
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
-const { chargeCreditCard } = require('../functions/handlePayment');
+const { chargeCreditCard,createCustomerProfile,
+  createCustomerPaymentProfile,chargeCreditCardExistingUser, getCustomerAddressId } = require('../functions/handlePayment');
 const { sendEmail } = require("../helper/send_email");
 const path = require('path');
 //require Affliate
@@ -18,7 +19,8 @@ exports.createOrder = async (req, res, next) => {
   try {
     const {payment_detail, product_ordered } = req.body;
     const {cardCode,expirtationDate,cardNumber,billingLastName,
-      email,billingFirstName,address,city,state,zip}=payment_detail
+      email,billingFirstName,address,city,state,zip,
+      save_payment_info,use_other_payment}=payment_detail
       if(!cardCode||!expirtationDate||!cardNumber||!billingLastName||!
         email||!billingFirstName||!address||!city||!state||!zip){
           handleError("Please fill all field", 400);
@@ -74,7 +76,6 @@ exports.createOrder = async (req, res, next) => {
     {where:{id:req?.user?.sub},transaction: t })
 
     const payment_info={
-     amount:total_amount,
      card_detail:{
      cardNumber:cardNumber,
      expirtationDate:expirtationDate?.
@@ -92,7 +93,16 @@ exports.createOrder = async (req, res, next) => {
      country:'USA'
      }
   }
-    const payment_response=await chargeCreditCard(payment_info)
+  let payment_response
+  // if(save_payment_info){
+    const {customerProfileId,customerPaymentProfileId}=await createCustomerProfile(payment_info)
+    payment_response=await chargeCreditCardExistingUser(total_amount,customerProfileId,customerPaymentProfileId)
+  // }
+  // else()
+
+
+  // const customerAddressId=await getCustomerAddressId(customerProfileId,customerPaymentProfileId)
+    // chargeCreditCard(payment_info)
     order.transId=payment_response.transId
     order.total_paid_amount=total_amount.toFixed(2)
     await order.save({ transaction: t })
@@ -202,6 +212,8 @@ exports.createOrder = async (req, res, next) => {
     
     return res.json({order,is_appointment_exist,product_names});
   } catch (err) {
+    console.log("this is shit error")
+    console.log(err)
     await t.rollback();
     next(err);
   }

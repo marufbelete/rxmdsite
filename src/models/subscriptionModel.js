@@ -8,18 +8,6 @@ const Subscription = sequelize.define("subscriptions", {
     autoIncrement: true,
     allowNull: false,
   },
- userProfileId: {
-    type: Sequelize.STRING,
-    defaultValue:false
-  },
- userProfilePaymentId: {
-    type: Sequelize.STRING,
-    defaultValue:false
-  },
- userSubscriptionId: {
-    type: Sequelize.STRING,
-    defaultValue:false
-  },
 });
 
 module.exports = Subscription;

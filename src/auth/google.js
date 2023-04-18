@@ -79,7 +79,8 @@ exports.issueGoogleToken = async (req, res, next) => {
         // secure: true,
       })
       await saveRefershToken(req?.user[0]?.id,refresh_token)
-      return res.redirect("/");
+      if(req?.user[0]?.intake) return res.redirect("/")
+      return res.redirect("/?intakeFilled=" + encodeURIComponent("false"));
   } catch (err) {
     next(err);
   }

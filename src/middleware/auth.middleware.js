@@ -53,6 +53,7 @@ const authenticateJWT = async (req, res, next) => {
           console.log(refresh_token)
           if(!(await isRefreshTokenExist(refresh_token,sub)))
           {
+            console.log("not exist")
             await removeAllRefreshToken(sub)
             if (req.method == "GET") {
               console.log("get method")

@@ -6,6 +6,7 @@ const Role = require("./roleModel");
 const RefreshToken=require("./refreshToken.model");
 const Affliate = require("./affiliateModel");
 const Subscription=require("./subscriptionModel")
+const PaymenInfo=require("./paymentInfoModel")
 
 const Relation = () => {
   //product to order
@@ -54,12 +55,26 @@ const Relation = () => {
   Affliate.belongsTo(Order,{
     foreignKey: 'orderId'
   })
+  // user-paymentinfo
+  User.hasOne(PaymenInfo,{
+    foreignKey: 'userId'
+  })
+  PaymenInfo.belongsTo(User,{
+    foreignKey: 'userId'
+  })
   // user-subscription
-  User.hasOne(Subscription,{
+  User.hasMany(Subscription,{
     foreignKey: 'userId'
   })
   Subscription.belongsTo(User,{
     foreignKey: 'userId'
+  })
+   // user-product
+   Product.hasOne(Subscription,{
+    foreignKey: 'productId'
+  })
+  Subscription.belongsTo(Product,{
+    foreignKey: 'productId'
   })
    //token to user
    User.hasMany(RefreshToken, {

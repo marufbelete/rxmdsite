@@ -184,7 +184,7 @@ exports.loginUser = async (req, res, next) => {
         await saveRefershToken(user.id,refresh_token)
         return res
           .status(200)
-          .json({ auth: true, info });
+          .json({ auth: true, info, intakeFilled:user.intake });
       }
       handleError("Username or Password Incorrect", 400);
     }

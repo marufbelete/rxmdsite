@@ -6,10 +6,10 @@ exports.authAdmin = (req, res, next) => {
     next();
     return;
   }
-
-  return res
-    .status(403)
-    .json({ message: "you do not have admin priviledge", status: false });
+  return res.redirect('/');
+  // return res
+  //   .status(403)
+  //   .json({ message: "you do not have admin priviledge", status: false });
 };
 
 exports.authUser = (req, res, next) => {
@@ -18,9 +18,10 @@ exports.authUser = (req, res, next) => {
     next();
     return;
   }
-  return res
-    .status(403)
-    .json({ message: "you do not have priviledge", status: false });
+  return res.redirect('/');
+  // return res
+  //   .status(403)
+  //   .json({ message: "you do not have priviledge", status: false });
 };
 
 exports.checkAppointmentLeft = async(req, res, next) => {

@@ -3,6 +3,7 @@ $(document).ready(function () {
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
+  console.log(new_url)
   if (new_url.includes('checkout')) {
     localStorage.setItem("toCheckout", "true");
   }  
@@ -18,26 +19,21 @@ if(showJotForm=== "true")
 {
   localStorage.removeItem("showJotForm")
   let $ajaxload_popup = $(".ajaxload-popup");
-        console.log('in the api_call')
-        console.log($ajaxload_popup.length)
         if ($ajaxload_popup.length > 0) {
-          console.log("hello from inside api_call")
           $ajaxload_popup.magnificPopup({
             items: [
               {
                 src: $ajaxload_popup.prop('href'),
-                type: "iframe", // this overrides default type
+                type: "iframe", 
               },
             ],
             mainClass: "registrationForm",
             alignTop: true,
-            overflowY: "scroll", // as we know that popup content is tall we set scroll overflow by default to avoid jump
-          }).magnificPopup('open'); // open the popup window when the plugin is initialized
+            overflowY: "scroll", 
+          }).magnificPopup('open'); 
         }
-        // $('.ajaxload-popup').on('load', function() {
-        //   $(this).click();
-        // });
 }
+
   $.ajax({
     url: `${base_url}/checkauth`,
     method: "GET",
@@ -46,7 +42,11 @@ if(showJotForm=== "true")
       if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true") {
         localStorage.removeItem("toCheckout")
         location.href = "/checkout"
+      }
+      if(localStorage.getItem("showJotFormCheckout")=== "true"){
+        localStorage.removeItem("showJotFormCheckout")
         localStorage.setItem("showJotForm", "true");
+        location.href = "/checkout"
       }
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
@@ -125,6 +125,7 @@ if(showJotForm=== "true")
       contentType: 'application/json',
       data: JSON.stringify({ login_email, login_password, rememberme }),
       success: function (data) {
+        if(!data.intakeFilled)localStorage.setItem("showJotFormCheckout", "true");
         localStorage.setItem("isLoged", "true");
         data?.info?.role?.role?.toLowerCase() !== "admin" &&
           localStorage.setItem("isAdmin", "false");
@@ -285,6 +286,9 @@ if(showJotForm=== "true")
   //check google auth if not exist
   const urlParams = new URLSearchParams(window.location.search);
   const myParam = urlParams.get("error");
+  const intakeParam = urlParams.get("intakeFilled");
+  console.log(intakeParam)
+  if (intakeParam === "false") localStorage.setItem("showJotFormCheckout", "true");
   if (myParam == "Google-Auth-Not-Exist") {
     $("#login_error").removeClass("d-none");
     $("#login_error").text(

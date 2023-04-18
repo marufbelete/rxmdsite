@@ -79,6 +79,14 @@ const User = sequelize.define("user", {
   affiliateLink: {
     type: Sequelize.STRING,
   },
+  exercisePlan:{
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
+  mealPlan:{
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
  
 });
 

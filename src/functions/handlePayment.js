@@ -3,10 +3,11 @@ const ApiControllers = require('authorizenet').APIControllers;
 const SDKConstants = require('authorizenet').Constants;
 const { handleError } = require("../helper/handleError");
 
+const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
+merchantAuthenticationType.setName(process.env.APILOGINID);
+merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
+
 const chargeCreditCard=async(paymentInfo)=>{
-    const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-    merchantAuthenticationType.setName(process.env.APILOGINID);
-    merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
 
         const creditCard = new ApiContracts.CreditCardType();
         creditCard.setCardNumber(paymentInfo.card_detail?.cardNumber);
@@ -56,7 +57,7 @@ const chargeCreditCard=async(paymentInfo)=>{
         reject(error);
       }, 47000);
     })
-    const Response = await Promise.race(excute_respone,timeout)
+    const Response = await Promise.race([excute_respone, timeout])
     if (Response != null) {
       if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
         if(Response.getTransactionResponse().getMessages() != null){
@@ -80,30 +81,27 @@ const chargeCreditCard=async(paymentInfo)=>{
 
 }
 
-const createCustomerProfile=async(user_info)=> {
-	const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-
-  merchantAuthenticationType.setName(process.env.APILOGINID);
-  merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
+const createCustomerProfile=async(paymentInfo)=> {
+// await getCustomerProfileIds()
 	const creditCard = new ApiContracts.CreditCardType();
-	creditCard.setCardNumber('4242424242424242');
-	creditCard.setExpirationDate('0822');
+  creditCard.setCardNumber(paymentInfo.card_detail?.cardNumber);
+  creditCard.setExpirationDate(paymentInfo.card_detail?.expirtationDate);
 
 	const paymentType = new ApiContracts.PaymentType();
 	paymentType.setCreditCard(creditCard);
 	
 	const customerAddress = new ApiContracts.CustomerAddressType();
-	customerAddress.setFirstName('test');
-	customerAddress.setLastName('scenario');
-	customerAddress.setAddress('123 Main Street');
-	customerAddress.setCity('Bellevue');
-	customerAddress.setState('WA');
-	customerAddress.setZip('98004');
-	customerAddress.setCountry('USA');
-	customerAddress.setPhoneNumber('000-000-0000');
+  customerAddress.setFirstName(paymentInfo.billing_detail?.firstName);
+  customerAddress.setLastName(paymentInfo.billing_detail?.lastName);
+  customerAddress.setAddress(paymentInfo.billing_detail?.address);
+  customerAddress.setCity(paymentInfo.billing_detail?.city);
+  customerAddress.setState(paymentInfo.billing_detail?.state);
+  customerAddress.setZip(paymentInfo.billing_detail?.zip);
+  customerAddress.setCountry(paymentInfo.billing_detail?.country);
+  // customerAddress.setEmail(paymentInfo.billing_detail?.email);
 
 	const customerPaymentProfileType = new ApiContracts.CustomerPaymentProfileType();
-	customerPaymentProfileType.setCustomerType(ApiContracts.CustomerTypeEnum.BUSINESS);
+	customerPaymentProfileType.setCustomerType(ApiContracts.CustomerTypeEnum.INDIVIDUAL);
 	customerPaymentProfileType.setPayment(paymentType);
 	customerPaymentProfileType.setBillTo(customerAddress);
 
@@ -111,8 +109,13 @@ const createCustomerProfile=async(user_info)=> {
 	paymentProfilesList.push(customerPaymentProfileType);
 
 	const customerProfileType = new ApiContracts.CustomerProfileType();
-	customerProfileType.setDescription('Profile description here');
-	customerProfileType.setEmail('test@gmail.com');
+	// customerProfileType.setDescription('Profile description here');
+  const timestamp = new Date().getTime();
+  const randomNumber = Math.floor(Math.random() * 100);
+  const customerProfileId = `c-${timestamp}-${randomNumber}`;
+// Set the customer profile ID and email address
+customerProfileType.setMerchantCustomerId(customerProfileId);
+	customerProfileType.setEmail(paymentInfo.billing_detail?.email);
 	customerProfileType.setPaymentProfiles(paymentProfilesList);
 
 	const createRequest = new ApiContracts.CreateCustomerProfileRequest();
@@ -124,7 +127,6 @@ const createCustomerProfile=async(user_info)=> {
  // ctrl.setEnvironment(SDKConstants.endpoint.production);
     const excute_respone = new Promise((resolve, reject) => {
       ctrl.execute((error, res) => {
-        clearTimeout(timeout);
         const apiResponse = ctrl.getResponse();
         const response = new ApiContracts.CreateCustomerProfileResponse(apiResponse);
         if (error) {
@@ -142,10 +144,15 @@ const createCustomerProfile=async(user_info)=> {
         reject(error);
       }, 47000);
     })
-   const Response=await Promise.race(excute_respone,timeout)
+   const Response=await Promise.race([excute_respone, timeout])
+   console.log(Response.getMessages())
     if (Response != null) {
       if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
-       return Response.getCustomerProfileId()
+        const customerPaymentProfileIdList = Response.getCustomerPaymentProfileIdList();
+    const paymentProfileId = customerPaymentProfileIdList.getNumericString()[0].valueOf();
+    console.log(`Payment profile created with ID: ${paymentProfileId}`);
+       return {customerProfileId:Response.getCustomerProfileId(),
+        customerPaymentProfileId:paymentProfileId}
 			} 
       else {
           handleError(Response.getMessages().getMessage()[0].getText(),403);
@@ -156,10 +163,7 @@ const createCustomerProfile=async(user_info)=> {
 
 
     const createCustomerPaymentProfile=async (customerProfileId)=> {
-      const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-    
-      merchantAuthenticationType.setName(process.env.APILOGINID);
-      merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
+
       const creditCard = new ApiContracts.CreditCardType();
       creditCard.setCardNumber('4242424242424242');
       creditCard.setExpirationDate('0822');
@@ -175,7 +179,6 @@ const createCustomerProfile=async(user_info)=> {
       customerAddress.setState('WA');
       customerAddress.setZip('98004');
       customerAddress.setCountry('USA');
-      customerAddress.setPhoneNumber('000-000-0000');
     
       const profile = new ApiContracts.CustomerPaymentProfileType();
       profile.setBillTo(customerAddress);
@@ -191,7 +194,6 @@ const createCustomerProfile=async(user_info)=> {
      // ctrl.setEnvironment(SDKConstants.endpoint.production);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
-            clearTimeout(timeout);
             const apiResponse = ctrl.getResponse();
             const response = new ApiContracts.CreateCustomerPaymentProfileResponse(apiResponse);
             if (error) {
@@ -209,7 +211,7 @@ const createCustomerProfile=async(user_info)=> {
             reject(error);
           }, 47000);
         })
-       const Response=await Promise.race(excute_respone,timeout)
+       const Response=await Promise.race([excute_respone, timeout])
         if (Response != null) {
           if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
            return Response.getCustomerPaymentProfileId()
@@ -221,11 +223,7 @@ const createCustomerProfile=async(user_info)=> {
           handleError("payment gatway not responding", 404);
     }
     
-    const chargeCreditCardExistingUser = async (paymentInfo, customerProfileId, customerPaymentProfileId) => {
-      const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-      merchantAuthenticationType.setName(process.env.APILOGINID);
-      merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
-    
+    const chargeCreditCardExistingUser = async (amount, customerProfileId, customerPaymentProfileId) => {
       const profileToCharge = new ApiContracts.CustomerProfilePaymentType();
       profileToCharge.setCustomerProfileId(customerProfileId);
 
@@ -235,8 +233,8 @@ const createCustomerProfile=async(user_info)=> {
     
       const transactionRequestType = new ApiContracts.TransactionRequestType();
       transactionRequestType.setTransactionType(ApiContracts.TransactionTypeEnum.AUTHCAPTURETRANSACTION);
-      transactionRequestType.setAmount(profileToCharge);
-      transactionRequestType.setAmount(paymentInfo?.amount);
+      transactionRequestType.setProfile(profileToCharge);
+      transactionRequestType.setAmount(amount);
     
       const createRequest = new ApiContracts.CreateTransactionRequest();
       createRequest.setMerchantAuthentication(merchantAuthenticationType);
@@ -262,7 +260,7 @@ const createCustomerProfile=async(user_info)=> {
           reject(error);
         }, 47000);
       });
-      const Response = await Promise.race(excute_respone, timeout);
+      const Response = await Promise.race([excute_respone, timeout]);
       if (Response != null) {
         if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
           if (Response.getTransactionResponse().getMessages() != null) {
@@ -284,10 +282,7 @@ const createCustomerProfile=async(user_info)=> {
     }
 
     const createSubscriptionFromCustomerProfile=async(customerProfileId, customerPaymentProfileId, customerAddressId) =>{
-      const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-      merchantAuthenticationType.setName(process.env.APILOGINID);
-      merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
-    
+
       const interval = new ApiContracts.PaymentScheduleType.Interval();
       interval.setLength(1);
       interval.setUnit(ApiContracts.ARBSubscriptionUnitEnum.MONTHS);
@@ -334,7 +329,7 @@ const createCustomerProfile=async(user_info)=> {
             reject(error);
           }, 47000);
         });
-        const Response = await Promise.race(excute_respone, timeout);
+        const Response = await Promise.race([excute_respone, timeout]);
         if (Response != null) {
           if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
            return Response.getSubscriptionId()
@@ -347,10 +342,7 @@ const createCustomerProfile=async(user_info)=> {
     }
     
     const getSubscription=async(subscriptionId)=> {
-      const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-      merchantAuthenticationType.setName(process.env.APILOGINID);
-      merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
-    
+
       const getRequest = new ApiContracts.ARBGetSubscriptionRequest();
       getRequest.setMerchantAuthentication(merchantAuthenticationType);
       getRequest.setSubscriptionId(subscriptionId);
@@ -375,7 +367,7 @@ const createCustomerProfile=async(user_info)=> {
             reject(error);
           }, 47000);
         });
-        const Response = await Promise.race(excute_respone, timeout);
+        const Response = await Promise.race([excute_respone, timeout]);
         if (Response != null) {
           if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
            return Response.getSubscription()
@@ -387,10 +379,7 @@ const createCustomerProfile=async(user_info)=> {
           handleError("payment gatway not responding", 404);
     }
     const getSubscriptionStatus=async(subscriptionId)=> {
-      const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-      merchantAuthenticationType.setName(process.env.APILOGINID);
-      merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
-    
+
       const getRequest = new ApiContracts.ARBGetSubscriptionStatusRequest();
       getRequest.setMerchantAuthentication(merchantAuthenticationType);
       getRequest.setSubscriptionId(subscriptionId);
@@ -415,7 +404,7 @@ const createCustomerProfile=async(user_info)=> {
             reject(error);
           }, 47000);
         });
-        const Response = await Promise.race(excute_respone, timeout);
+        const Response = await Promise.race([excute_respone, timeout]);
         if (Response != null) {
           if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
            return Response.getStatus()
@@ -427,10 +416,7 @@ const createCustomerProfile=async(user_info)=> {
           handleError("payment gatway not responding", 404);
     }
     const updateSubscriptionPaymentAmount=async(subscriptionId)=> {
-      const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-      merchantAuthenticationType.setName(process.env.APILOGINID);
-      merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
-    
+
       const arbSubscription = new ApiContracts.ARBSubscriptionType();
       arbSubscription.setSubscriptionId(subscriptionId);
       arbSubscription.setAmount(newAmount);
@@ -442,7 +428,7 @@ const createCustomerProfile=async(user_info)=> {
      const ctrl = new ApiControllers.ARBUpdateSubscriptionController(updateRequest.getJSON());
       // ctrl.setEnvironment(SDKConstants.endpoint.production);
       const executeResponse = new Promise((resolve, reject) => {
-        ctrl.execute((error, response) => {
+        ctrl.execute((error, res) => {
           const apiResponse = ctrl.getResponse();
           const updateResponse = new ApiContracts.ARBUpdateSubscriptionResponse(apiResponse);
           if (error) {
@@ -459,7 +445,7 @@ const createCustomerProfile=async(user_info)=> {
           reject(error);
         }, 47000);
       });
-      const response = await Promise.race(executeResponse, timeout);
+      const response = await Promise.race([executeResponse, timeout]);
       if (response != null) {
         if (response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
           return response.getMessages().getMessage()[0].getText();
@@ -471,10 +457,7 @@ const createCustomerProfile=async(user_info)=> {
     }
 
     const cancelSubscription=async(subscriptionId)=> {
-      const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-      merchantAuthenticationType.setName(process.env.APILOGINID);
-      merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
-    
+
       const cancelRequest = new ApiContracts.ARBCancelSubscriptionRequest();
       cancelRequest.setMerchantAuthentication(merchantAuthenticationType);
       cancelRequest.setSubscriptionId(subscriptionId);
@@ -499,7 +482,7 @@ const createCustomerProfile=async(user_info)=> {
             reject(error);
           }, 47000);
         });
-        const Response = await Promise.race(excute_respone, timeout);
+        const Response = await Promise.race([excute_respone, timeout]);
         if (Response != null) {
           if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
            return Response.getStatus()
@@ -512,10 +495,7 @@ const createCustomerProfile=async(user_info)=> {
     }
 
     const getCustomerAddressId=async(customerProfileId,customerPaymentProfileId)=> {
-      const merchantAuthenticationType = new ApiContracts.MerchantAuthenticationType();
-      merchantAuthenticationType.setName(process.env.APILOGINID);
-      merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
-    
+
       const getRequest = new ApiContracts.GetCustomerProfileRequest();
       getRequest.setCustomerProfileId(customerProfileId);
       getRequest.setMerchantAuthentication(merchantAuthenticationType);
@@ -540,10 +520,10 @@ const createCustomerProfile=async(user_info)=> {
             reject(error);
           }, 47000);
         });
-        const Response = await Promise.race(excute_respone, timeout);
+        const Response = await Promise.race([excute_respone, timeout]);
         if (Response != null) {
           if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
-            const customerProfile = response.getProfile();
+            const customerProfile = Response.getProfile();
             const customerPaymentProfiles = customerProfile.getPaymentProfiles().getPaymentProfile();
             const customerPaymentProfile = customerPaymentProfiles.
             find(profile => profile.getCustomerPaymentProfileId() === customerPaymentProfileId);
@@ -553,6 +533,44 @@ const createCustomerProfile=async(user_info)=> {
             } else {
               handleError('Customer payment profile not found', 404);
             }
+          } else {
+            handleError(Response.getMessages().getMessage()[0].getText(), 403);
+          }
+        }
+          handleError("payment gatway not responding", 404);
+    }
+
+    const getCustomerProfile=async(customerProfileId)=> {
+
+      const getRequest = new ApiContracts.GetCustomerProfileRequest();
+      getRequest.setCustomerProfileId(customerProfileId);
+      getRequest.setMerchantAuthentication(merchantAuthenticationType);
+
+      var ctrl = new ApiControllers.GetCustomerProfileController(getRequest.getJSON());
+      // ctrl.setEnvironment(SDKConstants.endpoint.production);
+        const excute_respone = new Promise((resolve, reject) => {
+          ctrl.execute((error, res) => {
+            const apiResponse = ctrl.getResponse();
+            const response = new ApiContracts.GetCustomerProfileResponse(apiResponse);
+            if (error) {
+              reject(error);
+            } else {
+              resolve(response);
+            }
+          });
+        });
+        const timeout = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const error = new Error('This process take longer than expected, please try again ');
+            error.statusCode = 408;
+            reject(error);
+          }, 47000);
+        });
+        const Response = await Promise.race([excute_respone, timeout]);
+        if (Response != null) {
+          if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
+            console.log(Response.getProfile())
+         
           } else {
             handleError(Response.getMessages().getMessage()[0].getText(), 403);
           }
@@ -570,6 +588,7 @@ const createCustomerProfile=async(user_info)=> {
       getSubscriptionStatus,
       updateSubscriptionPaymentAmount,
       cancelSubscription,
-      getCustomerAddressId
+      getCustomerAddressId,
+      getCustomerProfile
     }
     
