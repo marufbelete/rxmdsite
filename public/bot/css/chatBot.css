@@ -65,7 +65,7 @@
     box-shadow: none;
     border-radius: 30px;
 }
-.chat-screen .chat-mail button {
+.chat-screen .chat-mail #chat-button {
     background-image: linear-gradient(to right, #673ab7, #813bcb, #9e38de, #bc32ef, #dc22ff);
     border: none;
     padding: 0.58rem 1.25rem;

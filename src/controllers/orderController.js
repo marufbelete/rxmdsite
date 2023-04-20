@@ -22,10 +22,13 @@ exports.createOrder = async (req, res, next) => {
     const {cardCode,expirtationDate,cardNumber,billingLastName,
       email,billingFirstName,address,city,state,zip,
       save_payment_info,use_exist_payment,customer_payment_profile_id}=payment_detail
+      const allPaymentInfo=await PaymenInfo.findAll({where:{userId:req?.user?.sub}})
+      if(allPaymentInfo.length<1 || !use_exist_payment){
       if(!cardCode||!expirtationDate||!cardNumber||!billingLastName||!
         email||!billingFirstName||!address||!city||!state||!zip){
           handleError("Please fill all field", 400);
         }
+      }
     if (!(await isIntakeFormComplted(req))) {
       handleError("Please complete the registration form", 400);
     }
@@ -76,8 +79,6 @@ exports.createOrder = async (req, res, next) => {
      left_appointment:is_appointment_exist},
     {where:{id:req?.user?.sub},transaction: t })
     const user=await User.findByPk(req?.user?.sub)
-    console.log(user)
-
     const payment_info={
      amount:total_amount,
      card_detail:{
@@ -97,12 +98,8 @@ exports.createOrder = async (req, res, next) => {
      country:'USA'
      }
   }
-  console.log('show this')
-  console.log({save_payment_info,use_exist_payment,customer_payment_profile_id})
   let payment_response
-  const allPaymentInfo=await PaymenInfo.findByPk(req?.user?.sub)
-  console.log(allPaymentInfo?.length)
-
+console.log()
   if(save_payment_info){
     const {customerProfileId,customerPaymentProfileId}=await createCustomerProfile(payment_info)
     await PaymenInfo.create({
@@ -114,8 +111,8 @@ exports.createOrder = async (req, res, next) => {
     payment_response=await chargeCreditCardExistingUser(total_amount,customerProfileId,customerPaymentProfileId)
   }
   else if(use_exist_payment && allPaymentInfo?.length>0){
-    console.log("shoudn't be here-----------")
-    const paymentInfo=PaymenInfo.findAll({where:{userProfilePaymentId:customer_payment_profile_id}})
+    const paymentInfo=await PaymenInfo.findOne({where:{userProfilePaymentId:customer_payment_profile_id}})
+    console.log(paymentInfo)
   if(paymentInfo){
     payment_response=await chargeCreditCardExistingUser(total_amount,paymentInfo.userProfileId,customer_payment_profile_id)
   }
@@ -124,7 +121,6 @@ exports.createOrder = async (req, res, next) => {
   }
 }
   else{
-    console.log('should be here-------')
       payment_response=await chargeCreditCard(payment_info)
     }
   // const customerAddressId=await getCustomerAddressId(customerProfileId,customerPaymentProfileId)

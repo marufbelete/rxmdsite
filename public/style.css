@@ -8,12 +8,17 @@ body {
   margin: 0;
 }
 
-/* .card-selection {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
-} */
+#payment_card_list {
+  display: flex;
+}
+#each_card{
+  margin: 5px 20px;
+  padding: 15px 30px;
+  border: solid 3px #7d7676;
+  border-radius: 5px;
+  
+}
+
 
 #jotform-hover:hover{
 cursor: pointer;

@@ -835,27 +835,31 @@ if(showJotForm=== "true")
     }
     return null;
   }
-  console.log("reacch here")
 const loadUserPaymentMethod=()=>{
   $.ajax({
     url: `${base_url}/getmypaymentmethod`,
     method: "GET",
     success: function (data) {
-      console.log(data)
     if(data.length>0){
+      $("#payment_card_list").empty()
       $("#check_exist_payment").removeClass('d-none')
+      $('#otherPaymentCheckbox').prop('checked', false);
       $("#use_new_payment").addClass('d-none')
       data?.forEach(payment => {
         $("#payment_card_list").append(`
-        <div>
-              <div class="card-item">
-                <div class="card-number">${payment.cardLastDigit}</div>
-                <div id="profile_p" data-profilP=${payment.userProfilePaymentId}></div>
-                <div class="card-type">Visa</div>
-          </div>
+        <div id="each_card">
+        <input type="radio" class="card_selector" id=${payment.id} name="card" value=${payment.userProfilePaymentId}>
+        <label for=${payment.id}>Card Number: ${payment.cardLastDigit}</label>
+        </div>
         `)
       })
     }
+    $('.card_selector').first().prop('checked', true);
+
+    $('.card_selector').on('change', function() {
+      var selectedValue = $('input[name="card"]:checked').val();
+      console.log(selectedValue);
+    });
     },
     error: (error) => {
       console.log(error)
@@ -921,12 +925,10 @@ loadUserPaymentMethod()
       city: $("#checkout-form-city").val(),
       state: $('#checkout-form-state').val(),
       zip: $("#checkout-form-zip").val(),
-      customer_payment_profile_id: $('#profile_p').data('profilp'),
+      customer_payment_profile_id: $('input[type="radio"].card_selector:checked').val(),
       use_exist_payment: !($("#otherPaymentCheckbox").is(':checked')),
       save_payment_info: $("#saveCardCheckbox").is(':checked')
-    }
-    
-   
+    } 
     //here make ajax call to compelete the order
     $.ajax({
       url: `${base_url}/addorder`,
@@ -935,8 +937,8 @@ loadUserPaymentMethod()
       data: JSON.stringify({  payment_detail, product_ordered }),
       success: function (data) {
         $('#spinner-div').hide();
+        $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
         let isAppointmentExist = data.is_appointment_exist
-
         if (isAppointmentExist) {
           location.href = '/appt'
         }
@@ -960,6 +962,7 @@ loadUserPaymentMethod()
           $("#checkout-form-ccNumber").val('')
           $("#checkout-form-ccExpiry").val('')
         }
+        loadUserPaymentMethod()
       },
       error: function (data) {
         $('#spinner-div').hide();
