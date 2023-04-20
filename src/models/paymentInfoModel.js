@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
 
-const PaymenInfo = sequelize.define("subscriptions", {
+const PaymenInfo = sequelize.define("paymentinfo", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -16,10 +16,11 @@ const PaymenInfo = sequelize.define("subscriptions", {
     type: Sequelize.STRING,
     defaultValue:false
   },
- userSubscriptionId: {
+cardLastDigit: {
     type: Sequelize.STRING,
     defaultValue:false
   },
+
 });
 
 module.exports = PaymenInfo;

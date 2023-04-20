@@ -56,7 +56,7 @@ const Relation = () => {
     foreignKey: 'orderId'
   })
   // user-paymentinfo
-  User.hasOne(PaymenInfo,{
+  User.hasMany(PaymenInfo,{
     foreignKey: 'userId'
   })
   PaymenInfo.belongsTo(User,{

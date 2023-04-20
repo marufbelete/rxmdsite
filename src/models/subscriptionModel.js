@@ -8,6 +8,10 @@ const Subscription = sequelize.define("subscriptions", {
     autoIncrement: true,
     allowNull: false,
   },
+  userSubscriptionId: {
+    type: Sequelize.STRING,
+    defaultValue:false
+  },
 });
 
 module.exports = Subscription;

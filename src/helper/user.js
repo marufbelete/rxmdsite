@@ -27,7 +27,7 @@ const saveRefershToken=async(userId,refresh_token)=>{
     userId,
     token:refresh_token
   })
-  return await refreshToken.save()
+  await refreshToken.save()
 }
 const isTokenValid = async function (token,secret) {
   const user = jwt.verify(token,secret, (err, user) => {
@@ -75,11 +75,11 @@ const isRefreshTokenExist=async(refreshToken,userId)=>{
   {userId:userId,token:refreshToken}})
   return token
 }
- const removeRefreshToken=async(refreshToken)=>{
-  return await RefreshToken.destroy({where:{token:refreshToken}})
+ const removeRefreshToken=async(refreshToken,options = {})=>{
+    await RefreshToken.destroy({where:{token:refreshToken},...options})
 }
-const removeAllRefreshToken=async(userId)=>{
-  return await RefreshToken.destroy({where:{userId}})
+const removeAllRefreshToken=async(userId,options = {})=>{
+  return await RefreshToken.destroy({where:{userId},...options})
 }
 
 module.exports = {

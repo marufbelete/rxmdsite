@@ -4,6 +4,7 @@ const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
 const User = require("../models/userModel");
+const PaymenInfo=require("../models/paymentInfoModel")
 const { removeEmptyPair } = require("../helper/reusable");
 exports.addProduct = async (req, res, next) => {
   try {
@@ -56,6 +57,7 @@ exports.getProduct = async (req, res, next) => {
       order: [["product_name", "ASC"]],
     };
     const id = req.user.sub;
+    const paymentInfo=await PaymenInfo.findAll({where:{userId:id}})
     const user = await User.findByPk(id);
     let products;
     if(user.appointment){
@@ -81,9 +83,10 @@ exports.getProduct = async (req, res, next) => {
       zipCode:user.zip_code,
       state:user.state
     }
+    console.log(paymentInfo)
     return res.render(
       path.join(__dirname, "..", "/views/pages/shop-checkout"),
-      { products,billing_info,token }
+      { products,billing_info,token,paymentInfo}
     );
   } catch (err) {
     next(err);

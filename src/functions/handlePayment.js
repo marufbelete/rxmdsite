@@ -38,7 +38,7 @@ const chargeCreditCard=async(paymentInfo)=>{
   createRequest.setTransactionRequest(transactionRequestType);
   
     const ctrl = new ApiControllers.CreateTransactionController(createRequest.getJSON());
-    ctrl.setEnvironment(SDKConstants.endpoint.production);
+    // ctrl.setEnvironment(SDKConstants.endpoint.production);
     const excute_respone=new Promise((resolve, reject) => {
       ctrl.execute((error, res) => {
         const apiResponse = ctrl.getResponse();
@@ -162,23 +162,22 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
     }
 
 
-    const createCustomerPaymentProfile=async (customerProfileId)=> {
-
+    const createCustomerPaymentProfile=async (customerProfileId,paymentInfo)=> {
       const creditCard = new ApiContracts.CreditCardType();
-      creditCard.setCardNumber('4242424242424242');
-      creditCard.setExpirationDate('0822');
+      creditCard.setCardNumber(paymentInfo.card_detail?.cardNumber);
+      creditCard.setExpirationDate(paymentInfo.card_detail?.expirtationDate);
     
       const paymentType = new ApiContracts.PaymentType();
       paymentType.setCreditCard(creditCard);
-      
+    
       const customerAddress = new ApiContracts.CustomerAddressType();
-      customerAddress.setFirstName('test');
-      customerAddress.setLastName('scenario');
-      customerAddress.setAddress('123 Main Street');
-      customerAddress.setCity('Bellevue');
-      customerAddress.setState('WA');
-      customerAddress.setZip('98004');
-      customerAddress.setCountry('USA');
+      customerAddress.setFirstName(paymentInfo.billing_detail?.firstName);
+      customerAddress.setLastName(paymentInfo.billing_detail?.lastName);
+      customerAddress.setAddress(paymentInfo.billing_detail?.address);
+      customerAddress.setCity(paymentInfo.billing_detail?.city);
+      customerAddress.setState(paymentInfo.billing_detail?.state);
+      customerAddress.setZip(paymentInfo.billing_detail?.zip);
+      customerAddress.setCountry(paymentInfo.billing_detail?.country);
     
       const profile = new ApiContracts.CustomerPaymentProfileType();
       profile.setBillTo(customerAddress);
@@ -540,43 +539,44 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
           handleError("payment gatway not responding", 404);
     }
 
-    const getCustomerProfile=async(customerProfileId)=> {
+    // const getCustomerProfile=async(customerProfileId)=> {
 
-      const getRequest = new ApiContracts.GetCustomerProfileRequest();
-      getRequest.setCustomerProfileId(customerProfileId);
-      getRequest.setMerchantAuthentication(merchantAuthenticationType);
+    //   const getRequest = new ApiContracts.GetCustomerProfileRequest();
+    //   getRequest.setCustomerProfileId(customerProfileId);
+    //   getRequest.setMerchantAuthentication(merchantAuthenticationType);
 
-      var ctrl = new ApiControllers.GetCustomerProfileController(getRequest.getJSON());
-      // ctrl.setEnvironment(SDKConstants.endpoint.production);
-        const excute_respone = new Promise((resolve, reject) => {
-          ctrl.execute((error, res) => {
-            const apiResponse = ctrl.getResponse();
-            const response = new ApiContracts.GetCustomerProfileResponse(apiResponse);
-            if (error) {
-              reject(error);
-            } else {
-              resolve(response);
-            }
-          });
-        });
-        const timeout = new Promise((resolve, reject) => {
-          setTimeout(() => {
-            const error = new Error('This process take longer than expected, please try again ');
-            error.statusCode = 408;
-            reject(error);
-          }, 47000);
-        });
-        const Response = await Promise.race([excute_respone, timeout]);
-        if (Response != null) {
-          if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
-            console.log(Response.getProfile())
+    //   var ctrl = new ApiControllers.GetCustomerProfileController(getRequest.getJSON());
+    //   // ctrl.setEnvironment(SDKConstants.endpoint.production);
+    //     const excute_respone = new Promise((resolve, reject) => {
+    //       ctrl.execute((error, res) => {
+    //         const apiResponse = ctrl.getResponse();
+    //         const response = new ApiContracts.GetCustomerProfileResponse(apiResponse);
+    //         if (error) {
+    //           reject(error);
+    //         } else {
+    //           resolve(response);
+    //         }
+    //       });
+    //     });
+    //     const timeout = new Promise((resolve, reject) => {
+    //       setTimeout(() => {
+    //         const error = new Error('This process take longer than expected, please try again ');
+    //         error.statusCode = 408;
+    //         reject(error);
+    //       }, 47000);
+    //     });
+    //     const Response = await Promise.race([excute_respone, timeout]);
+    //     if (Response != null) {
+    //       if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
+    //        console.log("this is profile...................")
+    //         console.log(Response.getProfile())
          
-          } else {
-            handleError(Response.getMessages().getMessage()[0].getText(), 403);
-          }
-        }
-          handleError("payment gatway not responding", 404);
-    }
+    //       } else {
+    //         handleError(Response.getMessages().getMessage()[0].getText(), 403);
+    //       }
+    //     }
+    //       handleError("payment gatway not responding", 404);
+    // }
 
     module.exports={
       chargeCreditCard,
@@ -589,6 +589,6 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       updateSubscriptionPaymentAmount,
       cancelSubscription,
       getCustomerAddressId,
-      getCustomerProfile
+      // getCustomerProfile
     }
     

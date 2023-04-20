@@ -3,10 +3,11 @@ const Orderproduct = require("../models/orderproduct");
 const User = require("../models/userModel");
 const { isUserAdmin, isIntakeFormComplted } = require("../helper/user");
 const Product = require("../models/productModel");
+const PaymenInfo = require("../models/paymentInfoModel");
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
 const { chargeCreditCard,createCustomerProfile,
-  createCustomerPaymentProfile,chargeCreditCardExistingUser, getCustomerAddressId } = require('../functions/handlePayment');
+  createCustomerPaymentProfile,chargeCreditCardExistingUser, getCustomerAddressId, getCustomerProfile } = require('../functions/handlePayment');
 const { sendEmail } = require("../helper/send_email");
 const path = require('path');
 //require Affliate
@@ -20,7 +21,7 @@ exports.createOrder = async (req, res, next) => {
     const {payment_detail, product_ordered } = req.body;
     const {cardCode,expirtationDate,cardNumber,billingLastName,
       email,billingFirstName,address,city,state,zip,
-      save_payment_info,use_other_payment}=payment_detail
+      save_payment_info,use_exist_payment,customer_payment_profile_id}=payment_detail
       if(!cardCode||!expirtationDate||!cardNumber||!billingLastName||!
         email||!billingFirstName||!address||!city||!state||!zip){
           handleError("Please fill all field", 400);
@@ -74,8 +75,11 @@ exports.createOrder = async (req, res, next) => {
      appointment:true,
      left_appointment:is_appointment_exist},
     {where:{id:req?.user?.sub},transaction: t })
+    const user=await User.findByPk(req?.user?.sub)
+    console.log(user)
 
     const payment_info={
+     amount:total_amount,
      card_detail:{
      cardNumber:cardNumber,
      expirtationDate:expirtationDate?.
@@ -93,21 +97,43 @@ exports.createOrder = async (req, res, next) => {
      country:'USA'
      }
   }
+  console.log('show this')
+  console.log({save_payment_info,use_exist_payment,customer_payment_profile_id})
   let payment_response
-  // if(save_payment_info){
+  const allPaymentInfo=await PaymenInfo.findByPk(req?.user?.sub)
+  console.log(allPaymentInfo?.length)
+
+  if(save_payment_info){
     const {customerProfileId,customerPaymentProfileId}=await createCustomerProfile(payment_info)
+    await PaymenInfo.create({
+      userId:user.id,
+      userProfileId:customerProfileId,
+      userProfilePaymentId:customerPaymentProfileId,
+      cardLastDigit:`**********${String(cardNumber).slice(-3)}`
+    }, { transaction: t })
     payment_response=await chargeCreditCardExistingUser(total_amount,customerProfileId,customerPaymentProfileId)
-  // }
-  // else()
-
-
+  }
+  else if(use_exist_payment && allPaymentInfo?.length>0){
+    console.log("shoudn't be here-----------")
+    const paymentInfo=PaymenInfo.findAll({where:{userProfilePaymentId:customer_payment_profile_id}})
+  if(paymentInfo){
+    payment_response=await chargeCreditCardExistingUser(total_amount,paymentInfo.userProfileId,customer_payment_profile_id)
+  }
+  else{
+    handleError("payment method not found",403)
+  }
+}
+  else{
+    console.log('should be here-------')
+      payment_response=await chargeCreditCard(payment_info)
+    }
   // const customerAddressId=await getCustomerAddressId(customerProfileId,customerPaymentProfileId)
     // chargeCreditCard(payment_info)
     order.transId=payment_response.transId
     order.total_paid_amount=total_amount.toFixed(2)
     await order.save({ transaction: t })
-    await t.commit();
-    const user=await User.findByPk(req?.user?.sub)
+
+    // const user=await User.findByPk(req?.user?.sub)
     const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
     const mailOptions = {
       from: process.env.EMAIL,
@@ -135,7 +161,7 @@ exports.createOrder = async (req, res, next) => {
       cid: 'unique@kreata.ee' //same cid value as in the html img src
     }]
     };
-    is_appointment_exist&& await sendEmail(mailOptions)
+    is_appointment_exist&& sendEmail(mailOptions)
     if(is_renewal) {
       const mailOptionsRenewal = {
         from: process.env.EMAIL,
@@ -206,14 +232,14 @@ exports.createOrder = async (req, res, next) => {
         cid: 'unique@kreata.eae' //same cid value as in the html img src
       }]
       };
-      await sendEmail(mailOptionsRenewal);
-      await sendEmail(mailOptionsAdmin)
+      sendEmail(mailOptionsRenewal);
+      sendEmail(mailOptionsAdmin)
+      await t.commit();
+
   }
     
     return res.json({order,is_appointment_exist,product_names});
   } catch (err) {
-    console.log("this is shit error")
-    console.log(err)
     await t.rollback();
     next(err);
   }

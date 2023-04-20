@@ -9,6 +9,7 @@ const authenticateJWT = async (req, res, next) => {
   const {access_token,refresh_token} = req.cookies;
   try {
     // const token = authHeader?.split(" ")[1];
+    console.log("check auth")
     if (!access_token) {
       handleError("please login", 403);
     }
@@ -19,9 +20,10 @@ const authenticateJWT = async (req, res, next) => {
         handleError("This account is inactive, please contact our customer service", 403);
       }
       //comporomised
-      console.log(refresh_token)
       if(!(await isRefreshTokenExist(refresh_token,user?.sub)))
       {
+        res.clearCookie('access_token')
+        res.clearCookie('refresh_token')
         await removeAllRefreshToken(user?.sub)
         if (req.method == "GET") {
           if(req.url==='/checkout')
@@ -44,19 +46,16 @@ const authenticateJWT = async (req, res, next) => {
   } catch (error) {
     
     if (error instanceof jwt.TokenExpiredError) {
-      console.log("expired")
-
       try{
           const {sub,email,role,rememberme}=await asyncVerify(refresh_token,process.env.REFRESH_TOKEN_SECRET)
-          //compromised
-          console.log(sub,email,role,rememberme)
-          console.log(refresh_token)
           if(!(await isRefreshTokenExist(refresh_token,sub)))
           {
-            console.log("not exist")
+             //compromised
+            console.log('compromised')
+            res.clearCookie('access_token')
+            res.clearCookie('refresh_token')
             await removeAllRefreshToken(sub)
             if (req.method == "GET") {
-              console.log("get method")
               if(req.url==='/checkout')
                 {
                 return res.redirect(
@@ -67,7 +66,6 @@ const authenticateJWT = async (req, res, next) => {
                 "/login?token_compromised_error=" + encodeURIComponent("No-Auth-Redirect")
               );
             }
-            console.log("error mmmm")
             next(error)
             return
           }
@@ -96,14 +94,17 @@ const authenticateJWT = async (req, res, next) => {
             rememberme, 
             process.env.REFRESH_TOKEN_SECRET,
             process.env.REFRESH_TOKEN_EXPIRES);
-          await Promise.all([saveRefershToken(sub,new_refresh_token),
-          removeRefreshToken(refresh_token)])
-          res.cookie('access_token',new_access_token, {
+            
+          await saveRefershToken(sub,new_refresh_token)
+          console.log("new:"+ new_refresh_token)
+          await removeRefreshToken(refresh_token)
+          console.log("old:"+ refresh_token)
+          await res.cookie('access_token',new_access_token, {
             path: "/",
             httpOnly:true,
             // secure: true,
           })
-          res.cookie('refresh_token',new_refresh_token, {
+          await res.cookie('refresh_token',new_refresh_token, {
             path: "/",
             httpOnly:true,
             // secure: true,
@@ -115,11 +116,10 @@ const authenticateJWT = async (req, res, next) => {
 
 //refresh hoken handle
     catch(r_error){
-      console.log("both expired")
+      console.log("invlid refresh token")
+      console.log(r_error)
       await removeRefreshToken(refresh_token)
       if (req.method == "GET") {
-        console.log("get method")
-
        if(req.url==='/checkout')
             {
             return res.redirect(
@@ -130,7 +130,6 @@ const authenticateJWT = async (req, res, next) => {
             "/login?invalid_token_error=" + encodeURIComponent("No-Auth-Redirect")
           );
     }
-    console.log("next error")
     next(r_error)
     return
   }

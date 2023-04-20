@@ -283,7 +283,19 @@
                     <h5 id="select-product-error-text">Please select one or more product</h5>
                   </div>
                 </div>
-                <div class="col-md-12 mt-60">
+
+
+                <div id="check_exist_payment" class="d-none">
+                <div class="card-list" id="payment_card_list">
+                  <h2>Select a Payment Card</h2>
+                </div>
+                <label for="otherPaymentCheckbox">use other payment
+                  <input style="font-size: 25px;" type="checkbox" id="otherPaymentCheckbox" name="otherPayment" value="true">
+                </label>
+                </div>
+              
+
+                <div class="col-md-12 mt-60" id="use_new_payment">
                   <div class="card payment-method">
                     <div class="card-header text-center">
                       <h3>Payment Information</h3>
@@ -532,6 +544,11 @@
                                     <label class="form-label" for="checkout-form-zip">Zip Code</label>
                                   </div>
                                 </div>
+                                <div>
+                                <label for="saveCardCheckbox">Save Card Info
+                                  <input style="font-size: 25px;" type="checkbox" id="saveCardCheckbox" name="savePayment" value="true">
+                                </label>
+                              </div>
                               </div>
                             </div>
                           </div>
