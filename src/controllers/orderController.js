@@ -7,13 +7,9 @@ const PaymenInfo = require("../models/paymentInfoModel");
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
 const { chargeCreditCard,createCustomerProfile,
-  createCustomerPaymentProfile,chargeCreditCardExistingUser, getCustomerAddressId, getCustomerProfile } = require('../functions/handlePayment');
+  chargeCreditCardExistingUser} = require('../functions/handlePayment');
 const { sendEmail } = require("../helper/send_email");
 const path = require('path');
-//require Affliate
-//Unused Shop stuff - save for later
-// const Payment = require("../models/paymentModel");
-// const Shipping = require("../models/shippingModel");
 
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
@@ -98,8 +94,8 @@ exports.createOrder = async (req, res, next) => {
      country:'USA'
      }
   }
+
   let payment_response
-console.log()
   if(save_payment_info){
     const {customerProfileId,customerPaymentProfileId}=await createCustomerProfile(payment_info)
     await PaymenInfo.create({
@@ -112,7 +108,6 @@ console.log()
   }
   else if(use_exist_payment && allPaymentInfo?.length>0){
     const paymentInfo=await PaymenInfo.findOne({where:{userProfilePaymentId:customer_payment_profile_id}})
-    console.log(paymentInfo)
   if(paymentInfo){
     payment_response=await chargeCreditCardExistingUser(total_amount,paymentInfo.userProfileId,customer_payment_profile_id)
   }
@@ -123,13 +118,11 @@ console.log()
   else{
       payment_response=await chargeCreditCard(payment_info)
     }
-  // const customerAddressId=await getCustomerAddressId(customerProfileId,customerPaymentProfileId)
-    // chargeCreditCard(payment_info)
+ 
     order.transId=payment_response.transId
     order.total_paid_amount=total_amount.toFixed(2)
     await order.save({ transaction: t })
 
-    // const user=await User.findByPk(req?.user?.sub)
     const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
     const mailOptions = {
       from: process.env.EMAIL,
@@ -225,7 +218,7 @@ console.log()
       attachments: [{
         filename: 'testrxmd.gif',
         path: filePath,
-        cid: 'unique@kreata.eae' //same cid value as in the html img src
+        cid: 'unique@kreata.eae' 
       }]
       };
       sendEmail(mailOptionsRenewal);
@@ -257,8 +250,6 @@ exports.getOrder = async (req, res, next) => {
             attributes: ["id", "product_name", "quantity", "price"],
           },
         ],
-        // page: Number(page) || 1,
-        // paginate: Number(paginate) || 25,
         order: [["order_date", "DESC"]],
       };
       const orders = await Order.findAll(options);
@@ -276,8 +267,6 @@ exports.getOrder = async (req, res, next) => {
           attributes: ["id", "product_name", "quantity", "price"],
         },
       ],
-      // page: Number(page) || 1,
-      // paginate: Number(paginate) || 25,
       order: [["order_date", "DESC"]],
     };
     const orders = await Order.findAll(options);

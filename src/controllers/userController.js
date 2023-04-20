@@ -6,6 +6,7 @@ const Product = require("../models/productModel");
 const { Op } = require("sequelize");
 const path = require("path");
 const util = require('util');
+const QRCode = require('qrcode');
 const asyncVerify = util.promisify(jwt.verify);
 const {
   isEmailExist,
@@ -30,7 +31,8 @@ exports.registerUser = async (req, res, next) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    const { first_name, last_name, email, password } = req.body;
+    const { first_name, last_name, email, password} = req.body;
+    const {affiliatedBy}=req.query;
     const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET);
     const mailOptions = {
       from: process.env.EMAIL,
@@ -43,7 +45,7 @@ exports.registerUser = async (req, res, next) => {
       </h1>
       <p style="text-align:start;padding:10px 20px;">
       Follow the link to confirm your email.
-      <a href="${process.env.CONFIRM_LINK}?verifyToken=${token}">click here<a/>
+      <a href="${process.env.BASE_URL}/confirm?verifyToken=${token}">click here<a/>
       </p>
       <div style="text-align:center;padding-bottom:30px">
       <img src="cid:unique@kreata.ae"/>
@@ -84,6 +86,7 @@ exports.registerUser = async (req, res, next) => {
       roleId: user_role.id,
       password: hashedPassword,
       isLocalAuth: true,
+      affiliatedBy:affiliatedBy
     });
     await user.save();
     //create client on the vcita
@@ -120,7 +123,7 @@ exports.loginUser = async (req, res, next) => {
           </h1>
           <p style="text-align:start;padding:10px 20px;">
           Follow the link to confirm your email.
-          <a href="${process.env.CONFIRM_LINK}?verifyToken=${token}">click here<a/>
+          <a href="${process.env.BASE_URL}/confirm?verifyToken=${token}">click here<a/>
           </p>
           <div style="text-align:center;padding-bottom:30px">
           <img src="cid:unique@kreata.be"/>
@@ -324,7 +327,7 @@ exports.forgotPassword = async (req, res, next) => {
       </h1>
       <p style="text-align:start;padding:10px 20px;">
       Follow the link to reset your password!.
-      <a href="${process.env.RESET_LINK}?token=${token}">click here<a/>
+      <a href="${process.env.BASE_URL}/resetpassword?token=${token}">click here<a/>
       </p>
       <div style="text-align:center;padding-bottom:30px">
       <img src="cid:unique@kreata.be"/>
@@ -484,6 +487,29 @@ exports.contactFormEmail = async (req, res, next) => {
     next(err);
   }
 };
+exports.joinAffliate = async (req, res, next) => {
+  try {
+    const link=Date.now()
+    await User.update({affliateLink:link},
+    {where:{userId:req?.user?.sub}});
+    return res.json({message:"you have joined affilate"})
+  }
+  catch(err){
+   next(err)
+  }
+}
+exports.getAffilateCode = async (req, res, next) => {
+  try {
+      const user=await User.findOne({where:{id:req?.user?.sub}});
+      const dataUrl=await QRCode.toDataURL(`${process.env.BASE_URL}/register?affiliatedBy=${user.affiliateLink}`)
+      // return res.send(`<img src="${dataUrl}">`);
+      return res.json({url:dataUrl});
+     }
+  catch(err){
+   next(err)
+  }
+}
+
 exports.adminDashboard = async (req, res, next) => {
   try {
     const options = {

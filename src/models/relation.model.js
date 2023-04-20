@@ -7,6 +7,7 @@ const RefreshToken=require("./refreshToken.model");
 const Affliate = require("./affiliateModel");
 const Subscription=require("./subscriptionModel")
 const PaymenInfo=require("./paymentInfoModel")
+const Tracking=require("./trackingModel")
 
 const Relation = () => {
   //product to order
@@ -100,7 +101,13 @@ const Relation = () => {
   Order.belongsTo(User, {
     foreignKey: "userId",
   });
-
+  //order-tracking
+  Order.hasOne(Tracking, {
+    foreignKey: "orderId",
+  });
+  Tracking.belongsTo(Order, {
+    foreignKey: "orderId",
+  });
    //role to user
   Role.hasMany(User, {
     foreignKey: "roleId",

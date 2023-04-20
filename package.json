@@ -28,6 +28,7 @@
     "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
     "pdf-lib": "^1.17.1",
+    "qrcode": "^1.5.1",
     "sequelize": "^6.26.0",
     "sequelize-cli": "^6.5.2",
     "sharp": "^0.31.2"
