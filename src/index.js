@@ -21,7 +21,7 @@ const order_product_route = require("./routes/orderproductRoutes");
 const chat_route = require("./routes/gptRoute");
 const product_route = require("./routes/productRoutes");
 const payment_info_route=require("./routes/paymentInfoRoutes")
-// const product_size_route = require("./routes/productsizeRoutes");
+const patient_info = require("./routes/patientInfoRoutes");
 // const shipping_route = require("./routes/shippingRoutes");
 // const brand_route = require("./routes/brandRoutes");
 // const category_route = require("./routes/categoryRoutes");
@@ -63,6 +63,7 @@ app.use(chat_route);
 app.use(order_product_route);
 app.use(order_route);
 app.use(payment_info_route);
+app.use(patient_info); 
 
 app.use(view_route);
 

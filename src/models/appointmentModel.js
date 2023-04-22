@@ -8,8 +8,8 @@ const Appointment = sequelize.define("track_order", {
     autoIncrement: true,
     allowNull: false,
   }
+ 
 
-  
 });
 
 

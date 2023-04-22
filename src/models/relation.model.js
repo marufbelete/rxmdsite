@@ -8,6 +8,8 @@ const Affliate = require("./affiliateModel");
 const Subscription=require("./subscriptionModel")
 const PaymenInfo=require("./paymentInfoModel")
 const Tracking=require("./trackingModel")
+const Patientinfo=require("./patientInfoModel")
+const Appointment=require("./appointmentModel")
 
 const Relation = () => {
   //product to order
@@ -38,6 +40,20 @@ const Relation = () => {
   Affliate.belongsTo(User,{
     foreignKey: 'buyerId',
     as: 'buyer'
+  })
+   // user as buyer-affiliate
+   User.hasMany(Appointment,{
+    foreignKey: 'userId',
+  })
+  Appointment.belongsTo(User,{
+    foreignKey: 'userId',
+  })
+   // user as buyer-affiliate
+   User.hasMany(Patientinfo,{
+    foreignKey: 'userId',
+  })
+  Patientinfo.belongsTo(User,{
+    foreignKey: 'userId',
   })
   // user as affliator-affiliate
   User.hasMany(Affliate,{
