@@ -280,7 +280,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       handleError("payment gateway not responding", 404);
     }
 
-    const createSubscriptionFromCustomerProfile=async(customerProfileId, customerPaymentProfileId, customerAddressId) =>{
+    const createSubscriptionFromCustomerProfile=async(customerProfileId, customerPaymentProfileId) =>{
 
       const interval = new ApiContracts.PaymentScheduleType.Interval();
       interval.setLength(1);
@@ -288,23 +288,29 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
     
       const paymentScheduleType = new ApiContracts.PaymentScheduleType();
       paymentScheduleType.setInterval(interval);
-      const startDate = new Date();
+      // const startDate = new Date();
+      const startDate = new Date().toISOString().slice(0, 10);
       paymentScheduleType.setStartDate(startDate);
-      paymentScheduleType.setTotalOccurrences(5);//over all for 5 month
-      paymentScheduleType.setTrialOccurrences(0);
-    
+      paymentScheduleType.setTotalOccurrences(12);//over all for 5 month
+      // paymentScheduleType.setTrialOccurrences(0);
+
       const customerProfileIdType = new ApiContracts.CustomerProfileIdType();
       customerProfileIdType.setCustomerProfileId(customerProfileId);
       customerProfileIdType.setCustomerPaymentProfileId(customerPaymentProfileId);
-      customerProfileIdType.setCustomerAddressId(customerAddressId);
+      // customerProfileIdType.setCustomerAddressId(customerAddressId);
     
       const arbSubscription = new ApiContracts.ARBSubscriptionType();
-      const subscriptionName = `RXMD-Subscription ${Date.now()}`;
+      const subscriptionName = `RXMD_t2-Subscription ${Date.now()}`;
       arbSubscription.setName(subscriptionName);
       arbSubscription.setPaymentSchedule(paymentScheduleType);
-      arbSubscription.setAmount();
+      arbSubscription.setAmount(10.00);//change amount
+      // arbSubscription.setTrialAmount(0.00)//change amount
       arbSubscription.setProfile(customerProfileIdType);
     
+      const order = new ApiContracts.OrderType();
+      order.setInvoiceNumber(Date.now()); // set the invoice number
+      arbSubscription.setOrder(order);
+
       const createRequest = new ApiContracts.ARBCreateSubscriptionRequest();
       createRequest.setMerchantAuthentication(merchantAuthenticationType);
       createRequest.setSubscription(arbSubscription);
@@ -330,6 +336,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
         });
         const Response = await Promise.race([excute_respone, timeout]);
         if (Response != null) {
+          console.log(Response.getMessages())
           if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
            return Response.getSubscriptionId()
           } 
@@ -493,52 +500,6 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
           handleError("payment gatway not responding", 404);
     }
 
-    const getCustomerAddressId=async(customerProfileId,customerPaymentProfileId)=> {
-
-      const getRequest = new ApiContracts.GetCustomerProfileRequest();
-      getRequest.setCustomerProfileId(customerProfileId);
-      getRequest.setMerchantAuthentication(merchantAuthenticationType);
-
-        const ctrl = new ApiControllers.GetCustomerProfileController(getRequest.getJSON());
-        // ctrl.setEnvironment(SDKConstants.endpoint.production);
-        const excute_respone = new Promise((resolve, reject) => {
-          ctrl.execute((error, res) => {
-            const apiResponse = ctrl.getResponse();
-            const response = new ApiContracts.GetCustomerProfileResponse(apiResponse);
-            if (error) {
-              reject(error);
-            } else {
-              resolve(response);
-            }
-          });
-        });
-        const timeout = new Promise((resolve, reject) => {
-          setTimeout(() => {
-            const error = new Error('This process take longer than expected, please try again ');
-            error.statusCode = 408;
-            reject(error);
-          }, 47000);
-        });
-        const Response = await Promise.race([excute_respone, timeout]);
-        if (Response != null) {
-          if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
-            const customerProfile = Response.getProfile();
-            const customerPaymentProfiles = customerProfile.getPaymentProfiles().getPaymentProfile();
-            const customerPaymentProfile = customerPaymentProfiles.
-            find(profile => profile.getCustomerPaymentProfileId() === customerPaymentProfileId);
-            if (customerPaymentProfile) {
-              const customerAddressId = customerPaymentProfile.getBillTo().getCustomerAddressId();
-              return customerAddressId;
-            } else {
-              handleError('Customer payment profile not found', 404);
-            }
-          } else {
-            handleError(Response.getMessages().getMessage()[0].getText(), 403);
-          }
-        }
-          handleError("payment gatway not responding", 404);
-    }
-
     // const getCustomerProfile=async(customerProfileId)=> {
 
     //   const getRequest = new ApiContracts.GetCustomerProfileRequest();
@@ -588,7 +549,6 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       getSubscriptionStatus,
       updateSubscriptionPaymentAmount,
       cancelSubscription,
-      getCustomerAddressId,
       // getCustomerProfile
     }
     

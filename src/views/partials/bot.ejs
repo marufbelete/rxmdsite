@@ -218,11 +218,11 @@ function sendMessageToBot(message){
         method: "POST",
         data: {message},
         success: function (data) {
-            console.log(data)
         $('#bot-typing').addClass('hide')
         $(`<div class="chat-bubble you">${data.message}</div>`).insertBefore('.chat-body #bot-typing');
         },
         error: function (data) {
+            $('#bot-typing').addClass('hide')
             $(`<div class="chat-bubble you">system is busy</div>`).insertBefore('.chat-body #bot-typing');
         },
     });

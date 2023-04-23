@@ -1,8 +1,10 @@
 const User = require("../models/userModel");
+const PaymenInfo=require("../models/paymentInfoModel")
+const Subscription=require("../models/subscriptionModel")
 const RefreshToken=require("../models/refreshToken.model")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
+const {createSubscriptionFromCustomerProfile}=require('../functions/handlePayment')
 const isEmailExist = async (email) => {
   const user = await User.findOne({
     where: { email: email },
@@ -70,6 +72,26 @@ const isIntakeFormComplted = async (req) => {
   }
   return false;
 };
+const createSubscription = async (req) => {
+  // const user_id = req?.user?.sub;
+  console.log(req.body)
+  const {paymentId,productId,user_id}=req.body
+
+  const {userProfileId,userProfilePaymentId} = await PaymenInfo.findOne(
+  { where: { userId:user_id,id:paymentId } });
+  if(userProfileId && userProfilePaymentId){
+  // const customerAddressId=await getCustomerAddressId(userProfileId,userProfilePaymentId)
+  const subscriptionId=await createSubscriptionFromCustomerProfile(
+    userProfileId,
+  userProfilePaymentId)
+  return await Subscription.create({
+    productId:productId,
+    userId:user_id,
+    userSubscriptionId:subscriptionId
+  })
+}
+  return null
+};
 const isRefreshTokenExist=async(refreshToken,userId)=>{
   const token=await RefreshToken.findOne({where:
   {userId:userId,token:refreshToken}})
@@ -95,5 +117,6 @@ module.exports = {
   isIntakeFormComplted,
   isRefreshTokenExist,
   removeRefreshToken,
-  removeAllRefreshToken
+  removeAllRefreshToken,
+  createSubscription
 };

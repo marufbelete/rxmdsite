@@ -27,7 +27,8 @@ const {
   getUserByStatus,
   updateUserState,
   joinAffliate,
-  getAffilateCode
+  getAffilateCode,
+  createPaymentSubscription
 } = require("../controllers/userController");
 // const {appointmentCreatedWebhook}=require("../controllers/appointment.controller")
 const { errorHandler } = require("../middleware/errohandling.middleware");
@@ -51,6 +52,7 @@ router.get("/getuserbystate", authenticateJWT, authAdmin, getUserByStatus, error
 router.get("/getloggeduser", authenticateJWT, getCurrentLoggedUser, errorHandler);
 router.get("/checkauth", checkAuth, errorHandler);
 router.get("/logout", logOut, errorHandler);
+router.post("/subscription", createPaymentSubscription, errorHandler);
 router.post("/affilate", authenticateJWT,joinAffliate, errorHandler);
 router.get("/affilate", authenticateJWT,getAffilateCode, errorHandler);
 router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandler);
