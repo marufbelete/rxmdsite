@@ -300,7 +300,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       // customerProfileIdType.setCustomerAddressId(customerAddressId);
     
       const arbSubscription = new ApiContracts.ARBSubscriptionType();
-      const subscriptionName = `RXMD_t2-Subscription ${Date.now()}`;
+      const subscriptionName = `RXMD-Subscription ${Date.now()}`;
       arbSubscription.setName(subscriptionName);
       arbSubscription.setPaymentSchedule(paymentScheduleType);
       arbSubscription.setAmount(10.00);//change amount
@@ -538,7 +538,67 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
     //     }
     //       handleError("payment gatway not responding", 404);
     // }
-
+    // const createSubscriptionInvoiceFromCustomerProfile=async(customerProfileId, customerPaymentProfileId) =>{
+      
+    //   const customerProfileIdType = new ApiContracts.CustomerProfileIdType();
+    //   customerProfileIdType.setCustomerProfileId(customerProfileId);
+    //   customerProfileIdType.setCustomerPaymentProfileId(customerPaymentProfileId);
+      
+    //   const arbSubscription = new ApiContracts.ARBSubscriptionType();
+    //   const subscriptionName = `RXMD-Subscription ${Date.now()}`;
+    //   arbSubscription.setName(subscriptionName);
+    //   // arbSubscription.setPaymentSchedule(paymentScheduleType);
+    //   arbSubscription.setProfile(customerProfileIdType);
+      
+    //   const order = new ApiContracts.OrderType();
+    //   order.setInvoiceNumber(Date.now());
+    //   const subscriptionFee = 10.00;
+    //   const invoiceItemType = new ApiContracts.ExtendedAmountType();
+    //   invoiceItemType.setName('Subscription Fee');
+    //   invoiceItemType.setAmount(subscriptionFee);
+    //   invoiceItemType.setDescription('Monthly subscription fee');
+    //   // invoiceItemType.setInvoiceNumber(Date.now());
+    //   // order.addToInvoiceItems(invoiceItemType);
+    //   arbSubscription.setOrder(order);
+      
+    //   const createRequest = new ApiContracts.ARBCreateSubscriptionRequest();
+    //   createRequest.setMerchantAuthentication(merchantAuthenticationType);
+    //   createRequest.setSubscription(arbSubscription);
+    //   const ctrl = new ApiControllers.ARBCreateSubscriptionController(createRequest.getJSON());
+    //   const excute_respone = new Promise((resolve, reject) => {
+    //   ctrl.execute((error, res) => {
+    //   const apiResponse = ctrl.getResponse();
+    //   const response = new ApiContracts.ARBCreateSubscriptionResponse(apiResponse);
+    //   if (error) {
+    //   reject(error);
+    //   } else {
+    //   resolve(response);
+    //   }
+    //   });
+    //   });
+    //   const timeout = new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //   const error = new Error('This process take longer than expected, please try again ');
+    //   error.statusCode = 408;
+    //   reject(error);
+    //   }, 47000);
+    //   });
+    //   const Response = await Promise.race([excute_respone, timeout]);
+    //   if (Response != null) {
+    //   console.log(Response.getMessages())
+    //   if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
+    //     // const subscriptionId = Response.getSubscriptionId();
+    //     const invoiceId = Response.getInvoiceNumber();
+    //     const invoiceUrl = `https://secure.authorize.net/invoice/${invoiceId}`;
+    //     console.log(invoiceUrl)
+    //     return
+    //   }
+    //   else {
+    //   handleError(Response.getMessages().getMessage()[0].getText(),403);
+    //   }
+    //   }
+    //   handleError("payment gatway not responding", 404);
+    //   }
     module.exports={
       chargeCreditCard,
       createCustomerProfile,

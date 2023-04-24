@@ -80,7 +80,6 @@ const createSubscription = async (req) => {
   const {userProfileId,userProfilePaymentId} = await PaymenInfo.findOne(
   { where: { userId:user_id,id:paymentId } });
   if(userProfileId && userProfilePaymentId){
-  // const customerAddressId=await getCustomerAddressId(userProfileId,userProfilePaymentId)
   const subscriptionId=await createSubscriptionFromCustomerProfile(
     userProfileId,
   userProfilePaymentId)

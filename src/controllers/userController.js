@@ -18,8 +18,7 @@ const {
   saveRefershToken,
   removeRefreshToken,
   removeAllRefreshToken,
-  isRefreshTokenExist,
-  createSubscription
+  isRefreshTokenExist
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
@@ -488,16 +487,7 @@ exports.contactFormEmail = async (req, res, next) => {
     next(err);
   }
 };
-exports.createPaymentSubscription = async (req, res, next) => {
-  try {
-    const subscription=await createSubscription(req,)
-    if(subscription)return res.json({message:"subscription success"})
-    handleError("payment information not found",403)
-  }
-  catch(err){
-   next(err)
-  }
-}
+
 exports.joinAffliate = async (req, res, next) => {
   try {
     const link=Date.now()

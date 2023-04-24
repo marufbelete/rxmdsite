@@ -1,34 +1,20 @@
 const crypto = require('crypto');
-const fs=require('fs')
-
-exports.authorizenetWebhookListen=(req, res) => {
-  const signature = req.headers['x-anet-signature'];
-  const event = req.body;
-  try{
-  const isValid = verifySignature(signature, JSON.stringify(event));
-  if (isValid) {
-    handleEvent(event);
-    res.sendStatus(200);
-  }
-  else{
-    fs.writeFile('malciuos_net_webhook.txt',JSON.stringify(event))
-  }
- } 
- catch(err){
-console.log(err)
- }
-};
 
 const verifySignature = (signature, body) => {
   const hmac = crypto.createHmac('sha512', process.env.WEBHOOK_SECRET);
   hmac.update(body);
-  const digest = hmac.digest('base64');
+  const digest = 'sha512=' + hmac.digest('hex');
+  // hmac.digest('base64');
+  // const signatureWithoutPrefix = signature.replace('sha512=', '');
+  console.log(digest)
+  console.log(signature)
   return signature === digest;
 };
 
 const handleEvent = (event) => {
   const eventType = event.eventType;
   const payload = event.payload;
+  console.log(eventType)
   switch (eventType) {
     case 'net.authorize.customer.subscription.created':
       //manage the case
@@ -66,3 +52,8 @@ const handleEvent = (event) => {
       console.log(`Unknown event type: ${eventType}`);
   }
 };
+
+module.exports={
+  verifySignature,
+  handleEvent
+}

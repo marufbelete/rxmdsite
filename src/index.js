@@ -47,7 +47,15 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/node", express.static(path.join(__dirname, "../node_modules")));
 
 // Middleware
-app.use(express.json());
+// app.use(express.json());
+app.use((req, res, next) => {
+  console.log(req.originalUrl)
+  if (req.originalUrl === '/paymentwebhook') {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
