@@ -1870,13 +1870,14 @@ var THEMEMASCOT = {};
         $nav_items[0].children[5].innerHTML = (isLoged === "true" && isAdmin === "true") ? "\n      <a href=\"dashboard\" id=\"admin_link\">Admin Dashboard</a>\n    " :
           "\n      <a href=\"#\" class=\"d-none\" id=\"admin_link\">Admin Dashboard</a>\n    ";
       }
-      (isAdmin !== "true" || isLoged !== "true") && $('#admin_link').addClass("d-none");
-      isLoged === "true" && isAdmin === "true" && $('#admin_link').removeClass("d-none");
+      if (isAdmin !== "true" || isLoged !== "true") $('#admin_link').addClass("d-none");
+      if (isLoged === "true" && isAdmin === "true") $('#admin_link').removeClass("d-none");
+      if (isLoged === "true" && isAdmin === "false") $('#account_page').removeClass("d-none");
       const base_url = "http://localhost:7000"
       // const base_url = "https://www.testrxmd.com"
       // const base_url = "https://rxmdsite-production.up.railway.app";
 
-     
+
       $document.on("click", "#logout_link", function (e) {
         $.ajax({
           url: `${base_url}/logout`,
