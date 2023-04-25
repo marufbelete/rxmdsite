@@ -79,6 +79,9 @@ const User = sequelize.define("user", {
   affiliateLink: {
     type: Sequelize.STRING,
   },
+  twoFaSecret: {
+    type: Sequelize.STRING,
+  },
   exercisePlan:{
     type: Sequelize.BOOLEAN,
     defaultValue: false,

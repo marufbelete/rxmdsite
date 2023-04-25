@@ -2,6 +2,9 @@ const PaymentInfo = require("../models/paymentInfoModel");
 const {handleEvent,verifySignature}=require('../functions/paymentListenWebhook')
 const {  createSubscription
 }=require('../helper/user') 
+const sequelize = require("../models/index");
+const { handleError } = require("../helper/handleError");
+
 
 exports.getAllMyPaymentInfo = async (req, res, next) => {
   try {
@@ -20,6 +23,7 @@ exports.createPaymentSubscription = async (req, res, next) => {
     handleError("payment information not found",403)
   }
   catch(err){
+    console.log(err)
    next(err)
   }
 }

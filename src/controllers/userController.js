@@ -17,12 +17,12 @@ const {
   isTokenValid,
   saveRefershToken,
   removeRefreshToken,
-  removeAllRefreshToken,
-  isRefreshTokenExist
+  get2faVerfication,
+  verify2faVerfication
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
-const { sendEmail } = require("../helper/send_email");
+const { sendEmail ,sendOtpEmail} = require("../helper/send_email");
 const { removeEmptyPair } = require("../helper/reusable");
 const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
 exports.registerUser = async (req, res, next) => {
@@ -507,6 +507,38 @@ exports.getAffilateCode = async (req, res, next) => {
       return res.json({url:dataUrl});
      }
   catch(err){
+   next(err)
+  }
+}
+
+exports.create2FA = async (req, res, next) => {
+  const t = await sequelize.transaction();
+  try {
+    const Otp=await get2faVerfication(1)
+    sendOtpEmail(Otp,"marufbelete9@gmail.com")
+    return res.json('success')
+  }
+  catch(err){
+    console.log(err)
+   next(err)
+  }
+}
+exports.verify2FA = async (req, res, next) => {
+  try {
+    const verify=await verify2faVerfication("066876",1)
+    if(!verify){
+      handleError("Wrong OTP please try again",403)
+    }
+    if(verify.delta===0)
+    {
+      return res.json({message:"successfully verified"})
+    }
+    else if(verify.delta<=-1){
+      handleError("OTP key entered too late",403)
+    }
+  }
+  catch(err){
+    console.log(err)
    next(err)
   }
 }

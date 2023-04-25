@@ -4,6 +4,7 @@ const Subscription=require("../models/subscriptionModel")
 const RefreshToken=require("../models/refreshToken.model")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const twofactor = require("node-2fa");
 const {createSubscriptionFromCustomerProfile}=require('../functions/handlePayment')
 const isEmailExist = async (email) => {
   const user = await User.findOne({
@@ -16,6 +17,31 @@ const isEmailExist = async (email) => {
 const isPasswordCorrect = async (incomingPassword, existingPassword) => {
   const isMatch = await bcrypt.compare(incomingPassword, existingPassword);
   return isMatch;
+};
+
+const get2faVerfication = async (userId) => {
+  const user=await User.findByPk(userId)
+  let secret
+  if(!user.twoFaSecret) {
+  const newSecret = twofactor.generateSecret({ name: "TestRXMD App", acount: user.email})
+  await User.update({ twoFaSecret: newSecret.secret }, { where: { email: user.email }});
+  secret=newSecret.secret
+  }
+  else{
+    secret=user.twoFaSecret
+  }
+  console.log(secret)
+  const newToken = twofactor.generateToken(secret);
+  return newToken
+// => { token: '630618' }
+// send email to user the newToken
+};
+const verify2faVerfication = async (otp,userId) => {
+  const user=await User.findByPk(userId)
+  console.log(user.twoFaSecret,otp)
+  const result=twofactor.verifyToken(user.twoFaSecret,otp,3600);
+  console.log(result) 
+  return result
 };
 
 //check which data to sign
@@ -117,5 +143,7 @@ module.exports = {
   isRefreshTokenExist,
   removeRefreshToken,
   removeAllRefreshToken,
-  createSubscription
+  createSubscription,
+  get2faVerfication,
+  verify2faVerfication
 };

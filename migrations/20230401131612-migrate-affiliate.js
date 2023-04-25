@@ -12,6 +12,14 @@ module.exports = {
       );
       await queryInterface.addColumn(
         'users',
+        'twoFaSecret',
+        {
+          type: Sequelize.DataTypes.STRING,
+        },
+        { transaction }
+      );
+      await queryInterface.addColumn(
+        'users',
         'mealPlan',
         {
           type: Sequelize.DataTypes.BOOLEAN,
@@ -56,6 +64,7 @@ module.exports = {
     try {
       await queryInterface.removeConstraint('users', 'user_user_id_fk', { transaction });
       await queryInterface.removeColumn('users', 'affiliateLink', { transaction });
+      await queryInterface.removeColumn('users', 'twoFaSecret', { transaction });
       await queryInterface.removeColumn('users', 'affiliatedBy', { transaction });
       await queryInterface.removeColumn('users', 'exercisePlan', { transaction });
       await queryInterface.removeColumn('users', 'mealPlan', { transaction });
