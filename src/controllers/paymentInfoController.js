@@ -1,7 +1,8 @@
 const PaymentInfo = require("../models/paymentInfoModel");
 const {handleEvent,verifySignature}=require('../functions/paymentListenWebhook')
-const {  createSubscription
+const {  createSubscription,get2faVerfication,verify2faVerfication
 }=require('../helper/user') 
+const {sendTutonaEmail, sendEmail,sendOtpEmail}=require('../helper/send_email')
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
 
@@ -18,6 +19,7 @@ exports.getAllMyPaymentInfo = async (req, res, next) => {
 };
 exports.createPaymentSubscription = async (req, res, next) => {
   try {
+    await sendTutonaEmail()
     const subscription=await createSubscription(req,)
     if(subscription)return res.json({message:"subscription success"})
     handleError("payment information not found",403)

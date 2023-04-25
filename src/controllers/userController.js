@@ -511,8 +511,8 @@ exports.getAffilateCode = async (req, res, next) => {
   }
 }
 
+//change in dev
 exports.create2FA = async (req, res, next) => {
-  const t = await sequelize.transaction();
   try {
     const Otp=await get2faVerfication(1)
     sendOtpEmail(Otp,"marufbelete9@gmail.com")
@@ -523,6 +523,7 @@ exports.create2FA = async (req, res, next) => {
    next(err)
   }
 }
+//change in dev
 exports.verify2FA = async (req, res, next) => {
   try {
     const verify=await verify2faVerfication("066876",1)

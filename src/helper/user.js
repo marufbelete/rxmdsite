@@ -4,7 +4,8 @@ const Subscription=require("../models/subscriptionModel")
 const RefreshToken=require("../models/refreshToken.model")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const twofactor = require("node-2fa");
+const speakeasy = require('speakeasy');
+
 const {createSubscriptionFromCustomerProfile}=require('../functions/handlePayment')
 const isEmailExist = async (email) => {
   const user = await User.findOne({
@@ -23,25 +24,30 @@ const get2faVerfication = async (userId) => {
   const user=await User.findByPk(userId)
   let secret
   if(!user.twoFaSecret) {
-  const newSecret = twofactor.generateSecret({ name: "TestRXMD App", acount: user.email})
-  await User.update({ twoFaSecret: newSecret.secret }, { where: { email: user.email }});
-  secret=newSecret.secret
+  const newSecret = speakeasy.generateSecret();
+  await User.update({ twoFaSecret: newSecret.base32 }, { where: { email: user.email }});
+  secret=newSecret.base32
   }
   else{
     secret=user.twoFaSecret
   }
-  console.log(secret)
-  const newToken = twofactor.generateToken(secret);
-  return newToken
-// => { token: '630618' }
-// send email to user the newToken
+  const otp = speakeasy.totp({
+    secret: secret,
+    encoding: 'base32',
+    window: 300 //in second
+  });
+  return otp
+
 };
 const verify2faVerfication = async (otp,userId) => {
   const user=await User.findByPk(userId)
-  console.log(user.twoFaSecret,otp)
-  const result=twofactor.verifyToken(user.twoFaSecret,otp,3600);
-  console.log(result) 
-  return result
+  const isValid = speakeasy.totp.verify({
+    secret: user.twoFaSecret,
+    encoding: 'base32',
+    token: otp, 
+    window: 300 
+  });
+  return isValid
 };
 
 //check which data to sign
@@ -101,6 +107,7 @@ const isIntakeFormComplted = async (req) => {
 const createSubscription = async (req) => {
   // const user_id = req?.user?.sub;
   console.log(req.body)
+  //change here in dev
   const {paymentId,productId,user_id}=req.body
 
   const {userProfileId,userProfilePaymentId} = await PaymenInfo.findOne(
