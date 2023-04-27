@@ -2,7 +2,7 @@ const { authenticateJWT } = require("../middleware/auth.middleware");
 const { getProduct } = require("../controllers/productController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { getAppointment } = require("../controllers/appointment.controller");
-const {checkAppointmentLeft}= require("../middleware/role.middleware");
+const { checkAppointmentLeft } = require("../middleware/role.middleware");
 // module.exports = (app) => {
 const path = require("path");
 const router = require("express").Router();
@@ -12,7 +12,7 @@ router.get("/", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"));
 });
 
-router.get("/appt",authenticateJWT,checkAppointmentLeft, getAppointment, errorHandler);
+router.get("/appt", authenticateJWT, checkAppointmentLeft, getAppointment, errorHandler);
 
 router.get("/home", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"));
@@ -64,6 +64,14 @@ router.get("/tos", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/tos"));
 });
 
+router.get("/account", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/account"));
+});
+
+router.get("/affiliate", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/affiliate"));
+});
+
 //  UNUSED STORE ROUTES FOR USE LATER
 // router.get("/shop", function (req, res) {
 //   res.render(path.join(__dirname, "..", "/views/pages/shop"));
@@ -84,4 +92,3 @@ router.get("*", function (req, res) {
 //   app.use("/", router);
 // };
 module.exports = router;
-

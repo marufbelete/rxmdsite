@@ -78,43 +78,133 @@
     </li>
 
     <%- include('../partials/headerBottom.ejs') %>
+
+      <!-- Section: page title -->
+      <section class="page-title layer-overlay overlay-dark-9 section-typo-light bg-img-center"
+        data-tm-bg-img="images/bg/bg1.jpg">
+        <div class="container pt-50 pb-50">
+          <div class="section-content">
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <h2 class="title">Account</h2>
+                <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumbs">
+                  <div class="breadcrumbs">
+                    <span><a href="#" rel="home">Home</a></span>
+                    <span><i class="fa fa-angle-right"></i></span>
+                    <span><a href="#services">Account</a></span>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Start main-content -->
 
-      <h2>Account Page</h2>
+      <section>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 offset-md-3 mb-40">
+              <h2 class="text-gray mt-0 pt-10">This is your account page</h2>
+              <hr>
+              <p>You can change your password, see your past or upcoming appointments, see your past or current
+                therapies, checkout your affiliate data if you are an affiliate, and much more</p>
+              <form name="account-change-password-form" class="clearfix">
+                <h3 class="text-center mt-5">Change Your Password</h3>
+                <div class="row">
+                  <div class="mb-3 col-md-12">
+                    <label for="account_form_old_password">Old Password</label>
+                    <input id="account_form_old_password" name="account_form_old_password" class="form-control"
+                      type="text">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="mb-3 col-md-12">
+                    <label for="account_form_new_password">New Password</label>
+                    <input id="account_form_new_password" name="account_form_new_password" class="form-control"
+                      type="text">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="mb-3 col-md-12">
+                    <label for="account_form_confirm_password">Confirm New Password</label>
+                    <input id="account_form_confirm_password" name="account_form_confirm_password" class="form-control"
+                      type="text">
+                  </div>
+                </div>
+                <div class="mb-3 tm-sc-button mt-10">
+                  <button type="submit" class="btn btn-dark">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div class="block">
+      <!-- Appointments -->
+      <div class="bg-dark-transparent-1">
+        <div class="container">
+          <div class="row">
+            <div class="mb-40">
+              <h1 class="text-center mt-5">Appointments</h1>
+              <table id="appts_table" class="table table-striped table-primary table-bordered">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Provider</th>
+                    <th>Appt Link</th>
+                  </tr>
+                </thead>
+                <tbody id="appts_table_body">
+                  <!-- need db call to user table, pull all appts, starting with most recent appts you will have to create a <tr> with the details like below. I think we only put the link in the table for upcoming appts and past apps do not have a link - maybe we just put "complete" in that space instead of a zoom link. You can target this table body with the id #appts_table_body and append a new row for each one. -->
+                  <tr>
+                    <td>This is a date</td>
+                    <td>This is a time</td>
+                    <td>This is a provider</td>
+                    <td>This is a link</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
 
-        <form action="/account_update" method="post">
+      <!-- Therapies -->
+      <div class="bg-dark-transparent-1">
+        <div class="container">
+          <div class="row">
+            <div class="mb-40">
+              <h1 class="text-center mt-5">Therapies</h1>
+              <table id="appts_table" class="table table-bordered table-striped table-primary">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Dosage</th>
+                    <th>Start Date</th>
+                    <th>Refills</th>
+                  </tr>
+                </thead>
+                <tbody id="appts_table_body">
+                  <!-- need db call to user table, pull all appts, starting with most recent appts you will have to create a <tr> with the details like below. I think we only put the link in the table for upcoming appts and past apps do not have a link - maybe we just put "complete" in that space instead of a zoom link. You can target this table body with the id #appts_table_body and append a new row for each one. -->
+                  <tr>
+                    <td>This is a date</td>
+                    <td>This is a time</td>
+                    <td>This is a provider</td>
+                    <td>This is a link</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
 
-          <!-- This is just a trash form for now as a placeholder -->
-          <h4>This will all be changed to be a nice dashboard showing the user all their therapies, past and upcoming
-            appointments, when they need a refill, when they have to see the doctor next, when they have to get labs
-            next, see their tracking info, report an issue, and do all the stuff below like changing your address or
-            email or password.</h4>
+      <!-- end main-content -->
+      <%- include('../partials/footer') %>
 
-          <h5>Need to change your email?</h5>
-          <label for="email">Change your email address</label>
-          <input type="email" value="{{ account.email }}" name="email" id="email" placeholder="Email Address">
-
-          <label for="old_password">Old Password</label>
-          <input type="password" name="old_password" id="old_password" placeholder="Old Password">
-          <label for="password">New Password</label>
-          <input type="password" name="password" id="password" placeholder="New Password">
-          <label for="cpassword">Confirm Password</label>
-          <input type="password" name="confirm_pass" id="confirm_pass" placeholder="Confirm Password">
-
-
-
-          <br>
-
-          <input class="profile-btn" type="submit" value="Save" name="save">
-
-
-
-        </form>
-
-        <!-- end main-content -->
-        <%- include('../partials/footer') %>
-
-          <!-- Footer Scripts -->
-          <script src="js/custom.js"></script>
+        <!-- Footer Scripts -->
+        <script src="js/custom.js"></script>

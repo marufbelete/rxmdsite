@@ -32105,3 +32105,7 @@ $grid-breakpoints: (
     font-size: 2.0rem;
   }
 }
+
+#appts_table {
+  border-radius: 50%;
+}
