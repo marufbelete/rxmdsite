@@ -1,11 +1,12 @@
 const PaymentInfo = require("../models/paymentInfoModel");
 const {handleEvent,verifySignature}=require('../functions/paymentListenWebhook')
-const {  createSubscription,get2faVerfication,verify2faVerfication
+const {  createSubscription,get2faVerfication,verify2faVerfication,
 }=require('../helper/user') 
-const {sendTutonaEmail, sendEmail,sendOtpEmail}=require('../helper/send_email')
+const {getInvoiceURL}=require('../functions/handlePayment')
+const {sendEmail,sendOtpEmail}=require('../helper/send_email')
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
-
+const {addRecipient,sendPayout, paypalWebhook, paypalVerifyHook}=require('../functions/paypal')
 
 exports.getAllMyPaymentInfo = async (req, res, next) => {
   try {
@@ -19,10 +20,19 @@ exports.getAllMyPaymentInfo = async (req, res, next) => {
 };
 exports.createPaymentSubscription = async (req, res, next) => {
   try {
-    await sendTutonaEmail()
-    const subscription=await createSubscription(req,)
-    if(subscription)return res.json({message:"subscription success"})
-    handleError("payment information not found",403)
+    console.log('check webhook')
+    if(!paypalVerifyHook(req)) return res.json({status:false})
+   const webh= paypalWebhook()
+   console.log(webh)
+  //   console.log('check invoice')
+    const resp=await sendPayout("marufbelete9@gmail.com",10,"your bonus from TestRxmd")
+    return res.json(resp)
+    // await addRecipient("marufbelete9@gmail.com","maruf","belete")
+    // const {userProfileId,userPaymentProfileId}=req.body
+    //  await getInvoiceURL(userProfileId,userPaymentProfileId)
+    // const subscription=await createSubscription(req)
+    // if(subscription)return res.json({message:"subscription success"})
+    // handleError("payment information not found",403)
   }
   catch(err){
     console.log(err)

@@ -55,6 +55,13 @@ const Relation = () => {
   Patientinfo.belongsTo(User,{
     foreignKey: 'userId',
   })
+   // product-patientinfo
+   Product.hasMany(Patientinfo,{
+    foreignKey: 'productId'
+  })
+  Patientinfo.belongsTo(Product,{
+    foreignKey: 'productId'
+    })
   // user as affliator-affiliate
   User.hasMany(Affliate,{
     foreignKey: 'affilatorId',

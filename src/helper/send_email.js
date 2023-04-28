@@ -52,6 +52,34 @@ const sendOtpEmail=async(Otp,email)=>{
         await sendEmail(mailOptions)
 }
 
+const sendLowRefillAlertEmail=async(email,name,medication)=>{
+  const mailOptions = {
+          from: process.env.EMAIL,
+          to: email,
+          subject: "Low Refill Alert",
+          html: `
+          <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+          <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+          "TestRxMD Low Refill Alert"
+          </h1>
+          <p>Hello ${name}</p>
+          <p style="text-align:start;padding:10px 20px;">
+              We hope this email finds you well. We wanted to remind you 
+            that your prescription for ${medication} is due for a refill soon. 
+            It is important to continue taking your medication as prescribed to ensure 
+            the best possible health outcomes.
+              Please contact your pharmacy to request a refill of your prescription.
+            If you have any questions or concerns
+          </p>
+          <div style="text-align:center;padding-bottom:30px">
+          <img src="cid:unique@kreata.ae"/>
+          </div>
+          </div>
+        `,
+        };
+        await sendEmail(mailOptions)
+}
+
 const sendZohoEmail = async () => {
 let transporter = nodemailer.createTransport({
   host: "smtp.zoho.in",
@@ -83,5 +111,6 @@ transporter.sendMail(mailOptions, (error, info) => {
 module.exports = {
   sendEmail,
   sendOtpEmail,
-  sendZohoEmail
+  sendZohoEmail,
+  sendLowRefillAlertEmail
 };

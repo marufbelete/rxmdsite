@@ -27,6 +27,7 @@
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
+    "paypal-rest-sdk": "^1.8.1",
     "pdf-lib": "^1.17.1",
     "qrcode": "^1.5.1",
     "sequelize": "^6.26.0",

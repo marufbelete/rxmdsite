@@ -19,6 +19,7 @@ exports.getPatientInfo = async (req, res, next) => {
     next(err);
   }
 };
+
 exports.getPatientInfoById = async (req, res, next) => {
   try {
     const id=req.params.id
@@ -28,37 +29,13 @@ exports.getPatientInfoById = async (req, res, next) => {
     next(err);
   }
 };
-// exports.getRoleById = async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     const role = await addPatientInfo.findByPk(id);
-//     return res.json(role);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-// exports.editRole = async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     const updated_role = await addPatientInfo.update(
-//       { ...req.body },
-//       { where: { id: id } }
-//     );
-//     return res.json(updated_role);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
 
-// exports.deleteRole = async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     await addPatientInfo.destroy({ where: { id } });
-//     return res.json({
-//       success: true,
-//       message: "addPatientInfo deleted",
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+exports.getPatientInfoByUserId = async (req, res, next) => {
+  try {
+    const userId=req.params.id
+    const patient_info = await Patientinfo.findOne({where:{userId:userId}});
+    return res.json(patient_info);
+  } catch (err) {
+    next(err);
+  }
+};

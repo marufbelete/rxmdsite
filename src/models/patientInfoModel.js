@@ -12,7 +12,7 @@ const Patieninfo = sequelize.define("patient_info", {
    type:Sequelize.STRING,
   },
   refill:{
-    type:Sequelize.STRING,
+    type:Sequelize.NUMBER,
   }
 },
   {
