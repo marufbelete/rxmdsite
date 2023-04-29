@@ -112,6 +112,7 @@
                 therapies, checkout your affiliate data if you are an affiliate, and much more</p>
               <form name="account-change-password-form" class="clearfix">
                 <h3 class="text-center mt-5">Change Your Password</h3>
+                <div id="change_password_error" class="alert alert-danger d-none text-center" role="alert"></div>
                 <div class="row">
                   <div class="mb-3 col-md-12">
                     <label for="account_form_old_password">Old Password</label>
@@ -134,7 +135,14 @@
                   </div>
                 </div>
                 <div class="mb-3 tm-sc-button mt-10">
-                  <button type="submit" class="btn btn-dark">Submit</button>
+                  <button id="change_password_btn" type="submit" class="btn btn-dark">
+                    <span id="change_password_text">Submit</span>
+                    <span id="change_password_text_spin" class="d-none">
+                      <span class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                      Loading...
+                    </span>
+                  </button>
                 </div>
               </form>
             </div>
@@ -142,7 +150,8 @@
         </div>
       </section>
       <hr>
-
+<!-- Modal -->
+<%- include('../partials/toast') %>
       <!-- Appointments -->
       <div data-tm-bg-img="images/pattern/p8.png">
         <div class="container">
@@ -246,3 +255,5 @@
 
         <!-- Footer Scripts -->
         <script src="js/custom.js"></script>
+        <script src="js/api_call.js"></script>
+

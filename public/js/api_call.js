@@ -971,6 +971,62 @@ loadUserPaymentMethod()
       },
     });
   })
+//change password
+$('#success_toast_page .close').on('click', function() {
+  $(this).closest('#success_toast_page').removeClass('show');
+});
+$('#change_password_btn').on('click',function(event){
+  console.log('clicked')
+  event.preventDefault();
+  $("#change_password_text_spin").removeClass("d-none");
+  $("#change_password_text").addClass("d-none");
+
+  $('#change_password_error').addClass('d-none')
+  const old_password=$('#account_form_old_password').val()
+  const new_password= $('#account_form_new_password').val()
+  const confirm_password=$('#account_form_confirm_password').val()
+  if(!old_password||!new_password||!confirm_password){ 
+    $("#change_password_text_spin").addClass("d-none");
+    $("#change_password_text").removeClass("d-none");   
+    $('#change_password_error').text("please fill all field").removeClass('d-none')
+    return
+  }
+  if(new_password!=confirm_password){
+    $("#change_password_text_spin").addClass("d-none");
+    $("#change_password_text").removeClass("d-none");
+    $('#change_password_error').text("new password must match").removeClass('d-none')
+    return 
+  }
+$.ajax({
+  url: `${base_url}/changemypassword`,
+  method: "PUT",
+  contentType: 'application/json',
+  data: JSON.stringify({ old_password,new_password,confirm_password }),
+  success: function (data) {
+    $('#account_form_old_password').val('')
+    $('#account_form_new_password').val('')
+    $('#account_form_confirm_password').val('')
+
+    $("#change_password_text_spin").addClass("d-none");
+    $("#change_password_text").removeClass("d-none");
+
+    $("#success_toast_title").text("password changed")
+    $('#success_toast_page').addClass('show');
+    setTimeout(function() {
+      $('#success_toast_page').removeClass('show');
+    }, 5000);
+
+  },
+  error: function (data) {
+    $("#change_password_text_spin").addClass("d-none");
+    $("#change_password_text").removeClass("d-none");
+    $('#change_password_error').text(data.responseJSON.message).removeClass('d-none')
+  },
+});
+});
+
+
+
   $(document).on("click", ".procced-to-checkout", function () {
     location.href = '/appt'
   })

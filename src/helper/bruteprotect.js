@@ -3,7 +3,7 @@ bouncer.blocked = function (req, res, next, remaining) {
   return res
     .status(429)
     .json({
-      message: `Too many login attempts, please wait ${Math.round(
+      message: `Too many attempts, please wait ${Math.round(
         remaining / 60000
       )} minutes`,
     });

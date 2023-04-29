@@ -6,7 +6,7 @@ const {getInvoiceURL}=require('../functions/handlePayment')
 const {sendEmail,sendOtpEmail}=require('../helper/send_email')
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
-const {addRecipient,sendPayout, paypalWebhook, paypalVerifyHook}=require('../functions/paypal')
+const {sendPayout, paypalWebhook, paypalVerifyHook}=require('../functions/paypal')
 
 exports.getAllMyPaymentInfo = async (req, res, next) => {
   try {
@@ -22,11 +22,11 @@ exports.createPaymentSubscription = async (req, res, next) => {
   try {
     console.log('check webhook')
     if(!paypalVerifyHook(req)) return res.json({status:false})
-   const webh= paypalWebhook()
-   console.log(webh)
+  //  const webh= paypalWebhook()
+  //  console.log(webh)
   //   console.log('check invoice')
-    const resp=await sendPayout("marufbelete9@gmail.com",10,"your bonus from TestRxmd")
-    return res.json(resp)
+    // const resp=await sendPayout("marufbelete9@gmail.com",10,"your bonus from TestRxmd")
+    // return res.json(resp)
     // await addRecipient("marufbelete9@gmail.com","maruf","belete")
     // const {userProfileId,userPaymentProfileId}=req.body
     //  await getInvoiceURL(userProfileId,userPaymentProfileId)

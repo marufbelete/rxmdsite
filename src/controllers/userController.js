@@ -291,6 +291,9 @@ exports.changePassword = async (req, res, next) => {
     if (!user) {
       handleError("user not found", 403);
     }
+    if(!user.isLocalAuth){
+      handleError("This account uses google authentication.", 403);
+    }
     const { old_password, new_password } = req.body;
     if (await isPasswordCorrect(old_password, user.password)) {
       const hashedPassword = await hashPassword(new_password);

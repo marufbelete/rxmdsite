@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "dependencies": {
     "authorizenet": "^1.0.8",
+    "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.8",
     "cookie-parser": "^1.4.6",

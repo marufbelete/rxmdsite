@@ -2,8 +2,8 @@ const paypal = require('paypal-rest-sdk');
 
 paypal.configure({
   'mode': 'sandbox', // Change to 'live' for production
-  'client_id': 'AUXZFHbTDkDAbTYiKQd2c7YTkisrgDi9XruTaLwhW31GVFV_DLVDixCIr-yyahXXuyJSCDxzObRn75X5',
-  'client_secret': 'ECD2ANIRZz_YdJ8raDhWrbucdIFq5q4gARoSaA2KrtN8yCa1UwVT2U_g9tUjIoWHChJt-Ajjs5rq5kXn'
+  'client_id': process.env.PAYPAL_CLIENT_ID,
+  'client_secret': process.env.PAYPAL_CLIENT_SECRET
 });
 
 const sendPayout=(email, amount, note)=> {
@@ -54,13 +54,13 @@ paypal.notification.webhookEvent.verify(webhookEvent, webhookId, webhookBody, fu
 }
 
 const paypalWebhook=()=> {
-  paypal.notification.webhook.list({
-    // url: 'https://example.com/webhook',
-    // event_types: [
-    //   {
-    //     name: "PAYMENT.PAYOUTSBATCH.SUCCESS"
-    //   }
-    // ]
+  paypal.notification.webhook.create({
+    url: 'https://example.com/webhook',
+    event_types: [
+      {
+        name: "PAYMENT.PAYOUTSBATCH.SUCCESS"
+      }
+    ]
   }, (error, webhook) => {
     if (error) {
       console.error('Error creating webhook subscription:', error);
