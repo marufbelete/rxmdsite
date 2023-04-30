@@ -219,7 +219,13 @@
         </div>
 
         <div class="container text-center pb-50 mb-5">
-          <div id="QRcode">CREATE QR CODE HERE</div>
+          <div id="QRcode">
+            <img id="QRcode_image" src=""/>
+          </div>
+          <div id="copy_url_div" class="d-none">
+            <button id="copy_url_btn" title="copy url">Copy URL <i class="fas fa-copy"></i> </button>
+            <input type="text" id="qr_url_input" style="display:none;">
+          </div>
         </div>
 
         <!-- end main-content -->
@@ -227,3 +233,4 @@
 
           <!-- Footer Scripts -->
           <script src="js/custom.js"></script>
+          <script src="js/api_call.js"></script>

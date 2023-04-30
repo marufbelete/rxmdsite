@@ -26,7 +26,6 @@ const {
   adminDashboard,
   getUserByStatus,
   updateUserState,
-  joinAffliate,
   getAffilateCode
 } = require("../controllers/userController");
 // const {appointmentCreatedWebhook}=require("../controllers/appointment.controller")
@@ -51,8 +50,8 @@ router.get("/getuserbystate", authenticateJWT, authAdmin, getUserByStatus, error
 router.get("/getloggeduser", authenticateJWT, getCurrentLoggedUser, errorHandler);
 router.get("/checkauth", checkAuth, errorHandler);
 router.get("/logout", logOut, errorHandler);
-router.post("/affilate", authenticateJWT,joinAffliate, errorHandler);
-router.get("/affilate", authenticateJWT,getAffilateCode, errorHandler);
+// router.post("/affilate", authenticateJWT,joinAffliate, errorHandler);
+router.get("/affiliatecode", authenticateJWT,getAffilateCode, errorHandler);
 router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandler);
 router.post("/jotformwebhook", multipart.array(), jotformWebhook, errorHandler);
 // router.post("/vcitawebhook", appointmentCreatedWebhook, errorHandler);

@@ -38,6 +38,7 @@ if(showJotForm=== "true")
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
+      console.log(data)
       const check_url = window?.location?.href;
       if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true") {
         localStorage.removeItem("toCheckout")
@@ -48,6 +49,8 @@ if(showJotForm=== "true")
         localStorage.setItem("showJotForm", "true");
         location.href = "/checkout"
       }
+      data?.user?.affiliateLink&&
+        localStorage.setItem("isAffiliate", "true");
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -1024,8 +1027,30 @@ $.ajax({
   },
 });
 });
-
-
+function getQrCode(){
+  $.ajax({
+    url: `${base_url}/affiliatecode`,
+    method: "GET",
+    success: function (data) {
+      $('#generateQR').addClass('d-none')
+      $('#copy_url_div').removeClass('d-none')
+      $('#QRcode_image').attr('src', data.src);
+      $('#qr_url_input').val(data.url)
+    },
+  });
+}
+//get affiliate
+$('#generateQR').on('click',function(event){
+getQrCode()
+});
+if(window?.location?.href==`${base_url}/affiliate` && 
+localStorage.getItem("isAffiliate")==="true"){
+getQrCode()
+}
+$('#copy_url_btn').click(function() {
+      const url=$('#qr_url_input').val()
+      navigator.clipboard.writeText(url)
+});
 
   $(document).on("click", ".procced-to-checkout", function () {
     location.href = '/appt'

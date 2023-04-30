@@ -19,6 +19,23 @@ body {
   
 }
 
+#copy_url_btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#copy_url_btn:hover {
+  background-color: #3e8e41;
+}
+
+#url_input {
+  position: absolute;
+  left: -9999px;
+}
 
 #jotform-hover:hover{
 cursor: pointer;

@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const Role = require("../models/roleModel");
+const moment = require('moment');
 const { issueToken, saveRefershToken } = require("../helper/user");
 const { Op } = require("sequelize");
 const passportGoogle = require("passport-google-oauth20");
@@ -68,20 +69,27 @@ exports.issueGoogleToken = async (req, res, next) => {
       process.env.REFRESH_TOKEN_SECRET,
       process.env.REFRESH_TOKEN_EXPIRES);
 
-      res.cookie("access_token", access_token, {
+      const currentDate = new Date();
+      const cookie_expires = moment(currentDate).add(process.env.REFRESH_TOKEN_EXPIRES.match(/^(\d+)/)[1],'days').toDate();
+      console.log(cookie_expires)
+// console.log(access_token)
+      await res.cookie("access_token", access_token, {
         path: "/",
         httpOnly:true,
+        expires:new Date(cookie_expires),
         // secure: true,
       })
-      res.cookie("refresh_token", refresh_token, {
+      await res.cookie("refresh_token", refresh_token, {
         path: "/",
         httpOnly:true,
+        expires:new Date(cookie_expires),
         // secure: true,
       })
       await saveRefershToken(req?.user[0]?.id,refresh_token)
       if(req?.user[0]?.intake) return res.redirect("/")
       return res.redirect("/?intakeFilled=" + encodeURIComponent("false"));
   } catch (err) {
+    console.log(err)
     next(err);
   }
 };

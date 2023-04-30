@@ -5,6 +5,7 @@ const bouncer = require("../helper/bruteprotect");
 const Product = require("../models/productModel");
 const { Op } = require("sequelize");
 const path = require("path");
+const moment = require('moment');
 const util = require('util');
 const QRCode = require('qrcode');
 const asyncVerify = util.promisify(jwt.verify);
@@ -174,14 +175,19 @@ exports.loginUser = async (req, res, next) => {
           email: user.email,
         };
         bouncer.reset(req);
+        const refresh_expiry=rememberme?process.env.LONG_REFRESH_TOKEN_EXPIRES:process.env.REFRESH_TOKEN_EXPIRES
+        const currentDate = new Date();
+        const cookie_expires = moment(currentDate).add(refresh_expiry.match(/^(\d+)/)[1],'days').toDate();
         res.cookie('access_token',access_token, {
           path: "/",
           httpOnly:true,
+          expires:cookie_expires,
           // secure: true,
         })
         res.cookie('refresh_token',refresh_token, {
           path: "/",
           httpOnly:true,
+          expires:cookie_expires,
           // secure: true,
         })
         await saveRefershToken(user.id,refresh_token)
@@ -403,7 +409,7 @@ exports.checkAuth = async (req, res, next) => {
       if (!check_user?.isActive) {
         handleError("This account is inactive, please contact our customer service", 403);
       }
-      return res.json({ message: "success", auth: true, user: user });
+      return res.json({ message: "success", auth: true, user: {...user,affiliateLink:check_user.affiliateLink} });
     }
     handleError("please login", 403);
   } catch (err) {
@@ -491,28 +497,34 @@ exports.contactFormEmail = async (req, res, next) => {
   }
 };
 
-exports.joinAffliate = async (req, res, next) => {
+exports.getAffilateCode = async (req, res, next) => {
   try {
+    const user=await User.findOne({where:{id:req?.user?.sub}});
+    if(user.affiliateLink){
+      const dataUrl=await QRCode.toDataURL(`${process.env.BASE_URL}/register?affiliatedBy=${user.affiliateLink}`)
+      return res.json({src:dataUrl,url:`${process.env.BASE_URL}/register?affiliatedBy=${user.affiliateLink}`});
+    }
     const link=Date.now()
     await User.update({affliateLink:link},
     {where:{userId:req?.user?.sub}});
-    return res.json({message:"you have joined affilate"})
+    const dataUrl=await QRCode.toDataURL(`${process.env.BASE_URL}/register?affiliatedBy=${link}`)
+    return res.json({src:dataUrl,url:`${process.env.BASE_URL}/register?affiliatedBy=${user.affiliateLink}`});
   }
   catch(err){
    next(err)
   }
 }
-exports.getAffilateCode = async (req, res, next) => {
-  try {
-      const user=await User.findOne({where:{id:req?.user?.sub}});
-      const dataUrl=await QRCode.toDataURL(`${process.env.BASE_URL}/register?affiliatedBy=${user.affiliateLink}`)
-      // return res.send(`<img src="${dataUrl}">`);
-      return res.json({url:dataUrl});
-     }
-  catch(err){
-   next(err)
-  }
-}
+// exports.getAffilateCode = async (req, res, next) => {
+//   try {
+//       const user=await User.findOne({where:{id:req?.user?.sub}});
+//       const dataUrl=await QRCode.toDataURL(`${process.env.BASE_URL}/register?affiliatedBy=${user.affiliateLink}`)
+//       // return res.send(`<img src="${dataUrl}">`);
+//       return res.json({url:dataUrl});
+//      }
+//   catch(err){
+//    next(err)
+//   }
+// }
 
 //change in dev
 exports.create2FA = async (req, res, next) => {
