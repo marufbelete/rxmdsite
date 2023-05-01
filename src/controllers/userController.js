@@ -27,6 +27,7 @@ const { sendEmail ,sendOtpEmail} = require("../helper/send_email");
 const { removeEmptyPair } = require("../helper/reusable");
 const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
 exports.registerUser = async (req, res, next) => {
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
@@ -79,6 +80,10 @@ exports.registerUser = async (req, res, next) => {
     }
     const user_role = await Role.findOne({ where: { role: "user" } });
     const hashedPassword = await hashPassword(password);
+    let affiliating_user=null
+    if(affiliatedBy){
+      affiliating_user=await User.findOne({where:{affiliateLink:affiliatedBy}})
+    }
     //affiliatedBy:userId
     const user = new User({
       first_name,
@@ -87,7 +92,7 @@ exports.registerUser = async (req, res, next) => {
       roleId: user_role.id,
       password: hashedPassword,
       isLocalAuth: true,
-      affiliatedBy:affiliatedBy
+      affiliatedBy:affiliating_user?.id
     });
     await user.save();
     //create client on the vcita
@@ -534,7 +539,6 @@ exports.create2FA = async (req, res, next) => {
     return res.json('success')
   }
   catch(err){
-    console.log(err)
    next(err)
   }
 }
@@ -554,7 +558,6 @@ exports.verify2FA = async (req, res, next) => {
     }
   }
   catch(err){
-    console.log(err)
    next(err)
   }
 }

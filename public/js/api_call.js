@@ -68,10 +68,15 @@ if(showJotForm=== "true")
   const checkLogin = () => {
     const isLoged = localStorage.getItem("isLoged");
     const isAdmin = localStorage.getItem("isAdmin");
+    const isAffiliate=localStorage.getItem("isAffiliate")
     isLoged === "true" && $("#login_link").addClass("d-none");
     isLoged === "true" && $("#logout_link").removeClass("d-none");
     isLoged !== "true" && $("#login_link").removeClass("d-none");
     isLoged !== "true" && $("#logout_link").addClass("d-none");
+    isLoged === "true" && isAffiliate!=="true" && $("#voltage_btn_title").text("Start Now");
+    isLoged !== "true" && $("#voltage_btn_link").attr("href","/register?to=affiliate");
+    isLoged === "true" && isAffiliate==="true" && $("#voltage_btn_title").text("My Link");
+    
     (isAdmin !== "true" || isLoged !== "true") &&
       $("#admin_link").addClass("d-none");
     isLoged === "true" &&
@@ -83,6 +88,10 @@ if(showJotForm=== "true")
   //register api call
   $("#register_user").on("click", function (event) {
     event.preventDefault();
+    console.log(window?.location?.href)
+    const urlParams = new URLSearchParams(window.location.search);
+    const affiliatedBy = urlParams.get('affiliatedBy');
+    const url=affiliatedBy?`${base_url}/register?affiliatedBy=${affiliatedBy}`:`${base_url}/register`
     $("#register_error").addClass("d-none");
     const first_name = $("#first_name").val();
     const last_name = $("#last_name").val();
@@ -97,7 +106,7 @@ if(showJotForm=== "true")
     $("#register_text").addClass("d-none");
     $("#register_text_spin").removeClass("d-none");
     $.ajax({
-      url: `${base_url}/register`,
+      url: url,
       method: "POST",
       data: { first_name, last_name, email, password },
       // dataType : "JSON",

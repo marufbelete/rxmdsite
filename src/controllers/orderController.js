@@ -221,17 +221,17 @@ exports.createOrder = async (req, res, next) => {
         cid: 'unique@kreata.eae' 
       }]
       };
-      sendEmail(mailOptionsRenewal);
-      sendEmail(mailOptionsAdmin)
       await t.commit();
+      sendEmail(mailOptionsRenewal).then(r=>r).catch(e=>console.log(e));
+      sendEmail(mailOptionsAdmin).then(r=>r).catch(e=>console.log(e))
 
   }
-    
     return res.json({order,is_appointment_exist,product_names});
   } catch (err) {
     await t.rollback();
     next(err);
   }
+  
 };
 
 exports.getOrder = async (req, res, next) => {

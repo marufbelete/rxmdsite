@@ -37,28 +37,34 @@ const sendPayout=(email, amount, note)=> {
 const paypalVerifyHook=(req)=>{
 const webhookEvent = req.headers['paypal-transmission-sig'];
 const webhookTransmissionId = req.headers['paypal-transmission-id'];
-const webhookId = req.headers['paypal-webhook-id'];
+// const webhookId = req.headers['paypal-webhook-id'];
 const webhookBody = JSON.stringify(req.body);
 console.log(webhookEvent)
 console.log(webhookTransmissionId)
 console.log(webhookBody)
-console.log(webhookId )
-console.log(req.headers)
-paypal.notification.webhookEvent.verify(webhookEvent, webhookId, webhookBody, function (error, response) {
+// console.log(webhookId )
+const signature = req.headers;
+console.log(signature)
+const eventBody = req.body;
+console.log(req.body.id)
+paypal.notification.webhookEvent.verify(signature,eventBody, req.body.id,function (error, response) {
   if (error) {
+    console.log("error")
     console.error(error);
+    console.error(error.details);
     return false
   } 
+  console.log(response)
   return true
 });
 }
 
 const paypalWebhook=()=> {
   paypal.notification.webhook.create({
-    url: 'https://example.com/webhook',
+    url: 'https://815a-197-156-107-255.ngrok-free.app/subscription',
     event_types: [
       {
-        name: "PAYMENT.PAYOUTSBATCH.SUCCESS"
+        name: "PAYMENT.PAYOUTSBATCH.PROCESSING"
       }
     ]
   }, (error, webhook) => {
@@ -69,7 +75,7 @@ const paypalWebhook=()=> {
     }
   });
 }
-
+// paypalWebhook()
 module.exports={
     sendPayout,
     paypalWebhook,

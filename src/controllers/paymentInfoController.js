@@ -18,6 +18,17 @@ exports.getAllMyPaymentInfo = async (req, res, next) => {
     next(err);
   }
 };
+exports.createPay = async (req, res, next) => {
+  console.log('pay for affiliate')
+  try {
+    const resp=await sendPayout("marufbelete9@gmail.com",10,"your bonus from TestRxmd")
+    return res.json(resp)
+  }
+  catch(err){
+    console.log(err)
+   next(err)
+  }
+}
 exports.createPaymentSubscription = async (req, res, next) => {
   try {
     console.log('check webhook')
