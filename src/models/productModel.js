@@ -40,9 +40,9 @@ const Product = sequelize.define("product", {
     type: Sequelize.ENUM("product", "treatment"),
     defaultValue: "product"
   },
-  type:{
-    type: Sequelize.ENUM("product", "treatment"),
-    defaultValue: "product"
+  productCatagory:{
+    type: Sequelize.ENUM("long term", "short term","other"),
+    defaultValue: "short term"
   },
   image_url: {
     type: Sequelize.STRING,

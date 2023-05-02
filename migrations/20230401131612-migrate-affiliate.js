@@ -11,6 +11,15 @@ module.exports = {
         { transaction }
       );
       await queryInterface.addColumn(
+        'products',
+        'productCatagory',
+        {
+          type: Sequelize.DataTypes.ENUM("long term", "short term","other"),
+          // defaultValue: "short term"
+        },
+        { transaction }
+      );
+      await queryInterface.addColumn(
         'users',
         'twoFaSecret',
         {
@@ -68,6 +77,7 @@ module.exports = {
       await queryInterface.removeColumn('users', 'affiliatedBy', { transaction });
       await queryInterface.removeColumn('users', 'exercisePlan', { transaction });
       await queryInterface.removeColumn('users', 'mealPlan', { transaction });
+      await queryInterface.removeColumn('products', 'productCatagory', { transaction });
       await transaction.commit();
     } 
     catch (err) {

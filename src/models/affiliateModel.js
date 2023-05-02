@@ -8,9 +8,16 @@ const Affliate = sequelize.define("affliate", {
     autoIncrement: true,
     allowNull: false,
   },
+  amount:{
+    type: Sequelize.DECIMAL,
+    defaultValue:0
+  },
  isDeemed: {
     type: Sequelize.BOOLEAN,
     defaultValue:false
+  },
+  batchId: {
+    type: Sequelize.STRING,
   },
 });
 

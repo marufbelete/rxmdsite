@@ -295,8 +295,16 @@ if(showJotForm=== "true")
     }
   });
   
+//get_paid
+$('#get_paid_check').change(function() {
+  if ($(this).is(':checked')&&is_payable_exist) {
+    $('#get_paid_part').removeClass('d-none')
+  } else {
+    $('#get_paid_part').addClass('d-none')
+  }
+});
 
-  function ValidateEmail(email) {
+function ValidateEmail(email) {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (email?.match(mailformat)) {
       return true;
@@ -988,7 +996,6 @@ $('#success_toast_page .close').on('click', function() {
   $(this).closest('#success_toast_page').removeClass('show');
 });
 $('#change_password_btn').on('click',function(event){
-  console.log('clicked')
   event.preventDefault();
   $("#change_password_text_spin").removeClass("d-none");
   $("#change_password_text").addClass("d-none");
@@ -1036,6 +1043,25 @@ $.ajax({
   },
 });
 });
+let is_payable_exist=false
+function getAffiliateTotalAmount(){
+  $.ajax({
+    url: `${base_url}/affiliate/amount`,
+    method: "GET",
+    contentType: 'application/json',
+    success: function (data) {
+      if(data?.amount){
+        is_payable_exist=true
+        $('#get_code_btn').prop('disabled', false);
+      }
+      $('#total_paid_amount').text(`Total Payable Amount= $${data?.amount||0}`)
+    },
+    error: function (data) {
+      $('#total_paid_amount').text(`Total Payable Amount= $0/E`)
+    },
+  });
+  
+}
 function getQrCode(){
   $.ajax({
     url: `${base_url}/affiliatecode`,
@@ -1048,6 +1074,68 @@ function getQrCode(){
     },
   });
 }
+function getOtp(){
+  $.ajax({
+    url: `${base_url}/otp`,
+    method: "GET",
+    success: function (data) {
+     $('#get_code_btn').text('otp sent to your email')
+    },
+  });
+}
+$('#get_code_btn').on("click",()=>{
+  getOtp()
+})
+$('#otp_code_input').on('input', function() {
+  if ($(this).val().length > 4) {
+    $('#confirm_otp_btn').prop('disabled', false);
+  }
+  else{
+    $('#confirm_otp_btn').prop('disabled', true);
+  }
+});
+
+function confirmOtp(){
+  const otp=$('#otp_code_input').val()
+  if(otp){
+  $.ajax({
+    url: `${base_url}/otp`,
+    method: "POST",
+    data:{otp},
+    success: function (data) {
+     $('#get_code_btn').text('otp sent to your email')
+    },
+  });
+ }
+}
+
+$('#confirm_otp_btn').on("click",()=>{
+  confirmOtp()
+})
+
+
+const loadAffiliateTable = () => {
+  $("#affiliate_table_body").empty();
+  $.ajax({
+    url: `${base_url}/affiliate/detail`,
+    type: "GET",
+    success: ({affilate_detail}) => {
+      console.log(affilate_detail)
+      affilate_detail?.forEach((affilate) => {
+        $("#affiliate_table_body").append(`
+      <tr>
+        <td>${affilate?.affilator.first_name + ' ' + affilate?.affilator.last_name || ""}</td>
+        <td>${new Date(affilate?.createdAt).toLocaleDateString()}</td>
+        <td>$${affilate?.amount}</td>
+        <td>${affilate?.isDeemed?'Yes':'No'}</td>
+      </tr>`);
+      });
+    },
+    error: (error) => {
+    
+    },
+  });
+};
 //get affiliate
 $('#generateQR').on('click',function(event){
 getQrCode()
@@ -1055,6 +1143,11 @@ getQrCode()
 if(window?.location?.href==`${base_url}/affiliate` && 
 localStorage.getItem("isAffiliate")==="true"){
 getQrCode()
+}
+if(window?.location?.href==`${base_url}/account` && 
+localStorage.getItem("isAffiliate")==="true"){
+  loadAffiliateTable()
+  getAffiliateTotalAmount()
 }
 $('#copy_url_btn').click(function() {
       const url=$('#qr_url_input').val()

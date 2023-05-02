@@ -1,15 +1,16 @@
 const paypal = require('paypal-rest-sdk');
-
+const Affliate = require('../models/affiliateModel');
+const webhook_id='6DL307606D296534S'
 paypal.configure({
   'mode': 'sandbox', // Change to 'live' for production
   'client_id': process.env.PAYPAL_CLIENT_ID,
   'client_secret': process.env.PAYPAL_CLIENT_SECRET
 });
 
-const sendPayout=(email, amount, note)=> {
+const sendPayout=(email, amount, note,batchId)=> {
   const payout = {
     'sender_batch_header': {
-      'sender_batch_id': Math.random().toString(36).substring(9),
+      'sender_batch_id':batchId ,
       'email_subject': 'You have a payment from TestRXMD'
     },
     'items': [{
@@ -34,27 +35,24 @@ const sendPayout=(email, amount, note)=> {
     });
   });
 }
-const paypalVerifyHook=(req)=>{
-const webhookEvent = req.headers['paypal-transmission-sig'];
-const webhookTransmissionId = req.headers['paypal-transmission-id'];
-// const webhookId = req.headers['paypal-webhook-id'];
-const webhookBody = JSON.stringify(req.body);
-console.log(webhookEvent)
-console.log(webhookTransmissionId)
-console.log(webhookBody)
-// console.log(webhookId )
+const paypalVerifyHook=(req,res)=>{
 const signature = req.headers;
-console.log(signature)
 const eventBody = req.body;
-console.log(req.body.id)
-paypal.notification.webhookEvent.verify(signature,eventBody, req.body.id,function (error, response) {
+paypal.notification.webhookEvent.verify(signature,eventBody,webhook_id,async function (error, response) {
   if (error) {
-    console.log("error")
-    console.error(error);
-    console.error(error.details);
     return false
   } 
-  console.log(response)
+  //paid successfully
+  if(response.verification_status==='SUCCESS'){
+    if(eventBody.resource.batch_header.batch_status==='SUCCESS'
+    && eventBody.event_type==='PAYMENT.PAYOUTSBATCH.SUCCESS'){
+      console.log(eventBody.resource.batch_header.payout_batch_id)
+      const batch_id=eventBody.resource.batch_header.payout_batch_id
+      await Affliate.update({isDeemed:true},
+        {where:{batchId:batch_id}})
+    }
+
+}
   return true
 });
 }
@@ -65,11 +63,15 @@ const paypalWebhook=()=> {
     event_types: [
       {
         name: "PAYMENT.PAYOUTSBATCH.PROCESSING"
+      },
+      {
+        name: "PAYMENT.PAYOUTSBATCH.SUCCESS"
       }
     ]
-  }, (error, webhook) => {
+  },(error, webhook) => {
     if (error) {
       console.error('Error creating webhook subscription:', error);
+      console.log(error.response.details)
     } else {
       console.log('Webhook subscription created:', webhook);
     }

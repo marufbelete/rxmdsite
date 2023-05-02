@@ -5,8 +5,11 @@ const RefreshToken=require("../models/refreshToken.model")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const speakeasy = require('speakeasy');
+const sequelize = require("../models/index");
 
-const {createSubscriptionFromCustomerProfile}=require('../functions/handlePayment')
+
+const {createSubscriptionFromCustomerProfile}=require('../functions/handlePayment');
+const Affliate = require("../models/affiliateModel");
 const isEmailExist = async (email) => {
   const user = await User.findOne({
     where: { email: email },
@@ -50,6 +53,21 @@ const verify2faVerfication = async (otp,userId) => {
   return isValid
 };
 
+const getAffiliatePaidAmount=async(userId)=>{
+  console.log(userId)
+   const result = await Affliate.sum('amount', {
+    where: { affilatorId:userId, isDeemed: false }
+  });
+  //  await Affliate.findOne({
+  //   attributes: [
+  //     [sequelize.literal('SUM(amount)'), 'totalAmount']
+  //   ],
+  //   where: { affilatorId:userId, isDeemed: false }
+  // });
+  console.log(result);
+  console.log("total paid")
+  return result
+}
 //check which data to sign
 const issueToken = async function (id, role,email,rememberme, key,expirey) {
   const token = jwt.sign({ sub: id, role,email,rememberme }, key, { expiresIn: expirey });
@@ -152,5 +170,6 @@ module.exports = {
   removeAllRefreshToken,
   createSubscription,
   get2faVerfication,
-  verify2faVerfication
+  verify2faVerfication,
+  getAffiliatePaidAmount
 };

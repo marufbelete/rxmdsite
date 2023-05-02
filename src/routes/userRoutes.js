@@ -26,7 +26,10 @@ const {
   adminDashboard,
   getUserByStatus,
   updateUserState,
-  getAffilateCode
+  getAffilateCode,
+  getOtp,
+  confirmOtp,
+  getUserAffiliateDetail
 } = require("../controllers/userController");
 // const {appointmentCreatedWebhook}=require("../controllers/appointment.controller")
 const { errorHandler } = require("../middleware/errohandling.middleware");
@@ -42,6 +45,9 @@ router.put("/updateuser/:id", authenticateJWT, updateUserInfo, errorHandler);
 router.put("/updateuserstate/:id", authenticateJWT, updateUserState, errorHandler);
 router.put("/changemypassword/", authenticateJWT,bouncer.block, passwordChangeValidate(), changePassword, errorHandler);
 router.get("/confirm", confirmEmail, errorHandler);
+router.get("/otp",authenticateJWT, getOtp, errorHandler);
+router.post("/otp",authenticateJWT, confirmOtp, errorHandler);
+router.get("/affiliate/detail",authenticateJWT, getUserAffiliateDetail, errorHandler);
 router.post("/forgotpassword", forgotPassword, errorHandler);
 router.post("/resetpassword", resetPassword, errorHandler);
 router.get("/getusers", authenticateJWT, authAdmin, getUsers, errorHandler);

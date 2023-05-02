@@ -220,34 +220,46 @@
           <div class="row">
             <div class="mb-40">
               <h1 class="text-center mt-5 text-black">Affiliate Info</h1>
-              <table id="affiliate_table" class="account-table bg-silver-light">
+              <table id="affiliate_table_data" class="account-table bg-silver-light">
                 <thead>
                   <tr>
                     <th>Name</th>
                     <th>Date</th>
-                    <th>Long-Term Therapy</th>
+                    <!-- <th>Long-Term Therapy Product</th> -->
+                    <th>Affiliate Comission Amount</th>
                     <th>Paid</th>
                   </tr>
                 </thead>
                 <tbody id="affiliate_table_body">
                   <!-- need db call to user table, pull all appts, starting with most recent appts you will have to create a <tr> with the details like below. I think we only put the link in the table for upcoming appts and past apps do not have a link - maybe we just put "complete" in that space instead of a zoom link. You can target this table body with the id #appts_table_body and append a new row for each one. -->
-                  <tr>
-                    <td>Name Here</td>
-                    <td>Date that person joined</td>
-                    <td>Yes or No</td>
-                    <td>Yes or No</td>
-                  </tr>
-                  <tr>
-                    <td>Name Here</td>
-                    <td>Date that person joined</td>
-                    <td>Yes or No</td>
-                    <td>Yes or No</td>
-                  </tr>
+                 
                 </tbody>
+                
               </table>
+              <div id="total_paid_amount"></div>
+              <div>
+                <label for="get_paid_check" class="btn p-0 mb-2">Get Paid</label>
+                <input id="get_paid_check" maxlength="8" type="checkbox"/>
+                <div id="get_paid_part" class="d-none">
+              <div class="input-group mb-3 mt-3 col-md-4">
+                <input id="otp_code_input" style="max-width:300px;" type="text" class="form-control">
+                <span class="input-group-btn">
+                  <button id="get_code_btn" class="btn btn-info" disabled type="submit">
+                      Get Code
+                  </button>
+                </span>
+              </div>
+              <button id="confirm_otp_btn" class="btn btn-warning" disabled>Confirm Code</button>
             </div>
           </div>
+           
+
+            </div>
+
+          </div>
+
         </div>
+
       </div>
 
       <!-- end main-content -->

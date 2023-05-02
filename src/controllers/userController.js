@@ -19,12 +19,15 @@ const {
   saveRefershToken,
   removeRefreshToken,
   get2faVerfication,
-  verify2faVerfication
+  verify2faVerfication,
+  getAffiliatePaidAmount
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
 const { sendEmail ,sendOtpEmail} = require("../helper/send_email");
 const { removeEmptyPair } = require("../helper/reusable");
+const { sendPayout } = require("../functions/paypal");
+const Affliate = require("../models/affiliateModel");
 const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
 exports.registerUser = async (req, res, next) => {
 
@@ -519,18 +522,52 @@ exports.getAffilateCode = async (req, res, next) => {
    next(err)
   }
 }
-// exports.getAffilateCode = async (req, res, next) => {
-//   try {
-//       const user=await User.findOne({where:{id:req?.user?.sub}});
-//       const dataUrl=await QRCode.toDataURL(`${process.env.BASE_URL}/register?affiliatedBy=${user.affiliateLink}`)
-//       // return res.send(`<img src="${dataUrl}">`);
-//       return res.json({url:dataUrl});
-//      }
-//   catch(err){
-//    next(err)
-//   }
-// }
-
+exports.getOtp = async (req, res, next) => {
+  try {
+    const otp=await get2faVerfication(req?.user?.sub)
+    const user=await User.findByPk(req?.user?.sub)
+    await sendOtpEmail(otp,user.email)
+    return res.json({otp});
+  }
+  catch(err){
+   next(err)
+  }
+}
+exports.confirmOtp = async (req, res, next) => {
+  try {
+    const otp=req.body.otp
+    const valid= await verify2faVerfication(otp,req?.user?.sub)
+    const user=await User.findOne({where:{id:req?.user?.sub}});
+   if(valid){
+    //get user total amount using user info
+    const amount =await getAffiliatePaidAmount(req?.user?.sub)
+  //  const amount=10
+   const batchId=Math.random().toString(36).substring(9)
+   console.log(user.email,amount,batchId)
+   const note='TestRxmd affiliate payout'
+   const payout=await sendPayout(user.email,amount,note,batchId)
+   await Affliate.update({batchId:payout?.batch_heade?.payout_batch_id},
+    {where:{affilatorId:req?.user?.sub,isDeemed:false}})
+   }
+    return res.json({message:"payout success, will let you know with email when transaction done"});
+  }
+  catch(err){
+    console.log(err)
+   next(err)
+  }
+}
+exports.getUserAffiliateDetail = async (req, res, next) => {
+  try {
+    const affilate_detail=await Affliate.findAll({where:{affilatorId:req?.user?.sub},
+      include:['affilator']})
+      console.log('detail affiliate')
+      console.log(affilate_detail)
+    return res.json({affilate_detail})
+  }
+  catch(err){
+   next(err)
+  }
+}
 //change in dev
 exports.create2FA = async (req, res, next) => {
   try {

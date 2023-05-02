@@ -10,11 +10,13 @@ const { chargeCreditCard,createCustomerProfile,
   chargeCreditCardExistingUser} = require('../functions/handlePayment');
 const { sendEmail } = require("../helper/send_email");
 const path = require('path');
+const Affliate = require("../models/affiliateModel");
 
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
     const {payment_detail, product_ordered } = req.body;
+    const user=await User.findByPk(req?.user?.sub)
     const {cardCode,expirtationDate,cardNumber,billingLastName,
       email,billingFirstName,address,city,state,zip,
       save_payment_info,use_exist_payment,customer_payment_profile_id}=payment_detail
@@ -38,6 +40,8 @@ exports.createOrder = async (req, res, next) => {
     let is_appointment_exist=false
     let is_renewal=false
     let product_names=[]
+    let is_longterm_prodcut_exist=false
+    let total_affiliate_amount=0
     for(const prod of product_ordered) {
       const product = await Product.findByPk(prod?.productId);
       product_names.push(product.product_name)
@@ -60,10 +64,24 @@ exports.createOrder = async (req, res, next) => {
         order_product_create,
         { transaction: t }
       );
+      if(product.productCatagory==="long term"&& user?.affiliatedBy){
+        //get 10 percent of the long term therapy
+        is_longterm_prodcut_exist=true
+        const percent=10/100
+        const amount=product.price*percent
+        total_affiliate_amount+=amount
+      }
     }
   //check if the person was affliated and give commision
   //for the affliator
-
+  if(is_longterm_prodcut_exist){
+    const amount=total_affiliate_amount
+    await Affliate.create({
+      amount:amount,
+      affilatorId:user.affiliatedBy,
+      buyerId:user.id
+    },{transaction:t})
+  }
     //update the user address info
     await User.update({
      address:address,
@@ -74,7 +92,6 @@ exports.createOrder = async (req, res, next) => {
      appointment:true,
      left_appointment:is_appointment_exist},
     {where:{id:req?.user?.sub},transaction: t })
-    const user=await User.findByPk(req?.user?.sub)
     const payment_info={
      amount:total_amount,
      card_detail:{
