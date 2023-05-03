@@ -226,7 +226,7 @@
                     <th>Date</th>
                     <!-- <th>Long-Term Therapy Product</th> -->
                     <th>Affiliate Comission Amount</th>
-                    <th>Paid</th>
+                    <th>status</th>
                   </tr>
                 </thead>
                 <tbody id="affiliate_table_body">
@@ -244,11 +244,22 @@
                 <input id="otp_code_input" style="max-width:300px;" type="text" class="form-control">
                 <span class="input-group-btn">
                   <button id="get_code_btn" class="btn btn-info" disabled type="submit">
-                      Get Code
+                    <span id="get_code_text">Get Code</span>
+                    <span id="get_code_text_spin" class="d-none">
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      Loading...
+                    </span>
+                      
                   </button>
                 </span>
               </div>
-              <button id="confirm_otp_btn" class="btn btn-warning" disabled>Confirm Code</button>
+              <button id="confirm_otp_btn" class="btn btn-warning" disabled>
+                <span id="confirm_code_text">Confirm Code</span>
+                    <span id="confirm_code_text_spin" class="d-none">
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      Loading...
+                    </span>
+              </button>
             </div>
           </div>
            

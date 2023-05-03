@@ -1,6 +1,6 @@
 const paypal = require('paypal-rest-sdk');
-const Affliate = require('../models/affiliateModel');
-const webhook_id='6DL307606D296534S'
+const {deemAffiliate}=require('../helper/user')
+const webhook_id='7UD57517YE703002N'
 paypal.configure({
   'mode': 'sandbox', // Change to 'live' for production
   'client_id': process.env.PAYPAL_CLIENT_ID,
@@ -35,35 +35,36 @@ const sendPayout=(email, amount, note,batchId)=> {
     });
   });
 }
-const paypalVerifyHook=(req,res)=>{
+const paypalVerifyHook=async(req)=>{
 const signature = req.headers;
 const eventBody = req.body;
+const batchId=eventBody.resource.batch_header.payout_batch_id
+const verify=await new Promise((resol,rej)=>{
 paypal.notification.webhookEvent.verify(signature,eventBody,webhook_id,async function (error, response) {
   if (error) {
-    return false
+    console.log(error)
+    rej(false)
   } 
   //paid successfully
   if(response.verification_status==='SUCCESS'){
     if(eventBody.resource.batch_header.batch_status==='SUCCESS'
     && eventBody.event_type==='PAYMENT.PAYOUTSBATCH.SUCCESS'){
       console.log(eventBody.resource.batch_header.payout_batch_id)
-      const batch_id=eventBody.resource.batch_header.payout_batch_id
-      await Affliate.update({isDeemed:true},
-        {where:{batchId:batch_id}})
+     deemAffiliate(batchId)
     }
 
 }
-  return true
+  resol(true)
 });
+})
+console.log(verify)
+return {verify,amount:eventBody.resource.batch_header.amount,batchId}
 }
 
 const paypalWebhook=()=> {
   paypal.notification.webhook.create({
-    url: 'https://815a-197-156-107-255.ngrok-free.app/subscription',
+    url: 'https://64cf-196-191-221-194.ngrok-free.app/subscription',
     event_types: [
-      {
-        name: "PAYMENT.PAYOUTSBATCH.PROCESSING"
-      },
       {
         name: "PAYMENT.PAYOUTSBATCH.SUCCESS"
       }

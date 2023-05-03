@@ -524,12 +524,16 @@ exports.getAffilateCode = async (req, res, next) => {
 }
 exports.getOtp = async (req, res, next) => {
   try {
+    console.log("inside get otp")
     const otp=await get2faVerfication(req?.user?.sub)
+    console.log(otp)
     const user=await User.findByPk(req?.user?.sub)
+    console.log(user)
     await sendOtpEmail(otp,user.email)
     return res.json({otp});
   }
   catch(err){
+    console.log(err)
    next(err)
   }
 }
@@ -546,7 +550,8 @@ exports.confirmOtp = async (req, res, next) => {
    console.log(user.email,amount,batchId)
    const note='TestRxmd affiliate payout'
    const payout=await sendPayout(user.email,amount,note,batchId)
-   await Affliate.update({batchId:payout?.batch_heade?.payout_batch_id},
+   console.log(payout)
+   await Affliate.update({batchId:payout?.batch_header?.payout_batch_id,status:"pending"},
     {where:{affilatorId:req?.user?.sub,isDeemed:false}})
    }
     return res.json({message:"payout success, will let you know with email when transaction done"});

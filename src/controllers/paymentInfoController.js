@@ -1,12 +1,12 @@
 const PaymentInfo = require("../models/paymentInfoModel");
 const {handleEvent,verifySignature}=require('../functions/paymentListenWebhook')
-const {  createSubscription,get2faVerfication,verify2faVerfication, getAffiliatePaidAmount,
+const {  createSubscription,get2faVerfication,verify2faVerfication, getAffiliatePayableAmount,
 }=require('../helper/user') 
 const {getInvoiceURL}=require('../functions/handlePayment')
-const {sendEmail,sendOtpEmail}=require('../helper/send_email')
-const sequelize = require("../models/index");
+const {sendEmail,sendOtpEmail, sendAffiliatePaidEmail}=require('../helper/send_email')
 const { handleError } = require("../helper/handleError");
-const {sendPayout, paypalWebhook, paypalVerifyHook}=require('../functions/paypal')
+const {sendPayout, paypalWebhook, paypalVerifyHook}=require('../functions/paypal');
+const Affliate = require("../models/affiliateModel");
 
 exports.getAllMyPaymentInfo = async (req, res, next) => {
   try {
@@ -18,24 +18,35 @@ exports.getAllMyPaymentInfo = async (req, res, next) => {
     next(err);
   }
 };
-exports.createPay = async (req, res, next) => {
-  console.log('pay for affiliate')
+// exports.createPay = async (req, res, next) => {
+//   console.log('pay for affiliate')
+//   try {
+//     const resp=await sendPayout("marufbelete9@gmail.com",10,"your bonus from TestRxmd")
+//     Affliate.update()
+//     return res.json(resp)
+//   }
+//   catch(err){
+//     console.log(err)
+//    next(err)
+//   }
+// }
+exports.paypalWebhookVerify = async (req, res, next) => {
   try {
-    const resp=await sendPayout("marufbelete9@gmail.com",10,"your bonus from TestRxmd")
-    return res.json(resp)
+    const {verify,amount,batchId}=await paypalVerifyHook(req)
+    console.log(verify,amount)
+    if(verify) 
+    {
+      const user=await Affliate.findOne({where:{batchId},include:['affilator']})
+      console.log(user)
+      console.log(user?.affilator?.email,user?.affilator?.first_name,amount)
+      sendAffiliatePaidEmail(user?.affilator?.email,user?.affilator?.first_name,amount).
+      then(r=>r).catch(e=>console.log(e))
+      return res.status(200).json({status:true})
+    }
   }
   catch(err){
     console.log(err)
-   next(err)
-  }
-}
-exports.paypalWebhookVerify = async (req, res, next) => {
-  try {
-    if(!paypalVerifyHook(req,res)) return res.status(401).json({status:false})
-    return res.status(200).json({status:true})
-  }
-  catch(err){
-   next(err)
+    return res.status(401).json({status:false})
   }
 }
 exports.paymentWebhook=(req, res) => {
@@ -59,7 +70,7 @@ console.log(err)
 };
 exports.getAffiliateTotalAmount = async (req, res, next) => {
   try {
-   const amount= await getAffiliatePaidAmount(req?.user?.sub)
+   const amount= await getAffiliatePayableAmount(req?.user?.sub)
    return res.json({amount})
  
   }

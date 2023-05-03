@@ -16,6 +16,10 @@ const Affliate = sequelize.define("affliate", {
     type: Sequelize.BOOLEAN,
     defaultValue:false
   },
+  status:{
+    type: Sequelize.ENUM("paid", "pending", "not paid"),
+    defaultValue: "not paid"
+  },
   batchId: {
     type: Sequelize.STRING,
   },

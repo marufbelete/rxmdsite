@@ -1079,12 +1079,33 @@ function getOtp(){
     url: `${base_url}/otp`,
     method: "GET",
     success: function (data) {
-     $('#get_code_btn').text('otp sent to your email')
+      $('#get_code_btn').prop('disabled',true)
+      $("#success_toast_title").text("otp sent to your email")
+      $('#success_toast_page').addClass('show');
+    setTimeout(function() {
+      $('#success_toast_page').removeClass('show');
+    }, 5000);
+    setTimeout(()=>{
+      $('#get_code_btn').prop('disabled',false)
+    },60000)
+    $("#get_code_text_spin").addClass("d-none");
+    $("#get_code_text").removeClass("d-none");
     },
+    error:function(error){
+      console.log(error)
+      $('#get_code_btn').prop('disabled',false)
+      $("#get_code_text_spin").addClass("d-none");
+      $("#get_code_text").removeClass("d-none");
+    }
   });
+ 
 }
-$('#get_code_btn').on("click",()=>{
+
+$('#get_code_btn').on("click",async()=>{
+  $("#get_code_text_spin").removeClass("d-none");
+  $("#get_code_text").addClass("d-none");
   getOtp()
+
 })
 $('#otp_code_input').on('input', function() {
   if ($(this).val().length > 4) {
@@ -1094,26 +1115,6 @@ $('#otp_code_input').on('input', function() {
     $('#confirm_otp_btn').prop('disabled', true);
   }
 });
-
-function confirmOtp(){
-  const otp=$('#otp_code_input').val()
-  if(otp){
-  $.ajax({
-    url: `${base_url}/otp`,
-    method: "POST",
-    data:{otp},
-    success: function (data) {
-     $('#get_code_btn').text('otp sent to your email')
-    },
-  });
- }
-}
-
-$('#confirm_otp_btn').on("click",()=>{
-  confirmOtp()
-})
-
-
 const loadAffiliateTable = () => {
   $("#affiliate_table_body").empty();
   $.ajax({
@@ -1127,7 +1128,7 @@ const loadAffiliateTable = () => {
         <td>${affilate?.affilator.first_name + ' ' + affilate?.affilator.last_name || ""}</td>
         <td>${new Date(affilate?.createdAt).toLocaleDateString()}</td>
         <td>$${affilate?.amount}</td>
-        <td>${affilate?.isDeemed?'Yes':'No'}</td>
+        <td>${affilate?.status}</td>
       </tr>`);
       });
     },
@@ -1136,6 +1137,42 @@ const loadAffiliateTable = () => {
     },
   });
 };
+function confirmOtp(){
+  const otp=$('#otp_code_input').val()
+  if(otp){
+  $.ajax({
+    url: `${base_url}/otp`,
+    method: "POST",
+    data:{otp},
+    success: function (data) {
+     $("#success_toast_title").text("payment is pending, we will notify you with email as soon as it succeed")
+     $('#success_toast_page').addClass('show');
+   setTimeout(function() {
+     $('#success_toast_page').removeClass('show');
+   }, 5000);
+   $("#confirm_code_text_spin").addClass("d-none");
+   $("#confirm_code_text").removeClass("d-none");
+   $('#get_paid_part').addClass('d-none')
+   console.log('reload table and amount')
+   getAffiliateTotalAmount()
+   loadAffiliateTable()
+    },
+    error:function(err){
+      $("#confirm_code_text_spin").addClass("d-none");
+      $("#confirm_code_text").removeClass("d-none");
+    }
+  });
+ }
+}
+
+$('#confirm_otp_btn').on("click",()=>{
+  $("#confirm_code_text_spin").removeClass("d-none");
+  $("#confirm_code_text").addClass("d-none");
+  confirmOtp()
+})
+
+
+
 //get affiliate
 $('#generateQR').on('click',function(event){
 getQrCode()

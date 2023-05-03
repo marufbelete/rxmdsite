@@ -79,6 +79,29 @@ const sendLowRefillAlertEmail=async(email,name,medication)=>{
         };
         await sendEmail(mailOptions)
 }
+const sendAffiliatePaidEmail=async(email,name,amount)=>{
+  const mailOptions = {
+          from: process.env.EMAIL,
+          to: email,
+          subject: "Withdrawl Success",
+          html: `
+          <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+          <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+          "Payment Succeed"
+          </h1>
+          <p style="margin:auto; font-size:25px;">Hello ${name}</p>
+          <p style="text-align:start;padding:10px 20px;">
+            You have withdrwan ${amount.value} ${amount.currency}, successfully to your paypal account,
+            thanks for working with us.
+          </p>
+          <div style="text-align:center;padding-bottom:30px">
+          <img src="cid:unique@kreata.ae"/>
+          </div>
+          </div>
+        `,
+        };
+        await sendEmail(mailOptions)
+}
 
 const sendZohoEmail = async () => {
 let transporter = nodemailer.createTransport({
@@ -112,5 +135,6 @@ module.exports = {
   sendEmail,
   sendOtpEmail,
   sendZohoEmail,
-  sendLowRefillAlertEmail
+  sendLowRefillAlertEmail,
+  sendAffiliatePaidEmail
 };

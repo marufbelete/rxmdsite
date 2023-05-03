@@ -79,7 +79,8 @@ exports.createOrder = async (req, res, next) => {
     await Affliate.create({
       amount:amount,
       affilatorId:user.affiliatedBy,
-      buyerId:user.id
+      buyerId:user.id,
+      orderId:order.id
     },{transaction:t})
   }
     //update the user address info

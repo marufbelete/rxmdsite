@@ -5,8 +5,6 @@ const RefreshToken=require("../models/refreshToken.model")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const speakeasy = require('speakeasy');
-const sequelize = require("../models/index");
-
 
 const {createSubscriptionFromCustomerProfile}=require('../functions/handlePayment');
 const Affliate = require("../models/affiliateModel");
@@ -52,11 +50,15 @@ const verify2faVerfication = async (otp,userId) => {
   });
   return isValid
 };
+const deemAffiliate=async(batch_id)=>{
+  await Affliate.update({isDeemed:true,status:"paid"},
+    {where:{batchId:batch_id}})
+}
 
-const getAffiliatePaidAmount=async(userId)=>{
+const getAffiliatePayableAmount=async(userId)=>{
   console.log(userId)
    const result = await Affliate.sum('amount', {
-    where: { affilatorId:userId, isDeemed: false }
+    where: { affilatorId:userId, isDeemed: false, status:"not paid"}
   });
   //  await Affliate.findOne({
   //   attributes: [
@@ -171,5 +173,6 @@ module.exports = {
   createSubscription,
   get2faVerfication,
   verify2faVerfication,
-  getAffiliatePaidAmount
+  getAffiliatePayableAmount,
+  deemAffiliate
 };
