@@ -45,7 +45,7 @@ exports.createOrder = async (req, res, next) => {
     let total_affiliate_amount=0
     const is_commission_paid_before=await Affliate.findOne({
       where:{
-      affilatorId:user.affiliatedBy,
+      affilatorId:user?.affiliatedBy,
       buyerId:req?.user?.sub,
       amount: {
       [Op.not]: 0
@@ -206,7 +206,10 @@ exports.createOrder = async (req, res, next) => {
       cid: 'unique@kreata.ee' //same cid value as in the html img src
     }]
     };
+    console.log("after order save",is_appointment_exist)
     is_appointment_exist&& sendEmail(mailOptions)
+      console.log("after email",is_renewal)
+
     if(is_renewal) {
       const mailOptionsRenewal = {
         from: process.env.EMAIL,
@@ -233,6 +236,7 @@ exports.createOrder = async (req, res, next) => {
         cid: 'unique@kreata.eqe' //same cid value as in the html img src
       }]
       };
+
       const mailOptionsAdmin = {
         from: process.env.EMAIL,
         to: ["marufbelete9@gmail.com","beletemaruf@gmail.com"],
@@ -277,10 +281,11 @@ exports.createOrder = async (req, res, next) => {
         cid: 'unique@kreata.eae' 
       }]
       };
+      console.log("before commit")
       await t.commit();
       console.log("after commit")
-      sendEmail(mailOptionsRenewal).then(r=>r).catch(e=>console.log(e));
-      sendEmail(mailOptionsAdmin).then(r=>r).catch(e=>console.log(e))
+      sendEmail(mailOptionsRenewal).then(r=>r).catch(e=>e);
+      sendEmail(mailOptionsAdmin).then(r=>r).catch(e=>e)
 
   }
     return res.status(201).json({order,is_appointment_exist,product_names});

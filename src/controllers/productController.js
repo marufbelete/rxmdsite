@@ -72,7 +72,7 @@ exports.getProduct = async (req, res, next) => {
     products?.map((e) => priceArr.push(Number(e.price)));
     const totalPrice = priceArr.reduce((f, s) => f + s, 0);
     products.total = totalPrice;
-    const token = req.cookies.refresh_token;
+    const token = req.cookies.access_token;
 
     const billing_info={
       firstName:user.first_name,

@@ -3,7 +3,6 @@ const Orderproduct = require("./orderproduct");
 const Order = require("./orderModel");
 const User = require("./userModel");
 const Role = require("./roleModel");
-const RefreshToken=require("./refreshToken.model");
 const Affliate = require("./affiliateModel");
 const Subscription=require("./subscriptionModel")
 const PaymenInfo=require("./paymentInfoModel")
@@ -100,13 +99,7 @@ const Relation = () => {
   Subscription.belongsTo(Product,{
     foreignKey: 'productId'
   })
-   //token to user
-   User.hasMany(RefreshToken, {
-    foreignKey: "userId",
-  });
-  RefreshToken.belongsTo(User, {
-    foreignKey: "userId",
-  });
+
 
 //new.......
   //orderproduct to order

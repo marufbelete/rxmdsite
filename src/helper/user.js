@@ -1,7 +1,6 @@
 const User = require("../models/userModel");
 const PaymenInfo=require("../models/paymentInfoModel")
 const Subscription=require("../models/subscriptionModel")
-const RefreshToken=require("../models/refreshToken.model")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const speakeasy = require('speakeasy');
@@ -79,13 +78,7 @@ const issueToken = async function (id, role,email,rememberme, key,expirey) {
   return token;
 };
 
-const saveRefershToken=async(userId,refresh_token)=>{
-  const refreshToken=new RefreshToken({
-    userId,
-    token:refresh_token
-  })
-  await refreshToken.save()
-}
+
 const isTokenValid = async function (token,secret) {
   const user = jwt.verify(token,secret, (err, user) => {
     if (err) {
@@ -147,17 +140,7 @@ const createSubscription = async (req) => {
 }
   return null
 };
-const isRefreshTokenExist=async(refreshToken,userId)=>{
-  const token=await RefreshToken.findOne({where:
-  {userId:userId,token:refreshToken}})
-  return token
-}
- const removeRefreshToken=async(refreshToken,options = {})=>{
-    await RefreshToken.destroy({where:{token:refreshToken},...options})
-}
-const removeAllRefreshToken=async(userId,options = {})=>{
-  return await RefreshToken.destroy({where:{userId},...options})
-}
+
 
 module.exports = {
   isEmailExist,
@@ -166,13 +149,9 @@ module.exports = {
   issueToken,
   hashPassword,
   userIp,
-  saveRefershToken,
   isUserAdmin,
   isTokenValid,
   isIntakeFormComplted,
-  isRefreshTokenExist,
-  removeRefreshToken,
-  removeAllRefreshToken,
   createSubscription,
   get2faVerfication,
   verify2faVerfication,

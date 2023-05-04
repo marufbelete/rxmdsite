@@ -16,8 +16,6 @@ const {
   isEmailVerified,
   isPasswordCorrect,
   isTokenValid,
-  saveRefershToken,
-  removeRefreshToken,
   get2faVerfication,
   verify2faVerfication,
   getAffiliatePayableAmount,
@@ -155,27 +153,22 @@ exports.loginUser = async (req, res, next) => {
       }
       if (await isPasswordCorrect(login_password, user.password)) {
         
-        const access_token = 
-          await issueToken(
-            user.id,
-            user.role?.role,
-            login_email,
-            rememberme,
-            process.env.ACCESS_TOKEN_SECRET,
-            process.env.ACCESS_TOKEN_EXPIRES
-          )
-          const refresh_token = rememberme
+          const access_token = rememberme
           ? await issueToken(
             user.id,
             user.role?.role,
             login_email,
             rememberme,
-            process.env.REFRESH_TOKEN_SECRET,
-            process.env.LONG_REFRESH_TOKEN_EXPIRY
+            process.env.ACCESS_TOKEN_SECRET,
+            process.env.LONG_ACCESS_TOKEN_EXPIRY
           )
-          : await issueToken(user.id, user.role.role,
-             login_email,rememberme, process.env.REFRESH_TOKEN_SECRET,
-             process.env.REFRESH_TOKEN_EXPIRES);
+          : await issueToken(
+             user.id, 
+             user.role.role,
+             login_email,
+             rememberme,
+             process.env.ACCESS_TOKEN_SECRET,
+             process.env.ACCESS_TOKEN_EXPIRES);
 
         const info = {
           first_name: user.first_name,
@@ -184,22 +177,19 @@ exports.loginUser = async (req, res, next) => {
           email: user.email,
         };
         bouncer.reset(req);
-        const refresh_expiry=rememberme?process.env.LONG_REFRESH_TOKEN_EXPIRES:process.env.REFRESH_TOKEN_EXPIRES
+        const token_expiry=rememberme?
+        process.env.LONG_ACCESS_TOKEN_EXPIRY:
+        process.env.ACCESS_TOKEN_EXPIRES
         const currentDate = new Date();
-        const cookie_expires = moment(currentDate).add(refresh_expiry.match(/^(\d+)/)[1],'days').toDate();
+        console.log(token_expiry,rememberme)
+        const cookie_expires = moment(currentDate).add(token_expiry.match(/^(\d+)/)[1],'days').toDate();
         res.cookie('access_token',access_token, {
           path: "/",
           httpOnly:true,
           expires:cookie_expires,
           // secure: true,
         })
-        res.cookie('refresh_token',refresh_token, {
-          path: "/",
-          httpOnly:true,
-          expires:cookie_expires,
-          // secure: true,
-        })
-        await saveRefershToken(user.id,refresh_token)
+      
         return res
           .status(200)
           .json({ auth: true, info, intakeFilled:user.intake });
@@ -408,11 +398,11 @@ exports.confirmEmail = async (req, res, next) => {
 };
 exports.checkAuth = async (req, res, next) => {
   try {
-    const token = req.cookies.refresh_token;
+    const token = req.cookies.access_token;
     if (!token) {
       handleError("please login", 403);
     }
-    const user = await asyncVerify(token, process.env.REFRESH_TOKEN_SECRET)
+    const user = await asyncVerify(token, process.env.ACCESS_TOKEN_SECRET)
     if (user && user?.sub) {
       const check_user = await User.findByPk(user?.sub)
       if (!check_user?.isActive) {
@@ -428,10 +418,8 @@ exports.checkAuth = async (req, res, next) => {
 
 exports.logOut = async (req, res, next) => {
   try {
-    const {refresh_token} = req.cookies;
-    refresh_token && await removeRefreshToken(refresh_token)
-    res.clearCookie('access_token')
-    return res.status(200).clearCookie('refresh_token').redirect("/login");
+    res
+    return res.status(200).clearCookie('access_token').redirect("/login");
   } catch (err) {
     next(err);
   }
@@ -622,7 +610,7 @@ exports.jotformWebhook = async (req, res, next) => {
     const jot_entries = jot_pairs.map((kv) => kv.split(":"));
     const jot_obj = Object.fromEntries(jot_entries);
     const token = jot_obj.token;
-    const user = await isTokenValid(token,process.env.REFRESH_TOKEN_SECRET);
+    const user = await isTokenValid(token,process.env.ACCESS_TOKEN_SECRET);
     await User.update(
       { intake: true },
       {
