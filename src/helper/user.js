@@ -51,14 +51,17 @@ const verify2faVerfication = async (otp,userId) => {
   return isValid
 };
 const deemAffiliate=async(batch_id)=>{
-  await Affliate.update({isDeemed:true,status:"paid"},
+  await Affliate.update({withdrawalType:"cash",status:"paid"},
     {where:{batchId:batch_id}})
 }
-
+const generateOtp=async(userId)=>{
+  const otp=await get2faVerfication(userId)
+  return otp
+}
 const getAffiliatePayableAmount=async(userId)=>{
   console.log(userId)
    const result = await Affliate.sum('amount', {
-    where: { affilatorId:userId, isDeemed: false, status:"not paid"}
+    where: { affilatorId:userId, withdrawalType:"NA", status:"not paid"}
   });
   //  await Affliate.findOne({
   //   attributes: [
@@ -174,5 +177,6 @@ module.exports = {
   get2faVerfication,
   verify2faVerfication,
   getAffiliatePayableAmount,
-  deemAffiliate
+  deemAffiliate,
+  generateOtp
 };

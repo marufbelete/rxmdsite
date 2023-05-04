@@ -43,7 +43,7 @@
 
   <!-- External javascripts -->
   <script src="js/jquery.min.js"></script>
-  <script src="js/popper.min.js"></script>
+  <!-- <script src="js/popper.min.js"></script> -->
   <script src="js/bootstrap.min.js"></script>
   <script src="js/javascript-plugins-bundle.min.js"></script>
   <script src="js/menuzord/js/menuzord.js"></script>
@@ -279,6 +279,12 @@
                           </tr>
                     </tbody>
                   </table>
+                  <label id="apply_discount_p" for="applyDiscountCheckbox">
+                    <i class="fas fa-question-circle" data-bs-toggle="tooltip" data-placement="top" data-bs-original-title="You can only get 90% of max discount of product you buy, if you have more you can use next time"></i>
+                    Apply My Discount
+                    <input style="font-size: 25px;" type="checkbox" id="applyDiscountCheckbox" value="true">
+                  </label>
+                  
                   <div class="d-none text-center" id="select-product-error">
                     <h5 id="select-product-error-text">Please select one or more product</h5>
                   </div>

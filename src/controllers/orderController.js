@@ -1,7 +1,7 @@
 const Order = require("../models/orderModel");
 const Orderproduct = require("../models/orderproduct");
 const User = require("../models/userModel");
-const { isUserAdmin, isIntakeFormComplted } = require("../helper/user");
+const { isUserAdmin, isIntakeFormComplted,getAffiliatePayableAmount } = require("../helper/user");
 const Product = require("../models/productModel");
 const PaymenInfo = require("../models/paymentInfoModel");
 const sequelize = require("../models/index");
@@ -11,11 +11,12 @@ const { chargeCreditCard,createCustomerProfile,
 const { sendEmail } = require("../helper/send_email");
 const path = require('path');
 const Affliate = require("../models/affiliateModel");
+const { Op } = require("sequelize");
 
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
-    const {payment_detail, product_ordered } = req.body;
+    const {payment_detail, product_ordered,apply_discount } = req.body;
     const user=await User.findByPk(req?.user?.sub)
     const {cardCode,expirtationDate,cardNumber,billingLastName,
       email,billingFirstName,address,city,state,zip,
@@ -42,6 +43,16 @@ exports.createOrder = async (req, res, next) => {
     let product_names=[]
     let is_longterm_prodcut_exist=false
     let total_affiliate_amount=0
+    const is_commission_paid_before=await Affliate.findOne({
+      where:{
+      affilatorId:user.affiliatedBy,
+      buyerId:req?.user?.sub,
+      amount: {
+      [Op.not]: 0
+    }
+  }
+})
+     console.log("cpaid before"+is_commission_paid_before)
     for(const prod of product_ordered) {
       const product = await Product.findByPk(prod?.productId);
       product_names.push(product.product_name)
@@ -64,12 +75,11 @@ exports.createOrder = async (req, res, next) => {
         order_product_create,
         { transaction: t }
       );
-      if(product.productCatagory==="long term"&& user?.affiliatedBy){
+      //check if he prev get commission for this user
+      if(product.productCatagory==="long term" && user?.affiliatedBy && !is_commission_paid_before){
         //get 10 percent of the long term therapy
         is_longterm_prodcut_exist=true
-        const percent=10/100
-        const amount=product.price*percent
-        total_affiliate_amount+=amount
+        total_affiliate_amount=50
       }
     }
   //check if the person was affliated and give commision
@@ -82,6 +92,33 @@ exports.createOrder = async (req, res, next) => {
       buyerId:user.id,
       orderId:order.id
     },{transaction:t})
+  }
+  if(apply_discount)
+  {
+    const discount_amount =await getAffiliatePayableAmount(req?.user?.sub)
+    console.log(discount_amount)
+    if((discount_amount)>(0.9*total_amount)){
+      total_amount=0.1*total_amount
+      await Affliate.update({
+        status:"paid",withdrawalType:"discount"},
+      {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"},transaction: t })
+      //create for rest value
+      const amount=(discount_amount-0.9*total_amount)
+      if(amount>0){
+        await Affliate.create({
+          amount:amount,
+          affilatorId:req?.user?.sub,
+          buyerId:req?.user?.sub,
+          orderId:order.id
+        },{transaction:t})
+      }
+    }
+    else{
+      total_amount=total_amount-(Number(discount_amount))
+      await Affliate.update({
+        status:"paid",withdrawalType:"discount"},
+      {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"},transaction: t })
+    }
   }
     //update the user address info
     await User.update({
@@ -115,6 +152,7 @@ exports.createOrder = async (req, res, next) => {
 
   let payment_response
   if(save_payment_info){
+    console.log("savep info")
     const {customerProfileId,customerPaymentProfileId}=await createCustomerProfile(payment_info)
     await PaymenInfo.create({
       userId:user.id,
@@ -140,7 +178,7 @@ exports.createOrder = async (req, res, next) => {
     order.transId=payment_response.transId
     order.total_paid_amount=total_amount.toFixed(2)
     await order.save({ transaction: t })
-
+   console.log(payment_response.transId,total_amount.toFixed(2))
     const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
     const mailOptions = {
       from: process.env.EMAIL,
@@ -240,11 +278,12 @@ exports.createOrder = async (req, res, next) => {
       }]
       };
       await t.commit();
+      console.log("after commit")
       sendEmail(mailOptionsRenewal).then(r=>r).catch(e=>console.log(e));
       sendEmail(mailOptionsAdmin).then(r=>r).catch(e=>console.log(e))
 
   }
-    return res.json({order,is_appointment_exist,product_names});
+    return res.status(201).json({order,is_appointment_exist,product_names});
   } catch (err) {
     await t.rollback();
     next(err);

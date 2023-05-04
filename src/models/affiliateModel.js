@@ -12,9 +12,9 @@ const Affliate = sequelize.define("affliate", {
     type: Sequelize.DECIMAL,
     defaultValue:0
   },
- isDeemed: {
-    type: Sequelize.BOOLEAN,
-    defaultValue:false
+  withdrawalType:{
+    type: Sequelize.ENUM("discount", "cash", "NA"),
+    defaultValue: "NA"
   },
   status:{
     type: Sequelize.ENUM("paid", "pending", "not paid"),

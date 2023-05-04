@@ -295,14 +295,7 @@ if(showJotForm=== "true")
     }
   });
   
-//get_paid
-$('#get_paid_check').change(function() {
-  if ($(this).is(':checked')&&is_payable_exist) {
-    $('#get_paid_part').removeClass('d-none')
-  } else {
-    $('#get_paid_part').addClass('d-none')
-  }
-});
+  
 
 function ValidateEmail(email) {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -330,17 +323,7 @@ function ValidateEmail(email) {
       "This account is deactivated, please contact our customer service"
     );
   }
-  $('input[id="telehealth-appt-checkbox"]').on("click", function () {
-    let total_price = 0;
-    $("#telehealth-appt-checkbox:checked")
-      .parent("td")
-      .siblings("#product-price")
-      .each(function () {
-        let product_price = Number($(this).children("span").text());
-        total_price = total_price + product_price;
-      });
-    $("#cart-total-price").text(total_price);
-  });
+  
 
   $("#product-select").on("change", function () {
     const id = this.value;
@@ -949,12 +932,13 @@ loadUserPaymentMethod()
       use_exist_payment: !($("#otherPaymentCheckbox").is(':checked')),
       save_payment_info: $("#saveCardCheckbox").is(':checked')
     } 
+    const apply_discount=$("#applyDiscountCheckbox").is(':checked')
     //here make ajax call to compelete the order
     $.ajax({
       url: `${base_url}/addorder`,
       method: "POST",
       contentType: 'application/json',
-      data: JSON.stringify({  payment_detail, product_ordered }),
+      data: JSON.stringify({  payment_detail, product_ordered,apply_discount }),
       success: function (data) {
         $('#spinner-div').hide();
         $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
@@ -982,6 +966,7 @@ loadUserPaymentMethod()
           $("#checkout-form-ccNumber").val('')
           $("#checkout-form-ccExpiry").val('')
         }
+        $("#cart-total-price").text(0);
         loadUserPaymentMethod()
       },
       error: function (data) {
@@ -1044,7 +1029,10 @@ $.ajax({
 });
 });
 let is_payable_exist=false
+let payable_amount=0
 function getAffiliateTotalAmount(){
+  console.log("in aff amount")
+  is_payable_exist=false
   $.ajax({
     url: `${base_url}/affiliate/amount`,
     method: "GET",
@@ -1052,16 +1040,91 @@ function getAffiliateTotalAmount(){
     success: function (data) {
       if(data?.amount){
         is_payable_exist=true
-        $('#get_code_btn').prop('disabled', false);
+        payable_amount=Number(data?.amount)
+        $('#get_code_btn').prop('disabled', false);        
       }
-      $('#total_paid_amount').text(`Total Payable Amount= $${data?.amount||0}`)
+      Number(data?.amount)<=0?$("#apply_discount_p").addClass("d-none"):
+      $("#apply_discount_p").removeClass("d-none")
+      let cash_payable=0
+      if(data?.amount&&data?.amount>20)cash_payable=data?.amount-20
+      $('#total_paid_amount').text(`Total Payable Amount= $${cash_payable}`)
     },
     error: function (data) {
+      console.log("in aff error")
       $('#total_paid_amount').text(`Total Payable Amount= $0/E`)
     },
   });
   
 }
+$('[data-bs-toggle="tooltip"]').tooltip()
+//get_paid
+$('#get_paid_check').change(function() {
+  if ($(this).is(':checked')&&is_payable_exist) {
+    $('#get_paid_part').removeClass('d-none')
+  } else {
+    $('#get_paid_part').addClass('d-none')
+  }
+});
+
+$('input[id="telehealth-appt-checkbox"]').on("click", function () {
+  let total_price = 0;
+  $("#telehealth-appt-checkbox:checked")
+    .parent("td")
+    .siblings("#product-price")
+    .each(function () {
+      let product_price = Number($(this).children("span").text());
+      total_price = total_price + product_price;
+    });
+    const apply_discount=$("#applyDiscountCheckbox").is(':checked')
+    if(apply_discount){
+      //you will atleast pay 10% of it
+    if((total_price*0.9)<Number(payable_amount)){
+      const discountedPrice=Number(total_price)*0.1
+      $("#cart-total-price").text(discountedPrice);
+    }
+    else{
+      const discountedPrice=Number(total_price)-Number(payable_amount)
+      $("#cart-total-price").text(discountedPrice);
+    }
+  }
+else{
+  $("#cart-total-price").text(total_price);
+}
+});
+
+//apply discount
+$('#applyDiscountCheckbox').change(function() {
+  if ($(this).is(':checked')) {
+    let total_price = 0;
+      $("#telehealth-appt-checkbox:checked")
+      .parent("td")
+      .siblings("#product-price")
+      .each(function () {
+        let product_price = Number($(this).children("span").text());
+        total_price = total_price + product_price;
+      });
+      console.log((total_price*0.9),Number(payable_amount))
+      if((total_price*0.9)<Number(payable_amount)){
+        const discountedPrice=Number(total_price)*0.1
+        $("#cart-total-price").text(discountedPrice);
+      }
+      else{
+        const discountedPrice=Number(total_price)-Number(payable_amount)
+        $("#cart-total-price").text(discountedPrice);
+      }
+  } else {
+    let total_price = 0;
+      $("#telehealth-appt-checkbox:checked")
+      .parent("td")
+      .siblings("#product-price")
+      .each(function () {
+        let product_price = Number($(this).children("span").text());
+        total_price = total_price + product_price;
+      });
+      $("#cart-total-price").text(total_price);
+  }
+});
+
 function getQrCode(){
   $.ajax({
     url: `${base_url}/affiliatecode`,
@@ -1186,6 +1249,14 @@ localStorage.getItem("isAffiliate")==="true"){
   loadAffiliateTable()
   getAffiliateTotalAmount()
 }
+if(window?.location?.href==`${base_url}/checkout` && 
+localStorage.getItem("isAffiliate")==="true"){
+  getAffiliateTotalAmount()
+}
+console.log("pamount"+payable_amount)
+// if(localStorage.getItem("isAffiliate")!=="true"||payable_amount==0){
+//   $("#apply_discount_p").addClass("d-none")
+// }
 $('#copy_url_btn').click(function() {
       const url=$('#qr_url_input').val()
       navigator.clipboard.writeText(url)

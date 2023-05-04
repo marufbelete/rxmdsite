@@ -20,7 +20,8 @@ const {
   removeRefreshToken,
   get2faVerfication,
   verify2faVerfication,
-  getAffiliatePaidAmount
+  getAffiliatePayableAmount,
+  generateOtp
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
@@ -524,16 +525,16 @@ exports.getAffilateCode = async (req, res, next) => {
 }
 exports.getOtp = async (req, res, next) => {
   try {
-    console.log("inside get otp")
-    const otp=await get2faVerfication(req?.user?.sub)
-    console.log(otp)
-    const user=await User.findByPk(req?.user?.sub)
-    console.log(user)
-    await sendOtpEmail(otp,user.email)
-    return res.json({otp});
+    const amount =await getAffiliatePayableAmount(req?.user?.sub)
+    if(Number(amount)==0){
+    handleError("no balane to withdraw",401)
+    }
+   const otp =generateOtp(req?.user?.sub)
+   const user=await User.findByPk(req?.user?.sub)
+   await sendOtpEmail(otp,user.email)
+   return res.json({otp});
   }
   catch(err){
-    console.log(err)
    next(err)
   }
 }
@@ -543,16 +544,13 @@ exports.confirmOtp = async (req, res, next) => {
     const valid= await verify2faVerfication(otp,req?.user?.sub)
     const user=await User.findOne({where:{id:req?.user?.sub}});
    if(valid){
-    //get user total amount using user info
-    const amount =await getAffiliatePaidAmount(req?.user?.sub)
-  //  const amount=10
+   let amount =await getAffiliatePayableAmount(req?.user?.sub)
+   amount=Number(amount)-20
    const batchId=Math.random().toString(36).substring(9)
-   console.log(user.email,amount,batchId)
    const note='TestRxmd affiliate payout'
    const payout=await sendPayout(user.email,amount,note,batchId)
-   console.log(payout)
    await Affliate.update({batchId:payout?.batch_header?.payout_batch_id,status:"pending"},
-    {where:{affilatorId:req?.user?.sub,isDeemed:false}})
+    {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"}})
    }
     return res.json({message:"payout success, will let you know with email when transaction done"});
   }
