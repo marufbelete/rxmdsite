@@ -1038,7 +1038,7 @@ function getAffiliateTotalAmount(){
     method: "GET",
     contentType: 'application/json',
     success: function (data) {
-      if(data?.amount){
+      if((Number(data?.amount)-20)>0){
         is_payable_exist=true
         payable_amount=Number(data?.amount)
         $('#get_code_btn').prop('disabled', false);        

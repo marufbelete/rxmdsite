@@ -514,7 +514,7 @@ exports.getAffilateCode = async (req, res, next) => {
 exports.getOtp = async (req, res, next) => {
   try {
     const amount =await getAffiliatePayableAmount(req?.user?.sub)
-    if(Number(amount)==0){
+    if(Number(amount)-20<=0){
     handleError("no balane to withdraw",401)
     }
    const otp =generateOtp(req?.user?.sub)
@@ -534,6 +534,9 @@ exports.confirmOtp = async (req, res, next) => {
    if(valid){
    let amount =await getAffiliatePayableAmount(req?.user?.sub)
    amount=Number(amount)-20
+   if(amount<=0){
+    handleError("no balane to withdraw",401)
+    }
    const batchId=Math.random().toString(36).substring(9)
    const note='TestRxmd affiliate payout'
    const payout=await sendPayout(user.email,amount,note,batchId)
@@ -543,7 +546,6 @@ exports.confirmOtp = async (req, res, next) => {
     return res.json({message:"payout success, will let you know with email when transaction done"});
   }
   catch(err){
-    console.log(err)
    next(err)
   }
 }

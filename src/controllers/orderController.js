@@ -98,12 +98,13 @@ exports.createOrder = async (req, res, next) => {
     const discount_amount =await getAffiliatePayableAmount(req?.user?.sub)
     console.log(discount_amount)
     if((discount_amount)>(0.9*total_amount)){
+      let paid_from_affiliate=0.9*total_amount
       total_amount=0.1*total_amount
       await Affliate.update({
         status:"paid",withdrawalType:"discount"},
       {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"},transaction: t })
       //create for rest value
-      const amount=(discount_amount-0.9*total_amount)
+      const amount=(discount_amount-paid_from_affiliate)
       if(amount>0){
         await Affliate.create({
           amount:amount,
@@ -206,10 +207,8 @@ exports.createOrder = async (req, res, next) => {
       cid: 'unique@kreata.ee' //same cid value as in the html img src
     }]
     };
-    console.log("after order save",is_appointment_exist)
     is_appointment_exist&& sendEmail(mailOptions)
-      console.log("after email",is_renewal)
-
+    await t.commit();
     if(is_renewal) {
       const mailOptionsRenewal = {
         from: process.env.EMAIL,
@@ -281,12 +280,8 @@ exports.createOrder = async (req, res, next) => {
         cid: 'unique@kreata.eae' 
       }]
       };
-      console.log("before commit")
-      await t.commit();
-      console.log("after commit")
       sendEmail(mailOptionsRenewal).then(r=>r).catch(e=>e);
       sendEmail(mailOptionsAdmin).then(r=>r).catch(e=>e)
-
   }
     return res.status(201).json({order,is_appointment_exist,product_names});
   } catch (err) {
