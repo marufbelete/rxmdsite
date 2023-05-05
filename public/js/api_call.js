@@ -1141,6 +1141,7 @@ function getQrCode(){
   });
 }
 function getOtp(){
+  $('#get_paid_error').addClass('d-none')
   $.ajax({
     url: `${base_url}/otp`,
     method: "GET",
@@ -1158,10 +1159,11 @@ function getOtp(){
     $("#get_code_text").removeClass("d-none");
     },
     error:function(error){
-      console.log(error)
       $('#get_code_btn').prop('disabled',false)
       $("#get_code_text_spin").addClass("d-none");
       $("#get_code_text").removeClass("d-none");
+      $('#get_paid_error').removeClass('d-none').text(err.responseJSON.message)
+
     }
   });
  
@@ -1205,6 +1207,7 @@ const loadAffiliateTable = () => {
 };
 function confirmOtp(){
   const otp=$('#otp_code_input').val()
+  $('#get_paid_error').addClass('d-none')
   if(otp){
   $.ajax({
     url: `${base_url}/otp`,
@@ -1224,8 +1227,10 @@ function confirmOtp(){
    loadAffiliateTable()
     },
     error:function(err){
+      console.log("in confirm error",err.responseJSON.message)
       $("#confirm_code_text_spin").addClass("d-none");
       $("#confirm_code_text").removeClass("d-none");
+      $('#get_paid_error').removeClass('d-none').text(err.responseJSON.message)
     }
   });
  }

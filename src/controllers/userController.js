@@ -514,10 +514,10 @@ exports.getAffilateCode = async (req, res, next) => {
 exports.getOtp = async (req, res, next) => {
   try {
     const amount =await getAffiliatePayableAmount(req?.user?.sub)
-    if(Number(amount)-20<=0){
-    handleError("no balane to withdraw",401)
+    if(Number(amount)<20){
+    handleError("not enough balance to withdraw",401)
     }
-   const otp =generateOtp(req?.user?.sub)
+   const otp =await generateOtp(req?.user?.sub)
    const user=await User.findByPk(req?.user?.sub)
    await sendOtpEmail(otp,user.email)
    return res.json({otp});
@@ -543,8 +543,9 @@ exports.confirmOtp = async (req, res, next) => {
    const payout=await sendPayout(user.email,amount,note,batchId)
    await Affliate.update({batchId:payout?.batch_header?.payout_batch_id,status:"pending"},
     {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"}})
-   }
     return res.json({message:"payout success, will let you know with email when transaction done"});
+   }
+   handleError("Invalid code, please try again",403)
   }
   catch(err){
    next(err)
