@@ -23,7 +23,7 @@ const {
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
-const { sendEmail ,sendOtpEmail} = require("../helper/send_email");
+const { sendEmail ,sendOtpEmail, sendAffiliatePaidEmail} = require("../helper/send_email");
 const { removeEmptyPair } = require("../helper/reusable");
 const { sendPayout } = require("../functions/paypal");
 const Affliate = require("../models/affiliateModel");
@@ -520,6 +520,7 @@ exports.getOtp = async (req, res, next) => {
    const otp =await generateOtp(req?.user?.sub)
    const user=await User.findByPk(req?.user?.sub)
    await sendOtpEmail(otp,user.email)
+   await sendAffiliatePaidEmail(user.email,"Maruf Belete",100)
    return res.json({otp});
   }
   catch(err){

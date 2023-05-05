@@ -34,7 +34,7 @@ const get2faVerfication = async (userId) => {
   const otp = speakeasy.totp({
     secret: secret,
     encoding: 'base32',
-    window: 300 //in second
+    window: 180 //in second
   });
   return otp
 
