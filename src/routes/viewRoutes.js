@@ -64,11 +64,11 @@ router.get("/tos", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/tos"));
 });
 
-router.get("/account", function (req, res) {
+router.get("/account",authenticateJWT ,function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/account"));
 });
 
-router.get("/affiliate", function (req, res) {
+router.get("/affiliate",authenticateJWT, function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/affiliate"));
 });
 

@@ -27,6 +27,7 @@
 
   <!-- CSS | menuzord megamenu skins -->
   <link href="js/menuzord/css/menuzord.css" rel="stylesheet" />
+  <link href="css/tooltip.css" rel="stylesheet" />
 
   <!-- CSS | Main style file -->
   <link href="css/style-main.css" rel="stylesheet" type="text/css">
@@ -235,10 +236,14 @@
                 </tbody>
                 
               </table>
-              <div id="total_paid_amount"></div>
+              <span flow="right" tooltip="You can only get 70% of your discount if you would like to get in cash (minimum cash-out is $20)">
+                <i class="fas fa-question-circle" ></i> </span> <span id="total_paid_amount"> </span>
               <div>
-                <label for="get_paid_check" class="btn p-0 mb-2">Get Paid</label>
-                <input id="get_paid_check" maxlength="8" type="checkbox"/>
+                
+              <label for="get_paid_check" class="btn p-0 mb-2">
+               Get Paid</label>
+
+                  <input id="get_paid_check" maxlength="8" type="checkbox"/>
                 <div id="get_paid_part" class="d-none">
               <div class="input-group mb-3 mt-3 col-md-4">
                 <input id="otp_code_input" style="max-width:300px;" type="text" class="form-control">

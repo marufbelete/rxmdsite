@@ -42,45 +42,22 @@ const batchId=eventBody.resource.batch_header.payout_batch_id
 const verify=await new Promise((resol,rej)=>{
 paypal.notification.webhookEvent.verify(signature,eventBody,webhook_id,async function (error, response) {
   if (error) {
-    console.log(error)
     rej(false)
   } 
   //paid successfully
   if(response.verification_status==='SUCCESS'){
     if(eventBody.resource.batch_header.batch_status==='SUCCESS'
     && eventBody.event_type==='PAYMENT.PAYOUTSBATCH.SUCCESS'){
-      console.log(eventBody.resource.batch_header.payout_batch_id)
      deemAffiliate(batchId)
     }
-
 }
   resol(true)
 });
 })
-console.log(verify)
 return {verify,amount:eventBody.resource.batch_header.amount,batchId}
 }
 
-const paypalWebhook=()=> {
-  paypal.notification.webhook.create({
-    url: 'https://64cf-196-191-221-194.ngrok-free.app/subscription',
-    event_types: [
-      {
-        name: "PAYMENT.PAYOUTSBATCH.SUCCESS"
-      }
-    ]
-  },(error, webhook) => {
-    if (error) {
-      console.error('Error creating webhook subscription:', error);
-      console.log(error.response.details)
-    } else {
-      console.log('Webhook subscription created:', webhook);
-    }
-  });
-}
-// paypalWebhook()
 module.exports={
     sendPayout,
-    paypalWebhook,
     paypalVerifyHook
 }

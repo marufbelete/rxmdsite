@@ -5,7 +5,7 @@ const {  createSubscription,get2faVerfication,verify2faVerfication, getAffiliate
 const {getInvoiceURL}=require('../functions/handlePayment')
 const {sendEmail,sendOtpEmail, sendAffiliatePaidEmail}=require('../helper/send_email')
 const { handleError } = require("../helper/handleError");
-const {sendPayout, paypalWebhook, paypalVerifyHook}=require('../functions/paypal');
+const {paypalVerifyHook}=require('../functions/paypal');
 const Affliate = require("../models/affiliateModel");
 
 exports.getAllMyPaymentInfo = async (req, res, next) => {

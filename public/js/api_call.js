@@ -1038,15 +1038,18 @@ function getAffiliateTotalAmount(){
     method: "GET",
     contentType: 'application/json',
     success: function (data) {
-      if((Number(data?.amount)-20)>0){
-        is_payable_exist=true
-        payable_amount=Number(data?.amount)
-        $('#get_code_btn').prop('disabled', false);        
+      if((Number(data?.amount))>0){
+        payable_amount=Number(data?.amount)  
       }
       Number(data?.amount)<=0?$("#apply_discount_p").addClass("d-none"):
       $("#apply_discount_p").removeClass("d-none")
       let cash_payable=0
-      if(data?.amount&&data?.amount>20)cash_payable=data?.amount-20
+      if(data?.amount&&data?.amount>20){
+        $('#get_code_btn').prop('disabled', false);
+        is_payable_exist=true  
+      }
+      //show 70% for cashout
+      cash_payable=data?.amount*0.7
       $('#total_paid_amount').text(`Total Payable Amount= $${cash_payable}`)
     },
     error: function (data) {
@@ -1056,7 +1059,7 @@ function getAffiliateTotalAmount(){
   });
   
 }
-$('[data-bs-toggle="tooltip"]').tooltip()
+$('[data-toggle="tooltip"]').tooltip()
 //get_paid
 $('#get_paid_check').change(function() {
   if ($(this).is(':checked')&&is_payable_exist) {
@@ -1188,7 +1191,7 @@ const loadAffiliateTable = () => {
       affilate_detail?.forEach((affilate) => {
         $("#affiliate_table_body").append(`
       <tr>
-        <td>${affilate?.affilator.first_name + ' ' + affilate?.affilator.last_name || ""}</td>
+        <td>${affilate?.buyer?.first_name + ' ' + affilate?.buyer?.last_name || ""}</td>
         <td>${new Date(affilate?.createdAt).toLocaleDateString()}</td>
         <td>$${affilate?.amount}</td>
         <td>${affilate?.status}</td>

@@ -533,9 +533,10 @@ exports.confirmOtp = async (req, res, next) => {
     const user=await User.findOne({where:{id:req?.user?.sub}});
    if(valid){
    let amount =await getAffiliatePayableAmount(req?.user?.sub)
-   amount=Number(amount)-20
-   if(amount<=0){
-    handleError("no balane to withdraw",401)
+   //cash-out just 70% of the reward
+   amount=Number(amount)*0.7
+   if(amount<20){
+    handleError("not enough balane to withdraw",401)
     }
    const batchId=Math.random().toString(36).substring(9)
    const note='TestRxmd affiliate payout'
@@ -552,9 +553,7 @@ exports.confirmOtp = async (req, res, next) => {
 exports.getUserAffiliateDetail = async (req, res, next) => {
   try {
     const affilate_detail=await Affliate.findAll({where:{affilatorId:req?.user?.sub},
-      include:['affilator']})
-      console.log('detail affiliate')
-      console.log(affilate_detail)
+      include:['buyer']})
     return res.json({affilate_detail})
   }
   catch(err){
