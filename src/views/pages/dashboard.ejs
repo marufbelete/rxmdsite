@@ -131,14 +131,28 @@
               </div>
               <!-- Product type input -->
               <div class="form-group">
-                <label for="product-select">Product type:</label>
+                <label for="product-type-select">Product type:</label>
                 <select class="form-control" id="product-type-select">
                   <% for(let type of product_type) {%>
-                    <option value=<%=type%>><%=type%>
+                    <option value="<%=type%>" >
+                      <%=type%>
                     </option>
                     <% } %>
                 </select>
               </div>
+
+              <div class="form-group">
+                <label for="product-catagory-select">Product type:</label>
+                <select class="form-control" id="product-catagory-select">
+                  <% for(let catagory of product_catagory) {%>
+                    <option value="<%=catagory%>" >
+                      <%=catagory%>
+                    </option>
+                    <% } %>
+                </select>
+              </div>
+             
+               
               <!-- Product description input -->
               <!-- <div class="form-group my-3">
                 <label for="product-description">Product Description:</label>
@@ -186,6 +200,16 @@
                     <select class="form-control" id="new-product-type-select">
                       <% for(let type of product_type) {%>
                         <option value=<%=type%>><%=type%>
+                        </option>
+                        <% } %>
+                    </select>
+                  </div>
+                  <!-- Product catagory input -->
+                  <div class="form-group mb-3">
+                    <label for="product-select">Product type:</label>
+                    <select class="form-control" id="new-product-catagory-select">
+                      <% for(let catagory of product_catagory) {%>
+                        <option value="<%=catagory%>"><%=catagory%>
                         </option>
                         <% } %>
                     </select>

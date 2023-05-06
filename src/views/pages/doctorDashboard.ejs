@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+
+  <!-- Meta Tags -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="TestRxMD" />
+  <meta name="keywords"
+    content="testrxmd, clinic, testosterone, hormone, therapy, ed, erectile dysfunction, supplements, doctor, medical, energy, shop, medication, indiana, columbus, neiters" />
+  <meta name="author" content="Jacob Briggs" />
+
+  <!-- Page Title -->
+  <title>TestRxMD</title>
+
+  <!-- Favicon and Touch Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="manifest" href="images/site.webmanifest">
+
+  <!-- Stylesheet -->
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="css/animate.min.css" rel="stylesheet" type="text/css">
+  <link href="css/javascript-plugins-bundle.css" rel="stylesheet" />
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+
+  <!-- CSS | menuzord megamenu skins -->
+  <link href="js/menuzord/css/menuzord.css" rel="stylesheet" />
+
+  <!-- CSS | Main style file -->
+  <link href="css/style-main.css" rel="stylesheet" type="text/css">
+  <link id="menuzord-menu-skins" href="css/menuzord-skins/menuzord-rounded-boxed.css" rel="stylesheet" />
+
+  <!-- CSS | Responsive media queries -->
+  <link href="css/responsive.css" rel="stylesheet" type="text/css">
+
+  <!-- CSS | Theme Color -->
+  <link href="css/colors/theme-colors.css" rel="stylesheet" type="text/css">
+
+  <!-- External javascripts -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/javascript-plugins-bundle.min.js"></script>
+  <script src="js/menuzord/js/menuzord.js"></script>
+
+  <link href="style.css" rel="stylesheet" type="text/css">
+
+  <!-- REVOLUTION STYLE SHEETS -->
+  <link rel="stylesheet" type="text/css" href="js/revolution-slider/css/rs6.css">
+  <link rel="stylesheet" type="text/css" href="js/revolution-slider/extra-rev-slider-shop.css">
+  <!-- REVOLUTION LAYERS STYLES -->
+  <!-- REVOLUTION JS FILES -->
+  <script src="js/revolution-slider/js/revolution.tools.min.js"></script>
+  <script src="js/revolution-slider/js/rs6.min.js"></script>
+  <script src="js/revolution-slider/extra-rev-slider-shop.js"></script>
+
+  <!-- timeline-horizontal-vertical -->
+  <link href="js/timeline-horizontal-vertical/css/timeline-horizontal-vertical.css" rel="stylesheet" type="text/css">
+  <script src="js/timeline-horizontal-vertical/js/timeline-horizontal-vertical.min.js"></script>
+  <script src="js/timeline-horizontal-vertical/js/custom.js"></script>
+
+</head>
+
+<body class="tm-container-1300px has-side-panel side-panel-right">
+  <%- include('../partials/headerTop.ejs') %>
+    <li class="menu-item">
+      <a href="/">Home</a>
+    </li>
+    <li class="menu-item">
+      <a href="/services">Services</a>
+    </li>
+    <li class="menu-item">
+      <a href="/about">About</a>
+    </li>
+    <li class="menu-item">
+      <a href="/contact">Contact</a>
+    </li>
+    <li class="menu-item">
+      <a href="/checkout">Telehealth &amp; Labs</a>
+    </li>
+    <li class="menu-item">
+      <a id="account_page" class="d-none" href="/account">Account</a>
+    </li>
+    <li class="menu-item">
+      <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
+    </li>
+    <li class="menu-item">
+      <a href="#" id="logout_link">Sign out</a>
+    </li>
+    <%- include('../partials/headerBottom.ejs') %>
+      <!-- Start main-content -->
+      <div class="main-content-area">
+        <!-- Section: page title -->
+
+        <!-- Admin dashboard container -->
+        <div class="container-fluid p-5">
+          <!-- Page header -->
+          <h1 class="my-5 text-center display-1">Doctor Dashboard</h1>
+
+          <!-- Product management section -->
+          <h2 class="mb-4 text-center">Patient Info Management</h2>
+
+          <div class="card mb-4">
+            <div class="card-header">
+              <h3>Add New Patient Info</h3>
+            </div>
+
+            <div class="card-body">
+              <!-- Product select dropdown -->
+                <div class="form-group mb-2">
+                  <label for="bp_systolic">BP Systolic (40-250)</label>
+                  <input type="number" class="form-control" id="bp_systolic" name="bp_systolic" min="40" max="250" required>
+                </div>
+                <div class="form-group mb-2">
+                  <label for="bp_diastolic">BP Diastolic (30-140)</label>
+                  <input type="number" class="form-control" id="bp_diastolic" name="bp_diastolic" min="30" max="140" required>
+                </div>
+                <div class="form-group mb-2">
+                  <label for="weight">Weight (50-550)</label>
+                  <input type="number" class="form-control" id="weight" name="weight" min="50" max="550" required>
+                </div>
+                <div class="form-group mb-2">
+                  <label for="waist_circumference">Waist Circumference (inches) (16-90)</label>
+                  <input type="number" class="form-control" id="waist_circumference" name="waist_circumference" min="16" max="90" required>
+                </div>
+                <div class="form-group mb-2">
+                  <label for="med_hx">Med Hx</label>
+                  <textarea class="form-control" id="med_hx" name="med_hx"></textarea>
+                </div>
+                <div class="form-group mb-2">
+                  <label for="prescribing_med">Prescribing Med</label>
+                  <select class="form-control" id="prescribing_med" name="prescribing_med">
+                    <option value="WL">Weight Loss</option>
+                    <option value="TRT">Testosterone Replacement Therapy</option>
+                    <option value="BHRT">Bioidentical Hormone Replacement Therapy</option>
+                    <option value="Peptides">Peptides</option>
+                    <option value="Blood_Work">Blood Work</option>
+                    <option value="Misc">Misc</option>
+                  </select>
+                </div>
+                <div class="form-group mb-2">
+                  <label for="therapy_category">Therapy Category</label>
+                  <select class="form-control" id="therapy_category" name="therapy_category">
+                    <option value="">Select a category</option>
+              
+                    <option value="WL">Weight Loss</option>
+                    <option value="TRT">Testosterone Replacement Therapy</option>
+                    <option value="BHRT">Bioidentical Hormone Replacement Therapy</option>
+                    <option value="Peptides">Peptides</option>
+                    <option value="Blood_Work">Blood Work</option>
+                    <option value="Misc">Misc</option>
+                  </select>
+                </div>
+                <div class="form-group mb-2">
+                  <label for="therapy_sub_category">Therapy Sub-Category</label>
+                  <select class="form-control" disabled id="therapy_sub_category" name="therapy_sub_category">
+                    <option value="">Select a sub-category</option>
+                  </select>
+                </div>
+               
+                <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      </div>
+      </div>
+      </div>
+
+      <!-- end main-content -->
+      <%- include('../partials/footer') %>
+
+
+        <!-- Footer Scripts -->
+        <script src="js/custom.js"></script>
+        <script src="js/api_call.js"></script>
+
+</body>
+
+</html>

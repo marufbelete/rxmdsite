@@ -68,6 +68,10 @@ router.get("/account",authenticateJWT ,function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/account"));
 });
 
+router.get("/doctordashboard",authenticateJWT ,function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/doctorDashboard"));
+});
+
 router.get("/affiliate",authenticateJWT, function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/affiliate"));
 });

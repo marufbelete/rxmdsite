@@ -34,6 +34,7 @@ var corsOptions = {
   origin: [
     "http://localhost:8081",
     "https://rxmdsite-production.up.railway.app",
+    "https://shielded-citadel-34904.herokuapp.com",
     "http://localhost:7000"],
 };
 

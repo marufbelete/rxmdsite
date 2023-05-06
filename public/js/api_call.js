@@ -1,5 +1,6 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
+  // const base_url = "http://localhost:7000";
+  const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -335,12 +336,14 @@ function ValidateEmail(email) {
       url: `${base_url}/getproductbyid/${id}`,
       method: "GET",
       success: function (data) {
-        $("div").children("#product-name").val(data.product_name);
+        console.log(data?.productCatagory)
+        $("div").children("#product-name").val(data?.product_name);
         // $("div").children("#product-description").val(data.description);
-        $("div").children("#product-price").val(data.price);
+        $("div").children("#product-price").val(data?.price);
         // $("div").children("#product-type").val(data.type);
-        $("div").children("#product-type-select").val(data.type).change();
+        $("div").children("#product-catagory-select").val(data?.productCatagory).change();
 
+        $("div").children("#product-type-select").val(data?.type).change();
       },
     });
   };
@@ -359,11 +362,12 @@ function ValidateEmail(email) {
     // const description = $("div").children("#product-description").val();
     const price = $("div").children("#product-price").val();
     const type = $("div").children("#product-type-select").val();
+    const productCatagory = $("div").children("#product-catagory-select").val();
     $("#update_product_text").addClass("d-none");
     $("#update_product_text_spin").removeClass("d-none");
     $.ajax({
       url: `${base_url}/editproduct/${selected_id}`,
-      data: { product_name, price, type },
+      data: { product_name, price, type, productCatagory },
       method: "PUT",
       success: function () {
         $("#product_notify")
@@ -403,6 +407,8 @@ function ValidateEmail(email) {
     const price = $("#new-product-price").val()
     // const description = $("#new-product-description").val()
     const type = $("#new-product-type-select").val()
+    const productCatagory = $("#new-product-catagory-select").val()
+    console.log(productCatagory)
     $("#add-new-product-error").addClass("d-none");
     if (!product_name || !price) {
       $("#add_product_text").removeClass("d-none");
@@ -414,7 +420,7 @@ function ValidateEmail(email) {
     $.ajax({
       url: `${base_url}/addproduct`,
       method: "POST",
-      data: { product_name, price, type },
+      data: { product_name, price, type, productCatagory },
       success: function (data) {
         $("#add_product_text").removeClass("d-none");
         $("#add_product_text_spin").addClass("d-none");
@@ -1278,6 +1284,52 @@ $('#copy_url_btn').click(function() {
     $('#appointment-form').removeClass('d-none')
     $('#continue-schedule').addClass('d-none')
   })
+  //doctor dashboard
+  $('#therapy_category').change(function() {
+  if ($(this).val() !== '') {
+    $('#therapy_sub_category').prop('disabled', false);
+  } else {
+    $('#therapy_sub_category').prop('disabled', true);
+  }
+
+  if ($(this).val() === "WL") {
+    $('#therapy_sub_category').empty().append(`
+    <option value="Stim-Free">Stim-Free</option>
+    <option value="Stimulant-Based">Stimulant-Based</option>`);
+  }
+  if ($(this).val() === "Peptides") {
+    $('#therapy_sub_category').empty().append(`
+    GH Therapy/Nootropics/Weight-Loss/Rejuvination
+      <optgroup label="GH_Therapy">
+      <option value="Sermorelin">Sermorelin</option>
+      <option value="Ipamorelin">Ipamorelin </option>
+      <option value="Sermorelin/Ipamorelin">Sermorelin/Ipamorelin</option>
+      <option value="GRF 1-29"> Ipamorelin+Mod GRF 1-29 (CJC 1295 without DAC)</option>
+      <option value="MK-677">MK-677</option>
+      </optgroup>
+      <optgroup label="Nootropics">
+      Dihexa, Semax, Selank, 1-Amino-MQ
+      <option value="Dihexa">Dihexa</option>
+      <option value="Semax">Semax </option>
+      <option value="Selank">Selank</option>
+      <option value="1-Amino-MQ">1-Amino-MQ</option>
+      </optgroup>
+      <optgroup label="Weight_Loss">
+      <option value="AOD-9604">AOD-9604</option>
+      </optgroup>
+      <optgroup label="Rejuvination"></optgroup>
+      <optgroup label="Anti-Aging/Longevity">
+      <option value="BPC-157">BPC-157</option>
+      <option value="GHK-Cu">GHK-Cu</option>
+      </optgroup>
+      <optgroup label="Sexual_Dysfunction">
+      <option value="PT-141">PT-141</option>
+      <option value="Kisspeptin-10">Kisspeptin-10</option>
+      </optgroup>
+
+    `);
+  }
+});
 
 });
 $(window).on('load', function () {

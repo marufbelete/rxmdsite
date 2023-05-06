@@ -599,12 +599,14 @@ exports.adminDashboard = async (req, res, next) => {
     };
     const products = await Product.findAll(options);
     const product_type=await Product.getAttributes().type.values;
+    const product_catagory=await Product.getAttributes().productCatagory.values;
     return res.render(path.join(__dirname, "..", "/views/pages/dashboard"),
-     { products,product_type });
+     { products,product_type,product_catagory });
   } catch (err) {
     next(err);
   }
 };
+
 exports.jotformWebhook = async (req, res, next) => {
   try {
     const { pretty } = req.body;
