@@ -5,6 +5,7 @@ const { getAppointment } = require("../controllers/appointment.controller");
 const { checkAppointmentLeft } = require("../middleware/role.middleware");
 // module.exports = (app) => {
 const path = require("path");
+const { getUser } = require("../helper/user");
 const router = require("express").Router();
 
 
@@ -72,8 +73,15 @@ router.get("/doctordashboard",authenticateJWT ,function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/doctorDashboard"));
 });
 
-router.get("/affiliate",authenticateJWT, function (req, res) {
-  res.render(path.join(__dirname, "..", "/views/pages/affiliate"));
+router.get("/affiliate",authenticateJWT, async function (req, res) {
+    const user=await getUser(req?.user?.sub)
+    console.log(user)
+    console.log("affiliate hek")
+  
+    if(user?.affiliateLink){
+      return res.render(path.join(__dirname, "..", "/views/pages/affiliateInfo"));
+    }
+     return res.render(path.join(__dirname, "..", "/views/pages/affiliate"));
 });
 
 //  UNUSED STORE ROUTES FOR USE LATER

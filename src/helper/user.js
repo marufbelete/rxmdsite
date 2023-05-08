@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const speakeasy = require('speakeasy');
 
 const {createSubscriptionFromCustomerProfile}=require('../functions/handlePayment');
-const Affliate = require("../models/affiliateModel");
+const Affiliate = require("../models/affiliateModel");
 const isEmailExist = async (email) => {
   const user = await User.findOne({
     where: { email: email },
@@ -50,7 +50,7 @@ const verify2faVerfication = async (otp,userId) => {
   return isValid
 };
 const deemAffiliate=async(batch_id)=>{
-  await Affliate.update({withdrawalType:"cash",status:"paid"},
+  await Affiliate.update({withdrawalType:"cash",status:"paid"},
     {where:{batchId:batch_id}})
 }
 const generateOtp=async(userId)=>{
@@ -59,7 +59,7 @@ const generateOtp=async(userId)=>{
 }
 const getAffiliatePayableAmount=async(userId)=>{
   console.log(userId)
-   const result = await Affliate.sum('amount', {
+   const result = await Affiliate.sum('amount', {
     where: { affilatorId:userId, withdrawalType:"NA", status:"not paid"}
   });
   //  await Affliate.findOne({
@@ -140,6 +140,10 @@ const createSubscription = async (req) => {
 }
   return null
 };
+const getUser=async(id)=>{
+  const user=User.findByPk(id)
+  return user
+}
 
 
 module.exports = {
@@ -157,5 +161,6 @@ module.exports = {
   verify2faVerfication,
   getAffiliatePayableAmount,
   deemAffiliate,
-  generateOtp
+  generateOtp,
+  getUser
 };

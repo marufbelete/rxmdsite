@@ -389,11 +389,23 @@ color:red
   overflow:scroll; 
   max-height:400px;
 }
+#table-medicaction-info
+{
+  overflow:scroll; 
+  max-height:1000px;
+}
+
 td ul {
   width: 100%;
   display: inline-block;
 }
 .table-users th{
+  font-size: 12px;
+}
+#medicaction_info_title th{
+  font-size: 15px;
+}
+#medicaction_info_body td{
   font-size: 12px;
 }
 #user-table-body td,#order-table-body td{

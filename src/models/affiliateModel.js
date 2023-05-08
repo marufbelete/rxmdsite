@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
 
-const Affliate = sequelize.define("affliate", {
+const Affiliate = sequelize.define("affiliate", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -25,4 +25,4 @@ const Affliate = sequelize.define("affliate", {
   },
 });
 
-module.exports = Affliate;
+module.exports = Affiliate;

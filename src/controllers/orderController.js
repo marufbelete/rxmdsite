@@ -10,7 +10,7 @@ const { chargeCreditCard,createCustomerProfile,
   chargeCreditCardExistingUser} = require('../functions/handlePayment');
 const { sendEmail } = require("../helper/send_email");
 const path = require('path');
-const Affliate = require("../models/affiliateModel");
+const Affiliate = require("../models/affiliateModel");
 const { Op } = require("sequelize");
 
 exports.createOrder = async (req, res, next) => {
@@ -43,7 +43,7 @@ exports.createOrder = async (req, res, next) => {
     let product_names=[]
     let is_longterm_prodcut_exist=false
     let total_affiliate_amount=0
-    const is_commission_paid_before=await Affliate.findOne({
+    const is_commission_paid_before=await Affiliate.findOne({
       where:{
       affilatorId:user?.affiliatedBy,
       buyerId:req?.user?.sub,
@@ -86,7 +86,7 @@ exports.createOrder = async (req, res, next) => {
   //for the affliator
   if(is_longterm_prodcut_exist){
     const amount=total_affiliate_amount
-    await Affliate.create({
+    await Affiliate.create({
       amount:amount,
       affilatorId:user.affiliatedBy,
       buyerId:user.id,
@@ -100,13 +100,13 @@ exports.createOrder = async (req, res, next) => {
     if((discount_amount)>(0.9*total_amount)){
       let paid_from_affiliate=0.9*total_amount
       total_amount=0.1*total_amount
-      await Affliate.update({
+      await Affiliate.update({
         status:"paid",withdrawalType:"discount"},
       {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"},transaction: t })
       //create for rest value
       const amount=(discount_amount-paid_from_affiliate)
       if(amount>0){
-        await Affliate.create({
+        await Affiliate.create({
           amount:amount,
           affilatorId:req?.user?.sub,
           buyerId:req?.user?.sub,
@@ -116,7 +116,7 @@ exports.createOrder = async (req, res, next) => {
     }
     else{
       total_amount=total_amount-(Number(discount_amount))
-      await Affliate.update({
+      await Affiliate.update({
         status:"paid",withdrawalType:"discount"},
       {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"},transaction: t })
     }

@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  const base_url = "http://localhost:7000";
+  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -1134,15 +1134,19 @@ $('#applyDiscountCheckbox').change(function() {
   }
 });
 
-function getQrCode(){
+function getQrCode(route){
   $.ajax({
     url: `${base_url}/affiliatecode`,
     method: "GET",
     success: function (data) {
-      $('#generateQR').addClass('d-none')
-      $('#copy_url_div').removeClass('d-none')
+      console.log(data)
+      // $('#generateQR').addClass('d-none')
+      // $('#copy_url_div').removeClass('d-none')
       $('#QRcode_image').attr('src', data.src);
-      $('#qr_url_input').val(data.url)
+      if(route){
+          location.href = '/affiliate'
+      }
+      // $('#qr_url_input').val(data.url)
     },
   });
 }
@@ -1228,7 +1232,6 @@ function confirmOtp(){
    $("#confirm_code_text_spin").addClass("d-none");
    $("#confirm_code_text").removeClass("d-none");
    $('#get_paid_part').addClass('d-none')
-   console.log('reload table and amount')
    getAffiliateTotalAmount()
    loadAffiliateTable()
     },
@@ -1252,7 +1255,8 @@ $('#confirm_otp_btn').on("click",()=>{
 
 //get affiliate
 $('#generateQR').on('click',function(event){
-getQrCode()
+  console.log("clicked")
+  getQrCode(true)
 });
 if(window?.location?.href==`${base_url}/affiliate` && 
 localStorage.getItem("isAffiliate")==="true"){

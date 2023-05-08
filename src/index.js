@@ -6,6 +6,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const jsdom = require("jsdom");
+const helmet=require("helmet")
 const { JSDOM } = jsdom;
 // const { window } = new JSDOM();
 const { document } = new JSDOM("").window;
@@ -39,6 +40,7 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(helmet());
 app.use(logger("dev"));
 app.use(passport.initialize());
 googlePassport(passport);

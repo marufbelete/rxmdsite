@@ -6,7 +6,7 @@ const {getInvoiceURL}=require('../functions/handlePayment')
 const {sendEmail,sendOtpEmail, sendAffiliatePaidEmail}=require('../helper/send_email')
 const { handleError } = require("../helper/handleError");
 const {paypalVerifyHook}=require('../functions/paypal');
-const Affliate = require("../models/affiliateModel");
+const Affiliate = require("../models/affiliateModel");
 
 exports.getAllMyPaymentInfo = async (req, res, next) => {
   try {
@@ -36,7 +36,7 @@ exports.paypalWebhookVerify = async (req, res, next) => {
     console.log(verify,amount)
     if(verify) 
     {
-      const user=await Affliate.findOne({where:{batchId},include:['affilator']})
+      const user=await Affiliate.findOne({where:{batchId},include:['affilator']})
       console.log(user)
       console.log(user?.affilator?.email,user?.affilator?.first_name,amount)
       sendAffiliatePaidEmail(user?.affilator?.email,user?.affilator?.first_name,amount).

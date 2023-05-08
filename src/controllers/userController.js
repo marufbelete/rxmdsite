@@ -26,7 +26,7 @@ const { validationResult } = require("express-validator");
 const { sendEmail ,sendOtpEmail, sendAffiliatePaidEmail} = require("../helper/send_email");
 const { removeEmptyPair } = require("../helper/reusable");
 const { sendPayout } = require("../functions/paypal");
-const Affliate = require("../models/affiliateModel");
+const Affiliate = require("../models/affiliateModel");
 const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
 exports.registerUser = async (req, res, next) => {
 
@@ -502,8 +502,8 @@ exports.getAffilateCode = async (req, res, next) => {
       return res.json({src:dataUrl,url:`${process.env.BASE_URL}/register?affiliatedBy=${user.affiliateLink}`});
     }
     const link=Date.now()
-    await User.update({affliateLink:link},
-    {where:{userId:req?.user?.sub}});
+    await User.update({affiliateLink:link},
+    {where:{id:req?.user?.sub}});
     const dataUrl=await QRCode.toDataURL(`${process.env.BASE_URL}/register?affiliatedBy=${link}`)
     return res.json({src:dataUrl,url:`${process.env.BASE_URL}/register?affiliatedBy=${user.affiliateLink}`});
   }
@@ -541,7 +541,7 @@ exports.confirmOtp = async (req, res, next) => {
    const batchId=Math.random().toString(36).substring(9)
    const note='TestRxmd affiliate payout'
    const payout=await sendPayout(user.email,amount,note,batchId)
-   await Affliate.update({batchId:payout?.batch_header?.payout_batch_id,status:"pending"},
+   await Affiliate.update({batchId:payout?.batch_header?.payout_batch_id,status:"pending"},
     {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"}})
     return res.json({message:"payout success, will let you know with email when transaction done"});
    }
@@ -553,7 +553,7 @@ exports.confirmOtp = async (req, res, next) => {
 }
 exports.getUserAffiliateDetail = async (req, res, next) => {
   try {
-    const affilate_detail=await Affliate.findAll({where:{affilatorId:req?.user?.sub},
+    const affilate_detail=await Affiliate.findAll({where:{affilatorId:req?.user?.sub},
       include:['buyer']})
     return res.json({affilate_detail})
   }

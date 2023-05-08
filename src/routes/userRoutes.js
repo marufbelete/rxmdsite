@@ -56,7 +56,6 @@ router.get("/getuserbystate", authenticateJWT, authAdmin, getUserByStatus, error
 router.get("/getloggeduser", authenticateJWT, getCurrentLoggedUser, errorHandler);
 router.get("/checkauth", checkAuth, errorHandler);
 router.get("/logout", logOut, errorHandler);
-// router.post("/affilate", authenticateJWT,joinAffliate, errorHandler);
 router.get("/affiliatecode", authenticateJWT,getAffilateCode, errorHandler);
 router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandler);
 router.post("/jotformwebhook", multipart.array(), jotformWebhook, errorHandler);

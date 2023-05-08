@@ -3,7 +3,7 @@ const Orderproduct = require("./orderproduct");
 const Order = require("./orderModel");
 const User = require("./userModel");
 const Role = require("./roleModel");
-const Affliate = require("./affiliateModel");
+const Affiliate = require("./affiliateModel");
 const Subscription=require("./subscriptionModel")
 const PaymenInfo=require("./paymentInfoModel")
 const Tracking=require("./trackingModel")
@@ -32,11 +32,11 @@ const Relation = () => {
   });
 
    // user as buyer-affiliate
-   User.hasMany(Affliate,{
+   User.hasMany(Affiliate,{
     foreignKey: 'buyerId',
     as: 'buyer'
   })
-  Affliate.belongsTo(User,{
+  Affiliate.belongsTo(User,{
     foreignKey: 'buyerId',
     as: 'buyer'
   })
@@ -62,20 +62,20 @@ const Relation = () => {
     foreignKey: 'productId'
     })
   // user as affliator-affiliate
-  User.hasMany(Affliate,{
+  User.hasMany(Affiliate,{
     foreignKey: 'affilatorId',
     as: 'affilator'
   })
-  Affliate.belongsTo(User,{
+  Affiliate.belongsTo(User,{
     foreignKey: 'affilatorId',
     as: 'affilator'
   })
 
   // order-affiliate
-  Order.hasOne(Affliate,{
+  Order.hasOne(Affiliate,{
     foreignKey: 'orderId'
   })
-  Affliate.belongsTo(Order,{
+  Affiliate.belongsTo(Order,{
     foreignKey: 'orderId'
   })
   // user-paymentinfo
