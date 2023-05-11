@@ -12,6 +12,7 @@ const { sendEmail } = require("../helper/send_email");
 const path = require('path');
 const Affiliate = require("../models/affiliateModel");
 const { Op } = require("sequelize");
+const Appointment = require("../models/appointmentModel");
 
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
@@ -56,7 +57,9 @@ exports.createOrder = async (req, res, next) => {
     for(const prod of product_ordered) {
       const product = await Product.findByPk(prod?.productId);
       product_names.push(product.product_name)
-      if(product?.type=='product'){is_appointment_exist=true}
+      if(product?.type=='product'){
+        is_appointment_exist=true
+      }
       if(product?.type=='treatment'){is_renewal=true}
       total_amount=total_amount+(Number(prod?.quantity||1)*Number(product?.price))
       const order_product_create= {
@@ -207,7 +210,13 @@ exports.createOrder = async (req, res, next) => {
       cid: 'unique@kreata.ee' //same cid value as in the html img src
     }]
     };
-    is_appointment_exist&& sendEmail(mailOptions)
+    if(is_appointment_exist){
+    sendEmail(mailOptions).then(r=>r).catch(e=>e);
+    await Appointment.create({
+      paymentStatus:true,
+      patientId:req?.user?.sub
+    },{transaction:t})
+    }
     await t.commit();
     if(is_renewal) {
       const mailOptionsRenewal = {
@@ -366,15 +375,16 @@ exports.getMyOrder = async (req, res, next) => {
 exports.editOrder = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const {order_date,delivery_date}=req.body
     if (isUserAdmin(req)) {
       const updated_order = await Order.update(
-        { ...req.body },
+        { order_date,delivery_date },
         { where: { id: id } }
       );
       return res.json(updated_order);
     }
     const updated_order = await Order.update(
-      { ...req.body },
+      {  order_date,delivery_date },
       { where: { id: id, userId: req?.user?.sub } }
     );
     return res.json(updated_order);

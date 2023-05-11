@@ -1,3 +1,6 @@
+const cron = require('node-cron');
+const { sendAppointmentReminderEmail } = require('./send_email');
+
 const medicationSurveyJob= async() => {
     const now = new Date();
     const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -20,7 +23,19 @@ const medicationSurveyJob= async() => {
     console.log(`Sent emails to ${patients.length} patients`);
   };
 
-const runJob=(time,job)=>{
-    // time='0 12 * * *'
- cron.schedule(time, job)
+const scheduleAppointmentReminder=(email,patient_name,link,date,time) =>{
+  sendAppointmentReminderEmail(email,patient_name,link,date,time)
 }
+
+const runJob=(time,job)=>{
+ cron.schedule(time, ()=>{
+  job()
+ })
+}
+
+module.exports={
+  medicationSurveyJob,
+  scheduleAppointmentReminder,
+  runJob
+}
+

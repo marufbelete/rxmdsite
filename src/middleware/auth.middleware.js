@@ -18,6 +18,7 @@ const authenticateJWT = async (req, res, next) => {
         handleError("This account is inactive, please contact our customer service", 403);
       }
       req.user = user;
+      console.log(user)
       next();
       return
     }

@@ -6,6 +6,7 @@ const path = require("path");
 const User = require("../models/userModel");
 const PaymenInfo=require("../models/paymentInfoModel")
 const { removeEmptyPair } = require("../helper/reusable");
+const { getUser, getTreatmentType, getProductType } = require("../helper/user");
 exports.addProduct = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -58,15 +59,13 @@ exports.getProduct = async (req, res, next) => {
     };
     const id = req.user.sub;
     const paymentInfo=await PaymenInfo.findAll({where:{userId:id}})
-    const user = await User.findByPk(id);
+    const user = await getUser(id);
     let products;
     if(user.appointment){
-      products = await Product.findAll({
-        ...options,where:{type:'treatment'}});
+      products = await getTreatmentType(options)
     }
     else{
-      products = await Product.findAll({
-        ...options,where:{type:'product'}});
+      products = await getProductType(options)
     }
     const priceArr = [];
     products?.map((e) => priceArr.push(Number(e.price)));
@@ -83,7 +82,6 @@ exports.getProduct = async (req, res, next) => {
       zipCode:user.zip_code,
       state:user.state
     }
-    console.log(paymentInfo)
     return res.render(
       path.join(__dirname, "..", "/views/pages/shop-checkout"),
       { products,billing_info,token,paymentInfo}

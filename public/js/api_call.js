@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  const base_url = "http://localhost:7000";
+  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -1215,6 +1215,38 @@ const loadAffiliateTable = () => {
     },
   });
 };
+const loadAppointmentTable = () => {
+  $("#appts_table_body").empty();
+  $.ajax({
+    url: `${base_url}/appointment/detail`,
+    type: "GET",
+    success: ({appointments}) => {
+      appointments?.forEach((appointment) => {
+        let timeString='-'
+        let dateString='-'
+        if(appointment?.appointmentDateTime){
+          const datetime = new Date(appointment?.appointmentDateTime);
+           timeString = datetime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+           dateString=new Date(appointment?.appointmentDateTime).toLocaleDateString()
+        }
+     
+        $("#appts_table_body").append(`
+      <tr>
+        <td>${dateString}</td>
+        <td>${timeString}</td>
+        <td>${appointment?.doctor?appointment?.doctor?.first_name+' '+appointment?.doctor?.last_name:'-'}</td>
+        <td>${appointment.zoomUrl||'-'}</td>
+        <td>${appointment?.paymentStatus?'Paid':'unpaid'}</td>
+        <td>${appointment?.appointmentStatus} ${appointment?.appointmentStatus==="in progress"?"<a href='/appointment'>(compelete schedule)</a>":''}</td>
+      </tr>`);
+      });
+    },
+    error: (error) => {
+    
+    },
+  });
+};
+
 function confirmOtp(){
   const otp=$('#otp_code_input').val()
   $('#get_paid_error').addClass('d-none')
@@ -1267,11 +1299,13 @@ localStorage.getItem("isAffiliate")==="true"){
   loadAffiliateTable()
   getAffiliateTotalAmount()
 }
+if(window?.location?.href==`${base_url}/account`){
+  loadAppointmentTable()
+}
 if(window?.location?.href==`${base_url}/checkout` && 
 localStorage.getItem("isAffiliate")==="true"){
   getAffiliateTotalAmount()
 }
-console.log("pamount"+payable_amount)
 // if(localStorage.getItem("isAffiliate")!=="true"||payable_amount==0){
 //   $("#apply_discount_p").addClass("d-none")
 // }
@@ -1283,10 +1317,11 @@ $('#copy_url_btn').click(function() {
   $(document).on("click", ".procced-to-checkout", function () {
     location.href = '/appt'
   })
-  setTimeout(() => { $('#continue-schedule').attr("disabled", false) }, 30000)
+  // setTimeout(() => { $('#continue-schedule').attr("disabled", false) }, 30000)
   $('#continue-schedule').on('click', () => {
-    $('#appointment-form').removeClass('d-none')
-    $('#continue-schedule').addClass('d-none')
+    location.href='/appointment'
+    // $('#appointment-form').removeClass('d-none')
+    // $('#continue-schedule').addClass('d-none')
   })
   //doctor dashboard
   $('#therapy_category').change(function() {
@@ -1333,6 +1368,82 @@ $('#copy_url_btn').click(function() {
 
     `);
   }
+});
+$("#appt_appointment_date, #appt_appointment_time").on("change", function() {
+    if ($("#appt_appointment_date").val() && $("#appt_appointment_time").val()) {
+      $("#appt_doctor").prop("disabled", false);
+      getAvailableProvider()
+    } else {
+      // Disable the select element if either input is empty
+      $("#appt_doctor").prop("disabled", true);
+    }
+  });
+
+function getAvailableProvider(){
+    $("#appt_doctor").empty();
+    const date= $("#appt_appointment_date").val();
+    const time = $("#appt_appointment_time").val();
+    const appointmentDateTime = date + 'T' + time;
+    console.log(appointmentDateTime)
+    $.ajax({
+      url: `${base_url}/provider/available?appointment_date_time=${appointmentDateTime}`,
+      type: "GET",
+      success: ({free_provider}) => {
+        console.log(free_provider)
+        if(free_provider.length<1)
+        {
+          $("#appt_doctor").append(`
+        <option value="">Select Doctor(plase select different time all provider are ocupied)</option>
+        `)
+          return
+        }
+        $("#appt_doctor").append(`
+        <option value="">Select Doctor</option>
+        `)
+        free_provider?.forEach((provider) => {
+          $("#appt_doctor").append(`
+          <option value=${provider?.id}>${provider?.first_name+' '+ provider?.last_name}</option>
+          `)
+        })
+      }
+    })
+}
+
+//create appt
+ $("#create_appointment").on("click", function (event) {
+  event.preventDefault();
+  $("#login_error").addClass("d-none");
+
+  const patientFirstName = $("#appt_first_name").val();
+  const patientLastName = $("#appt_last_name").val();
+  const patientEmail = $("#appt_email").val();
+  const patientPhoneNumber = $("#appt_phone").val();
+  const date= $("#appt_appointment_date").val();
+  const time = $("#appt_appointment_time").val();
+  const doctorId= $("#appt_doctor").val();
+  const appointmentDateTime = date + 'T' + time;
+  const message=$("#appt_appointment_message").val()
+  // console.log(date,time,appointmentDateTime)
+
+  $("#create_appointment_text").addClass("d-none");
+  $("#create_appointment_text_spin").removeClass("d-none");
+  $.ajax({
+    url: `${base_url}/appointment`,
+    method: "PUT",
+    contentType: 'application/json',
+    data: JSON.stringify({patientEmail,patientFirstName,doctorId,
+    patientLastName,patientPhoneNumber,appointmentDateTime,message}),
+    success: function (data) {
+    //redirect to the next page
+     location.href='/account'
+    },
+    error: function (data) {
+      $("#login_error").removeClass("d-none");
+      $("#create_appointment_text").removeClass("d-none");
+      $("#create_appointment_text_spin").addClass("d-none");
+      $("#login_error").text(data.responseJSON.message);
+    },
+  });
 });
 
 });

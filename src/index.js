@@ -22,13 +22,15 @@ const order_product_route = require("./routes/orderproductRoutes");
 const chat_route = require("./routes/gptRoute");
 const product_route = require("./routes/productRoutes");
 const payment_info_route = require("./routes/paymentInfoRoutes")
-const patient_info = require("./routes/patientInfoRoutes");
+const patient_info_route = require("./routes/patientInfoRoutes");
+const appointment_route=require("./routes/appointment")
 // const shipping_route = require("./routes/shippingRoutes");
 // const brand_route = require("./routes/brandRoutes");
 // const category_route = require("./routes/categoryRoutes");
 const { addInitialProduct } = require('./helper/initial_product')
 const { googlePassport } = require("./auth/google");
 const Relation = require("./models/relation.model");
+const { runCronOnAppointment } = require("./controllers/appointment.controller");
 
 process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
 var corsOptions = {
@@ -74,7 +76,8 @@ app.use(chat_route);
 app.use(order_product_route);
 app.use(order_route);
 app.use(payment_info_route);
-app.use(patient_info);
+app.use(patient_info_route);
+app.use(appointment_route);
 app.use(view_route);
 
 // UNUSED SHOP ROUTES FOR LATER
@@ -111,10 +114,17 @@ sequelize
             role: "user",
           });
         }
+        const isProvider = await Role.findOne({ where: { role: "provider" } });
+        if (!isProvider) {
+          await Role.create({
+            role: "provider",
+          });
+        }
         return;
       };
       populateDB();
       addInitialProduct();
+      runCronOnAppointment()
       console.log(`Listening on port ${port}`);
     });
   })

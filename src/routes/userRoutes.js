@@ -29,7 +29,8 @@ const {
   getAffilateCode,
   getOtp,
   confirmOtp,
-  getUserAffiliateDetail
+  getUserAffiliateDetail,
+  getAvailableProvider
 } = require("../controllers/userController");
 // const {appointmentCreatedWebhook}=require("../controllers/appointment.controller")
 const { errorHandler } = require("../middleware/errohandling.middleware");
@@ -57,6 +58,7 @@ router.get("/getloggeduser", authenticateJWT, getCurrentLoggedUser, errorHandler
 router.get("/checkauth", checkAuth, errorHandler);
 router.get("/logout", logOut, errorHandler);
 router.get("/affiliatecode", authenticateJWT,getAffilateCode, errorHandler);
+router.get("/provider/available", getAvailableProvider, errorHandler);
 router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandler);
 router.post("/jotformwebhook", multipart.array(), jotformWebhook, errorHandler);
 // router.post("/vcitawebhook", appointmentCreatedWebhook, errorHandler);

@@ -19,7 +19,9 @@ const {
   get2faVerfication,
   verify2faVerfication,
   getAffiliatePayableAmount,
-  generateOtp
+  generateOtp,
+  getProviders,
+  getAppointmentsByFilter
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
@@ -493,6 +495,38 @@ exports.contactFormEmail = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
+exports.getAvailableProvider = async (req, res, next) => {
+  try {
+   const appointmentDateTime = req.query.appointment_date_time;
+   const providers=await getProviders()
+   const free_provider=[]
+   //give two hour before and after appointment
+   const twoHoursBefore = moment(appointmentDateTime).subtract(2, "hours").local();
+   const twoHoursAfter = moment(appointmentDateTime).add(2, "hours").local();
+  if(providers.length<1) return res.json(free_provider)
+  for(let provider of providers){
+    const options={
+      where: {
+        doctorId: provider.id,
+        appointmentDateTime: {
+          [Op.between]: [twoHoursBefore, twoHoursAfter]
+        },
+      },
+    }
+    const overlappingAppointments = await getAppointmentsByFilter(options);
+    if(overlappingAppointments.length<1)free_provider.push(
+      {id:provider.id,first_name:provider.first_name,
+      last_name:provider.last_name})
+  }
+   return res.json({free_provider})
+  }
+  catch(err){
+   next(err)
+  }
+}
 
 exports.getAffilateCode = async (req, res, next) => {
   try {

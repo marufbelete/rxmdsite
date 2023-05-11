@@ -5,7 +5,7 @@ const { getAppointment } = require("../controllers/appointment.controller");
 const { checkAppointmentLeft } = require("../middleware/role.middleware");
 // module.exports = (app) => {
 const path = require("path");
-const { getUser } = require("../helper/user");
+const { getUser,getProductType } = require("../helper/user");
 const router = require("express").Router();
 
 
@@ -96,6 +96,15 @@ router.get("/affiliate",authenticateJWT, async function (req, res) {
 // router.get("/products/details", function (req, res) {
 //   res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));
 // });
+
+//test
+router.get("/appointment",authenticateJWT,checkAppointmentLeft, async function (req, res) {
+  const options = {
+    order: [["product_name", "ASC"]],
+  };
+  const product=await getProductType(options)
+  return res.render(path.join(__dirname, "..", "/views/pages/scheduleAppointment"),{product});
+});
 
 router.get("*", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/404"))

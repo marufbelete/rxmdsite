@@ -42,10 +42,21 @@ const Relation = () => {
   })
    // user as buyer-affiliate
    User.hasMany(Appointment,{
-    foreignKey: 'userId',
+    foreignKey: 'patientId',
+    as: 'patient'
   })
   Appointment.belongsTo(User,{
-    foreignKey: 'userId',
+    foreignKey: 'patientId',
+    as: 'patient'
+  })
+   // user as buyer-affiliate
+   User.hasMany(Appointment,{
+    foreignKey: 'doctorId',
+    as: 'doctor'
+  })
+  Appointment.belongsTo(User,{
+    foreignKey: 'doctorId',
+    as: 'doctor'
   })
    // user as buyer-affiliate
    User.hasMany(Patientinfo,{

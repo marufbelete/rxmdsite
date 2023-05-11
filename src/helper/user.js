@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Role=require("../models/roleModel")
 const PaymenInfo=require("../models/paymentInfoModel")
 const Subscription=require("../models/subscriptionModel")
 const jwt = require("jsonwebtoken");
@@ -7,6 +8,8 @@ const speakeasy = require('speakeasy');
 
 const {createSubscriptionFromCustomerProfile}=require('../functions/handlePayment');
 const Affiliate = require("../models/affiliateModel");
+const Product = require("../models/productModel");
+const Appointment = require("../models/appointmentModel");
 const isEmailExist = async (email) => {
   const user = await User.findOne({
     where: { email: email },
@@ -77,7 +80,13 @@ const issueToken = async function (id, role,email,rememberme, key,expirey) {
   const token = jwt.sign({ sub: id, role,email,rememberme }, key, { expiresIn: expirey });
   return token;
 };
-
+const getProviders= async()=>{
+  const provider=await User.findAll({include:[{
+    model:Role,
+    where:{role:"provider"}
+   }]})
+   return provider
+}
 
 const isTokenValid = async function (token,secret) {
   const user = jwt.verify(token,secret, (err, user) => {
@@ -144,6 +153,20 @@ const getUser=async(id)=>{
   const user=User.findByPk(id)
   return user
 }
+const getProductType=async(options)=>{
+  const product=await Product.findAll({
+    ...options,where:{type:'product'}});
+  return product
+}
+const getTreatmentType=async(options)=>{
+  const treatment=await Product.findAll({
+    ...options,where:{type:'treatment'}});
+  return treatment
+}
+const getAppointmentsByFilter=async(options)=>{
+  const appointments=await Appointment.findAll(options)
+  return appointments
+}
 
 
 module.exports = {
@@ -162,5 +185,9 @@ module.exports = {
   getAffiliatePayableAmount,
   deemAffiliate,
   generateOtp,
-  getUser
+  getUser,
+  getProductType,
+  getTreatmentType,
+  getProviders,
+  getAppointmentsByFilter
 };
