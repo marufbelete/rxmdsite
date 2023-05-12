@@ -1,4 +1,4 @@
-const cron = require('node-cron');
+const cron = require('node-schedule');
 const { sendAppointmentReminderEmail } = require('./send_email');
 
 const medicationSurveyJob= async() => {
@@ -28,7 +28,7 @@ const scheduleAppointmentReminder=(email,patient_name,link,date,time) =>{
 }
 
 const runJob=(time,job)=>{
- cron.schedule(time, ()=>{
+ cron.scheduleJob(time, ()=>{
   job()
  })
 }
