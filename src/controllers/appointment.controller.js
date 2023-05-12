@@ -26,8 +26,10 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     const {patientFirstName,patientLastName,patientEmail,message,
            patientPhoneNumber,appointmentDateTime,doctorId,userTimezone}=req.body
            console.log(appointmentDateTime)
-           const userDateTime = momentZone(appointmentDateTime).tz(userTimezone);
-           const utcDateTimeAppointment = userDateTime.clone().utc();
+           process.env.TZ = userTimezone;
+           const utcDateTimeAppointment = momentZone(appointmentDateTime)
+          //  tz(userTimezone);
+          //  const utcDateTimeAppointment = userDateTime.clone().utc();
            console.log(utcDateTimeAppointment)
     const patientId=req?.user?.sub
     const patient=await getUser(patientId)
@@ -43,7 +45,7 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     },{where:{appointmentStatus:"in progress",paymentStatus:true},
     transaction: t })
     await t.commit();
-
+    process.env.TZ = '';
     // const dateTimeAppt = moment(appointmentDateTime);
     const reminderDateTime = utcDateTimeAppointment.subtract(1, "hour");
     const reminderCronString = `${reminderDateTime.minutes()} ${reminderDateTime.hours()} * * *`;
@@ -61,6 +63,7 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
 
     return res.json({message:"success"});
   } catch (err) {
+    process.env.TZ = '';
     await t.rollback();
     next(err);
   }
