@@ -22,31 +22,35 @@ exports.getAppointment = async (req, res, next) => {
 exports.updateAppointmentSchedule = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
+  
     const {patientFirstName,patientLastName,patientEmail,message,
-           patientPhoneNumber,appointmentDateTime,doctorId}=req.body
+           patientPhoneNumber,appointmentDateTime,doctorId,userTimezone}=req.body
            console.log(appointmentDateTime)
+           const userDateTime = momentZone(appointmentDateTime).tz(userTimezone);
+           const utcDateTimeAppointment = userDateTime.clone().utc();
+           console.log(utcDateTimeAppointment)
     const patientId=req?.user?.sub
     const patient=await getUser(patientId)
     const doctor=await getUser(doctorId)
     await User.update({
       left_appointment:false},
      {where:{id:patientId},transaction: t })
-    //  const zoom_url=await generateZoomLink(appointmentDateTime)
+    //  const zoom_url=await generateZoomLink(utcDateTimeAppointment)
     await Appointment.update({
      patientFirstName,patientLastName,patientEmail,message,
-     patientPhoneNumber,appointmentDateTime,doctorId,
+     patientPhoneNumber,appointmentDateTime:utcDateTimeAppointment.toDate(),doctorId,
      appointmentStatus:"pending",zoomUrl:"zoom_url"
     },{where:{appointmentStatus:"in progress",paymentStatus:true},
     transaction: t })
     await t.commit();
 
-    const dateTimeAppt = moment(appointmentDateTime);
-    const reminderDateTime = dateTimeAppt.subtract(1, "hour");
+    // const dateTimeAppt = moment(appointmentDateTime);
+    const reminderDateTime = utcDateTimeAppointment.subtract(1, "hour");
     const reminderCronString = `${reminderDateTime.minutes()} ${reminderDateTime.hours()} * * *`;
     // const dateTimeString = ;
-    const dateTime = moment(appointmentDateTime);
-    const formattedDate = dateTime.format("MM/DD/YY");
-    const formattedTime = dateTime.format("hh:mm A");
+    // const dateTime = moment(appointmentDateTime);
+    const formattedDate = utcDateTimeAppointment.format("MM/DD/YY");
+    const formattedTime = utcDateTimeAppointment.format("hh:mm A");
     
     runJob(reminderCronString, ()=>{
       return scheduleAppointmentReminder(patient?.email, patient?.first_name, "zoom_url", formattedDate, formattedTime);

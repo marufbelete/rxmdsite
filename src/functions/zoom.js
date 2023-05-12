@@ -3,9 +3,9 @@ const axios = require('axios');
 const zoomApiUrl = 'https://api.zoom.us/v2/users/me/meetings';
 const zoomClientId = process.env.ZOOM_CLIENT_ID;
 const zoomClientSecret = process.env.ZOOM_CLIENT_SECRET;
-//   const zoomRedirectUri = 'https://yourapp.com/zoom/callback'; // Your app's OAuth redirect URI
 
-async function generateZoomLink(appointmentDate) {
+async function generateZoomLink(req,res,next) {
+  const appointmentDate="2023-05-18T12:40:00"
   const meetingData = {
     topic: 'Appointment with TestRxmd',
     type: 2, // Scheduled meeting
@@ -27,7 +27,7 @@ async function generateZoomLink(appointmentDate) {
   };
     const response = await axios.post(zoomApiUrl, meetingData, { headers });
     const joinUrl = response.data.join_url;
-    return joinUrl;
+    return res.json(joinUrl);
 }
 
 async function getZoomAccessToken() {
@@ -35,15 +35,15 @@ async function getZoomAccessToken() {
   const authData = {
     grant_type: 'client_credentials',
     client_id: zoomClientId,
-    client_secret: zoomClientSecret
+    client_secret: zoomClientSecret,
   };
   const headers = {
     'Content-Type': 'application/x-www-form-urlencoded'
   };
   const params = new URLSearchParams(authData);
-
     const response = await axios.post(zoomAuthUrl, params, { headers });
     const accessToken = response.data.access_token;
+    console.log(accessToken)
     return accessToken;
 }
 

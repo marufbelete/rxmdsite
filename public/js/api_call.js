@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  const base_url = "http://localhost:7000";
+  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -1424,7 +1424,7 @@ function getAvailableProvider(){
   const appointmentDateTime = date + 'T' + time;
   const message=$("#appt_appointment_message").val()
   // console.log(date,time,appointmentDateTime)
-
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   $("#create_appointment_text").addClass("d-none");
   $("#create_appointment_text_spin").removeClass("d-none");
   $.ajax({
@@ -1432,7 +1432,8 @@ function getAvailableProvider(){
     method: "PUT",
     contentType: 'application/json',
     data: JSON.stringify({patientEmail,patientFirstName,doctorId,
-    patientLastName,patientPhoneNumber,appointmentDateTime,message}),
+    patientLastName,patientPhoneNumber,appointmentDateTime,
+    message,userTimezone}),
     success: function (data) {
     //redirect to the next page
      location.href='/account'

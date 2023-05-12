@@ -31,7 +31,6 @@ const { addInitialProduct } = require('./helper/initial_product')
 const { googlePassport } = require("./auth/google");
 const Relation = require("./models/relation.model");
 const { runCronOnAppointment } = require("./controllers/appointment.controller");
-
 process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
 var corsOptions = {
   origin: [
