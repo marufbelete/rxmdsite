@@ -45,7 +45,6 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     },{where:{appointmentStatus:"in progress",paymentStatus:true},
     transaction: t })
     await t.commit();
-    process.env.TZ = '';
     // const dateTimeAppt = moment(appointmentDateTime);
     const reminderDateTime = utcDateTimeAppointment.subtract(1, "hour");
     const reminderCronString = `${reminderDateTime.minutes()} ${reminderDateTime.hours()} * * *`;
@@ -60,7 +59,7 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     runJob(reminderCronString, ()=>{
       return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, "zoom_url",formattedDate, formattedTime);
     })
-
+    process.env.TZ = '';
     return res.json({message:"success"});
   } catch (err) {
     process.env.TZ = '';
