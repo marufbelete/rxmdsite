@@ -25,12 +25,11 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
   
     const {patientFirstName,patientLastName,patientEmail,message,
            patientPhoneNumber,appointmentDateTime,doctorId,userTimezone}=req.body
-           console.log(appointmentDateTime)
-           process.env.TZ = userTimezone;
-           const utcDateTimeAppointment = momentZone(appointmentDateTime)
+           
+           const utcDateTimeAppointment = moment.tz(appointmentDateTime,userTimezone).utc();
           //  tz(userTimezone);
           //  const utcDateTimeAppointment = userDateTime.clone().utc();
-           console.log(utcDateTimeAppointment)
+    console.log(utcDateTimeAppointment.format('YYYY-MM-DD HH:mm:ss'))
     const patientId=req?.user?.sub
     const patient=await getUser(patientId)
     const doctor=await getUser(doctorId)
@@ -40,15 +39,14 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     //  const zoom_url=await generateZoomLink(utcDateTimeAppointment)
     await Appointment.update({
      patientFirstName,patientLastName,patientEmail,message,
-     patientPhoneNumber,appointmentDateTime:utcDateTimeAppointment.toDate(),doctorId,
+     patientPhoneNumber,appointmentDateTime:utcDateTimeAppointment.format('YYYY-MM-DD HH:mm:ss'),doctorId,
      appointmentStatus:"pending",zoomUrl:"zoom_url"
     },{where:{appointmentStatus:"in progress",paymentStatus:true},
     transaction: t })
-    // const dateTimeAppt = moment(appointmentDateTime);
-    // const reminderDateTime = 
-    const formattedDate = utcDateTimeAppointment.format("MM/DD/YY");
-    const formattedTime = utcDateTimeAppointment.format("hh:mm A");
-    const reminderCronString = new Date(utcDateTimeAppointment.subtract(1, "hour"));
+    const dateTimeAppt = moment(appointmentDateTime);
+    const formattedDate = dateTimeAppt.format("MM/DD/YY");
+    const formattedTime = dateTimeAppt.format("hh:mm A");
+    const reminderCronString = utcDateTimeAppointment.subtract(1, "hour").toDate();
     console.log(reminderCronString)
     // const reminderCronString = `${reminderDateTime.minutes()} ${reminderDateTime.hours()} ${reminderDateTime.date()} ${reminderDateTime.month() + 1} * ${reminderDateTime.year()}`;
     // const dateTimeString = ;
@@ -62,11 +60,9 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
       return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, "zoom_url",formattedDate, formattedTime);
     })
     await t.commit();
-    process.env.TZ = '';
     return res.json({message:"success"});
   } catch (err) {
     console.log(err)
-    process.env.TZ = '';
     await t.rollback();
     next(err);
   }
@@ -89,8 +85,9 @@ exports.runCronOnAppointment = async () => {
     const oneHourFromNow = moment().add(1, "hour");    
     const appointments =await Appointment.findAll({where:{appointmentStatus:"pending",paymentStatus:true,
     appointmentDateTime: {
-      [Op.gt]: new Date(oneHourFromNow),
+      [Op.gt]: oneHourFromNow.toDate(),
     }}})
+    console.log(appointments)
     if(appointments.length>0){
       for(let appointment of appointments){
         const dateTime = moment(appointment.appointmentDateTime);

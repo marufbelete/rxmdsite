@@ -6,6 +6,7 @@ const Product = require("../models/productModel");
 const { Op } = require("sequelize");
 const path = require("path");
 const moment = require('moment');
+const momentZone = require("moment-timezone");
 const util = require('util');
 const QRCode = require('qrcode');
 const asyncVerify = util.promisify(jwt.verify);
@@ -501,11 +502,17 @@ exports.contactFormEmail = async (req, res, next) => {
 exports.getAvailableProvider = async (req, res, next) => {
   try {
    const appointmentDateTime = req.query.appointment_date_time;
+   const userTimezone =req.query.userTimezone
+   console.log(userTimezone)
+   process.env.TZ = userTimezone;
+   const userDateTime = momentZone.tz(appointmentDateTime, userTimezone);
+   console.log(userDateTime)
+  //  const utcDateTime = moment.utc(appointmentDateTime);
    const providers=await getProviders()
    const free_provider=[]
    //give two hour before and after appointment
-   const twoHoursBefore = moment(appointmentDateTime).subtract(2, "hours").local();
-   const twoHoursAfter = moment(appointmentDateTime).add(2, "hours").local();
+   const twoHoursBefore = moment(appointmentDateTime).subtract(2, "hours").toDate();
+   const twoHoursAfter = moment(appointmentDateTime).add(2, "hours").toDate();
   if(providers.length<1) return res.json(free_provider)
   for(let provider of providers){
     const options={
@@ -521,9 +528,13 @@ exports.getAvailableProvider = async (req, res, next) => {
       {id:provider.id,first_name:provider.first_name,
       last_name:provider.last_name})
   }
+  process.env.TZ = '';
+
    return res.json({free_provider})
   }
   catch(err){
+    process.env.TZ = '';
+
    next(err)
   }
 }

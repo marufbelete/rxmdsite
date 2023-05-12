@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  const base_url = "http://localhost:7000";
+  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -1384,9 +1384,11 @@ function getAvailableProvider(){
     const date= $("#appt_appointment_date").val();
     const time = $("#appt_appointment_time").val();
     const appointmentDateTime = date + 'T' + time;
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     console.log(appointmentDateTime)
     $.ajax({
-      url: `${base_url}/provider/available?appointment_date_time=${appointmentDateTime}`,
+      url: `${base_url}/provider/available?appointment_date_time=${appointmentDateTime}&userTimezone=${userTimezone}`,
       type: "GET",
       success: ({free_provider}) => {
         console.log(free_provider)

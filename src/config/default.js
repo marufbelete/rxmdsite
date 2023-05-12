@@ -4,6 +4,7 @@ const config = {
   password: process.env.DB_PASSOWRD,
   db: process.env.DB,
   dialect: process.env.DB_DIALECT,
+  timezone:'Etc/UTC',
   pool: {
     max: 5,
     min: 0,
