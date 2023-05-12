@@ -153,29 +153,29 @@
                   <div class="line-bottom mb-30"></div>
                   <p>Schedule your appointment.</p>
                     <div class="row">
-                      <div class="alert alert-primary d-none" role="alert" id="appointment_error_message">
+                      <div class="alert alert-danger d-none" role="alert" id="appointment_error_message">
                       </div>
                       <div class="col-md-6">
                         <div class="mb-3 mb-10">
-                          <input id="appt_first_name" class="form-control" type="text" placeholder="Enter First Name"
+                          <input id="appt_first_name" class="form-control" type="text" placeholder="Enter First Name*"
                             aria-required="true">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="mb-3 mb-10">
-                          <input id="appt_last_name" class="form-control" type="text" placeholder="Enter Last Name"
+                          <input id="appt_last_name" class="form-control" type="text" placeholder="Enter Last Name*"
                             aria-required="true">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="mb-3 mb-10">
                           <input id="appt_email" class="form-control required email" type="email"
-                            placeholder="Enter Email" aria-required="true">
+                            placeholder="Enter Email*" aria-required="true">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="mb-3 mb-10">
-                          <input id="appt_phone" class="form-control required" type="text" placeholder="Enter Phone"
+                          <input id="appt_phone" class="form-control required" type="text" placeholder="Enter Phone*"
                             aria-required="true">
                         </div>
                       </div>
@@ -194,8 +194,11 @@
                       <div class="col-md-12">
                         <div class="mb-3 mb-10">
                             <select disabled class="form-control" id="appt_doctor">
-                                <option value="">Select Doctor</option>
+                                <option value="">Select Doctor*</option>
                               </select>
+                              <div id="provider_spinner" class="spinner-border spinner-border-sm d-none" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
                         </div>
                       </div>
                     </div>

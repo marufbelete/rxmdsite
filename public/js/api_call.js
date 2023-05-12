@@ -1371,7 +1371,6 @@ $('#copy_url_btn').click(function() {
 });
 $("#appt_appointment_date, #appt_appointment_time").on("change", function() {
     if ($("#appt_appointment_date").val() && $("#appt_appointment_time").val()) {
-      $("#appt_doctor").prop("disabled", false);
       getAvailableProvider()
     } else {
       // Disable the select element if either input is empty
@@ -1385,17 +1384,18 @@ function getAvailableProvider(){
     const time = $("#appt_appointment_time").val();
     const appointmentDateTime = date + 'T' + time;
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
+   $("#provider_spinner").removeClass("d-none")
     console.log(appointmentDateTime)
     $.ajax({
       url: `${base_url}/provider/available?appointment_date_time=${appointmentDateTime}&userTimezone=${userTimezone}`,
       type: "GET",
       success: ({free_provider}) => {
-        console.log(free_provider)
+        $("#provider_spinner").addClass("d-none")
+        $("#appt_doctor").prop("disabled", false);
         if(free_provider.length<1)
         {
           $("#appt_doctor").append(`
-        <option value="">Select Doctor(plase select different time all provider are ocupied)</option>
+        <option value="">Select Doctor(plase select different time all provider are occupied)</option>
         `)
           return
         }
@@ -1407,6 +1407,9 @@ function getAvailableProvider(){
           <option value=${provider?.id}>${provider?.first_name+' '+ provider?.last_name}</option>
           `)
         })
+      },
+      error:()=>{
+        $("#provider_spinner").addClass("d-none")
       }
     })
 }
@@ -1425,8 +1428,17 @@ function getAvailableProvider(){
   const doctorId= $("#appt_doctor").val();
   const appointmentDateTime = date + 'T' + time;
   const message=$("#appt_appointment_message").val()
-  // console.log(date,time,appointmentDateTime)
+  $("#appointment_error_message").addClass("d-none")
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  if(!patientEmail
+    ||!patientFirstName
+    ||!patientLastName
+    ||!patientPhoneNumber
+    ||!doctorId){
+      console.log("error")
+    $("#appointment_error_message").removeClass("d-none").text("plase fill all field")
+    return
+    }
   $("#create_appointment_text").addClass("d-none");
   $("#create_appointment_text_spin").removeClass("d-none");
   $.ajax({
@@ -1441,10 +1453,8 @@ function getAvailableProvider(){
      location.href='/account'
     },
     error: function (data) {
-      $("#login_error").removeClass("d-none");
       $("#create_appointment_text").removeClass("d-none");
       $("#create_appointment_text_spin").addClass("d-none");
-      $("#login_error").text(data.responseJSON.message);
     },
   });
 });
