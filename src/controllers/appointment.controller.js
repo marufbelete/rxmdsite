@@ -6,9 +6,7 @@ const { runJob, scheduleAppointmentReminder } = require("../helper/cron_job");
 const { getUser } = require("../helper/user");
 const { generateZoomLink } = require("../functions/zoom");
 const moment = require("moment");
-const momentZone = require("moment-timezone");
 const { Op } = require("sequelize");
-const timeZone = "America/Los_Angeles";
 exports.getAppointment = async (req, res, next) => {
   try {
     const token = req.cookies.acccess_token;
@@ -29,7 +27,6 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
            const utcDateTimeAppointment = moment.tz(appointmentDateTime,userTimezone).utc();
           //  tz(userTimezone);
           //  const utcDateTimeAppointment = userDateTime.clone().utc();
-    console.log(utcDateTimeAppointment.format('YYYY-MM-DD HH:mm:ss'))
     const patientId=req?.user?.sub
     const patient=await getUser(patientId)
     const doctor=await getUser(doctorId)
@@ -43,15 +40,10 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
      appointmentStatus:"pending",zoomUrl:"zoom_url"
     },{where:{appointmentStatus:"in progress",paymentStatus:true},
     transaction: t })
-    const dateTimeAppt = moment(appointmentDateTime);
-    const formattedDate = dateTimeAppt.format("MM/DD/YY");
-    const formattedTime = dateTimeAppt.format("hh:mm A");
+    const formattedDate = utcDateTimeAppointment.format("MM/DD/YY");
+    const formattedTime = utcDateTimeAppointment.format("hh:mm A");
+    
     const reminderCronString = utcDateTimeAppointment.subtract(1, "hour").toDate();
-    console.log(reminderCronString)
-    // const reminderCronString = `${reminderDateTime.minutes()} ${reminderDateTime.hours()} ${reminderDateTime.date()} ${reminderDateTime.month() + 1} * ${reminderDateTime.year()}`;
-    // const dateTimeString = ;
-    // const dateTime = moment(appointmentDateTime);
-
     
     runJob(reminderCronString, ()=>{
       return scheduleAppointmentReminder(patient?.email, patient?.first_name, "zoom_url", formattedDate, formattedTime);
@@ -62,7 +54,6 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     await t.commit();
     return res.json({message:"success"});
   } catch (err) {
-    console.log(err)
     await t.rollback();
     next(err);
   }
@@ -73,7 +64,6 @@ exports.getApptPatientSchedule = async (req, res, next) => {
     const patientId=req?.user?.sub
     const appointments=await Appointment.findAll(
      {where:{patientId:patientId},include:['doctor']})
-     console.log(appointments)
     return res.json({appointments});
   } catch (err) {
     next(err);
@@ -87,30 +77,24 @@ exports.runCronOnAppointment = async () => {
     appointmentDateTime: {
       [Op.gt]: oneHourFromNow.toDate(),
     }}})
-    console.log(appointments)
     if(appointments.length>0){
       for(let appointment of appointments){
-        const dateTime = moment(appointment.appointmentDateTime);
-        const formattedDate = dateTime.format("MM/DD/YY");
-        const formattedTime = dateTime.format("h:mm A");
-
         const patient=await getUser(appointment.patientId)
         const doctor=await getUser(appointment.doctorId)
-
-        const dateTimeAppt = moment(appointment.appointmentDateTime);
-        const reminderDateTime = dateTimeAppt.subtract(1, "hour");
-        const reminderCronString = `${reminderDateTime.minutes()} ${reminderDateTime.hours()} * * *`;
+        const dateTimeAppt = moment.utc(appointment.appointmentDateTime);
+        const formattedDate = dateTimeAppt.format("MM/DD/YY");
+        const formattedTime = dateTimeAppt.format("hh:mm A");
+        const reminderCronString = dateTimeAppt.subtract(1, "hour").toDate();
         runJob(reminderCronString, ()=>{
-          return scheduleAppointmentReminder(patient?.email, patient?.first_name, "appointment.zoomUrl", formattedDate, formattedTime);
+          return scheduleAppointmentReminder(patient?.email, patient?.first_name, "appointment.zoomUrl", formattedDate,formattedTime);
         })
         runJob(reminderCronString, ()=>{
-          return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, "appointment.zoomUrl",formattedDate, formattedTime);
+          return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, "appointment.zoomUrl", formattedDate,formattedTime);
         })
       }
     }
     return true
   } catch (err) {
-    console.log(err)
     return false
   }
 };

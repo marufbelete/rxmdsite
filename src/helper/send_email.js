@@ -116,16 +116,16 @@ const sendAppointmentReminderEmail=async(email,name,link,date,time)=>{
               <h1 style="text-align: center; color: #2791BD; font-size: 36px; margin-bottom: 20px; padding: 10px 20px;">TestRxMD Appointment Reminder</h1>
               <p style="text-align: center; font-size: 20px; line-height: 1.5; margin-bottom: 20px;">Hello ${name},</p>
               <p style="text-align: start; padding: 10px 20px;">
-              This is a reminder that you have an appointment with TestRxmd on ${date} at ${time}.
+              This is a reminder that you have an appointment with TestRxmd on ${date} at ${time} In UTC Time.
               Please arrive 10 minutes early to check in and bring any necessary documents or information.
               If you need to reschedule or cancel your appointment, please contact us as soon as possible.
-              Thank you for choosing TestRxmd for your healthcare needs.<a href="${link}">Appointment Link</a>
+              Thank you for choosing TestRxmd for your healthcare needs. <a href="${process.env.BASE_URL}/account"> My Appointment</a>
               </p>
               <div style="text-align: center; padding-bottom: 30px;">
                   <img src="cid:unique@kreata.ae"/>
               </div>
           </div>
-            `,
+              `,
             attachments: [{
               filename: 'testrxmd.gif',
               path: filePath,
