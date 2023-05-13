@@ -149,95 +149,13 @@
 <script src="js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
-// $(".select2_el").select2({
-// });
+$(".select2_el").select2({
+});
 });
 </script>
-<script>
+<!-- <script>
     $(document).ready(function () {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const d = new Date();
-  const day = days[d.getDay()];
-  let hour = d.getHours();
-  let minutes = d.getMinutes();
-  const ampm = hour >= 12 ? 'pm' : 'am';
-  hour = hour % 12;
-  hour = hour ? hour : 12;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  let time = day + ', ' + hour + ':' + minutes + ' '+ ampm;
-  $("#current-date-time").text(time);
-
-//   const base_url = "http://localhost:7000";
-  const base_url = "https://shielded-citadel-34904.herokuapp.com"
-
-
-  // const base_url = "https://www.testrxmd.com"
- //Toggle fullscreen
-        $(".chat-bot-icon").click(function (e) {
-            $(this).children('img').toggleClass('hide');
-            $(this).children('svg').toggleClass('animate');
-            $('.chat-screen').toggleClass('show-chat');
-        });
-        $('.chat-mail button').click(function () {
-            $('.chat-mail').addClass('hide');
-            $('.chat-body').removeClass('hide');
-            $('.chat-input').removeClass('hide');
-            $('.chat-header-option').removeClass('hide');
-        });
-        $('.end-chat').click(function () {
-            $('.chat-body').addClass('hide');
-            $('.chat-input').addClass('hide');
-            $('.chat-session-end').removeClass('hide');
-            $('.chat-header-option').addClass('hide');
-        });
-
-        $('.chat-input input').keypress(function (e) {
-            const message=$('.chat-input input').val()
-            const isNotBotTyping=$('#bot-typing').hasClass('hide')
-            const key = e.which;
-            if(key == 13 && message.trim() && isNotBotTyping){
-                $(`<div class="chat-bubble me">${message}</div>`).insertBefore('.chat-body #bot-typing');
-                $('.chat-input input').val('')
-                $('#bot-typing').removeClass('hide')
-                scrollBottom()
-                sendMessageToBot(message)
-            }
-        }); 
-        $('#send-message-bot').click(function () {
-            const message=$('.chat-input input').val()
-            const isNotBotTyping=$('#bot-typing').hasClass('hide')
-            if(message.trim() && isNotBotTyping){
-                $(`<div class="chat-bubble me">${message}</div>`).insertBefore('.chat-body #bot-typing');
-                $('.chat-input input').val('')
-                $('#bot-typing').removeClass('hide')
-                scrollBottom()
-                sendMessageToBot(message)
-            }
-         
-        });
-function sendMessageToBot(message){
-    $.ajax({
-        url: `${base_url}/chatcompliation`,
-        method: "POST",
-        data: {message},
-        success: function (data) {
-        $('#bot-typing').addClass('hide')
-        $(`<div class="chat-bubble you">${data.message}</div>`).insertBefore('.chat-body #bot-typing');
-        },
-        error: function (data) {
-            $('#bot-typing').addClass('hide')
-            $(`<div class="chat-bubble you">system is busy</div>`).insertBefore('.chat-body #bot-typing');
-        },
-    });
-}
-function scrollBottom(){
-    $('.chat-body').animate({
-        scrollTop: $('.chat-body').get(0).scrollHeight
-    }, 1000);
-}
-   scrollBottom()
-});
-
-</script>
+  
+</script> -->
 </div>
 
