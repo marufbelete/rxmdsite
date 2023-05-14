@@ -119,7 +119,7 @@ const sendAppointmentReminderEmail=async(email,name,link,date,time)=>{
               This is a reminder that you have an appointment with TestRxmd on ${date} at ${time} In UTC Time.
               Please arrive 10 minutes early to check in and bring any necessary documents or information.
               If you need to reschedule or cancel your appointment, please contact us as soon as possible.
-              Thank you for choosing TestRxmd for your healthcare needs. <a href="${process.env.BASE_URL}/account"> My Appointment</a>
+              Thank you for choosing TestRxmd for your healthcare needs. <a href=${link}> Appointment Link</a>
               </p>
               <div style="text-align: center; padding-bottom: 30px;">
                   <img src="cid:unique@kreata.ae"/>

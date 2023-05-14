@@ -93,8 +93,9 @@ router.get("/affiliate",authenticateJWT, async function (req, res) {
 //   res.render(path.join(__dirname, "..", "/views/pages/shop-cart"));
 // });
 
-// router.get("/products/details", function (req, res) {
-//   res.render(path.join(__dirname, "..", "/views/pages/shop-product-details"));
+// router.get("/datepicker", function (req, res) {
+//   console.log("pick")
+//   res.render(path.join(__dirname, "..", "/views/pages/datepiker"));
 // });
 
 //test

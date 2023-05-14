@@ -34,9 +34,13 @@ const Appointment = sequelize.define("appointment", {
   appointmentDateTime:{
    type:Sequelize.DATE
   },
-  zoomUrl:{
+  joinUrl:{
     type:Sequelize.STRING
   },
+  startUrl:{
+    type:Sequelize.STRING(600)
+  },
+  
 
 });
 

@@ -22,34 +22,33 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
   try {
   
     const {patientFirstName,patientLastName,patientEmail,message,
-           patientPhoneNumber,appointmentDateTime,doctorId,userTimezone}=req.body
-           
-           const utcDateTimeAppointment = moment.tz(appointmentDateTime,userTimezone).utc();
-          //  tz(userTimezone);
-          //  const utcDateTimeAppointment = userDateTime.clone().utc();
+    patientPhoneNumber,appointmentDateTime,doctorId,userTimezone}=req.body        
+    const utcDateTimeAppointment = moment.tz(appointmentDateTime,userTimezone).utc();
+
     const patientId=req?.user?.sub
     const patient=await getUser(patientId)
     const doctor=await getUser(doctorId)
     await User.update({
       left_appointment:false},
      {where:{id:patientId},transaction: t })
-    //  const zoom_url=await generateZoomLink(utcDateTimeAppointment)
+     const zoom_url=await generateZoomLink(utcDateTimeAppointment)
     await Appointment.update({
      patientFirstName,patientLastName,patientEmail,message,
-     patientPhoneNumber,appointmentDateTime:utcDateTimeAppointment.format('YYYY-MM-DD HH:mm:ss'),doctorId,
-     appointmentStatus:"pending",zoomUrl:"zoom_url"
+     patientPhoneNumber,appointmentDateTime:utcDateTimeAppointment.format('YYYY-MM-DD HH:mm:ss[Z]'),doctorId,
+     appointmentStatus:"pending",startUrl:zoom_url.start_url,joinUrl:zoom_url.join_url
     },{where:{appointmentStatus:"in progress",paymentStatus:true},
     transaction: t })
+
     const formattedDate = utcDateTimeAppointment.format("MM/DD/YY");
     const formattedTime = utcDateTimeAppointment.format("hh:mm A");
     
     const reminderCronString = utcDateTimeAppointment.subtract(1, "hour").toDate();
     
     runJob(reminderCronString, ()=>{
-      return scheduleAppointmentReminder(patient?.email, patient?.first_name, "zoom_url", formattedDate, formattedTime);
+      return scheduleAppointmentReminder(patient?.email, patient?.first_name, zoom_url.join_url, formattedDate, formattedTime);
     })
     runJob(reminderCronString, ()=>{
-      return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, "zoom_url",formattedDate, formattedTime);
+      return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, zoom_url.start_url,formattedDate, formattedTime);
     })
     await t.commit();
     return res.json({message:"success"});
@@ -86,10 +85,10 @@ exports.runCronOnAppointment = async () => {
         const formattedTime = dateTimeAppt.format("hh:mm A");
         const reminderCronString = dateTimeAppt.subtract(1, "hour").toDate();
         runJob(reminderCronString, ()=>{
-          return scheduleAppointmentReminder(patient?.email, patient?.first_name, "appointment.zoomUrl", formattedDate,formattedTime);
+          return scheduleAppointmentReminder(patient?.email, patient?.first_name, appointment.joinUrl, formattedDate,formattedTime);
         })
         runJob(reminderCronString, ()=>{
-          return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, "appointment.zoomUrl", formattedDate,formattedTime);
+          return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, appointment.startUrl, formattedDate,formattedTime);
         })
       }
     }
@@ -99,6 +98,19 @@ exports.runCronOnAppointment = async () => {
   }
 };
 
+exports.payForSchedule = async (req, res, next) => {
+  try {
+    const {patientFirstName,patientLastName,patientEmail,
+           patientPhoneNumber,appointmentDateTime}=req.body
+    await Appointment.create({
+     patientFirstName,patientLastName,patientEmail,
+     patientPhoneNumber,appointmentDateTime
+    })
+    return res.json({message:"success"});
+  } catch (err) {
+    next(err);
+  }
+};
 exports.payForSchedule = async (req, res, next) => {
   try {
     const {patientFirstName,patientLastName,patientEmail,

@@ -24,20 +24,20 @@
     <!-- Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="css/animate.min.css" rel="stylesheet" type="text/css">
-    <link href="css/javascript-plugins-bundle.css" rel="stylesheet" />
+    <link href="css/javascript-plugins-bundle.css" rel="stylesheet" type="text/css"/>
     <script src="https://www.google.com/recaptcha/api.js"></script>
-    <link rel="stylesheet" href="/node/jquery-datetimepicker/jquery.datetimepicker.css" />
+    <!-- <link rel="stylesheet" href="/node/jquery-datetimepicker/jquery.datetimepicker.css" type="text/css"/> -->
 
 
     <link href="style.css" rel="stylesheet" type="text/css">
 
 
     <!-- CSS | menuzord megamenu skins -->
-    <link href="js/menuzord/css/menuzord.css" rel="stylesheet" />
+    <link href="js/menuzord/css/menuzord.css" rel="stylesheet" type="text/css"/>
 
     <!-- CSS | Main style file -->
     <link href="css/style-main.css" rel="stylesheet" type="text/css">
-    <link id="menuzord-menu-skins" href="css/menuzord-skins/menuzord-rounded-boxed.css" rel="stylesheet" />
+    <link id="menuzord-menu-skins" href="css/menuzord-skins/menuzord-rounded-boxed.css" rel="stylesheet" type="text/css"/>
 
     <!-- CSS | Responsive media queries -->
     <link href="css/responsive.css" rel="stylesheet" type="text/css">
@@ -53,6 +53,8 @@
     <script src="js/jquery.datetimepicker.js"></script>
     <script src="js/menuzord/js/menuzord.js"></script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 
 </head>
@@ -167,6 +169,9 @@
                             aria-required="true">
                         </div>
                       </div>
+                      <!-- test -->
+                      <!-- <input type="text" id="datetimepicker">    -->
+                      
                       <div class="col-md-6">
                         <div class="mb-3 mb-10">
                           <input id="appt_email" class="form-control required email" type="email"
@@ -231,7 +236,7 @@
             <%- include('../partials/footer') %>
 
                 <!-- Footer Scripts -->
-                <script src="js/custom.js"></script>
+                <!-- <script src="js/custom.js"></script> -->
                 <scrip src="js/checkout.js"></scrip>
                 <script src="js/api_call.js"></script>
 </body>

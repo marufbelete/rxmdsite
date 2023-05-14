@@ -4,7 +4,7 @@ $(document).ready(function () {
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
-  console.log(new_url)
+
   if (new_url.includes('checkout')) {
     localStorage.setItem("toCheckout", "true");
   }  
@@ -1246,7 +1246,7 @@ const loadAppointmentTable = () => {
         <td>${dateString}</td>
         <td>${timeString}</td>
         <td>${appointment?.doctor?appointment?.doctor?.first_name+' '+appointment?.doctor?.last_name:'-'}</td>
-        <td>${appointment.zoomUrl||'-'}</td>
+        <td><a href=${appointment.joinUrl||'-'}>Zoom Link</a></td>
         <td>${appointment?.paymentStatus?'Paid':'unpaid'}</td>
         <td>${appointment?.appointmentStatus} ${appointment?.appointmentStatus==="in progress"?"<a href='/appointment'>(compelete schedule)</a>":''}</td>
       </tr>`);
@@ -1548,9 +1548,12 @@ function sendMessageToBot(message){
     });
 }
 function scrollBottom(){
-    $('.chat-body').animate({
-        scrollTop: $('.chat-body').get(0).scrollHeight
+  const chatBody = $('.chat-body');
+if (chatBody.length > 0) {
+    chatBody.animate({
+        scrollTop: chatBody.get(0).scrollHeight
     }, 1000);
+}
 }
    scrollBottom()
 

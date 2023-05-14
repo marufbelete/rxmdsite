@@ -509,15 +509,15 @@ exports.getAvailableProvider = async (req, res, next) => {
    const providers=await getProviders()
    const free_provider=[]
    //give two hour before and after appointment
-   const twoHoursBefore = userDateTime.clone().subtract(2, "hours").toDate();
-   const twoHoursAfter = userDateTime.clone().add(2, "hours").toDate();
+   const appointmentStartTime = userDateTime.clone().toDate();
+   const twoHoursAfter = userDateTime.clone().add(1, "hours").toDate();
   if(providers.length<1) return res.json(free_provider)
   for(let provider of providers){
     const options={
       where: {
         doctorId: provider.id,
         appointmentDateTime: {
-          [Op.between]: [twoHoursBefore, twoHoursAfter]
+          [Op.between]: [appointmentStartTime, twoHoursAfter]
         },
       },
     }
