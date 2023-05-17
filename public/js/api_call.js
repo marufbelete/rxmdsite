@@ -5,6 +5,11 @@ $(document).ready(function () {
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
 
+  //test
+ console.log("called")
+
+  //test
+
   if (new_url.includes('checkout')) {
     localStorage.setItem("toCheckout", "true");
   }  
@@ -14,16 +19,10 @@ $(document).ready(function () {
   $("#populate-order").on("click", function () {
     loadOrderTable();
   });
-//   $(".chat-bot-icon").click(function (e) {
-//     console.log("clicked")
-//     $(this).children('img').toggleClass('hide');
-//     $(this).children('svg').toggleClass('animate');
-//     $('.chat-screen').toggleClass('show-chat');
-// });
+
   const currentDate = new Date().toISOString().split('T')[0];
   $('#appt_appointment_date').attr('min', currentDate);
   const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' });
-  console.log(currentTime)
   $('#appt_appointment_time').attr('min', currentTime);
 
   const showJotForm= localStorage.getItem("showJotForm")
@@ -178,6 +177,7 @@ if(showJotForm=== "true")
       },
     });
   });
+
   //forgot password
   $("#forgot_password").on("click", function (event) {
     event.preventDefault();
@@ -215,6 +215,7 @@ if(showJotForm=== "true")
       },
     });
   });
+  
   //reset password
   $("#reset_button").on("click", function (event) {
     event.preventDefault();
@@ -1246,7 +1247,7 @@ const loadAppointmentTable = () => {
         <td>${dateString}</td>
         <td>${timeString}</td>
         <td>${appointment?.doctor?appointment?.doctor?.first_name+' '+appointment?.doctor?.last_name:'-'}</td>
-        <td><a href=${appointment.joinUrl||'-'}>Zoom Link</a></td>
+        <td><a href=${appointment.joinUrl||'-'} target="_blank">Zoom Link</a></td>
         <td>${appointment?.paymentStatus?'Paid':'unpaid'}</td>
         <td>${appointment?.appointmentStatus} ${appointment?.appointmentStatus==="in progress"?"<a href='/appointment'>(compelete schedule)</a>":''}</td>
       </tr>`);
@@ -1380,51 +1381,52 @@ $('#copy_url_btn').click(function() {
     `);
   }
 });
-$("#appt_appointment_date, #appt_appointment_time").on("change", function() {
-    if ($("#appt_appointment_date").val() && $("#appt_appointment_time").val()) {
-      getAvailableProvider()
-    } else {
-      // Disable the select element if either input is empty
-      $("#appt_doctor").prop("disabled", true);
-    }
-  });
+// $("#appt_appointment_date, #appt_appointment_time").on("change", function() {
+//     if ($("#appt_appointment_date").val() && $("#appt_appointment_time").val()) {
+//       getAvailableProvider()
+//     } else {
+//       // Disable the select element if either input is empty
+//       $("#appt_doctor").prop("disabled", true);
+//     }
+//   });
 
 function getAvailableProvider(){
     $("#appt_doctor").empty();
-    const date= $("#appt_appointment_date").val();
-    const time = $("#appt_appointment_time").val();
-    const appointmentDateTime = date + 'T' + time;
-    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-   $("#provider_spinner").removeClass("d-none")
-    console.log(appointmentDateTime)
+    // const time = $("#appt_appointment_time").val();
+    // const appointmentDateTime = date + 'T' + time;
+    // const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  //  $("#provider_spinner").removeClass("d-none")
+    // console.log(appointmentDateTime)
     $.ajax({
-      url: `${base_url}/provider/available?appointment_date_time=${appointmentDateTime}&userTimezone=${userTimezone}`,
+      url: `${base_url}/provider/available`,
       type: "GET",
-      success: ({free_provider}) => {
-        $("#provider_spinner").addClass("d-none")
-        $("#appt_doctor").prop("disabled", false);
-        if(free_provider.length<1)
-        {
-          $("#appt_doctor").append(`
-        <option value="">Select Doctor(plase select different time all provider are occupied)</option>
-        `)
-          return
-        }
+      success: ({providers}) => {
+        // $("#provider_spinner").addClass("d-none")
+        // $("#appt_doctor").prop("disabled", false);
+        // if(free_provider.length<1)
+        // {
+        //   $("#appt_doctor").append(`
+        // <option value="">Select Doctor(plase select different time all provider are occupied)</option>
+        // `)
+        //   return
+        // }
+        
         $("#appt_doctor").append(`
-        <option value="">Select Doctor</option>
+        <option value="">Select Doctor*</option>
         `)
-        free_provider?.forEach((provider) => {
+        providers?.forEach((provider) => {
           $("#appt_doctor").append(`
           <option value=${provider?.id}>${provider?.first_name+' '+ provider?.last_name}</option>
           `)
         })
       },
-      error:()=>{
-        $("#provider_spinner").addClass("d-none")
-      }
+      // error:()=>{
+      //   $("#provider_spinner").addClass("d-none")
+      // }
     })
 }
 
+getAvailableProvider()
 //create appt
  $("#create_appointment").on("click", function (event) {
   event.preventDefault();

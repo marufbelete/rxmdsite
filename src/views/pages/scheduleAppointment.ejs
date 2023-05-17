@@ -50,16 +50,21 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/javascript-plugins-bundle.min.js"></script>
-    <script src="js/jquery.datetimepicker.js"></script>
     <script src="js/menuzord/js/menuzord.js"></script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-
+    
+    <link rel="stylesheet" href="pickadate/lib/themes/classic.css">
+    <link rel="stylesheet" href="pickadate/lib/themes/classic.date.css">
+    <link rel="stylesheet" href="pickadate/lib/themes/classic.time.css">
+    <script src="pickadate/lib/picker.js"></script>
+    <script src="pickadate/lib/picker.date.js"></script>
+    <script src="pickadate/lib/picker.time.js"></script>
 </head>
 
 <body class="tm-container-1300px has-side-panel side-panel-right">
+  <!-- <input id="appt_appointment_date" class="" type="text">
+  <input id="appt_appointment_time" class="" type="text"> -->
+
     <%- include('../partials/headerTop.ejs') %>
         <li class="menu-item">
             <a href="/">Home</a>
@@ -122,12 +127,11 @@
 
         <!-- Start main-content -->
           <!-- Start main-content -->
-      <div class="main-content-area" id="schedule_area">
         <!-- Section: page title -->
-        <section class="page-title layer-overlay overlay-dark-9 section-typo-light bg-img-center"
-          data-tm-bg-img="images/bg/bg1.jpg">
-          <div class="container pt-50 pb-50">
-            <div class="section-content">
+        <div class="page-title layer-overlay overlay-dark-9 section-typo-light bg-img-center"
+        data-tm-bg-img="images/bg/bg1.jpg">
+        <div class="container pt-50 pb-50">
+          <div class="section-content">
               <div class="row">
                 <div class="col-md-12 text-center">
                   <h2 class="title">Appointment Form</h2>
@@ -144,9 +148,9 @@
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        <section>
+        <div>
           <div class="container">
             <div class="row">
               <div class="col-md-8 offset-md-2">
@@ -184,28 +188,26 @@
                             aria-required="true">
                         </div>
                       </div>
+                      <div class="col-md-12">
+                        <div class="mb-3 mb-10">
+                            <select class="form-control" id="appt_doctor">
+                                <option value="">Select Provider*</option>
+                              </select>
+                        </div>
+                      </div>
                       <div class="col-md-6">
                         <div class="mb-3">
-                          <input id="appt_appointment_date" class="form-control required" type="date">
+                          <input id="appt_appointment_date" disabled class="form-control" type="text">
                           <label for="appt_appointment_date">Appointment Date</label>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="mb-3">
-                          <input id="appt_appointment_time" class="form-control required" type="time">
+                          <input id="appt_appointment_time" disabled class="form-control" type="text">
                            <label for="appt_appointment_time">Appointment Time</label>
                         </div>
                       </div>
-                      <div class="col-md-12">
-                        <div class="mb-3 mb-10">
-                            <select disabled class="form-control" id="appt_doctor">
-                                <option value="">Select Doctor*</option>
-                              </select>
-                              <div id="provider_spinner" class="spinner-border spinner-border-sm d-none" role="status">
-                                <span class="sr-only">Loading...</span>
-                              </div>
-                        </div>
-                      </div>
+                    
                     </div>
                     <div class="mb-3 mb-10">
                       <textarea id="appt_appointment_message" class="form-control required" placeholder="Enter Message" rows="5"
@@ -227,18 +229,18 @@
               </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
 
-                        <!-- end main-content -->
+    <!-- end main-content -->
 
             <!-- Footer -->
             <%- include('../partials/footer') %>
 
                 <!-- Footer Scripts -->
                 <!-- <script src="js/custom.js"></script> -->
-                <scrip src="js/checkout.js"></scrip>
-                <script src="js/api_call.js"></script>
+                <!-- <scrip src="js/checkout.js"></scrip> -->
+               
 </body>
-
+<script src="js/api_call.js"></script>
+<script src="js/pickadate.js"></script>
 </html>

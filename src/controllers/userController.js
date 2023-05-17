@@ -501,32 +501,49 @@ exports.contactFormEmail = async (req, res, next) => {
 
 exports.getAvailableProvider = async (req, res, next) => {
   try {
-   const appointmentDateTime = req.query.appointment_date_time;
-   const userTimezone =req.query.userTimezone
-   const userDateTime = moment.tz(appointmentDateTime,userTimezone).utc();
+  //  const userTimezone =req.query.userTimezone
+  //  const userDateTime = moment.tz(appointmentDateTime,userTimezone).utc();
   //  momentZone.tz(appointmentDateTime, userTimezone);
   //  const utcDateTime = moment.utc(appointmentDateTime);
    const providers=await getProviders()
-   const free_provider=[]
-   //give two hour before and after appointment
-   const appointmentStartTime = userDateTime.clone().toDate();
-   const twoHoursAfter = userDateTime.clone().add(1, "hours").toDate();
-  if(providers.length<1) return res.json(free_provider)
-  for(let provider of providers){
-    const options={
-      where: {
-        doctorId: provider.id,
-        appointmentDateTime: {
-          [Op.between]: [appointmentStartTime, twoHoursAfter]
-        },
-      },
-    }
-    const overlappingAppointments = await getAppointmentsByFilter(options);
-    if(overlappingAppointments.length<1)free_provider.push(
-      {id:provider.id,first_name:provider.first_name,
-      last_name:provider.last_name})
+  
+
+  //  const free_provider=[]
+  //  //give two hour before and after appointment
+  // //  const appointmentStartTime = userDateTime.clone().toDate();
+  // //  const twoHoursAfter = userDateTime.clone().add(1, "hours").toDate();
+  // if(providers.length<1) return res.json(free_provider)
+  // for(let provider of providers){
+  //   const options={
+  //     where: {
+  //       doctorId: provider.id,
+  //       // appointmentDateTime: {
+  //       //   [Op.between]: [appointmentStartTime, twoHoursAfter]
+  //       // },
+  //     },
+  //   }
+  //   const overlappingAppointments = await getAppointmentsByFilter(options);
+  //   if(overlappingAppointments.length<1)free_provider.push(
+  //     {id:provider.id,first_name:provider.first_name,
+  //     last_name:provider.last_name})
+  // }
+   return res.json({providers})
   }
-   return res.json({free_provider})
+  catch(err){
+   next(err)
+  }
+}
+exports.getProviderSchedule = async (req, res, next) => {
+  try {
+   const providerId = req.params.providerId;
+   const options={
+    where:{
+      doctorId: providerId
+    },
+    attributes:['appointmentDateTime']
+   }
+   const providerSchedule = await getAppointmentsByFilter(options);
+   return res.json({providerSchedule})
   }
   catch(err){
    next(err)
