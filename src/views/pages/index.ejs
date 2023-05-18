@@ -319,7 +319,7 @@
                       <div id="collapse501" class="accordion-collapse collapse show" aria-labelledby="heading501"
                         data-bs-parent="#accordion500">
                         <div class="accordion-body">
-                          <strong>After the initial lab draw ($125), the following will be included in your monthly
+                          <strong>After the initial lab draw ($<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%>), the following will be included in your monthly
                             fee:</strong>
                           <ul>
                             <li>😷 - Doctor Consults/Physical Exams</li>
@@ -416,9 +416,24 @@
                       <div id="collapse504" class="accordion-collapse collapse " aria-labelledby="heading504"
                         data-bs-parent="#accordion500">
                         <div class="accordion-body">
-                          We charge $125 for initial bloodwork/labs (we can use labs that have been
-                          drawn in the last 3 months). Therapies vary in cost but start at $100/month (TRT specifically
-                          starts at $200/month). All subsequent lab draws/consults would be included in your monthly
+                          We charge $<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%> for initial bloodwork/labs (we can use labs that have been
+                          drawn in the last 3 months). Therapies vary in cost but start at <%
+                          const minPrice = treatment.reduce((min, product) => {
+                            if (product.price < min) {
+                              return product.price;
+                            }
+                            return min;
+                          }, Infinity);
+                          const minTRTPrice = treatment.reduce((min, product) => {
+                            if (product.product_name.toLowerCase().includes('trt')&&product.price < min) {
+                              return product.price;
+                            }
+                            return min;
+                          }, Infinity);
+                          %>
+                          $<%= minPrice %>
+                          /month (TRT specifically
+                          starts at $<%= minTRTPrice %>/month). All subsequent lab draws/consults would be included in your monthly
                           rate for
                           whatever therapy you choose.
                         </div>

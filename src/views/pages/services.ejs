@@ -144,9 +144,23 @@
                           <div class="thumb"> <img src="images/services/hormone2.webp" alt="Image"></div>
                           <h4>Hormone Therapy:<em> Testosterone Therapy</em></h4>
                           <p>Testosterone Therapy is part of our HRT program. We provide a complete ALL-INCLUSIVE
-                            testosterone program. After paying for the initial labwork/consult ($125) &dash; everything
+                            testosterone program. After paying for the initial labwork/consult ($<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%>) &dash; everything
                             is
-                            included for one low-monthly price &dash; starting at $200/month.
+                            included for one low-monthly price &dash; starting at <%
+                            const minPrice = treatment.reduce((min, product) => {
+                              if (product.price < min) {
+                                return product.price;
+                              }
+                              return min;
+                            }, Infinity);
+                            const minTRTPrice = treatment.reduce((min, product) => {
+                              if (product.product_name.toLowerCase().includes('trt')&&product.price < min) {
+                                return product.price;
+                              }
+                              return min;
+                            }, Infinity);
+                            %>
+                            $<%= minPrice %>/month.
                             Items included:
                           <ul class="mb-3">
                             <li>Consults/Physical Exams</li>
@@ -263,7 +277,7 @@
                             essential in
                             providing the best care possible. That&#39;s why we offer lab work on a per lab draw basis
                             for just
-                            $125, giving you a comprehensive view of your health.</p>
+                            $<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%>, giving you a comprehensive view of your health.</p>
                           <p>Our standard lab work covers a wide range of tests, including: (more available if needed,
                             for
                             added fee)

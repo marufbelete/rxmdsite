@@ -5,26 +5,41 @@ const { getAppointment } = require("../controllers/appointment.controller");
 const { checkAppointmentLeft } = require("../middleware/role.middleware");
 // module.exports = (app) => {
 const path = require("path");
-const { getUser,getProductType } = require("../helper/user");
+const { getUser,getProductType, getTreatmentType } = require("../helper/user");
 const router = require("express").Router();
 
 
-router.get("/", function (req, res) {
-  res.render(path.join(__dirname, "..", "/views/pages/index"));
+router.get("/", async function (req, res) {
+  const options = {
+    order: [["product_name", "ASC"]],
+  };
+  const treatment = await getTreatmentType(options)
+  const products = await getProductType(options)
+  res.render(path.join(__dirname, "..", "/views/pages/index"),{treatment,products});
 });
 
 router.get("/appt", authenticateJWT, checkAppointmentLeft, getAppointment, errorHandler);
 
-router.get("/home", function (req, res) {
-  res.render(path.join(__dirname, "..", "/views/pages/index"));
+router.get("/home", async function (req, res) {
+  const options = {
+    order: [["product_name", "ASC"]],
+  };
+  const treatment = await getTreatmentType(options)
+  const products = await getProductType(options)
+  res.render(path.join(__dirname, "..", "/views/pages/index"),{treatment,products});
 });
 
 router.get("/about", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/about"));
 });
 
-router.get("/services", function (req, res) {
-  res.render(path.join(__dirname, "..", "/views/pages/services"));
+router.get("/services", async function (req, res) {
+  const options = {
+    order: [["product_name", "ASC"]],
+  };
+  const treatment = await getTreatmentType(options)
+  const products = await getProductType(options)
+  res.render(path.join(__dirname, "..", "/views/pages/services"),{treatment,products});
 });
 
 router.get("/contact", function (req, res) {
