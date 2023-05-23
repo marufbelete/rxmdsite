@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  const base_url = "http://localhost:7000";
+  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -67,6 +67,9 @@ if(showJotForm=== "true")
       data?.user?.role?.toLowerCase() === "admin" &&
         localStorage.setItem("isAdmin", "true");
       localStorage.setItem("isLoged", "true");
+      console.log(data?.user?.appointment)
+      data?.user?.appointment&&$('#payment_info_pay').removeClass('d-none')&&
+      $('#payment_info_next').addClass('d-none');
       checkLogin();
     },
     error: function (data) {
@@ -888,7 +891,32 @@ const loadUserPaymentMethod=()=>{
   })
 }
 loadUserPaymentMethod()
+$('#schedule-appointment-order').on('click', function (event) {
+  event.preventDefault()
+  const product_ordered =$('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').data('productid')
+  $("#schedule_appointment_text").addClass("d-none");
+  $("#schedule_appointment_text_spin").removeClass("d-none");
+  if (!product_ordered) {
+  $("#select-product-error").removeClass("d-none").text("Please select service for the appointment")
+   return
+  }
+  $.ajax({
+    url: `${base_url}/appointment`,
+    type: "POST",
+    contentType: 'application/json',
+    data: JSON.stringify({ productId:product_ordered }),
+    success: () => {
+      console.log('success')
+      location.href='/appointment'
+    },
+    error: (error) => {
+      $("#select-product-error").removeClass("d-none").text(error.responseJSON.message)
+      $("#schedule_appointment_text").removeClass("d-none");
+      $("#schedule_appointment_text_spin").addClass("d-none");
+    },
 
+  })
+})
   //copmlete order
   $('#complete-order').on('click', function (event) {
     event.preventDefault()
@@ -986,6 +1014,82 @@ loadUserPaymentMethod()
         }
         $("#cart-total-price").text(0);
         loadUserPaymentMethod()
+      },
+      error: function (data) {
+        $('#spinner-div').hide();
+        $('#complete-order-error').removeClass('d-none').
+          text(data.responseJSON.message)
+      },
+    });
+  })
+  //copmlete appt order
+  $('#complete-appt-order').on('click', function (event) {
+    event.preventDefault()
+    const product_ordered = []
+    const product_id=$('#appt-product').data('productid')
+    product_ordered.push({productId:product_id})
+    if (product_ordered.length === 0) {
+      return
+    }
+    //please select one or more product
+    !($("#checkout-form-ccNumber").val()) ? $("#checkout-form-ccNumber").css('border-color', 'red') :
+      $("#checkout-form-ccNumber").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-ccExpiry").val() ? $("#checkout-form-ccExpiry").css('border-color', 'red') :
+      $("#checkout-form-ccExpiry").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-cvc").val() ? $("#checkout-form-cvc").css('border-color', 'red') :
+      $("#checkout-form-cvc").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-firstname-on-cc").val() ? $("#checkout-form-firstname-on-cc").css('border-color', 'red') :
+      $("#checkout-form-firstname-on-cc").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-lastname-on-cc").val() ? $("#checkout-form-lastname-on-cc").css('border-color', 'red') :
+      $("#checkout-form-lastname-on-cc").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-firstname").val() ? $("#checkout-form-firstname").css('border-color', 'red') :
+      $("#checkout-form-firstname").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-lastname").val() ? $("#checkout-form-lastname").css('border-color', 'red') :
+      $("#checkout-form-lastname").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-email").val() ? $("#checkout-form-email").css('border-color', 'red') :
+      $("#checkout-form-email").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-address").val() ? $("#checkout-form-address").css('border-color', 'red') :
+      $("#checkout-form-address").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-city").val() ? $("#checkout-form-city").css('border-color', 'red') :
+      $("#checkout-form-city").css('border-color', 'rgb(206, 212, 218)')
+    !$('#checkout-form-state').val() ? $("#checkout-form-state").css('border-color', 'red') :
+      $("#checkout-form-state").css('border-color', 'rgb(206, 212, 218)')
+    !$("#checkout-form-zip").val() ? $("#checkout-form-zip").css('border-color', 'red') :
+      $("#checkout-form-zip").css('border-color', 'rgb(206, 212, 218)')
+    $("#select-product-error").addClass("d-none")
+    $('#spinner-div').show();
+    $('#complete-order-error').addClass('d-none')
+    // $(this).prop('disabled', true);
+    const payment_detail = {
+      cardNumber: $("#checkout-form-ccNumber").val(),
+      expirtationDate: $("#checkout-form-ccExpiry").val(),
+      cardCode: $("#checkout-form-cvc").val(),
+      ownerFirstName: $("#checkout-form-firstname-on-cc").val(),
+      ownerLastName: $("#checkout-form-lastname-on-cc").val(),
+
+      //billing info
+      billingFirstName: $("#checkout-form-firstname").val(),
+      billingLastName: $("#checkout-form-lastname").val(),
+      email: $("#checkout-form-email").val(),
+      address: $("#checkout-form-address").val(),
+      city: $("#checkout-form-city").val(),
+      state: $('#checkout-form-state').val(),
+      zip: $("#checkout-form-zip").val(),
+      customer_payment_profile_id: $('input[type="radio"].card_selector:checked').val(),
+      use_exist_payment: !($("#otherPaymentCheckbox").is(':checked')),
+      save_payment_info: $("#saveCardCheckbox").is(':checked')
+    } 
+    const apply_discount=$("#applyDiscountCheckboxAppt").is(':checked')
+    //here make ajax call to compelete the order
+    $.ajax({
+      url: `${base_url}/addorder`,
+      method: "POST",
+      contentType: 'application/json',
+      data: JSON.stringify({  payment_detail, product_ordered,apply_discount }),
+      success: function (data) {
+        $('#spinner-div').hide();
+        $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
+          location.href = '/account'
       },
       error: function (data) {
         $('#spinner-div').hide();
@@ -1112,6 +1216,30 @@ else{
   $("#cart-total-price").text(total_price);
 }
 });
+
+$('#applyDiscountCheckboxAppt').change(function() {
+  if ($(this).is(':checked')) {
+    console.log($('#appt_pay_price').text())
+  const appt_price= Number($("#appt_pay_price").text())
+  console.log(appt_price)
+  console.log(payable_amount)
+  if((appt_price*0.9)<Number(payable_amount)){
+    const discountedPrice=Number(total_price)*0.1
+    $("#appt-total-price").text(discountedPrice);
+  }
+  else{
+    const discountedPrice=Number(appt_price)-Number(payable_amount)
+    $("#appt-total-price").text(discountedPrice);
+  }
+}
+else{
+  console.log("not checked")
+  const appt_price= Number($("#appt_pay_price").text())
+  console.log(appt_price)
+  $("#appt-total-price").text(appt_price);
+
+}
+})
 
 //apply discount
 $('#applyDiscountCheckbox').change(function() {
@@ -1247,7 +1375,7 @@ const loadAppointmentTable = () => {
         <td>${dateString}</td>
         <td>${timeString}</td>
         <td>${appointment?.doctor?appointment?.doctor?.first_name+' '+appointment?.doctor?.last_name:'-'}</td>
-        <td><a href=${appointment.joinUrl||'-'} target="_blank">Zoom Link</a></td>
+        <td>${appointment.joinUrl?`<a href=${appointment.joinUrl||'-'} target="_blank">Zoom Link</a>`:'-'}</td>
         <td>${appointment?.paymentStatus?'Paid':'unpaid'}</td>
         <td>${appointment?.appointmentStatus} ${appointment?.appointmentStatus==="in progress"?"<a href='/appointment'>(compelete schedule)</a>":''}</td>
       </tr>`);
@@ -1314,7 +1442,8 @@ localStorage.getItem("isAffiliate")==="true"){
 if(window?.location?.href==`${base_url}/account`){
   loadAppointmentTable()
 }
-if(window?.location?.href==`${base_url}/checkout` && 
+if((window?.location?.href==`${base_url}/checkout`||
+window?.location?.href==`${base_url}/appointment-checkout`) && 
 localStorage.getItem("isAffiliate")==="true"){
   getAffiliateTotalAmount()
 }
@@ -1331,9 +1460,30 @@ $('#copy_url_btn').click(function() {
   })
   // setTimeout(() => { $('#continue-schedule').attr("disabled", false) }, 30000)
   $('#continue-schedule').on('click', () => {
-    location.href='/appointment'
-    // $('#appointment-form').removeClass('d-none')
-    // $('#continue-schedule').addClass('d-none')
+    const product_ordered =$('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').data('productid')
+    console.log(product_ordered)
+    if (product_ordered.length === 0) {
+
+      $("#select-product-error").removeClass("d-none")
+      $('body').scrollTo('.tbl-shopping-cart');
+      return
+    }
+    $.ajax({
+      url: `${base_url}/appointment`,
+      type: "POST",
+      success: ({providers}) => {
+        $("#appt_doctor").append(`
+        <option value="">Select Doctor*</option>
+        `)
+        providers?.forEach((provider) => {
+          $("#appt_doctor").append(`
+          <option value=${provider?.id}>${provider?.first_name+' '+ provider?.last_name}</option>
+          `)
+        })
+        location.href='/appointment'
+
+      },
+    })
   })
   //doctor dashboard
   $('#therapy_category').change(function() {
@@ -1390,43 +1540,6 @@ $('#copy_url_btn').click(function() {
 //     }
 //   });
 
-function getAvailableProvider(){
-    $("#appt_doctor").empty();
-    // const time = $("#appt_appointment_time").val();
-    // const appointmentDateTime = date + 'T' + time;
-    // const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  //  $("#provider_spinner").removeClass("d-none")
-    // console.log(appointmentDateTime)
-    $.ajax({
-      url: `${base_url}/provider/available`,
-      type: "GET",
-      success: ({providers}) => {
-        // $("#provider_spinner").addClass("d-none")
-        // $("#appt_doctor").prop("disabled", false);
-        // if(free_provider.length<1)
-        // {
-        //   $("#appt_doctor").append(`
-        // <option value="">Select Doctor(plase select different time all provider are occupied)</option>
-        // `)
-        //   return
-        // }
-        
-        $("#appt_doctor").append(`
-        <option value="">Select Doctor*</option>
-        `)
-        providers?.forEach((provider) => {
-          $("#appt_doctor").append(`
-          <option value=${provider?.id}>${provider?.first_name+' '+ provider?.last_name}</option>
-          `)
-        })
-      },
-      // error:()=>{
-      //   $("#provider_spinner").addClass("d-none")
-      // }
-    })
-}
-
-getAvailableProvider()
 //create appt
  $("#create_appointment").on("click", function (event) {
   event.preventDefault();
@@ -1439,7 +1552,11 @@ getAvailableProvider()
   const date= $("#appt_appointment_date").val();
   const time = $("#appt_appointment_time").val();
   const doctorId= $("#appt_doctor").val();
-  const appointmentDateTime = date + 'T' + time;
+  console.log(date,time)
+  const formattedTime = moment(time, 'hh:mm A').format('HH:mm');
+  const appointmentDateTime = moment(date).format('YYYY-MM-DD') + 'T' + formattedTime;
+  console.log(appointmentDateTime)
+  
   const message=$("#appt_appointment_message").val()
   $("#appointment_error_message").addClass("d-none")
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -1448,7 +1565,6 @@ getAvailableProvider()
     ||!patientLastName
     ||!patientPhoneNumber
     ||!doctorId){
-      console.log("error")
     $("#appointment_error_message").removeClass("d-none").text("plase fill all field")
     return
     }
@@ -1463,7 +1579,7 @@ getAvailableProvider()
     message,userTimezone}),
     success: function (data) {
     //redirect to the next page
-     location.href='/account'
+     location.href='/appointment/checkout'
     },
     error: function (data) {
       $("#create_appointment_text").removeClass("d-none");

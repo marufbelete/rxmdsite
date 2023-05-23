@@ -153,12 +153,12 @@ const getUser=async(id)=>{
   const user=User.findByPk(id)
   return user
 }
-const getProductType=async(options)=>{
+const getProductType=async(options={})=>{
   const product=await Product.findAll({
     ...options,where:{type:'product'}});
   return product
 }
-const getTreatmentType=async(options)=>{
+const getTreatmentType=async(options={})=>{
   const treatment=await Product.findAll({
     ...options,where:{type:'treatment'}});
   return treatment
@@ -167,7 +167,18 @@ const getAppointmentsByFilter=async(options)=>{
   const appointments=await Appointment.findAll(options)
   return appointments
 }
-
+const getAppointmentByFilter=async(options)=>{
+  const appointment=await Appointment.findOne(options)
+  return appointment
+}
+const appointmentUnpaidExist = async(sub,option={}) => {
+  const appointment=await Appointment.findOne({where:{
+    paymentStatus:false,
+    patientId:sub,
+    ...option
+  }})
+  return appointment;
+};
 
 module.exports = {
   isEmailExist,
@@ -189,5 +200,8 @@ module.exports = {
   getProductType,
   getTreatmentType,
   getProviders,
-  getAppointmentsByFilter
+  getAppointmentsByFilter,
+  getAppointmentByFilter,
+  appointmentUnpaidExist,
+  
 };

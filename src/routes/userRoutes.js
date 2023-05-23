@@ -59,7 +59,7 @@ router.get("/getloggeduser", authenticateJWT, getCurrentLoggedUser, errorHandler
 router.get("/checkauth", checkAuth, errorHandler);
 router.get("/logout", logOut, errorHandler);
 router.get("/affiliatecode", authenticateJWT,getAffilateCode, errorHandler);
-router.get("/provider/available", getAvailableProvider, errorHandler);
+router.get("/provider/available",authenticateJWT, getAvailableProvider, errorHandler);
 router.get("/provider/schedule/:providerId", getProviderSchedule, errorHandler);
 router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandler);
 router.post("/jotformwebhook", multipart.array(), jotformWebhook, errorHandler);

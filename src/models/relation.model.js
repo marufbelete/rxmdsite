@@ -40,7 +40,7 @@ const Relation = () => {
     foreignKey: 'buyerId',
     as: 'buyer'
   })
-   // user as buyer-affiliate
+   // user as patie with appoin
    User.hasMany(Appointment,{
     foreignKey: 'patientId',
     as: 'patient'
@@ -49,7 +49,7 @@ const Relation = () => {
     foreignKey: 'patientId',
     as: 'patient'
   })
-   // user as buyer-affiliate
+   // user as doc with appoin
    User.hasMany(Appointment,{
     foreignKey: 'doctorId',
     as: 'doctor'
@@ -57,6 +57,13 @@ const Relation = () => {
   Appointment.belongsTo(User,{
     foreignKey: 'doctorId',
     as: 'doctor'
+  })
+   // product -appointment
+   Product.hasMany(Appointment,{
+    foreignKey: 'productId',
+  })
+  Appointment.belongsTo(Product,{
+    foreignKey: 'productId',
   })
    // user as buyer-affiliate
    User.hasMany(Patientinfo,{

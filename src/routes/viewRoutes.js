@@ -2,10 +2,12 @@ const { authenticateJWT } = require("../middleware/auth.middleware");
 const { getProduct } = require("../controllers/productController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { getAppointment } = require("../controllers/appointment.controller");
-const { checkAppointmentLeft } = require("../middleware/role.middleware");
+const {Op}=require('sequelize')
+// const { checkAppointmentLeft } = require("../middleware/role.middleware");
 // module.exports = (app) => {
 const path = require("path");
-const { getUser,getProductType, getTreatmentType } = require("../helper/user");
+const { getUser,getProductType, getTreatmentType, appointmentUnpaidExist } = require("../helper/user");
+const Appointment = require("../models/appointmentModel");
 const router = require("express").Router();
 
 
@@ -18,7 +20,7 @@ router.get("/", async function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"),{treatment,products});
 });
 
-router.get("/appt", authenticateJWT, checkAppointmentLeft, getAppointment, errorHandler);
+// router.get("/appt", authenticateJWT,getAppointment, errorHandler);
 
 router.get("/home", async function (req, res) {
   const options = {
@@ -84,15 +86,24 @@ router.get("/account",authenticateJWT ,function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/account"));
 });
 
+router.get("/appointment-checkout",authenticateJWT ,async function (req, res) {
+   const treatment= await Appointment.findOne({where:{
+    paymentStatus:false,
+    patientId:req?.user?.sub,
+    doctorId:{
+      [Op.not]: null
+    }
+   },include:['product']})
+   if(!treatment)return res.redirect('/checkout')
+  return res.render(path.join(__dirname, "..", "/views/pages/apptCheckout"),{service:treatment});
+});
+
 router.get("/doctordashboard",authenticateJWT ,function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/doctorDashboard"));
 });
 
 router.get("/affiliate",authenticateJWT, async function (req, res) {
     const user=await getUser(req?.user?.sub)
-    console.log(user)
-    console.log("affiliate hek")
-  
     if(user?.affiliateLink){
       return res.render(path.join(__dirname, "..", "/views/pages/affiliateInfo"));
     }
@@ -114,18 +125,22 @@ router.get("/affiliate",authenticateJWT, async function (req, res) {
 // });
 
 //test
-router.get("/appointment",authenticateJWT,checkAppointmentLeft, async function (req, res) {
+router.get("/appointment",authenticateJWT,async function (req, res) {
   const options = {
     order: [["product_name", "ASC"]],
   };
+  const unpaid_appt_exist=await appointmentUnpaidExist(req?.user?.sub)
+  if(!unpaid_appt_exist){
+    return res.redirect('/checkout')
+  }
   const product=await getProductType(options)
-  return res.render(path.join(__dirname, "..", "/views/pages/scheduleAppointment"),{product});
+  return res.render(path.join(__dirname, "..", "/views/pages/scheduleAppointment"),
+  {product,unpaid_appt_exist});
 });
 
 router.get("*", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/404"))
 })
-
 //   app.use("/", router);
 // };
 module.exports = router;

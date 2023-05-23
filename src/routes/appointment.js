@@ -1,18 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const {
-  updateAppointmentSchedule,
-  getApptPatientSchedule
+  createAppointmentSchedule,
+  getApptPatientSchedule,
+  createAppointment
 } = require("../controllers/appointment.controller");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { authenticateJWT } = require("../middleware/auth.middleware");
 const { authAdmin, checkAppointmentLeft } = require("../middleware/role.middleware");
 const {generateZoomLink}=require('../functions/zoom')
+router.post(
+  "/appointment",
+  authenticateJWT,
+  createAppointment,
+  errorHandler
+);
 router.put(
   "/appointment",
   authenticateJWT,
-  checkAppointmentLeft,
-  updateAppointmentSchedule,
+  createAppointmentSchedule,
   errorHandler
 );
 router.get(

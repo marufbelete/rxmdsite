@@ -3,10 +3,12 @@ const Appointment=require("../models/appointmentModel")
 const path = require("path");
 const sequelize = require("../models/index");
 const { runJob, scheduleAppointmentReminder } = require("../helper/cron_job");
-const { getUser } = require("../helper/user");
+const { getUser, getAppointmentByFilter } = require("../helper/user");
 const { generateZoomLink } = require("../functions/zoom");
 const moment = require("moment");
 const { Op } = require("sequelize");
+const { get } = require("config");
+const { handleError } = require("../helper/handleError");
 exports.getAppointment = async (req, res, next) => {
   try {
     const token = req.cookies.acccess_token;
@@ -17,10 +19,29 @@ exports.getAppointment = async (req, res, next) => {
   }
 };
 
-exports.updateAppointmentSchedule = async (req, res, next) => {
-  const t = await sequelize.transaction();
+exports.createAppointment = async (req, res, next) => {
   try {
+    const {productId}=req.body
+    console.log(req.body)
+    if(!productId) handleError("Please select service for the appointment",403)
+    const is_unpaid_exist=await getAppointmentByFilter({where:{paymentStatus:false}})
+    if(is_unpaid_exist) handleError("Please complete unpaid appointment first",403)
+    await Appointment.create({
+      productId,
+      patientId:req?.user?.sub
+
+    })
+    return res.json({status:true})
+} catch (err) {
+  next(err);
+}
+};
   
+exports.createAppointmentSchedule = async (req, res, next) => {
+  // const t = await sequelize.transaction();
+  try {
+    const is_unpaid_exist=await getAppointmentByFilter({where:{paymentStatus:false}})
+    if(is_unpaid_exist) handleError("unpaid appointment already exist, please complete your schedule first")
     const {patientFirstName,patientLastName,patientEmail,message,
     patientPhoneNumber,appointmentDateTime,doctorId,userTimezone}=req.body        
     const utcDateTimeAppointment = moment.tz(appointmentDateTime,userTimezone).utc();
@@ -28,16 +49,17 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     const patientId=req?.user?.sub
     const patient=await getUser(patientId)
     const doctor=await getUser(doctorId)
-    await User.update({
-      left_appointment:false},
-     {where:{id:patientId},transaction: t })
+    // await User.update({
+    //   left_appointment:false},
+    //  {where:{id:patientId},transaction: t })
      const zoom_url=await generateZoomLink(utcDateTimeAppointment)
-    await Appointment.update({
+    await Appointment.create({
      patientFirstName,patientLastName,patientEmail,message,
      patientPhoneNumber,appointmentDateTime:utcDateTimeAppointment.format('YYYY-MM-DD HH:mm:ss[Z]'),doctorId,
      appointmentStatus:"pending",startUrl:zoom_url.start_url,joinUrl:zoom_url.join_url
-    },{where:{appointmentStatus:"in progress",paymentStatus:true},
-    transaction: t })
+    },
+    // {transaction: t }
+    )
 
     const formattedDate = utcDateTimeAppointment.format("MM/DD/YY");
     const formattedTime = utcDateTimeAppointment.format("hh:mm A");
@@ -50,10 +72,10 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     runJob(reminderCronString, ()=>{
       return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, zoom_url.start_url,formattedDate, formattedTime);
     })
-    await t.commit();
+    // await t.commit();
     return res.json({message:"success"});
   } catch (err) {
-    await t.rollback();
+    // await t.rollback();
     next(err);
   }
 };

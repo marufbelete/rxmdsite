@@ -22,7 +22,8 @@ const {
   getAffiliatePayableAmount,
   generateOtp,
   getProviders,
-  getAppointmentsByFilter
+  getAppointmentsByFilter,
+  appointmentUnpaidExist
 } = require("../helper/user");
 const { handleError } = require("../helper/handleError");
 const { validationResult } = require("express-validator");
@@ -411,7 +412,9 @@ exports.checkAuth = async (req, res, next) => {
       if (!check_user?.isActive) {
         handleError("This account is inactive, please contact our customer service", 403);
       }
-      return res.json({ message: "success", auth: true, user: {...user,affiliateLink:check_user.affiliateLink} });
+      return res.json({ message: "success", auth: true, user: 
+      {...user,affiliateLink:check_user?.affiliateLink,
+        appointment:check_user?.appointment} });
     }
     handleError("please login", 403);
   } catch (err) {
@@ -506,7 +509,10 @@ exports.getAvailableProvider = async (req, res, next) => {
   //  momentZone.tz(appointmentDateTime, userTimezone);
   //  const utcDateTime = moment.utc(appointmentDateTime);
    const providers=await getProviders()
-  
+   console.log(req.user)
+   const appt=await appointmentUnpaidExist(req?.user?.sub,{
+    doctorId:{[Op.not]: null}
+   })
 
   //  const free_provider=[]
   //  //give two hour before and after appointment
@@ -527,7 +533,7 @@ exports.getAvailableProvider = async (req, res, next) => {
   //     {id:provider.id,first_name:provider.first_name,
   //     last_name:provider.last_name})
   // }
-   return res.json({providers})
+   return res.json({providers,appt})
   }
   catch(err){
    next(err)
@@ -538,7 +544,8 @@ exports.getProviderSchedule = async (req, res, next) => {
    const providerId = req.params.providerId;
    const options={
     where:{
-      doctorId: providerId
+      doctorId: providerId,
+      paymentStatus:true
     },
     attributes:['appointmentDateTime']
    }

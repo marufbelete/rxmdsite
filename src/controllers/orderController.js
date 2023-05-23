@@ -18,6 +18,7 @@ exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
     const {payment_detail, product_ordered,apply_discount } = req.body;
+    console.log(req.body)
     const user=await User.findByPk(req?.user?.sub)
     const {cardCode,expirtationDate,cardNumber,billingLastName,
       email,billingFirstName,address,city,state,zip,
@@ -56,7 +57,7 @@ exports.createOrder = async (req, res, next) => {
      console.log("cpaid before"+is_commission_paid_before)
     for(const prod of product_ordered) {
       const product = await Product.findByPk(prod?.productId);
-      product_names.push(product.product_name)
+      product_names.push(product?.product_name)
       if(product?.type=='product'){
         is_appointment_exist=true
       }
@@ -212,10 +213,10 @@ exports.createOrder = async (req, res, next) => {
     };
     if(is_appointment_exist){
     sendEmail(mailOptions).then(r=>r).catch(e=>e);
-    await Appointment.create({
-      paymentStatus:true,
-      patientId:req?.user?.sub
-    },{transaction:t})
+    await Appointment.update({
+      paymentStatus:true
+    },{where:{paymentStatus:false,
+      patientId:req?.user?.sub},transaction:t})
     }
     await t.commit();
     if(is_renewal) {
@@ -294,6 +295,7 @@ exports.createOrder = async (req, res, next) => {
   }
     return res.status(201).json({order,is_appointment_exist,product_names});
   } catch (err) {
+    console.log(err)
     await t.rollback();
     next(err);
   }
