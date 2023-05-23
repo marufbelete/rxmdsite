@@ -55,16 +55,16 @@
 }
 
 .tm-timeline-horizontal-vertical .timeline__item.animated {
-	-webkit-animation-duration: 1s;
-	animation-duration: 1s;
+	-webkit-animation-duration: 0.5s;
+	animation-duration: 0.5s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 	opacity: 0
 }
 
 .tm-timeline-horizontal-vertical .timeline__item.fadeIn {
-	-webkit-animation-name: fadeIn;
-	animation-name: fadeIn
+	-webkit-animation-name: fadeInRight;
+	animation-name: fadeInRight
 }
 
 .tm-timeline-horizontal-vertical .timeline__item--left {

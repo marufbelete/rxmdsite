@@ -24,7 +24,7 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="css/animate.min.css" rel="stylesheet" type="text/css">
   <link href="css/javascript-plugins-bundle.css" rel="stylesheet" />
-  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <!-- <script src="https://www.google.com/recaptcha/api.js"></script> -->
 
   <link href="style.css" rel="stylesheet" type="text/css">
 
@@ -284,13 +284,14 @@
                     </tbody>
                   </table>
                   <label id="apply_discount_p" for="applyDiscountCheckbox">
-                                      <!-- tolltip -->
-                      <span flow="right" tooltip="You can only get 90% of max discount of product you buy, if you have more you can use next time">
-                        <i class="fas fa-question-circle" ></i></span>                    
+                    <!-- tolltip -->
+                    <span flow="right"
+                      tooltip="You can only get 90% of max discount of product you buy, if you have more you can use next time">
+                      <i class="fas fa-question-circle"></i></span>
                     Apply My Discount
                     <input style="font-size: 25px;" type="checkbox" id="applyDiscountCheckbox" value="true">
                   </label>
-                    
+
 
                   <div class="d-none text-center" id="select-product-error">
                     <h5 id="select-product-error-text">Please select one or more product</h5>
@@ -300,13 +301,14 @@
 
                 <div id="check_exist_payment" class="d-none">
                   <h2>Select a Payment Card</h2>
-                <div id="payment_card_list">
+                  <div id="payment_card_list">
+                  </div>
+                  <label for="otherPaymentCheckbox">use other payment
+                    <input style="font-size: 25px;" type="checkbox" id="otherPaymentCheckbox" name="otherPayment"
+                      value="true">
+                  </label>
                 </div>
-                <label for="otherPaymentCheckbox">use other payment
-                  <input style="font-size: 25px;" type="checkbox" id="otherPaymentCheckbox" name="otherPayment" value="true">
-                </label>
-                </div>
-              
+
 
                 <div class="col-md-12 mt-60" id="use_new_payment">
                   <div class="card payment-method">
@@ -558,10 +560,11 @@
                                   </div>
                                 </div>
                                 <div>
-                                <label for="saveCardCheckbox">Save Card Info
-                                  <input style="font-size: 25px;" type="checkbox" id="saveCardCheckbox" name="savePayment" value="true">
-                                </label>
-                              </div>
+                                  <label for="saveCardCheckbox">Save Card Info
+                                    <input style="font-size: 25px;" type="checkbox" id="saveCardCheckbox"
+                                      name="savePayment" value="true">
+                                  </label>
+                                </div>
                               </div>
                             </div>
                           </div>

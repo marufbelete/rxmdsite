@@ -24,7 +24,7 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="css/animate.min.css" rel="stylesheet" type="text/css">
   <link href="css/javascript-plugins-bundle.css" rel="stylesheet" />
-  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <!-- <script src="https://www.google.com/recaptcha/api.js"></script> -->
 
   <!-- CSS | menuzord megamenu skins -->
   <link href="js/menuzord/css/menuzord.css" rel="stylesheet" />
@@ -113,20 +113,24 @@
           <div class="container">
             <div class="text-center mb-5">
               <h1>Our Services</h1>
-              <h3 class="text-white">We offer a wide range of care with a primary focus in: TRT/HRT, Weight
+              <h3 class="text-white">We offer a wide range of care with a primary focus in: <br>TRT/HRT, Weight
                 Management, Nootropics, Peptide
                 Therapy,
-                and ED Treatment</h3>
+                &amp; ED Treatment. <br>We also offer detailed &amp; customized 30-day meal plans and workout plans
+                using
+                the
+                power of our custom trained AI.</h3>
             </div>
             <div class="row mt-4">
               <div class="col-lg-12">
                 <div class="tm-timeline-horizontal-vertical" data-tm-mode="vertical"
-                  data-tm-vertical-start-position="right" data-tm-vertical-trigger="700px">
+                  data-tm-vertical-start-position="right" data-tm-vertical-trigger="200px">
                   <div class="timeline__wrap">
                     <div class="timeline__items">
                       <div class="timeline__item">
                         <div class="timeline__content">
-                          <div class="thumb"> <img src="images/services/hormone1.webp" alt="Image"></div>
+                          <div class="thumb"> <img src="images/services/hormone1.webp" alt="Image" loading="lazy">
+                          </div>
                           <h4>Hormone Therapy:</h4>
                           <p>Balancing hormones properly can be a challenging endeavor. At TestRx MD, we have providers
                             who are experienced in this area. We try to make things as easy as possible for the patient
@@ -141,44 +145,41 @@
                       </div>
                       <div class="timeline__item">
                         <div class="timeline__content">
-                          <div class="thumb"> <img src="images/services/hormone2.webp" alt="Image"></div>
+                          <div class="thumb"> <img src="images/services/hormone2.webp" alt="Image" loading="eager">
+                          </div>
                           <h4>Hormone Therapy:<em> Testosterone Therapy</em></h4>
                           <p>Testosterone Therapy is part of our HRT program. We provide a complete ALL-INCLUSIVE
-                            testosterone program. After paying for the initial labwork/consult ($<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%>) &dash; everything
-                            is
-                            included for one low-monthly price &dash; starting at <%
-                            const minPrice = treatment.reduce((min, product) => {
-                              if (product.price < min) {
-                                return product.price;
-                              }
-                              return min;
-                            }, Infinity);
-                            const minTRTPrice = treatment.reduce((min, product) => {
-                              if (product.product_name.toLowerCase().includes('trt')&&product.price < min) {
-                                return product.price;
-                              }
-                              return min;
-                            }, Infinity);
-                            %>
-                            $<%= minPrice %>/month.
-                            Items included:
-                          <ul class="mb-3">
-                            <li>Consults/Physical Exams</li>
-                            <li>Quarterly Labs (more if needed)</li>
-                            <li>Cost of Medication Prescribed (and any supplies needed to administer)</li>
-                            <li>Cost of Shipping to Your Door! (FedEx 2nd day &dash; Expedited &dash; No sig req)</li>
-                          </ul>
-                          The services we offer are personalized based upon your goals &dash; whether
-                          you
-                          want to have care that is more performance-based, or just want to have enhanced energy/libido
-                          like
-                          you used to. We can get you there - let us help you <em>Discover the new YOU
-                            today!</em></p>
+                            testosterone program. After paying for the initial labwork/consult ($<%=products.find(e=>
+                              e?.product_name=="Labwork & Telehealth Consult")?.price%>) &dash; everything
+                              is
+                              included for one low-monthly price &dash; starting at <% const
+                                minPrice=treatment.reduce((min, product)=> {
+                                if (product.price < min) { return product.price; } return min; }, Infinity); const
+                                  minTRTPrice=treatment.reduce((min, product)=> {
+                                  if (product.product_name.toLowerCase().includes('trt')&&product.price < min) { return
+                                    product.price; } return min; }, Infinity); %>
+                                    $<%= minPrice %>/month.
+                                      Items included:
+                                      <ul class="mb-3">
+                                        <li>Consults/Physical Exams</li>
+                                        <li>Quarterly Labs (more if needed)</li>
+                                        <li>Cost of Medication Prescribed (and any supplies needed to administer)</li>
+                                        <li>Cost of Shipping to Your Door! (FedEx 2nd day &dash; Expedited &dash; No sig
+                                          req)</li>
+                                      </ul>
+                                      The services we offer are personalized based upon your goals &dash; whether
+                                      you
+                                      want to have care that is more performance-based, or just want to have enhanced
+                                      energy/libido
+                                      like
+                                      you used to. We can get you there - let us help you <em>Discover the new YOU
+                                        today!</em></p>
                         </div>
                       </div>
                       <div class="timeline__item">
                         <div class="timeline__content">
-                          <div class="thumb"> <img src="images/services/hormone3.webp" alt="Image"></div>
+                          <div class="thumb"> <img src="images/services/hormone3.webp" alt="Image" loading="eager">
+                          </div>
                           <h4>Hormone Therapy: <em>Natural Hormone Therapy</em></h4>
                           <p>Bio-identical hormones via pellet therapy offers a more precise monitoring of hormone and
                             avoid the fluctuations of hormone levels which will provide a more consistent level over a
@@ -197,7 +198,7 @@
                       </div>
                       <div class="timeline__item">
                         <div class="timeline__content">
-                          <div class="thumb"> <img src="images/services/pep.webp" alt="Image"></div>
+                          <div class="thumb"> <img src="images/services/pep.webp" alt="Image" loading="eager"></div>
                           <h4>Peptide Therapy:</h4>
                           <p>At TestRx MD, we offer peptide therapy as a treatment option for a range of health
                             conditions,
@@ -226,7 +227,7 @@
                       </div>
                       <div class="timeline__item">
                         <div class="timeline__content">
-                          <div class="thumb"> <img src="images/services/wl.webp" alt="Image"></div>
+                          <div class="thumb"> <img src="images/services/wl.webp" alt="Image" loading="eager"></div>
                           <h4>Weight-Loss:</h4>
                           <p>At TestRx MD, we understand the struggles that come with trying to lose weight. That&#39;s
                             why we
@@ -242,9 +243,10 @@
                             medications can help you feel full and satisfied while also helping to control cravings.</p>
                         </div>
                       </div>
+
                       <div class="timeline__item">
                         <div class="timeline__content">
-                          <div class="thumb"> <img src="images/services/eds.webp" alt="Image"></div>
+                          <div class="thumb"> <img src="images/services/eds.webp" alt="Image" loading="eager"></div>
                           <h4>ED Treatment:</h4>
                           <p>At TestRx MD, we understand the challenges and embarrassment that can come with dealing
                             with erectile dysfunction (ED). That&#39;s why we offer a range of treatment options to help
@@ -271,16 +273,17 @@
 
                       <div class="timeline__item">
                         <div class="timeline__content">
-                          <div class="thumb"> <img src="images/services/draws.webp" alt="Image"></div>
+                          <div class="thumb"> <img src="images/services/draws.webp" alt="Image" loading="eager"></div>
                           <h4>Lab Work on Per Draw Basis:</h4>
                           <p>At TestRx MD, we believe that understanding the overall health of our patients is
                             essential in
                             providing the best care possible. That&#39;s why we offer lab work on a per lab draw basis
                             for just
-                            $<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%>, giving you a comprehensive view of your health.</p>
+                            $<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%>, giving you a
+                              comprehensive view of your health.</p>
                           <p>Our standard lab work covers a wide range of tests, including: (more available if needed,
                             for
-                            added fee)
+                            added fee)</p>
                           <ul class="mb-3">
                             <li>Complete blood count (CBC) w/ Auto Diff</li>
                             <li>Lipid panel</li>
@@ -302,6 +305,121 @@
                             contact us. We are here to help you achieve optimal health and well-being.</p>
                         </div>
                       </div>
+
+                      <div class="timeline__item">
+                        <div class="timeline__content">
+                          <div class="thumb"> <img src="images/services/mealplan.jpg" alt="mealplan"></div>
+                          <h4>Custom Meal Plans:</h4>
+                          <p>Our Custom 30-Day Meal Plan Service is a personalized, comprehensive, and easy-to-follow
+                            solution for individuals seeking to achieve their nutrition and fitness goals. By gathering
+                            detailed information about our customers, we create a unique meal plan tailored to their
+                            specific needs, preferences, and lifestyle. The service aims to provide maximum value by
+                            addressing various factors, including dietary restrictions, allergies, cooking abilities,
+                            and budget constraints.
+                          <ol class="mb-3">
+                            Key Features:
+                            <li>Nutrient-Rich Recipes: Our meal plans include a variety of nutrient-dense, delicious,
+                              and easy-to-prepare recipes that cater to the customer's dietary restrictions, allergies,
+                              and cultural/regional food preferences.
+                            </li>
+                            <li>Flexible Meal and Snack Scheduling: We accommodate various meal and snack frequencies,
+                              ranging from traditional three meals per day to multiple smaller meals and snacks
+                              throughout the day, depending on the customer's preferences and goals.
+                            </li>
+                            <li>Cooking Skill and Time Considerations: Our recipes take into account the customer's
+                              cooking abilities and available meal preparation time, ensuring that each recipe is
+                              accessible and convenient.</li>
+                            <li>Budget-Friendly Options: We create meal plans that respect the customer's budget,
+                              offering cost-effective recipes and grocery shopping lists that minimize food waste and
+                              maximize savings.</li>
+                            <li>Accessible Kitchen Appliances: Our meal plans consider the customer's access to kitchen
+                              appliances, including ovens, stoves, microwaves, slow cookers, and blenders, ensuring that
+                              each recipe can be easily prepared with the available tools.</li>
+                            <li>Weekly Shopping Lists: Our service provides organized and efficient shopping lists,
+                              making grocery shopping a breeze. The lists include all the necessary ingredients for the
+                              week's recipes, along with quantity and budget information.</li>
+                            <li>Meal Variety and Flexibility: Customers can choose their preferred level of meal
+                              variety, from having a new meal every day to repeating meals over the course of the week.
+                              This flexibility ensures that the meal plan suits their tastes and lifestyle.</li>
+                            <li>Supplement Recommendations: Based on the customer's supplement usage, we provide
+                              guidance on potential adjustments to their meal plan to ensure optimal nutrient intake.
+                            </li>
+                            <li>Medical History and Health Conditions: Our meal plans take into account any relevant
+                              health conditions, such as diabetes, heart disease, or gastrointestinal issues, providing
+                              dietary adjustments to support the customer's overall health.</li>
+                            <li>Sleep Patterns and Stress Level Considerations: We factor in the customer's sleep habits
+                              and stress levels when crafting the meal plan, as these factors can influence nutritional
+                              needs and appetite.</li>
+                            <br>
+                            Each meal plan is carefully crafted based on the customer's unique
+                            parameters, including age, gender, body weight, height, activity level, nutrition and
+                            fitness goals, dietary patterns, and food preferences.
+                          </ol>
+                          <div class="text-center">
+                            <a href="/mealplan">
+                              <button class="btn btn-theme-colored2 text-lg-center">Learn More</button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="timeline__item">
+                        <div class="timeline__content">
+                          <div class="thumb"> <img src="images/services/fitnessplan.jpg" alt="fitnessplan"></div>
+                          <h4>Custom Fitness Plans:</h4>
+                          <p>Our Custom 30-Day Fitness Plan Service is a personalized, comprehensive, and easy-to-follow
+                            solution for individuals seeking to achieve their fitness goals. By gathering detailed
+                            information about our customers, we create a unique workout plan tailored to their specific
+                            needs, preferences, and lifestyle. The service aims to provide maximum value by addressing
+                            various factors, including fitness level, workout preferences, available equipment, and time
+                            constraints.
+                          <ol class="mb-3">
+                            Key Features:
+                            <li>Custom Exercise Selection: Our workout plans include a variety of exercises that cater
+                              to the customer's preferences, goals, and physical limitations (if any). The plans
+                              consider the customer's experience with different types of workouts, such as strength
+                              training, cardio, HIIT, yoga, and more.
+                            </li>
+                            <li>Flexible Workout Scheduling: We accommodate various workout frequencies and durations,
+                              ranging from a few sessions per week to daily workouts, depending on the customer's
+                              preferences and goals.
+                            </li>
+                            <li>Equipment and Facility Considerations: Our workout plans take into account the
+                              customer's access to gym equipment and facilities, ensuring that each exercise can be
+                              easily performed with the available resources.
+                            </li>
+                            <li>Progression and Adaptability: Our workout plans are designed to evolve with the
+                              customer's progress, incorporating increased intensity, volume, or complexity as they
+                              advance in their fitness journey.
+                            </li>
+                            <li>Exercise Demonstrations and Instructions: We provide clear, step-by-step instructions
+                              and visual demonstrations for each exercise, ensuring that the customer can perform the
+                              movements safely and effectively.
+                            </li>
+                            <li>Warm-Up and Cool-Down Routines: Our plans include warm-up and cool-down routines to help
+                              customers prepare their bodies for exercise and reduce the risk of injury.
+                            </li>
+                            <li>Injury Prevention and Recovery: Our workout plans consider any past or current injuries
+                              and provide guidance on modifications, alternative exercises, or rehabilitation
+                              strategies, as needed.
+                            </li>
+                            <li>Rest and Recovery: We factor in the customer's rest and recovery needs when crafting the
+                              workout plan, ensuring a balance between exercise and rest to promote optimal performance
+                              and prevent overtraining.
+                            </li>
+                            <br>
+                            Each workout plan is carefully crafted based on the customer's unique parameters, including
+                            age, gender, body weight, height, fitness level, and fitness goals (e.g., lose weight, build
+                            lean mass, improve endurance, increase flexibility, etc.).
+                          </ol>
+                          <div class="text-center">
+                            <a href="/fitnessplan">
+                              <button class="btn btn-theme-colored2 text-lg-center">Learn More</button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -320,4 +438,4 @@
 </body>
 
 </html>
-<script src="js/api_call.js"></script>
+<!-- <script src="js/api_call.js"></script> -->
