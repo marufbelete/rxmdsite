@@ -17,7 +17,7 @@ router.get("/", async function (req, res) {
   };
   const treatment = await getTreatmentType(options)
   const products = await getProductType(options)
-  res.render(path.join(__dirname, "..", "/views/pages/index"),{treatment,products});
+  res.render(path.join(__dirname, "..", "/views/pages/index"), { treatment, products });
 });
 
 // router.get("/appt", authenticateJWT,getAppointment, errorHandler);
@@ -28,7 +28,7 @@ router.get("/home", async function (req, res) {
   };
   const treatment = await getTreatmentType(options)
   const products = await getProductType(options)
-  res.render(path.join(__dirname, "..", "/views/pages/index"),{treatment,products});
+  res.render(path.join(__dirname, "..", "/views/pages/index"), { treatment, products });
 });
 
 router.get("/about", function (req, res) {
@@ -41,7 +41,7 @@ router.get("/services", async function (req, res) {
   };
   const treatment = await getTreatmentType(options)
   const products = await getProductType(options)
-  res.render(path.join(__dirname, "..", "/views/pages/services"),{treatment,products});
+  res.render(path.join(__dirname, "..", "/views/pages/services"), { treatment, products });
 });
 
 router.get("/contact", function (req, res) {
@@ -82,7 +82,7 @@ router.get("/tos", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/tos"));
 });
 
-router.get("/account",authenticateJWT ,function (req, res) {
+router.get("/account", authenticateJWT, function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/account"));
 });
 
@@ -109,6 +109,15 @@ router.get("/affiliate",authenticateJWT, async function (req, res) {
     }
      return res.render(path.join(__dirname, "..", "/views/pages/affiliate"));
 });
+
+router.get("/meal-plan", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/mealPlan"));
+});
+
+router.get("/fitness-plan", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/fitnessPlan"));
+});
+
 
 //  UNUSED STORE ROUTES FOR USE LATER
 // router.get("/shop", function (req, res) {

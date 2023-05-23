@@ -24,7 +24,7 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="css/animate.min.css" rel="stylesheet" type="text/css">
   <link href="css/javascript-plugins-bundle.css" rel="stylesheet" />
-  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <!-- <script src="https://www.google.com/recaptcha/api.js"></script> -->
 
   <!-- CSS | menuzord megamenu skins -->
   <link href="js/menuzord/css/menuzord.css" rel="stylesheet" />
@@ -110,61 +110,64 @@
 
             <div class="card-body">
               <!-- Product select dropdown -->
-                <div class="form-group mb-2">
-                  <label for="bp_systolic">BP Systolic (40-250)</label>
-                  <input type="number" class="form-control" id="bp_systolic" name="bp_systolic" min="40" max="250" required>
-                </div>
-                <div class="form-group mb-2">
-                  <label for="bp_diastolic">BP Diastolic (30-140)</label>
-                  <input type="number" class="form-control" id="bp_diastolic" name="bp_diastolic" min="30" max="140" required>
-                </div>
-                <div class="form-group mb-2">
-                  <label for="weight">Weight (50-550)</label>
-                  <input type="number" class="form-control" id="weight" name="weight" min="50" max="550" required>
-                </div>
-                <div class="form-group mb-2">
-                  <label for="waist_circumference">Waist Circumference (inches) (16-90)</label>
-                  <input type="number" class="form-control" id="waist_circumference" name="waist_circumference" min="16" max="90" required>
-                </div>
-                <div class="form-group mb-2">
-                  <label for="med_hx">Med Hx</label>
-                  <textarea class="form-control" id="med_hx" name="med_hx"></textarea>
-                </div>
-                <div class="form-group mb-2">
-                  <label for="prescribing_med">Prescribing Med</label>
-                  <select class="form-control" id="prescribing_med" name="prescribing_med">
-                    <option value="WL">Weight Loss</option>
-                    <option value="TRT">Testosterone Replacement Therapy</option>
-                    <option value="BHRT">Bioidentical Hormone Replacement Therapy</option>
-                    <option value="Peptides">Peptides</option>
-                    <option value="Blood_Work">Blood Work</option>
-                    <option value="Misc">Misc</option>
-                  </select>
-                </div>
-                <div class="form-group mb-2">
-                  <label for="therapy_category">Therapy Category</label>
-                  <select class="form-control" id="therapy_category" name="therapy_category">
-                    <option value="">Select a category</option>
-              
-                    <option value="WL">Weight Loss</option>
-                    <option value="TRT">Testosterone Replacement Therapy</option>
-                    <option value="BHRT">Bioidentical Hormone Replacement Therapy</option>
-                    <option value="Peptides">Peptides</option>
-                    <option value="Blood_Work">Blood Work</option>
-                    <option value="Misc">Misc</option>
-                  </select>
-                </div>
-                <div class="form-group mb-2">
-                  <label for="therapy_sub_category">Therapy Sub-Category</label>
-                  <select class="form-control" disabled id="therapy_sub_category" name="therapy_sub_category">
-                    <option value="">Select a sub-category</option>
-                  </select>
-                </div>
-               
-                <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-      </div>
-      </div>
+              <div class="form-group mb-2">
+                <label for="bp_systolic">BP Systolic (40-250)</label>
+                <input type="number" class="form-control" id="bp_systolic" name="bp_systolic" min="40" max="250"
+                  required>
+              </div>
+              <div class="form-group mb-2">
+                <label for="bp_diastolic">BP Diastolic (30-140)</label>
+                <input type="number" class="form-control" id="bp_diastolic" name="bp_diastolic" min="30" max="140"
+                  required>
+              </div>
+              <div class="form-group mb-2">
+                <label for="weight">Weight (50-550)</label>
+                <input type="number" class="form-control" id="weight" name="weight" min="50" max="550" required>
+              </div>
+              <div class="form-group mb-2">
+                <label for="waist_circumference">Waist Circumference (inches) (16-90)</label>
+                <input type="number" class="form-control" id="waist_circumference" name="waist_circumference" min="16"
+                  max="90" required>
+              </div>
+              <div class="form-group mb-2">
+                <label for="med_hx">Med Hx</label>
+                <textarea class="form-control" id="med_hx" name="med_hx"></textarea>
+              </div>
+              <div class="form-group mb-2">
+                <label for="prescribing_med">Prescribing Med</label>
+                <select class="form-control" id="prescribing_med" name="prescribing_med">
+                  <option value="WL">Weight Loss</option>
+                  <option value="TRT">Testosterone Replacement Therapy</option>
+                  <option value="BHRT">Bioidentical Hormone Replacement Therapy</option>
+                  <option value="Peptides">Peptides</option>
+                  <option value="Blood_Work">Blood Work</option>
+                  <option value="Misc">Misc</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="therapy_category">Therapy Category</label>
+                <select class="form-control" id="therapy_category" name="therapy_category">
+                  <option value="">Select a category</option>
+
+                  <option value="WL">Weight Loss</option>
+                  <option value="TRT">Testosterone Replacement Therapy</option>
+                  <option value="BHRT">Bioidentical Hormone Replacement Therapy</option>
+                  <option value="Peptides">Peptides</option>
+                  <option value="Blood_Work">Blood Work</option>
+                  <option value="Misc">Misc</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="therapy_sub_category">Therapy Sub-Category</label>
+                <select class="form-control" disabled id="therapy_sub_category" name="therapy_sub_category">
+                  <option value="">Select a sub-category</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- end main-content -->
