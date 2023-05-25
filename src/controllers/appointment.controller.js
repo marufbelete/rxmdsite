@@ -22,7 +22,6 @@ exports.getAppointment = async (req, res, next) => {
 exports.createAppointment = async (req, res, next) => {
   try {
     const {productId}=req.body
-    console.log(req.body)
     if(!productId) handleError("Please select service for the appointment",403)
     const is_unpaid_exist=await getAppointmentByFilter({where:{paymentStatus:false}})
     if(is_unpaid_exist) handleError("Please complete unpaid appointment first",403)
@@ -37,11 +36,9 @@ exports.createAppointment = async (req, res, next) => {
 }
 };
   
-exports.createAppointmentSchedule = async (req, res, next) => {
+exports.updateAppointmentSchedule = async (req, res, next) => {
   // const t = await sequelize.transaction();
   try {
-    const is_unpaid_exist=await getAppointmentByFilter({where:{paymentStatus:false}})
-    if(is_unpaid_exist) handleError("unpaid appointment already exist, please complete your schedule first")
     const {patientFirstName,patientLastName,patientEmail,message,
     patientPhoneNumber,appointmentDateTime,doctorId,userTimezone}=req.body        
     const utcDateTimeAppointment = moment.tz(appointmentDateTime,userTimezone).utc();
@@ -53,12 +50,12 @@ exports.createAppointmentSchedule = async (req, res, next) => {
     //   left_appointment:false},
     //  {where:{id:patientId},transaction: t })
      const zoom_url=await generateZoomLink(utcDateTimeAppointment)
-    await Appointment.create({
+    await Appointment.update({
      patientFirstName,patientLastName,patientEmail,message,
      patientPhoneNumber,appointmentDateTime:utcDateTimeAppointment.format('YYYY-MM-DD HH:mm:ss[Z]'),doctorId,
      appointmentStatus:"pending",startUrl:zoom_url.start_url,joinUrl:zoom_url.join_url
     },
-    // {transaction: t }
+    {where:{paymentStatus:false,patientId}}
     )
 
     const formattedDate = utcDateTimeAppointment.format("MM/DD/YY");

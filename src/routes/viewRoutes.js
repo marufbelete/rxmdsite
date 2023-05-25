@@ -6,7 +6,7 @@ const {Op}=require('sequelize')
 // const { checkAppointmentLeft } = require("../middleware/role.middleware");
 // module.exports = (app) => {
 const path = require("path");
-const { getUser,getProductType, getTreatmentType, appointmentUnpaidExist } = require("../helper/user");
+const { getUser,getProductType, getTreatmentType, appointmentUnpaidExist, getPlanType } = require("../helper/user");
 const Appointment = require("../models/appointmentModel");
 const router = require("express").Router();
 
@@ -110,11 +110,19 @@ router.get("/affiliate",authenticateJWT, async function (req, res) {
      return res.render(path.join(__dirname, "..", "/views/pages/affiliate"));
 });
 
-router.get("/meal-plan", function (req, res) {
+router.get("/meal-plan", authenticateJWT,async function (req, res) {
+  const user=await getUser(req?.user?.sub)
+  if(!user.mealPlan){
+    return res.redirect('/buyplan')
+   }
   res.render(path.join(__dirname, "..", "/views/pages/mealPlan"));
 });
 
-router.get("/fitness-plan", function (req, res) {
+router.get("/fitness-plan",authenticateJWT ,async function (req, res) {
+  const user=await getUser(req?.user?.sub)
+  if(!user.exercisePlan){
+    return res.redirect('/price-plan')
+   }
   res.render(path.join(__dirname, "..", "/views/pages/fitnessPlan"));
 });
 
@@ -147,9 +155,17 @@ router.get("/appointment",authenticateJWT,async function (req, res) {
   {product,unpaid_appt_exist});
 });
 
+router.get("/price-plan", async function (req, res) {
+  const plans=await getPlanType()
+  return res.render(path.join(__dirname, "..", "/views/pages/pricePlan"),{plans})
+})
+
 router.get("*", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/404"))
 })
 //   app.use("/", router);
 // };
 module.exports = router;
+
+
+

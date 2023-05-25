@@ -46,24 +46,29 @@ function getAvailableProvider(){
       $("#appt_last_name").val(appt?.patientLastName);
       $("#appt_email").val(appt?.patientEmail);
       $("#appt_phone").val(appt?.patientPhoneNumber);
-      // $("#appt_doctor").val(appt?.doctorId);
-      // $("#appt_appointment_date").val(appt?.appointmentDateTime);
-      // $("#appt_appointment_time").val(appt?.appointmentDateTime);
-      const localDateTime = new Date(appt?.appointmentDateTime).toLocaleString();
-      console.log(localDateTime)
-      $("#appt_appointment_date").pickadate('set', localDateTime);
-      $("#appt_appointment_time").pickatime('set', localDateTime);
-      $("#appt_appointment_message").val(appt?.message);
-      providers?.forEach((provider) => {
-        $("#appt_doctor").append(`
-        <option value=${provider?.id}>${provider?.first_name+' '+ provider?.last_name}</option>
-        `)
-      })
+
+  if(appt?.appointmentDateTime){
+    const appointmentDateTime = new Date(appt?.appointmentDateTime);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const appointmentDate = appointmentDateTime.toLocaleDateString('en-US', options);
+    $("#appt_appointment_date").val(appointmentDate);
+        const appointmentTime = appointmentDateTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        $("#appt_appointment_date").val(appointmentDate);
+        $("#appt_appointment_time").val(appointmentTime);
+  }
+    
+    $("#appt_appointment_message").val(appt?.message);
+    providers?.forEach((provider) => {
+      $("#appt_doctor").append(`
+      <option value=${provider?.id}>${provider?.first_name+' '+ provider?.last_name}</option>
+      `)
+    })
       if(appt?.doctorId){
         $("#appt_appointment_date").prop("disabled", false)
         $("#appt_appointment_time").prop("disabled", false)
         $("#appt_appointment_date").css("background-color", "white")
         $("#appt_appointment_time").css("background-color", "white")
+
       }
       $(`#appt_doctor [value=${appt?.doctorId}]`).prop('selected', true);
     },
@@ -94,17 +99,17 @@ $('#appt_appointment_date').pickadate({
   });
     $('#appt_doctor').change(function() {
       const selectedValue = $(this).val();
-      if (selectedValue !== '') {
-   $("#appt_appointment_date").prop("disabled", false)
-   $("#appt_appointment_time").prop("disabled", false)
-   $("#appt_appointment_date").css("background-color", "white")
-   $("#appt_appointment_time").css("background-color", "white")
-     }
-     else{
-        $("#appt_appointment_date").prop("disabled", true)
-        $("#appt_appointment_time").prop("disabled", true)
-        $("#appt_appointment_date").css("background-color", "")
-        $("#appt_appointment_time").css("background-color", "")
-     }
+    if (selectedValue !== '') {
+  $("#appt_appointment_date").prop("disabled", false)
+  $("#appt_appointment_time").prop("disabled", false)
+  $("#appt_appointment_date").css("background-color", "white")
+  $("#appt_appointment_time").css("background-color", "white")
+    }
+  else{
+    $("#appt_appointment_date").prop("disabled", true)
+    $("#appt_appointment_time").prop("disabled", true)
+    $("#appt_appointment_date").css("background-color", "")
+    $("#appt_appointment_time").css("background-color", "")
+  }
   });
 })

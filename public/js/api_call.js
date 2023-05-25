@@ -1579,7 +1579,7 @@ $('#copy_url_btn').click(function() {
     message,userTimezone}),
     success: function (data) {
     //redirect to the next page
-     location.href='/appointment/checkout'
+     location.href='/appointment-checkout'
     },
     error: function (data) {
       $("#create_appointment_text").removeClass("d-none");
@@ -1588,6 +1588,54 @@ $('#copy_url_btn').click(function() {
   });
 });
 
+//meal-plan
+$("#meal_plan_form").submit(function(event){
+  event.preventDefault(); // prevent the form from submitting normally
+  const formData = $(this).serializeArray();
+  var formDataObj = {};
+$.each(formData, function(index, field) {
+  formDataObj[field.name] = field.value;
+});
+$.ajax({
+  url: `${base_url}/mealplan`,
+  method: "POST",
+  contentType: 'application/json',
+  data: JSON.stringify(formDataObj),
+  success: function (data) {
+  //redirect to the next page
+   location.href='/account'
+  },
+  error: function (data) {
+    $("#create_appointment_text").removeClass("d-none");
+    $("#create_appointment_text_spin").addClass("d-none");
+  },
+});
+
+})
+//fitness-plan
+$("#fitness_plan_form").submit(function(event){
+  event.preventDefault(); // prevent the form from submitting normally
+  const formData = $(this).serializeArray();
+  var formDataObj = {};
+$.each(formData, function(index, field) {
+  formDataObj[field.name] = field.value;
+});
+$.ajax({
+  url: `${base_url}/fitnessplan`,
+  method: "POST",
+  contentType: 'application/json',
+  data: JSON.stringify(formDataObj),
+  success: function (data) {
+  //redirect to the next page
+   location.href='/account'
+  },
+  error: function (data) {
+    $("#create_appointment_text").removeClass("d-none");
+    $("#create_appointment_text_spin").addClass("d-none");
+  },
+});
+
+})
 
 //bot
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

@@ -1,30 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const {
-  updateAppointmentSchedule,
-  getApptPatientSchedule,
-  createAppointment
-} = require("../controllers/appointment.controller");
+addFitness,
+getFitness,
+getFitnessById
+} = require("../controllers/fitnessController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { authenticateJWT } = require("../middleware/auth.middleware");
-
 router.post(
-  "/appointment",
+  "/fitnessplan",
   authenticateJWT,
-  createAppointment,
-  errorHandler
-);
-router.put(
-  "/appointment",
-  authenticateJWT,
-  updateAppointmentSchedule,
+  addFitness,
   errorHandler
 );
 router.get(
-  "/appointment/detail",
+  "/fitnessplan",
   authenticateJWT,
-  getApptPatientSchedule,
+  getFitness,
   errorHandler
 );
-
+router.get(
+  "/fitnessplan/:id",
+  authenticateJWT,
+  getFitnessById,
+  errorHandler
+);
 module.exports = router;

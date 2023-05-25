@@ -10,6 +10,7 @@ const {createSubscriptionFromCustomerProfile}=require('../functions/handlePaymen
 const Affiliate = require("../models/affiliateModel");
 const Product = require("../models/productModel");
 const Appointment = require("../models/appointmentModel");
+const Fitness = require("../models/fitnessModel");
 const isEmailExist = async (email) => {
   const user = await User.findOne({
     where: { email: email },
@@ -163,6 +164,11 @@ const getTreatmentType=async(options={})=>{
     ...options,where:{type:'treatment'}});
   return treatment
 }
+const getPlanType=async(options={})=>{
+  const treatment=await Product.findAll({
+    ...options,where:{type:'plan'}});
+  return treatment
+}
 const getAppointmentsByFilter=async(options)=>{
   const appointments=await Appointment.findAll(options)
   return appointments
@@ -199,6 +205,7 @@ module.exports = {
   getUser,
   getProductType,
   getTreatmentType,
+  getPlanType,
   getProviders,
   getAppointmentsByFilter,
   getAppointmentByFilter,

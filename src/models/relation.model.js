@@ -9,6 +9,8 @@ const PaymenInfo=require("./paymentInfoModel")
 const Tracking=require("./trackingModel")
 const Patientinfo=require("./patientInfoModel")
 const Appointment=require("./appointmentModel")
+const Fitness=require("./fitnessModel")
+const Meal=require("./mealModel")
 
 const Relation = () => {
   //product to order
@@ -70,6 +72,20 @@ const Relation = () => {
     foreignKey: 'userId',
   })
   Patientinfo.belongsTo(User,{
+    foreignKey: 'userId',
+  })
+   // user meal plan
+   User.hasMany(Meal,{
+    foreignKey: 'userId',
+  })
+  Meal.belongsTo(User,{
+    foreignKey: 'userId',
+  })
+   // user fitness plan
+   User.hasMany(Fitness,{
+    foreignKey: 'userId',
+  })
+  Fitness.belongsTo(User,{
     foreignKey: 'userId',
   })
    // product-patientinfo

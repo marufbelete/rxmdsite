@@ -111,7 +111,7 @@
                   information about our customers, we create a unique workout plan tailored to their specific needs,
                   preferences, and lifestyle. The service aims to provide maximum value by addressing various factors,
                   including fitness level, workout preferences, available equipment, and time constraints.</p>
-                <form id="fitness_plan_form" name="fitness_plan_form" action="/fitness_plan_api" method="post"
+                <form id="fitness_plan_form" name="fitness_plan_form" action="/fitnessplan" method="post"
                   enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-sm-6">
@@ -143,7 +143,7 @@
                       <div class="col-sm-6">
                         <div class="mb-3">
                           <label>Feet</label>
-                          <select name="height_feet" class="form-control">
+                          <select name="heightFeet" class="form-control">
                             <option value="">Select Height Feet</option>
                             <option value="3">3 Feet</option>
                             <option value="4">4 Feet</option>
@@ -158,7 +158,7 @@
                       <div class="col-sm-6">
                         <div class="mb-3">
                           <label>Inches</label>
-                          <select name="height_inches" class="form-control">
+                          <select name="heightInches" class="form-control">
                             <option value="">Select Height Inches</option>
                             <option value="0">0 Inches</option>
                             <option value="1">1 Inches</option>
@@ -180,7 +180,7 @@
                     <div class="col-sm-6">
                       <div class="mb-3">
                         <label>Current Fitness Leve</label>
-                        <select name="fitness_level" class="form-control">
+                        <select name="fitnessLevel" class="form-control">
                           <option value="">Select Fitness Level</option>
                           <option value="Beginner">Beginner</option>
                           <option value="Intermediate">Intermediate</option>
@@ -194,7 +194,7 @@
                     <div class="col-12">
                       <div class="mb-3">
                         <label>Fitness Goals</label>
-                        <textarea name="fitness_goals" placeholder="Describe your fitness goals" class="form-control"
+                        <textarea name="fitnessGoal" placeholder="Describe your fitness goals" class="form-control"
                           rows="3"></textarea>
                       </div>
                     </div>
@@ -204,7 +204,7 @@
                     <div class="col-12">
                       <div class="mb-3">
                         <label>Workout Preferences</label>
-                        <textarea name="workout_preferences" placeholder="Describe your workout preferences"
+                        <textarea name="workoutPreference" placeholder="Describe your workout preferences"
                           class="form-control" rows="3"></textarea>
                       </div>
                     </div>
@@ -214,7 +214,7 @@
                     <div class="col-12">
                       <div class="mb-3">
                         <label>Exercise Limitations</label>
-                        <textarea name="exercise_limitations"
+                        <textarea name="exerciseLimitation"
                           placeholder="Describe any exercise limitations or restrictions" class="form-control"
                           rows="3"></textarea>
                       </div>
@@ -225,14 +225,14 @@
                     <div class="col-sm-6">
                       <div class="mb-3">
                         <label>Workout Frequency</label>
-                        <input name="workout_frequency" type="text" placeholder="Workout Frequency"
+                        <input name="workoutFrequency" type="text" placeholder="Workout Frequency"
                           class="form-control" />
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="mb-3">
                         <label>Workout Duration</label>
-                        <input name="workout_duration" type="text" placeholder="Workout Duration"
+                        <input name="workoutDuration" type="text" placeholder="Workout Duration"
                           class="form-control" />
                       </div>
                     </div>
@@ -242,7 +242,7 @@
                     <div class="col-12">
                       <div class="mb-3">
                         <label>Available Equipment</label>
-                        <textarea name="available_equipment" placeholder="Describe the available equipment"
+                        <textarea name="availableEquipment" placeholder="Describe the available equipment"
                           class="form-control" rows="3"></textarea>
                       </div>
                     </div>
@@ -252,7 +252,7 @@
                     <div class="col-12">
                       <div class="mb-3">
                         <label>Rest and Recovery Needs</label>
-                        <textarea name="rest_recovery_needs" placeholder="Describe your rest and recovery needs"
+                        <textarea name="restAndRecovery" placeholder="Describe your rest and recovery needs"
                           class="form-control" rows="3"></textarea>
                       </div>
                     </div>
@@ -262,7 +262,7 @@
                     <div class="col-12">
                       <div class="mb-3">
                         <label>Health Conditions</label>
-                        <textarea name="health_conditions" placeholder="Describe any health conditions"
+                        <textarea name="healthCondition" placeholder="Describe any health conditions"
                           class="form-control" rows="3"></textarea>
                       </div>
                     </div>
@@ -272,7 +272,7 @@
                     <div class="col-12">
                       <div class="mb-3">
                         <label>Current Medications/Substances</label>
-                        <textarea name="medications_substances" placeholder="List any current medications/substances"
+                        <textarea name="currentMedication" placeholder="List any current medications/substances"
                           class="form-control" rows="3"></textarea>
                       </div>
                     </div>

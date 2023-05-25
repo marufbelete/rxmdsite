@@ -1,30 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const {
-  updateAppointmentSchedule,
-  getApptPatientSchedule,
-  createAppointment
-} = require("../controllers/appointment.controller");
+addMeal,
+getMeal,
+getMealById
+} = require("../controllers/mealController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { authenticateJWT } = require("../middleware/auth.middleware");
-
 router.post(
-  "/appointment",
+  "/mealplan",
   authenticateJWT,
-  createAppointment,
-  errorHandler
-);
-router.put(
-  "/appointment",
-  authenticateJWT,
-  updateAppointmentSchedule,
+  addMeal,
   errorHandler
 );
 router.get(
-  "/appointment/detail",
+  "/mealplan",
   authenticateJWT,
-  getApptPatientSchedule,
+  getMeal,
   errorHandler
 );
-
+router.get(
+  "/mealplan/:id",
+  authenticateJWT,
+  getMealById,
+  errorHandler
+);
 module.exports = router;

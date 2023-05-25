@@ -8,7 +8,7 @@ const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
 const { chargeCreditCard,createCustomerProfile,
   chargeCreditCardExistingUser} = require('../functions/handlePayment');
-const { sendEmail } = require("../helper/send_email");
+const { sendEmail, sendMealPlanPurchaseEmail } = require("../helper/send_email");
 const path = require('path');
 const Affiliate = require("../models/affiliateModel");
 const { Op } = require("sequelize");
@@ -41,6 +41,8 @@ exports.createOrder = async (req, res, next) => {
     );
     let total_amount=0
     let is_appointment_exist=false
+    let is_meal_plan_exist=false
+    let is_fitness_plan_exist=false
     let is_renewal=false
     let product_names=[]
     let is_longterm_prodcut_exist=false
@@ -60,6 +62,12 @@ exports.createOrder = async (req, res, next) => {
       product_names.push(product?.product_name)
       if(product?.type=='product'){
         is_appointment_exist=true
+      }
+      if(product?.type=='fitness plan'){
+        is_fitness_plan_exist=true
+      }
+      if(product?.type=='meal plan'){
+        is_meal_plan_exist=true
       }
       if(product?.type=='treatment'){is_renewal=true}
       total_amount=total_amount+(Number(prod?.quantity||1)*Number(product?.price))
@@ -126,6 +134,9 @@ exports.createOrder = async (req, res, next) => {
     }
   }
     //update the user address info
+    const planInfo={}
+    if(is_meal_plan_exist){planInfo.mealPlan=true}
+    if(is_fitness_plan_exist){planInfo.exercisePlan=true}
     await User.update({
      address:address,
      city:city,
@@ -133,6 +144,7 @@ exports.createOrder = async (req, res, next) => {
      zip_code:zip,
      country:'USA',
      appointment:true,
+     ...planInfo,
      left_appointment:is_appointment_exist},
     {where:{id:req?.user?.sub},transaction: t })
     const payment_info={
@@ -183,7 +195,6 @@ exports.createOrder = async (req, res, next) => {
     order.transId=payment_response.transId
     order.total_paid_amount=total_amount.toFixed(2)
     await order.save({ transaction: t })
-   console.log(payment_response.transId,total_amount.toFixed(2))
     const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
     const mailOptions = {
       from: process.env.EMAIL,
@@ -219,6 +230,9 @@ exports.createOrder = async (req, res, next) => {
       patientId:req?.user?.sub},transaction:t})
     }
     await t.commit();
+    if(is_meal_plan_exist){
+      sendMealPlanPurchaseEmail(user,product_names,["rob@testrxmd.com","john@testrxmd.com"])
+    }
     if(is_renewal) {
       const mailOptionsRenewal = {
         from: process.env.EMAIL,
