@@ -199,10 +199,33 @@
                 
 
             <div id="" class="">
-             <div>
-              <h3>Payment Type</h3>
-              <input type="radio" value="one_time"/><label>One-time</label>
-              <input type="radio" value="subscription"/><label>Subscription</label>
+             <div class="mb-5">
+              <div class="form-group row">
+                <h3>Payment Type:</h3>
+                <div class="col-sm-10">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="oneTime" name="subscriptionType" value="oneTime" checked>
+                    <label class="form-check-label" for="oneTime">One-time</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="subscription" name="subscriptionType" value="subscription">
+                    <label class="form-check-label" for="subscription">Subscription</label>
+                  </div>
+                </div>
+              </div>
+              
+            
+              <div id="subscriptionOptions" class="w-25" style="display: none;">
+                <div class="form-group">
+                  <label for="duration">Duration:</label>
+                  <select class="form-control" id="duration" name="duration">
+                    <option value="3">3 months (you will get +1 free bonus)</option>
+                    <option value="6">6 months (you will get +2 free bonus)</option>
+                    <option value="12">12 months (you will get +3 free bonus)</option>
+                  </select>
+                </div>
+              </div>
+              
              </div>
 
                 <label id="apply_discount_p" for="applyDiscountCheckboxAppt">

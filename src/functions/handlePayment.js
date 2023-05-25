@@ -281,7 +281,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       handleError("payment gateway not responding", 404);
     }
 
-    const createSubscriptionFromCustomerProfile=async(customerProfileId, customerPaymentProfileId) =>{
+    const createSubscriptionFromCustomerProfile=async(customerProfileId, customerPaymentProfileId,amount) =>{
 
       const interval = new ApiContracts.PaymentScheduleType.Interval();
       interval.setLength(1);
@@ -304,7 +304,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       const subscriptionName = `RXMD-Subscription ${Date.now()}`;
       arbSubscription.setName(subscriptionName);
       arbSubscription.setPaymentSchedule(paymentScheduleType);
-      arbSubscription.setAmount(10.00);//change amount
+      arbSubscription.setAmount(amount);//change amount
       // arbSubscription.setTrialAmount(0.00)//change amount
       arbSubscription.setProfile(customerProfileIdType);
     
@@ -385,8 +385,8 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
           }
           handleError("payment gatway not responding", 404);
     }
-    const getSubscriptionStatus=async(subscriptionId)=> {
 
+    const getSubscriptionStatus=async(subscriptionId)=> {
       const getRequest = new ApiContracts.ARBGetSubscriptionStatusRequest();
       getRequest.setMerchantAuthentication(merchantAuthenticationType);
       getRequest.setSubscriptionId(subscriptionId);

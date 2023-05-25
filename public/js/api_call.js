@@ -1637,6 +1637,15 @@ $.ajax({
 
 })
 
+  // Show subscription options when subscription is selected
+  $('input[name="subscriptionType"]').change(function() {
+    if ($(this).val() === "subscription") {
+      $('#subscriptionOptions').show();
+    } else {
+      $('#subscriptionOptions').hide();
+    }
+  });
+
 //bot
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const d = new Date();
