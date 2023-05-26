@@ -135,6 +135,7 @@ const sendAppointmentReminderEmail=async(email,name,link,date,time)=>{
         await sendEmail(mailOptions)
 }
 const sendMealPlanPurchaseEmail=async (user,product_names,admin_emails)=>{
+  console.log(user,product_names,admin_emails)
     const mailOptionsRenewal = {
       from: process.env.EMAIL,
       to: user?.email,
@@ -145,9 +146,9 @@ const sendMealPlanPurchaseEmail=async (user,product_names,admin_emails)=>{
       You Have Successfuly Purchased Your Meal Plan
       </h1>
       <p style="text-align:start;padding:10px 20px;">
-      Thank you for renewing  ${product_names.slice(0, -1).join(', ')}${product_names.length > 1 ?
+      Thank you for your order  ${product_names.slice(0, -1).join(', ')}${product_names.length > 1 ?
         ' and ' : ''}${product_names[product_names.length - 1]} with TestRxMD. 
-        We will begin working on your order immediately. If you have any questions or concerns, please call (812) 296-6499.
+        We are working on your order. If you have any questions or concerns, please call (812) 296-6499.
       </p>
       <div style="text-align:center;padding-bottom:30px">
       <img src="cid:unique@kreata.eqe"/>
@@ -163,13 +164,85 @@ const sendMealPlanPurchaseEmail=async (user,product_names,admin_emails)=>{
 
     const mailOptionsAdmin = {
       from: process.env.EMAIL,
-      to: ["marufbelete9@gmail.com","beletemaruf@gmail.com"],
-      // to: admin_emails
+      to: admin_emails,
       subject: "TestRxMD Meal Plan Order Confirmation",
       html: `
       <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
       <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
-       Renewal Purchase Alert
+       Meal plan purchse alert
+      </h1>
+      <p style="text-align:center;padding:5px 1px;font-size:15px;">
+      Here is the client information
+      </p>
+      <p style="text-align:start;padding:5px 30px;">
+      Name:${user?.first_name+' '+user?.last_name}
+      </p>
+      <p style="text-align:start;padding:5px 30px;">
+      Email:${user?.email}
+      </p>
+      <p style="text-align:start;padding:5px 30px;">
+      Phone:${user?.phone_number}
+      </p>
+      <p style="text-align:start;padding:5px 30px;">
+      Address:${user?.address}
+      </p>
+      <p style="text-align:center;padding:5px 1px;font-size:15px;">
+       Product Ordered
+      </p>
+      <p style="text-align:start;padding:1px 30px">
+      <ul>
+      ${product_names?.map(p=>`<li>${p}</li>`)}
+      </ul>
+      </p>
+      <div style="text-align:center;padding-bottom:30px">
+      <img src="cid:unique@kreata.eae"/>
+      </div>
+      </div>
+    `,
+    attachments: [{
+      filename: 'testrxmd.gif',
+      path: filePath,
+      cid: 'unique@kreata.eae' 
+    }]
+    };
+    sendEmail(mailOptionsRenewal).then(r=>r).catch(e=>e);
+    sendEmail(mailOptionsAdmin).then(r=>r).catch(e=>e)
+}
+const sendFitnessPlanPurchaseEmail=async (user,product_names,admin_emails)=>{
+    const mailOptionsRenewal = {
+      from: process.env.EMAIL,
+      to: user?.email,
+      subject: "TestRxMD Fitness Plan Order Confirmation",
+      html: `
+      <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+      <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+      You Have Successfuly Purchased Your Fitness Plan
+      </h1>
+      <p style="text-align:start;padding:10px 20px;">
+      Thank you for your order  ${product_names.slice(0, -1).join(', ')}${product_names.length > 1 ?
+        ' and ' : ''}${product_names[product_names.length - 1]} with TestRxMD. 
+        We are working on your order. If you have any questions or concerns, please call (812) 296-6499.
+      </p>
+      <div style="text-align:center;padding-bottom:30px">
+      <img src="cid:unique@kreata.eqe"/>
+      </div>
+      </div>
+    `,
+    attachments: [{
+      filename: 'testrxmd.gif',
+      path: filePath,
+      cid: 'unique@kreata.eqe' //same cid value as in the html img src
+    }]
+    };
+
+    const mailOptionsAdmin = {
+      from: process.env.EMAIL,
+      to: admin_emails,
+      subject: "TestRxMD Meal Plan Order Confirmation",
+      html: `
+      <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
+      <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
+      Fitness plan purchse alert
       </h1>
       <p style="text-align:center;padding:5px 1px;font-size:15px;">
       Here is the client information
@@ -244,7 +317,8 @@ module.exports = {
   sendLowRefillAlertEmail,
   sendAffiliatePaidEmail,
   sendAppointmentReminderEmail,
-  sendMealPlanPurchaseEmail
+  sendMealPlanPurchaseEmail,
+  sendFitnessPlanPurchaseEmail
 };
 
 

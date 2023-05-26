@@ -166,7 +166,7 @@ const getTreatmentType=async(options={})=>{
 }
 const getPlanType=async(options={})=>{
   const treatment=await Product.findAll({
-    ...options,where:{type:'plan'}});
+    ...options});
   return treatment
 }
 const getAppointmentsByFilter=async(options)=>{

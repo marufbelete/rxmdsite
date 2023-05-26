@@ -8,12 +8,13 @@ const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
 const { chargeCreditCard,createCustomerProfile,
   chargeCreditCardExistingUser} = require('../functions/handlePayment');
-const { sendEmail, sendMealPlanPurchaseEmail } = require("../helper/send_email");
+const { sendEmail, sendMealPlanPurchaseEmail, sendFitnessPlanPurchaseEmail } = require("../helper/send_email");
 const path = require('path');
 const Affiliate = require("../models/affiliateModel");
 const { Op } = require("sequelize");
 const Appointment = require("../models/appointmentModel");
-
+const admin_email= ["marufbelete9@gmail.com","beletemaruf@gmail.com"]
+// ["rob@testrxmd.com","john@testrxmd.com"]
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
@@ -23,6 +24,7 @@ exports.createOrder = async (req, res, next) => {
     const {cardCode,expirtationDate,cardNumber,billingLastName,
       email,billingFirstName,address,city,state,zip,
       save_payment_info,use_exist_payment,customer_payment_profile_id}=payment_detail
+      if(product_ordered.length<1) handleError("please select one or more products",403)
       const allPaymentInfo=await PaymenInfo.findAll({where:{userId:req?.user?.sub}})
       if(allPaymentInfo.length<1 || !use_exist_payment){
       if(!cardCode||!expirtationDate||!cardNumber||!billingLastName||!
@@ -56,7 +58,7 @@ exports.createOrder = async (req, res, next) => {
     }
   }
 })
-     console.log("cpaid before"+is_commission_paid_before)
+
     for(const prod of product_ordered) {
       const product = await Product.findByPk(prod?.productId);
       product_names.push(product?.product_name)
@@ -94,8 +96,15 @@ exports.createOrder = async (req, res, next) => {
         total_affiliate_amount=50
       }
     }
+    
   //check if the person was affliated and give commision
   //for the affliator
+  if(is_meal_plan_exist&&user?.mealPlan){
+    handleError("meal plan already exist, please fill the form",403)
+  }
+  if(is_fitness_plan_exist&&user?.exercisePlan){
+    handleError("fitness plan already exist, please fill the form",403)
+  }
   if(is_longterm_prodcut_exist){
     const amount=total_affiliate_amount
     await Affiliate.create({
@@ -231,7 +240,10 @@ exports.createOrder = async (req, res, next) => {
     }
     await t.commit();
     if(is_meal_plan_exist){
-      sendMealPlanPurchaseEmail(user,product_names,["rob@testrxmd.com","john@testrxmd.com"])
+      await sendMealPlanPurchaseEmail(user,product_names,admin_email).then(r=>r).catch(e=>e)
+    }
+    if(is_fitness_plan_exist){
+      sendFitnessPlanPurchaseEmail(user,product_names,admin_email).then(r=>r).catch(e=>e)
     }
     if(is_renewal) {
       const mailOptionsRenewal = {
@@ -262,8 +274,7 @@ exports.createOrder = async (req, res, next) => {
 
       const mailOptionsAdmin = {
         from: process.env.EMAIL,
-        to: ["marufbelete9@gmail.com","beletemaruf@gmail.com"],
-        // to: ["rob@testrxmd.com","john@testrxmd.com"],
+        to: admin_email,
         subject: "TestRxMD Appointment Order Confirmation",
         html: `
         <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
@@ -307,7 +318,7 @@ exports.createOrder = async (req, res, next) => {
       sendEmail(mailOptionsRenewal).then(r=>r).catch(e=>e);
       sendEmail(mailOptionsAdmin).then(r=>r).catch(e=>e)
   }
-    return res.status(201).json({order,is_appointment_exist,product_names});
+    return res.status(201).json({order,is_appointment_exist,product_names,is_fitness_plan_exist,is_meal_plan_exist});
   } catch (err) {
     console.log(err)
     await t.rollback();

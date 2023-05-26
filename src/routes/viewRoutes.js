@@ -113,7 +113,7 @@ router.get("/affiliate",authenticateJWT, async function (req, res) {
 router.get("/meal-plan", authenticateJWT,async function (req, res) {
   const user=await getUser(req?.user?.sub)
   if(!user.mealPlan){
-    return res.redirect('/buyplan')
+    return res.redirect('/price-plan')
    }
   res.render(path.join(__dirname, "..", "/views/pages/mealPlan"));
 });
@@ -155,8 +155,8 @@ router.get("/appointment",authenticateJWT,async function (req, res) {
   {product,unpaid_appt_exist});
 });
 
-router.get("/price-plan", async function (req, res) {
-  const plans=await getPlanType()
+router.get("/price-plan",authenticateJWT, async function (req, res) {
+  const plans=await getPlanType({where:{type:{[Op.or]:["meal plan","fitness plan"]}}})
   return res.render(path.join(__dirname, "..", "/views/pages/pricePlan"),{plans})
 })
 

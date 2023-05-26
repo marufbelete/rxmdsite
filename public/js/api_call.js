@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  // const base_url = "http://localhost:7000";
+  const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -930,6 +930,7 @@ $('#schedule-appointment-order').on('click', function (event) {
       $('body').scrollTo('.tbl-shopping-cart');
       return
     }
+    console.log(product_ordered)
     //please select one or more product
     !($("#checkout-form-ccNumber").val()) ? $("#checkout-form-ccNumber").css('border-color', 'red') :
       $("#checkout-form-ccNumber").css('border-color', 'rgb(206, 212, 218)')
@@ -985,13 +986,19 @@ $('#schedule-appointment-order').on('click', function (event) {
       method: "POST",
       contentType: 'application/json',
       data: JSON.stringify({  payment_detail, product_ordered,apply_discount }),
-      success: function (data) {
+      success: function ({product_names,is_fitness_plan_exist,is_meal_plan_exist}) {
         $('#spinner-div').hide();
         $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
-        let isAppointmentExist = data.is_appointment_exist
-        if (isAppointmentExist) {
-          location.href = '/appt'
+        if (is_fitness_plan_exist&&is_meal_plan_exist) {
+         return location.href = '/fitness-plan'
         }
+        if (is_fitness_plan_exist) {
+         return location.href = '/fitness-plan'
+        }
+        if (is_meal_plan_exist) {
+          return location.href = '/meal-plan'
+        }
+        
         else {
           $("#order_success_text").text("Close")
           $("#order-confirmation").addClass("btn-secondary").removeClass("btn-primary")
@@ -1000,8 +1007,8 @@ $('#schedule-appointment-order').on('click', function (event) {
           $('#close-mod-btn').removeClass('d-none');
           $("#order-success-message").html(function () {
             return `
-            Thank you for renewing  ${data.product_names.slice(0, -1).join(', ')}${data.product_names.length > 1 ?
-                ' and ' : ''}${data.product_names[data.product_names.length - 1]} with TestRxMD.
+            Thank you for renewing  ${product_names.slice(0, -1).join(', ')}${product_names.length > 1 ?
+                ' and ' : ''}${product_names[product_names.length - 1]} with TestRxMD.
             We will begin working on your order immediately. If you have any questions or concerns, please call (812) 296-6499.
             `;
           });
@@ -1443,6 +1450,7 @@ if(window?.location?.href==`${base_url}/account`){
   loadAppointmentTable()
 }
 if((window?.location?.href==`${base_url}/checkout`||
+window?.location?.href==`${base_url}/price-plan`||
 window?.location?.href==`${base_url}/appointment-checkout`) && 
 localStorage.getItem("isAffiliate")==="true"){
   getAffiliateTotalAmount()
@@ -1641,8 +1649,12 @@ $.ajax({
   $('input[name="subscriptionType"]').change(function() {
     if ($(this).val() === "subscription") {
       $('#subscriptionOptions').show();
+      $('#apply_discount_p').addClass('d-none');
+      $('#applyDiscountCheckbox').prop('checked', false);
+      $('#applyDiscountCheckbox').trigger('change');
     } else {
       $('#subscriptionOptions').hide();
+      $('#apply_discount_p').removeClass('d-none');
     }
   });
 
