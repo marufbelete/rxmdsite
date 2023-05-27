@@ -33,6 +33,7 @@ const { addInitialProduct } = require('./helper/initial_product')
 const { googlePassport } = require("./auth/google");
 const Relation = require("./models/relation.model");
 const { runCronOnAppointment } = require("./controllers/appointment.controller");
+const { paySubscriptionCron } = require("./controllers/subscription");
 process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
 var corsOptions = {
   origin: [
@@ -127,7 +128,8 @@ sequelize
       };
       populateDB();
       addInitialProduct();
-      runCronOnAppointment()
+      runCronOnAppointment();
+      paySubscriptionCron();
       console.log(`Listening on port ${port}`);
     });
   })

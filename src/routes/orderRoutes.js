@@ -7,12 +7,14 @@ const {
   getOrder,
   getOrderById,
   getMyOrder,
+  createOrderSubscription,
 } = require("../controllers/orderController");
 const { errorHandler } = require("../middleware/errohandling.middleware");
 const { authenticateJWT } = require("../middleware/auth.middleware");
 const { authAdmin } = require("../middleware/role.middleware");
 
 router.post("/addorder", authenticateJWT, createOrder, errorHandler);
+router.post("/addordersubscription", authenticateJWT, createOrderSubscription, errorHandler);
 router.get("/getorders", authenticateJWT, getOrder, errorHandler);
 router.get("/getmyorder", authenticateJWT, getMyOrder, errorHandler);
 router.get("/getorderbyid/:id", authenticateJWT, getOrderById, errorHandler);

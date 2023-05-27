@@ -5,11 +5,6 @@ $(document).ready(function () {
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
 
-  //test
- console.log("called")
-
-  //test
-
   if (new_url.includes('checkout')) {
     localStorage.setItem("toCheckout", "true");
   }  
@@ -920,7 +915,7 @@ $('#schedule-appointment-order').on('click', function (event) {
   //copmlete order
   $('#complete-order').on('click', function (event) {
     event.preventDefault()
-    const product_ordered = []
+    let product_ordered = []
     $('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').each(function () {
       product_ordered.push({ productId: $(this).data('productid') })
     })
@@ -930,7 +925,6 @@ $('#schedule-appointment-order').on('click', function (event) {
       $('body').scrollTo('.tbl-shopping-cart');
       return
     }
-    console.log(product_ordered)
     //please select one or more product
     !($("#checkout-form-ccNumber").val()) ? $("#checkout-form-ccNumber").css('border-color', 'red') :
       $("#checkout-form-ccNumber").css('border-color', 'rgb(206, 212, 218)')
@@ -980,12 +974,52 @@ $('#schedule-appointment-order').on('click', function (event) {
       save_payment_info: $("#saveCardCheckbox").is(':checked')
     } 
     const apply_discount=$("#applyDiscountCheckbox").is(':checked')
+    //subscription
+    const payment_type=$('input[name="subscriptionType"]:checked').val()
+    console.log(payment_type)
+    let payment_type_object={}
+      if (payment_type === "subscription") {
+        const selectedDuration = $('#duration').val();
+        payment_type_object={
+          subscription:true,
+          subscriptionPeriod:Number(selectedDuration)
+        }
+        product_ordered=product_ordered[0]
+        $.ajax({
+          url: `${base_url}/addordersubscription`,
+          method: "POST",
+          contentType: 'application/json',
+          data: JSON.stringify({  payment_detail, product_ordered,...payment_type_object }),
+          success: function ({product_names,is_fitness_plan_exist,is_meal_plan_exist}) {
+            $('#spinner-div').hide();
+            $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
+            if (is_fitness_plan_exist&&is_meal_plan_exist) {
+             return location.href = '/fitness-plan'
+            }
+            if (is_fitness_plan_exist) {
+             return location.href = '/fitness-plan'
+            }
+            if (is_meal_plan_exist) {
+              return location.href = '/meal-plan'
+            }
+            $("#cart-total-price").text(0);
+            loadUserPaymentMethod()
+          },
+          error: function (data) {
+            $('#spinner-div').hide();
+            $('#complete-order-error').removeClass('d-none').
+              text(data.responseJSON.message)
+          },
+        });
+      }
+      
     //here make ajax call to compelete the order
+    else{
     $.ajax({
       url: `${base_url}/addorder`,
       method: "POST",
       contentType: 'application/json',
-      data: JSON.stringify({  payment_detail, product_ordered,apply_discount }),
+      data: JSON.stringify({  payment_detail, product_ordered,apply_discount,...payment_type_object }),
       success: function ({product_names,is_fitness_plan_exist,is_meal_plan_exist}) {
         $('#spinner-div').hide();
         $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
@@ -1028,6 +1062,7 @@ $('#schedule-appointment-order').on('click', function (event) {
           text(data.responseJSON.message)
       },
     });
+  }
   })
   //copmlete appt order
   $('#complete-appt-order').on('click', function (event) {
@@ -1649,14 +1684,15 @@ $.ajax({
   $('input[name="subscriptionType"]').change(function() {
     if ($(this).val() === "subscription") {
       $('#subscriptionOptions').show();
-      $('#apply_discount_p').addClass('d-none');
+      $('#apply_discount_plan').addClass('d-none');
       $('#applyDiscountCheckbox').prop('checked', false);
       $('#applyDiscountCheckbox').trigger('change');
     } else {
       $('#subscriptionOptions').hide();
-      $('#apply_discount_p').removeClass('d-none');
+      $('#apply_discount_plan').removeClass('d-none');
     }
   });
+  
 
 //bot
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

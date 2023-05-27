@@ -1,13 +1,10 @@
-const User = require("../models/userModel");
 const Appointment=require("../models/appointmentModel")
 const path = require("path");
-const sequelize = require("../models/index");
 const { runJob, scheduleAppointmentReminder } = require("../helper/cron_job");
 const { getUser, getAppointmentByFilter } = require("../helper/user");
 const { generateZoomLink } = require("../functions/zoom");
 const moment = require("moment");
 const { Op } = require("sequelize");
-const { get } = require("config");
 const { handleError } = require("../helper/handleError");
 exports.getAppointment = async (req, res, next) => {
   try {

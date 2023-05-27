@@ -180,7 +180,7 @@
                     <% for(let product of plans) {%>
                       <tr>
                         <td id="tel-product" data-productid="<%=product?.id%>" class="selection-box">
-                          <input type="checkbox" name="telehealth-appointment" id="telehealth-appt-checkbox">
+                          <input type="radio" name="telehealth-appointment" id="telehealth-appt-checkbox">
                         </td>
                         <td class="product-name">
                           <%=product?.product_name%>
@@ -202,7 +202,6 @@
                   </tbody>
                 </table>
                 
-
             <div id="" class="">
              <div class="mb-5">
               <div class="form-group row">
@@ -224,15 +223,15 @@
                 <div class="form-group">
                   <label for="duration">Duration:</label>
                   <select class="form-control" id="duration" name="duration">
-                    <option value="3">3 months (you will get +1 free bonus)</option>
-                    <option value="6">6 months (you will get +2 free bonus)</option>
-                    <option value="12">12 months (you will get +3 free bonus)</option>
+                    <option value="3">3 months (Get 10% discount)</option>
+                    <option value="6">6 months (Get 20% discount)</option>
+                    <option value="12">12 months (Get 30% discount)</option>
                   </select>
                 </div>
               </div>
               
              </div>
-
+                  <div id="apply_discount_plan">
                 <label id="apply_discount_p" for="applyDiscountCheckbox">
                   <!-- tolltip -->
                 <span flow="right" tooltip="You can only get 90% of max discount of product you buy, if you have more you can use next time">
@@ -240,6 +239,7 @@
                 Apply My Discount
                 <input style="font-size: 25px;" type="checkbox" id="applyDiscountCheckbox" value="true">
                 </label>
+              </div>
                 <div id="check_exist_payment" class="d-none">
                   <h2>Select a Payment Card</h2>
                 <div id="payment_card_list">

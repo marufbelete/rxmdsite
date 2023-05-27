@@ -10,7 +10,8 @@ const Tracking=require("./trackingModel")
 const Patientinfo=require("./patientInfoModel")
 const Appointment=require("./appointmentModel")
 const Fitness=require("./fitnessModel")
-const Meal=require("./mealModel")
+const Meal=require("./mealModel");
+const SubscriptionPayment = require("./subscriptionPaymentDetailModel");
 
 const Relation = () => {
   //product to order
@@ -127,13 +128,26 @@ const Relation = () => {
     foreignKey: 'userId'
   })
    // user-product
-   Product.hasOne(Subscription,{
+   Product.hasMany(Subscription,{
     foreignKey: 'productId'
   })
   Subscription.belongsTo(Product,{
     foreignKey: 'productId'
   })
-
+   // paymentinfo subscription
+   PaymenInfo.hasMany(Subscription,{
+    foreignKey: 'paymentId'
+  })
+  Subscription.belongsTo(PaymenInfo,{
+    foreignKey: 'paymentId'
+  })
+   // paymentdetail subscription
+   Subscription.hasMany(SubscriptionPayment,{
+    foreignKey: 'subscriptionId'
+  })
+  SubscriptionPayment.belongsTo(Subscription,{
+    foreignKey: 'subscriptionId'
+  })
 
 //new.......
   //orderproduct to order
