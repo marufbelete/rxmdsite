@@ -4,8 +4,9 @@ const { runJob, scheduleAppointmentReminder } = require("../helper/cron_job");
 const { getUser, getAppointmentByFilter } = require("../helper/user");
 const { generateZoomLink } = require("../functions/zoom");
 const moment = require("moment");
-const { Op } = require("sequelize");
+const { Op} = require("sequelize");
 const { handleError } = require("../helper/handleError");
+const { get } = require("config");
 exports.getAppointment = async (req, res, next) => {
   try {
     const token = req.cookies.acccess_token;
@@ -43,9 +44,24 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     const patientId=req?.user?.sub
     const patient=await getUser(patientId)
     const doctor=await getUser(doctorId)
-    // await User.update({
-    //   left_appointment:false},
-    //  {where:{id:patientId},transaction: t })
+    const before_one_hour=utcDateTimeAppointment.clone().subtract(50, "minute").format('YYYY-MM-DD HH:mm:ss[Z]')
+    const after_one_hour=utcDateTimeAppointment.clone().add(50, "minute").format('YYYY-MM-DD HH:mm:ss[Z]')
+    const options={
+      where:{
+        doctorId: doctorId,
+        paymentStatus:true,
+        appointmentDateTime: {
+          [Op.between]: [
+            before_one_hour,after_one_hour
+          ]
+        }
+      },
+     }
+     console.log(utcDateTimeAppointment.format('YYYY-MM-DD'),utcDateTimeAppointment.format('H'))
+    const schedule_exist=await getAppointmentByFilter(options)
+    console.log(schedule_exist)
+    if(schedule_exist)handleError("This provider already occupied for the requested time, plase adjust your time",403)
+
      const zoom_url=await generateZoomLink(utcDateTimeAppointment)
     await Appointment.update({
      patientFirstName,patientLastName,patientEmail,message,
@@ -114,32 +130,32 @@ exports.runCronOnAppointment = async () => {
   }
 };
 
-exports.payForSchedule = async (req, res, next) => {
-  try {
-    const {patientFirstName,patientLastName,patientEmail,
-           patientPhoneNumber,appointmentDateTime}=req.body
-    await Appointment.create({
-     patientFirstName,patientLastName,patientEmail,
-     patientPhoneNumber,appointmentDateTime
-    })
-    return res.json({message:"success"});
-  } catch (err) {
-    next(err);
-  }
-};
-exports.payForSchedule = async (req, res, next) => {
-  try {
-    const {patientFirstName,patientLastName,patientEmail,
-           patientPhoneNumber,appointmentDateTime}=req.body
-    await Appointment.create({
-     patientFirstName,patientLastName,patientEmail,
-     patientPhoneNumber,appointmentDateTime
-    })
-    return res.json({message:"success"});
-  } catch (err) {
-    next(err);
-  }
-};
+// exports.payForSchedule = async (req, res, next) => {
+//   try {
+//     const {patientFirstName,patientLastName,patientEmail,
+//            patientPhoneNumber,appointmentDateTime}=req.body
+//     await Appointment.create({
+//      patientFirstName,patientLastName,patientEmail,
+//      patientPhoneNumber,appointmentDateTime
+//     })
+//     return res.json({message:"success"});
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+// exports.payForSchedule = async (req, res, next) => {
+//   try {
+//     const {patientFirstName,patientLastName,patientEmail,
+//            patientPhoneNumber,appointmentDateTime}=req.body
+//     await Appointment.create({
+//      patientFirstName,patientLastName,patientEmail,
+//      patientPhoneNumber,appointmentDateTime
+//     })
+//     return res.json({message:"success"});
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 
 
 

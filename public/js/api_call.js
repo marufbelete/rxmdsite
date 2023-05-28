@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  // const base_url = "http://localhost:7000";
+  const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -1419,7 +1419,7 @@ const loadAppointmentTable = () => {
         <td>${appointment?.doctor?appointment?.doctor?.first_name+' '+appointment?.doctor?.last_name:'-'}</td>
         <td>${appointment.joinUrl?`<a href=${appointment.joinUrl||'-'} target="_blank">Zoom Link</a>`:'-'}</td>
         <td>${appointment?.paymentStatus?'Paid':'unpaid'}</td>
-        <td>${appointment?.appointmentStatus} ${appointment?.appointmentStatus==="in progress"?"<a href='/appointment'>(compelete schedule)</a>":''}</td>
+        <td>${appointment?.appointmentStatus} ${((appointment?.appointmentStatus==="in progress"||appointment?.appointmentStatus==="pending")&&!appointment?.paymentStatus)?"<a href='/appointment'>(compelete schedule)</a>":''}</td>
       </tr>`);
       });
     },
@@ -1625,6 +1625,7 @@ $('#copy_url_btn').click(function() {
      location.href='/appointment-checkout'
     },
     error: function (data) {
+      $('#appointment_error_message').removeClass('d-none').text(data.responseJSON.message)
       $("#create_appointment_text").removeClass("d-none");
       $("#create_appointment_text_spin").addClass("d-none");
     },
