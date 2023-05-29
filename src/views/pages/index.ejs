@@ -624,7 +624,7 @@
                               </div>
                               <div class="staff-content">
                                 <h5 class="name">TRT/HRT:</h5>
-                                <div class="speciality">TRT: STARTING AT $200/MONTH<br>
+                                <div class="speciality">TRT: STARTING AT $<%= minTRTPrice %>/MONTH<br>
                                   HRT: INDIVIDUALIZED PLANS</div>
                               </div>
                             </div>
@@ -724,7 +724,7 @@
                               </div>
                               <div class="staff-content">
                                 <h5 class="name">LABWORK</h5>
-                                <div class="speciality">WE OFFER PER&dash;BASIS LAB DRAWS $125</div>
+                                <div class="speciality">WE OFFER PER&dash;BASIS LAB DRAWS $<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%></div>
                                 <ul class="contact-info">
                               </div>
                             </div>

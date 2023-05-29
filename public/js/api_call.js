@@ -885,7 +885,6 @@ const loadUserPaymentMethod=()=>{
     },
   })
 }
-loadUserPaymentMethod()
 $('#schedule-appointment-order').on('click', function (event) {
   event.preventDefault()
   const product_ordered =$('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').data('productid')
@@ -1417,7 +1416,13 @@ const loadAppointmentTable = () => {
         <td>${dateString}</td>
         <td>${timeString}</td>
         <td>${appointment?.doctor?appointment?.doctor?.first_name+' '+appointment?.doctor?.last_name:'-'}</td>
-        <td>${appointment.joinUrl?`<a href=${appointment.joinUrl||'-'} target="_blank">Zoom Link</a>`:'-'}</td>
+        <td>
+        ${appointment.joinUrl ?
+          `<a href="${appointment.joinUrl}" target="_blank" class="btn btn-primary m-0 p-0 ${((new Date(appointment.appointmentDateTime) > new Date())||!appointment?.paymentStatus) ? 'disabled' : ''}">Zoom Link</a>`
+          : '-'
+        }
+       </td>
+      
         <td>${appointment?.paymentStatus?'Paid':'unpaid'}</td>
         <td>${appointment?.appointmentStatus} ${((appointment?.appointmentStatus==="in progress"||appointment?.appointmentStatus==="pending")&&!appointment?.paymentStatus)?"<a href='/appointment'>(compelete schedule)</a>":''}</td>
       </tr>`);
@@ -1476,6 +1481,7 @@ if(window?.location?.href==`${base_url}/affiliate` &&
 localStorage.getItem("isAffiliate")==="true"){
 getQrCode()
 }
+
 if(window?.location?.href==`${base_url}/account` && 
 localStorage.getItem("isAffiliate")==="true"){
   loadAffiliateTable()
@@ -1490,6 +1496,13 @@ window?.location?.href==`${base_url}/appointment-checkout`) &&
 localStorage.getItem("isAffiliate")==="true"){
   getAffiliateTotalAmount()
 }
+if(window?.location?.href==`${base_url}/checkout`||
+window?.location?.href==`${base_url}/price-plan`||
+window?.location?.href==`${base_url}/appointment-checkout`){
+  loadUserPaymentMethod()
+}
+
+
 // if(localStorage.getItem("isAffiliate")!=="true"||payable_amount==0){
 //   $("#apply_discount_p").addClass("d-none")
 // }

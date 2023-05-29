@@ -106,7 +106,7 @@ const sendAffiliatePaidEmail=async(email,name,amount)=>{
         };
         await sendEmail(mailOptions)
 }
-const sendAppointmentReminderEmail=async(email,name,link,date,time)=>{
+const sendAppointmentReminderEmailPatient=async(email,name,link,date,time)=>{
   const mailOptions = {
           from: process.env.EMAIL,
           to: email,
@@ -120,6 +120,31 @@ const sendAppointmentReminderEmail=async(email,name,link,date,time)=>{
               Please arrive 10 minutes early to check in and bring any necessary documents or information.
               If you need to reschedule or cancel your appointment, please contact us as soon as possible.
               Thank you for choosing TestRxmd for your healthcare needs. <a href=${link}> Appointment Link</a>
+              </p>
+              <div style="text-align: center; padding-bottom: 30px;">
+                  <img src="cid:unique@kreata.ae"/>
+              </div>
+          </div>
+              `,
+            attachments: [{
+              filename: 'testrxmd.gif',
+              path: filePath,
+              cid: 'unique@kreata.ae' //same cid value as in the html img src
+            }]
+        };
+        await sendEmail(mailOptions)
+}
+const sendAppointmentReminderEmailDoctor=async(email,name,link,date,time)=>{
+  const mailOptions = {
+          from: process.env.EMAIL,
+          to: email,
+          subject: "Appointment Reminder",
+          html: `
+          <div style="margin: auto; max-width: 650px; background-color: #C2E7FF; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); min-height: 400px;">
+              <h1 style="text-align: center; color: #2791BD; font-size: 36px; margin-bottom: 20px; padding: 10px 20px;">TestRxMD Appointment Reminder</h1>
+              <p style="text-align: center; font-size: 20px; line-height: 1.5; margin-bottom: 20px;">Hello ${name},</p>
+              <p style="text-align: start; padding: 10px 20px;">
+              This is a reminder that you have an appointment with Patient on ${date} at ${time} In UTC Time.
               </p>
               <div style="text-align: center; padding-bottom: 30px;">
                   <img src="cid:unique@kreata.ae"/>
@@ -316,7 +341,8 @@ module.exports = {
   sendZohoEmail,
   sendLowRefillAlertEmail,
   sendAffiliatePaidEmail,
-  sendAppointmentReminderEmail,
+  sendAppointmentReminderEmailDoctor,
+  sendAppointmentReminderEmailPatient,
   sendMealPlanPurchaseEmail,
   sendFitnessPlanPurchaseEmail
 };

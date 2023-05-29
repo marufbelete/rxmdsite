@@ -1,6 +1,6 @@
 const Appointment=require("../models/appointmentModel")
 const path = require("path");
-const { runJob, scheduleAppointmentReminder } = require("../helper/cron_job");
+const { runJob, scheduleAppointmentReminderDoctor,scheduleAppointmentReminderPatient } = require("../helper/cron_job");
 const { getUser, getAppointmentByFilter } = require("../helper/user");
 const { generateZoomLink } = require("../functions/zoom");
 const moment = require("moment");
@@ -77,10 +77,10 @@ exports.updateAppointmentSchedule = async (req, res, next) => {
     const reminderCronString = utcDateTimeAppointment.subtract(1, "hour").toDate();
     
     runJob(reminderCronString, ()=>{
-      return scheduleAppointmentReminder(patient?.email, patient?.first_name, zoom_url.join_url, formattedDate, formattedTime);
+      return scheduleAppointmentReminderPatient(patient?.email, patient?.first_name, zoom_url.join_url, formattedDate, formattedTime);
     })
     runJob(reminderCronString, ()=>{
-      return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, zoom_url.start_url,formattedDate, formattedTime);
+      return scheduleAppointmentReminderDoctor(doctor?.email, doctor?.first_name, zoom_url.start_url,formattedDate, formattedTime);
     })
     // await t.commit();
     return res.json({message:"success"});
@@ -117,10 +117,10 @@ exports.runCronOnAppointment = async () => {
         const formattedTime = dateTimeAppt.format("hh:mm A");
         const reminderCronString = dateTimeAppt.subtract(1, "hour").toDate();
         runJob(reminderCronString, ()=>{
-          return scheduleAppointmentReminder(patient?.email, patient?.first_name, appointment.joinUrl, formattedDate,formattedTime);
+          return scheduleAppointmentReminderPatient(patient?.email, patient?.first_name, appointment.joinUrl, formattedDate,formattedTime);
         })
         runJob(reminderCronString, ()=>{
-          return scheduleAppointmentReminder(doctor?.email, doctor?.first_name, appointment.startUrl, formattedDate,formattedTime);
+          return scheduleAppointmentReminderDoctor(doctor?.email, doctor?.first_name, appointment.startUrl, formattedDate,formattedTime);
         })
       }
     }

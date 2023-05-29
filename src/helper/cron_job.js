@@ -1,5 +1,5 @@
 const cron = require('node-schedule');
-const { sendAppointmentReminderEmail } = require('./send_email');
+const { sendAppointmentReminderEmailDoctor,sendAppointmentReminderEmailPatient } = require('./send_email');
 const Subscription=require('../models/subscriptionModel');
 const { chargeCreditCardExistingUser } = require('../functions/handlePayment');
 const { Op } = require('sequelize');
@@ -25,8 +25,11 @@ const medicationSurveyJob= async() => {
     console.log(`Sent emails to ${patients.length} patients`);
   };
 
-const scheduleAppointmentReminder=(email,patient_name,link,date,time) =>{
-  sendAppointmentReminderEmail(email,patient_name,link,date,time)
+const scheduleAppointmentReminderDoctor=(email,patient_name,link,date,time) =>{
+  sendAppointmentReminderEmailDoctor(email,patient_name,link,date,time)
+}
+const scheduleAppointmentReminderPatient=(email,patient_name,link,date,time) =>{
+  sendAppointmentReminderEmailPatient(email,patient_name,link,date,time)
 }
 
 
@@ -39,7 +42,8 @@ const runJob=(time,job)=>{
 
 module.exports={
   medicationSurveyJob,
-  scheduleAppointmentReminder,
+  scheduleAppointmentReminderDoctor,
+  scheduleAppointmentReminderPatient,
   runJob
 }
 
