@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+
+  <!-- Meta Tags -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="TestRxMD" />
+  <meta name="keywords"
+    content="testrxmd, clinic, testosterone, hormone, therapy, ed, erectile dysfunction, supplements, doctor, medical, energy, shop, medication, indiana, columbus, neiters" />
+  <meta name="author" content="Jacob Briggs" />
+
+  <!-- Page Title -->
+  <title>TestRxMD</title>
+
+  <!-- Favicon and Touch Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="manifest" href="images/site.webmanifest">
+
+  <!-- Stylesheet -->
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="css/animate.min.css" rel="stylesheet" type="text/css">
+  <link href="css/javascript-plugins-bundle.css" rel="stylesheet" />
+
+  <!-- CSS | menuzord megamenu skins -->
+  <link href="js/menuzord/css/menuzord.css" rel="stylesheet" />
+
+  <!-- CSS | Main style file -->
+  <link href="css/style-main.css" rel="stylesheet" type="text/css">
+  <link href="css/voltage.css" rel="stylesheet" type="text/css">
+  <link id="menuzord-menu-skins" href="css/menuzord-skins/menuzord-rounded-boxed.css" rel="stylesheet" />
+
+  <!-- CSS | Responsive media queries -->
+  <link href="css/responsive.css" rel="stylesheet" type="text/css">
+
+  <!-- CSS | Theme Color -->
+  <link href="css/colors/theme-colors.css" rel="stylesheet" type="text/css">
+
+  <!-- External javascripts -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/javascript-plugins-bundle.min.js"></script>
+  <script src="js/menuzord/js/menuzord.js"></script>
+
+  <link href="style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="tm-container-1300px has-side-panel side-panel-right">
+  <%- include('../partials/headerTop.ejs') %>
+    <li class="menu-item">
+      <a href="/">Home</a>
+    </li>
+    <li class="menu-item">
+      <a href="/services">Services</a>
+    </li>
+    <li class="menu-item">
+      <a href="/about">About</a>
+    </li>
+    <li class="menu-item">
+      <a href="/contact">Contact</a>
+    </li>
+    <li class="menu-item">
+      <a href="/checkout">Telehealth &amp; Labs</a>
+    </li>
+    <li class="menu-item">
+      <a href="/account">Account</a>
+    </li>
+    <li class="menu-item">
+      <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
+    </li>
+    <li class="menu-item">
+      <a href="/login" id="login_link">Sign In</a>
+      <a href="#" id="logout_link" class="d-none">Sign out</a>
+    </li>
+
+    <%- include('../partials/headerBottom.ejs') %>
+      <!-- Start main-content -->
+      
+      <div class="container" id="mealplan_container">
+      
+        <div class="row m-5">
+        <div class="col-md-6">
+        <h1>30 Day Fitness Meal Plan</h1>
+      </div>
+      <div class="col-md-6">
+          <button class="btn btn-info m-0 p-2" id="cmd">Download PDF</button>
+        </div>
+      </div>
+        <!-- <p>Click on the day to view your meal plan.</p> -->
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-header" id="day1Header">
+                        <h5 class="mb-0">
+                           <div><h3 style="color: rgb(53, 17, 108);">Day 1</h3></div>
+                        </h5>
+                    </div>
+    
+                    <div id="day1Plan" class="collapse show" aria-labelledby="day1Header" data-parent="#mealPlan">
+                        <div class="card-body">
+                            <h5 class="card-title">Exercise List</h5>
+                            <ul class="list-group">
+                                <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit culpa, est saepe necessitatibus, nobis eum soluta vitae ab, quisquam voluptatem eligendi asperiores atque laborum harum delectus ratione ea dolor voluptatibus.</li>
+                                <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi quas beatae, necessitatibus assumenda impedit odio veritatis architecto, modi accusamus itaque omnis et est deserunt neque odit culpa, illum libero ullam?</li>
+                                <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio temporibus, quo quibusdam provident, neque ut alias deserunt tempore velit repellat non, asperiores sed atque rem delectus nemo voluptas. Aspernatur, ipsum!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                  <div class="card-header" id="day2Header">
+                      <h5 class="mb-0">
+                        <div><h3>Day 2</h3></div>
+                      </h5>
+                  </div>
+  
+                  <div id="day2Plan" class="collapse show" aria-labelledby="day2Header" data-parent="#mealPlan">
+                      <div class="card-body">
+                        <h5 class="card-title">Exercise List</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit culpa, est saepe necessitatibus, nobis eum soluta vitae ab, quisquam voluptatem eligendi asperiores atque laborum harum delectus ratione ea dolor voluptatibus.</li>
+                            <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi quas beatae, necessitatibus assumenda impedit odio veritatis architecto, modi accusamus itaque omnis et est deserunt neque odit culpa, illum libero ullam?</li>
+                            <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio temporibus, quo quibusdam provident, neque ut alias deserunt tempore velit repellat non, asperiores sed atque rem delectus nemo voluptas. Aspernatur, ipsum!</li>
+                        </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-header" id="day3Header">
+                    <h5 class="mb-0">
+                      <div><h3>Day 3</h3></div>
+
+                    </h5>
+                </div>
+
+                <div id="day3Plan" class="collapse show" aria-labelledby="day3Header" data-parent="#mealPlan">
+                    <div class="card-body">
+                      <h5 class="card-title">Exercise List</h5>
+                      <ul class="list-group">
+                          <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit culpa, est saepe necessitatibus, nobis eum soluta vitae ab, quisquam voluptatem eligendi asperiores atque laborum harum delectus ratione ea dolor voluptatibus.</li>
+                          <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi quas beatae, necessitatibus assumenda impedit odio veritatis architecto, modi accusamus itaque omnis et est deserunt neque odit culpa, illum libero ullam?</li>
+                          <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio temporibus, quo quibusdam provident, neque ut alias deserunt tempore velit repellat non, asperiores sed atque rem delectus nemo voluptas. Aspernatur, ipsum!</li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <div class="card">
+              <div class="card-header" id="day4Header">
+                  <h5 class="mb-0">
+                    <div><h3>Day 4</h3></div>
+
+                  </h5>
+              </div>
+
+              <div id="day4Plan" class="collapse show" aria-labelledby="day4Header" data-parent="#mealPlan">
+                  <div class="card-body">
+                    <h5 class="card-title">Exercise List</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit culpa, est saepe necessitatibus, nobis eum soluta vitae ab, quisquam voluptatem eligendi asperiores atque laborum harum delectus ratione ea dolor voluptatibus.</li>
+                        <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi quas beatae, necessitatibus assumenda impedit odio veritatis architecto, modi accusamus itaque omnis et est deserunt neque odit culpa, illum libero ullam?</li>
+                        <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio temporibus, quo quibusdam provident, neque ut alias deserunt tempore velit repellat non, asperiores sed atque rem delectus nemo voluptas. Aspernatur, ipsum!</li>
+                    </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-header" id="day5Header">
+                <h5 class="mb-0">
+                  <div><h3>Day 5</h3></div>
+
+                </h5>
+            </div>
+
+            <div id="day5Plan" class="collapse show" aria-labelledby="day5Header" data-parent="#mealPlan">
+                <div class="card-body">
+                  <h5 class="card-title">Exercise List</h5>
+                  <ul class="list-group">
+                      <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit culpa, est saepe necessitatibus, nobis eum soluta vitae ab, quisquam voluptatem eligendi asperiores atque laborum harum delectus ratione ea dolor voluptatibus.</li>
+                      <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi quas beatae, necessitatibus assumenda impedit odio veritatis architecto, modi accusamus itaque omnis et est deserunt neque odit culpa, illum libero ullam?</li>
+                      <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio temporibus, quo quibusdam provident, neque ut alias deserunt tempore velit repellat non, asperiores sed atque rem delectus nemo voluptas. Aspernatur, ipsum!</li>
+                  </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-header" id="day5Header">
+                <h5 class="mb-0">
+                  <div><h3>Day 6</h3></div>
+
+                </h5>
+            </div>
+
+            <div id="day6Plan" class="collapse show" aria-labelledby="day6Header" data-parent="#mealPlan">
+                <div class="card-body">
+                  <h5 class="card-title">Exercise List</h5>
+                  <ul class="list-group">
+                      <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit culpa, est saepe necessitatibus, nobis eum soluta vitae ab, quisquam voluptatem eligendi asperiores atque laborum harum delectus ratione ea dolor voluptatibus.</li>
+                      <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi quas beatae, necessitatibus assumenda impedit odio veritatis architecto, modi accusamus itaque omnis et est deserunt neque odit culpa, illum libero ullam?</li>
+                      <li class="list-group-item"><i class="fas fa-check"></i> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio temporibus, quo quibusdam provident, neque ut alias deserunt tempore velit repellat non, asperiores sed atque rem delectus nemo voluptas. Aspernatur, ipsum!</li>
+                  </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+          </div>
+        </div>
+        <div id="editor"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+    <script>
+    const doc = new jsPDF();
+    const specialElementHandlers = {
+        '#editor': function (element, renderer) {
+            return true;
+        }
+    };
+
+    $('#cmd').click(function () {
+        doc.fromHTML($('#mealplan_container').html(), 15, 15, {
+            'width': 170,
+                'elementHandlers': specialElementHandlers
+        });
+        doc.save('30-day-meal-plan.pdf');
+    });
+  </script>
+
+        <!-- end main-content -->
+        <%- include('../partials/footer') %>
+          
+          <!-- Footer Scripts -->
+          <script src="js/custom.js"></script>
+          <script src="js/api_call.js"></script>
+
+

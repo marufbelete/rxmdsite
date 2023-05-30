@@ -62,7 +62,6 @@ const generateOtp=async(userId)=>{
   return otp
 }
 const getAffiliatePayableAmount=async(userId)=>{
-  console.log(userId)
    const result = await Affiliate.sum('amount', {
     where: { affilatorId:userId, withdrawalType:"NA", status:"not paid"}
   });
@@ -72,8 +71,6 @@ const getAffiliatePayableAmount=async(userId)=>{
   //   ],
   //   where: { affilatorId:userId, isDeemed: false }
   // });
-  console.log(result);
-  console.log("total paid")
   return result
 }
 //check which data to sign

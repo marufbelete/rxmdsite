@@ -126,6 +126,14 @@ router.get("/fitness-plan",authenticateJWT ,async function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/fitnessPlan"));
 });
 
+router.get("/my-meal-plan",authenticateJWT ,async function (req, res) {
+ return res.render(path.join(__dirname, "..", "/views/pages/myMealPlan"));
+});
+
+router.get("/my-fitness-plan",authenticateJWT ,async function (req, res) {
+ return res.render(path.join(__dirname, "..", "/views/pages/myFitnessPlan"));
+});
+
 
 //  UNUSED STORE ROUTES FOR USE LATER
 // router.get("/shop", function (req, res) {

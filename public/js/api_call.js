@@ -1209,6 +1209,7 @@ function getAffiliateTotalAmount(){
       let cash_payable=0
       if(data?.amount&&data?.amount>20){
         $('#get_code_btn').prop('disabled', false);
+        $("#get_paid_con").removeClass('d-none')
         is_payable_exist=true  
       }
       //show 70% for cashout
@@ -1224,6 +1225,7 @@ function getAffiliateTotalAmount(){
 }
 $('[data-toggle="tooltip"]').tooltip()
 //get_paid
+
 $('#get_paid_check').change(function() {
   if ($(this).is(':checked')&&is_payable_exist) {
     $('#get_paid_part').removeClass('d-none')
