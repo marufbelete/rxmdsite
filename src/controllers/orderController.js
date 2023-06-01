@@ -16,6 +16,7 @@ const Appointment = require("../models/appointmentModel");
 const { paySubscriptionFirstTimeCron } = require("./subscription");
 const Subscription = require("../models/subscriptionModel");
 const SubscriptionPayment = require("../models/subscriptionPaymentDetailModel");
+const { runCronOnAppointment } = require("./appointment.controller");
 const admin_email= ["marufbelete9@gmail.com","beletemaruf@gmail.com"]
 // ["rob@testrxmd.com","john@testrxmd.com"]
 exports.createOrder = async (req, res, next) => {
@@ -235,14 +236,22 @@ else{
       cid: 'unique@kreata.ee' //same cid value as in the html img src
     }]
     };
+    
     if(is_appointment_exist){
-    sendEmail(mailOptions).then(r=>r).catch(e=>e);
+    const appt_id= await Appointment.findOne({where:{paymentStatus:false,
+      patientId:req?.user?.sub}}) 
     await Appointment.update({
       paymentStatus:true
     },{where:{paymentStatus:false,
-      patientId:req?.user?.sub},transaction:t})
+      patientId:req?.user?.sub},transaction:t,returning: true})
+      console.log(appt_id.id)
+      console.log('reached herrr=============!!!!!!!!!!!!!!!!!!')
+      await runCronOnAppointment(appt_id.id,{transaction:t})
     }
     await t.commit();
+    if(is_appointment_exist){
+    sendEmail(mailOptions).then(r=>r).catch(e=>e);
+    }
     if(is_meal_plan_exist){
       await sendMealPlanPurchaseEmail(user,product_names,admin_email).then(r=>r).catch(e=>e)
     }

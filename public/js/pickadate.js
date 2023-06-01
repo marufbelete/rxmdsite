@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  // const base_url = "http://localhost:7000";
+  const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   let disableTime={}
@@ -46,8 +46,6 @@ $(document).ready(function () {
     
     })
 }
-// $("#appt_doctor").on('change',function(){
-// })
 
 function getAvailableProvider(){
   $("#appt_doctor").empty();
@@ -79,18 +77,13 @@ function getAvailableProvider(){
       $(`#appt_doctor [value=${appt?.doctorId}]`).prop('selected', true);
       if(appt?.appointmentDateTime){
         const appointmentDateTime = new Date(appt?.appointmentDateTime);
-        console.log(appointmentDateTime)
-        // const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        // const appointmentDate = appointmentDateTime.toLocaleDateString('en-US', options);
-        // $("#appt_appointment_date").val(appointmentDate);
-        // $("#appt_appointment_date").pickadate('picker').set('select',appointmentDate);
+  
         const pickerDate = $("#appt_appointment_date").pickadate('picker');
         pickerDate.set('select', appointmentDateTime);
         const pickerTime = $("#appt_appointment_time").pickatime('picker');
+        console.log(pickerTime)
         pickerTime.set('select', appointmentDateTime);
-            // const appointmentTime = appointmentDateTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            // $("#appt_appointment_date").val(appointmentDate);
-            // $("#appt_appointment_time").val(appointmentTime);
+
       }
      
     },
@@ -101,18 +94,11 @@ getAvailableProvider()
 
 $('#appt_appointment_date').on('change', () => {
   providerSchedule(datechange=true)
- 
 });
 
-const currentTime = new Date();
-const currentHour = currentTime.getHours();
-const currentMinute = currentTime.getMinutes();
-// Calculate the next hour
-const nextHour = currentMinute >= 0 ? currentHour + 1 : currentHour ;
-$('#appt_appointment_time').pickatime({
+const timepicker=$('#appt_appointment_time').pickatime({
   disable: [],
-  interval: 60,
-  min: [nextHour, 0] // Set the minimum time to the next hour with 00 minute
+  interval: 60
 });
 
 
@@ -120,10 +106,28 @@ $('#appt_appointment_date').pickadate({
     weekdaysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
     showMonthsShort: true,
     min: new Date(),
-  
+    onSet:function(context){
+      const currentTime = new Date();
+      const d = new Date(context.select);
+      const setDate = d.getDate();
+      const currentDate=currentTime.getDate()
+      console.log(setDate,currentDate)
+      let min=false
+      if(setDate===currentDate){
+        console.log('notin')
+        const currentHour = currentTime.getHours();
+        const currentMinute = currentTime.getMinutes();
+         // Calculate the next hour
+        const nextHour = currentMinute >= 0 ? currentHour + 1 : currentHour ;
+        min =[nextHour,0];
+        
+      }
+      const time = timepicker.pickatime('picker');
+      time.clear().set({min});
+      
+    }
   });
     $('#appt_doctor').change(function() {
-      console.log("change to doc")
       providerSchedule()
       const selectedValue = $(this).val();
     if (selectedValue !== '') {

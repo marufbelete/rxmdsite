@@ -1,7 +1,7 @@
 const cron = require('node-schedule');
 const { sendAppointmentReminderEmailDoctor,sendAppointmentReminderEmailPatient } = require('./send_email');
 const Subscription=require('../models/subscriptionModel');
-const { chargeCreditCardExistingUser } = require('../functions/handlePayment');
+// const { chargeCreditCardExistingUser } = require('../functions/handlePayment');
 const { Op } = require('sequelize');
 const medicationSurveyJob= async() => {
     const now = new Date();
@@ -34,8 +34,8 @@ const scheduleAppointmentReminderPatient=(email,patient_name,link,date,time) =>{
 
 
 
-const runJob=(time,job)=>{
- cron.scheduleJob(time, ()=>{
+const runJob=(time,job,unique_name)=>{
+ cron.scheduleJob(unique_name,time, ()=>{
   job()
  })
 }

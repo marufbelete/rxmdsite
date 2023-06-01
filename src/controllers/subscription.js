@@ -48,7 +48,7 @@ const paySubscriptionCron=async()=>{
       payCronJob=runJob(cronSchedulePattern,async()=>{
         subscriptionPayment(subscription.id)
         ;
-      })
+      },"subscription-payment")
      }
     }
   } catch (error) {
@@ -66,7 +66,7 @@ try{
       const cronSchedulePattern = `${initialExecutionDate.getSeconds()} ${initialExecutionDate.getMinutes()} ${initialExecutionDate.getHours()} ${initialExecutionDate.getDate()} * *`;
       payCronJob=runJob(cronSchedulePattern,async()=>{
         subscriptionPayment(subscription.id);
-      })
+      },"subscription-payment")
      }
   }
   }
