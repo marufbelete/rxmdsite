@@ -32,6 +32,7 @@ const sendEmail = async (mailOptions) => {
   await transporter.sendMail(mailOptions);
   return true;
 };
+
 const sendOtpEmail=async(Otp,email)=>{
   const mailOptions = {
           from: process.env.EMAIL,
@@ -97,6 +98,7 @@ const sendLowRefillAlertEmail=async(email,name,medication)=>{
         };
         await sendEmail(mailOptions)
 }
+
 const sendAffiliatePaidEmail=async(email,name,amount)=>{
   const mailOptions = {
           from: process.env.EMAIL,
@@ -106,6 +108,7 @@ const sendAffiliatePaidEmail=async(email,name,amount)=>{
         };
         await sendEmail(mailOptions)
 }
+
 const sendAppointmentReminderEmailPatient=async(email,name,link,date,time)=>{
   const mailOptions = {
           from: process.env.EMAIL,
@@ -134,6 +137,7 @@ const sendAppointmentReminderEmailPatient=async(email,name,link,date,time)=>{
         };
         await sendEmail(mailOptions)
 }
+
 const sendAppointmentReminderEmailDoctor=async(email,name,link,date,time)=>{
   const mailOptions = {
           from: process.env.EMAIL,
@@ -145,6 +149,7 @@ const sendAppointmentReminderEmailDoctor=async(email,name,link,date,time)=>{
               <p style="text-align: center; font-size: 20px; line-height: 1.5; margin-bottom: 20px;">Hello ${name},</p>
               <p style="text-align: start; padding: 10px 20px;">
               This is a reminder that you have an appointment with Patient on ${date} at ${time} In UTC Time.
+              <a href=${link}> Appointment Link</a>
               </p>
               <div style="text-align: center; padding-bottom: 30px;">
                   <img src="cid:unique@kreata.ae"/>
@@ -159,6 +164,67 @@ const sendAppointmentReminderEmailDoctor=async(email,name,link,date,time)=>{
         };
         await sendEmail(mailOptions)
 }
+const sendMealPlanPdf=async(email,name,pdf)=>{
+  const mailOptions = {
+          from: process.env.EMAIL,
+          to: email,
+          subject: "30-Day Meal Plan",
+          html: `
+          <div style="margin: auto; max-width: 650px; background-color: #C2E7FF; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); min-height: 400px;">
+              <h1 style="text-align: center; color: #2791BD; font-size: 36px; margin-bottom: 20px; padding: 10px 20px;">TestRxMD Appointment Reminder</h1>
+              <p style="text-align: center; font-size: 20px; line-height: 1.5; margin-bottom: 20px;">Hello ${name},</p>
+              <p style="text-align: start; padding: 10px 20px;">
+              This is your 30-day meal plan from TestRxMD. Download the attached pdf
+              </p>
+              <div style="text-align: center; padding-bottom: 30px;">
+                  <img src="cid:unique@kreata.ae"/>
+              </div>
+          </div>
+              `,
+            attachments: [{
+              filename: 'testrxmd.gif',
+              path: filePath,
+              cid: 'unique@kreata.ae' //same cid value as in the html img src
+            },{
+              filename: 'meal-plan.pdf',
+              content:pdf,
+              contentType: 'application/pdf'
+             //same cid value as in the html img src
+            }]
+        };
+        await sendEmail(mailOptions)
+}
+const sendFitnessPlanPdf=async(email,name,pdf)=>{
+  const mailOptions = {
+          from: process.env.EMAIL,
+          to: email,
+          subject: "30-Day Fitness Plan",
+          html: `
+          <div style="margin: auto; max-width: 650px; background-color: #C2E7FF; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); min-height: 400px;">
+              <h1 style="text-align: center; color: #2791BD; font-size: 36px; margin-bottom: 20px; padding: 10px 20px;">TestRxMD Appointment Reminder</h1>
+              <p style="text-align: center; font-size: 20px; line-height: 1.5; margin-bottom: 20px;">Hello ${name},</p>
+              <p style="text-align: start; padding: 10px 20px;">
+              This is your 30-day fitness plan from TestRxMD. Download the attached pdf
+              </p>
+              <div style="text-align: center; padding-bottom: 30px;">
+                  <img src="cid:unique@kreata.ae"/>
+              </div>
+          </div>
+              `,
+            attachments: [{
+              filename: 'testrxmd.gif',
+              path: filePath,
+              cid: 'unique@kreata.ae' //same cid value as in the html img src
+            },{
+              filename: 'fitness-plan.pdf',
+              content:pdf,
+              contentType: 'application/pdf'
+             //same cid value as in the html img src
+            }]
+        };
+        await sendEmail(mailOptions)
+}
+
 const sendMealPlanPurchaseEmail=async (user,product_names,admin_emails)=>{
   console.log(user,product_names,admin_emails)
     const mailOptionsRenewal = {
@@ -233,6 +299,7 @@ const sendMealPlanPurchaseEmail=async (user,product_names,admin_emails)=>{
     sendEmail(mailOptionsRenewal).then(r=>r).catch(e=>e);
     sendEmail(mailOptionsAdmin).then(r=>r).catch(e=>e)
 }
+
 const sendFitnessPlanPurchaseEmail=async (user,product_names,admin_emails)=>{
     const mailOptionsRenewal = {
       from: process.env.EMAIL,
@@ -344,7 +411,9 @@ module.exports = {
   sendAppointmentReminderEmailDoctor,
   sendAppointmentReminderEmailPatient,
   sendMealPlanPurchaseEmail,
-  sendFitnessPlanPurchaseEmail
+  sendFitnessPlanPurchaseEmail,
+  sendMealPlanPdf,
+  sendFitnessPlanPdf
 };
 
 

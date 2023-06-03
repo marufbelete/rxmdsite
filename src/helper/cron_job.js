@@ -28,14 +28,15 @@ const medicationSurveyJob= async() => {
 const scheduleAppointmentReminderDoctor=(email,patient_name,link,date,time) =>{
   sendAppointmentReminderEmailDoctor(email,patient_name,link,date,time)
 }
-const scheduleAppointmentReminderPatient=(email,patient_name,link,date,time) =>{
-  sendAppointmentReminderEmailPatient(email,patient_name,link,date,time)
+const scheduleAppointmentReminderPatient=(email,doctor_name,link,date,time) =>{
+  sendAppointmentReminderEmailPatient(email,doctor_name,link,date,time)
 }
 
 
 
 const runJob=(time,job,unique_name)=>{
  cron.scheduleJob(unique_name,time, ()=>{
+  console.log('called')
   job()
  })
 }
