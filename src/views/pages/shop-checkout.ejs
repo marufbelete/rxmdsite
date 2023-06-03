@@ -291,7 +291,8 @@
 
                 <div id="payment_info_next" class="row text-center py-3">
                   <div class="col-xs-12">
-                    <button type='submit' id="schedule-appointment-order" class="btn btn-theme-colored1 btn-md btn-block">
+                    <button type='submit' id="schedule-appointment-order"
+                      class="btn btn-theme-colored1 btn-md btn-block">
                       <span id="schedule_appointment_text">Next</span>
                       <span id="schedule_appointment_text_spin" class="d-none">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -301,279 +302,288 @@
                   </div>
                 </div>
 
-            <div id="payment_info_pay" class="d-none">
-                <label id="apply_discount_p" for="applyDiscountCheckbox">
-                  <!-- tolltip -->
-                <span flow="right" tooltip="You can only get 90% of max discount of product you buy, if you have more you can use next time">
-                <i class="fas fa-question-circle" ></i></span>                    
-                Apply My Discount
-                <input style="font-size: 25px;" type="checkbox" id="applyDiscountCheckbox" value="true">
-                </label>
-                <div id="check_exist_payment" class="d-none">
-                  <h2>Select a Payment Card</h2>
-                  <div id="payment_card_list">
-                  </div>
-                  <label for="otherPaymentCheckbox">use other payment
-                    <input style="font-size: 25px;" type="checkbox" id="otherPaymentCheckbox" name="otherPayment"
-                      value="true">
+                <div id="payment_info_pay" class="d-none">
+                  <label id="apply_discount_p" for="applyDiscountCheckbox">
+                    <!-- tolltip -->
+                    <span flow="right"
+                      tooltip="Products can only be discounted 90%. If you have leftover discount, you can use it next time">
+                      <i class="fas fa-question-circle"></i></span>
+                    Apply My Discount
+                    <input style="font-size: 25px;" type="checkbox" id="applyDiscountCheckbox" value="true">
                   </label>
-                </div>
-
-
-                <div class="col-md-12 mt-60" id="use_new_payment">
-                  <div class="card payment-method">
-                    <div class="card-header text-center">
-                      <h3>Payment Information</h3>
+                  <div id="check_exist_payment" class="d-none">
+                    <h2>Select a Payment Card</h2>
+                    <div id="payment_card_list">
                     </div>
-                    <div class="panel panel-default">
-                      <div class="panel-heading">
-                        <div class="row">
-                          <img class="img-responsive cc-img" src="/images/testrxmd/creditcardicons.png">
-                        </div>
+                    <label for="otherPaymentCheckbox">use other payment
+                      <input style="font-size: 25px;" type="checkbox" id="otherPaymentCheckbox" name="otherPayment"
+                        value="true">
+                    </label>
+                  </div>
+
+
+                  <div class="col-md-12 mt-60" id="use_new_payment">
+                    <div class="card payment-method">
+                      <div class="card-header text-center">
+                        <h3>Payment Information</h3>
                       </div>
-                      <div class="panel-body">
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <div class="form-group text-center">
-                              <label>CARD NUMBER</label>
-                              <div class="input-group px-5">
-                                <input id="checkout-form-ccNumber" type="tel" class="form-control" maxlength="16"
-                                  placeholder="Credit or Debit Card Number" />
-                              </div>
-                            </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <img class="img-responsive cc-img" src="/images/testrxmd/creditcardicons.png">
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-xs-6 col-md-6">
-                            <div class="form-group text-center px-5 py-3">
-                              <label>EXP DATE</label>
-                              <input type="text" pattern="[0-9/]*" placeholder="MM/YY" maxlength="5"
-                                id="checkout-form-ccExpiry" oninput="addSlash(this)" placeholder="MM/YY"
-                                class="form-control" />
-
-                            </div>
-                          </div>
-                          <SCRIPT LANGUAGE="JavaScript">
-                            function addSlash(e) {
-                              let inputValue = e.value;
-                              if (inputValue.length === 2) {
-                                e.value = inputValue + '/';
-                              }
-                              if (inputValue.indexOf('/') !== inputValue.lastIndexOf('/')) {
-                                e.value = inputValue.substring(0, inputValue.length - 1);
-                              }
-                            }
-                          </SCRIPT>
-                          <div class="col-xs-6 col-md-6 pull-right">
-                            <div class="form-group px-5 py-3 text-center">
-                              <label>CVC CODE</label>
-                              <input maxlength="4" id="checkout-form-cvc" type="tel" class="form-control"
-                                placeholder="CVC" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <div class="form-group px-5 py-3 text-center">
-                              <label>CARD OWNER FIRST NAME</label>
-                              <input id="checkout-form-firstname-on-cc" type="text" class="form-control"
-                                placeholder="Card Owner First Name" />
-                            </div>
-                          </div>
-                          <div class="col-lg-6">
-                            <div class="form-group px-5 py-3 text-center">
-                              <label>CARD OWNER LAST NAME</label>
-                              <input id="checkout-form-lastname-on-cc" type="text" class="form-control"
-                                placeholder="Card Owner Last Name" />
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-12 mb-4">
-                          <div class="card mb-4">
-                            <div class="card-header py-3 text-center">
-                              <h4 class="mb-0">Billing Address</h4>
-                            </div>
-                            <div id="billingAddress" class="card-body">
-                              <!-- 2 column grid layout with text inputs for the first and last names -->
-                              <div class="row mb-4">
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <input type="text" id="checkout-form-firstname" class="form-control"
-                                      value="<%=billing_info?.firstName%>" />
-                                    <label class="form-label" for="checkout-form-firstname">First name</label>
-                                  </div>
-                                </div>
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <input type="text" id="checkout-form-lastname" class="form-control"
-                                      value="<%=billing_info?.lastName%>" />
-                                    <label class="form-label" for="checkout-form-lastname">Last name</label>
-                                  </div>
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="col-xs-12">
+                              <div class="form-group text-center">
+                                <label>CARD NUMBER</label>
+                                <div class="input-group px-5">
+                                  <input id="checkout-form-ccNumber" type="tel" class="form-control" maxlength="16"
+                                    placeholder="Credit or Debit Card Number" />
                                 </div>
                               </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xs-6 col-md-6">
+                              <div class="form-group text-center px-5 py-3">
+                                <label>EXP DATE</label>
+                                <input type="text" pattern="[0-9/]*" placeholder="MM/YY" maxlength="5"
+                                  id="checkout-form-ccExpiry" oninput="addSlash(this)" placeholder="MM/YY"
+                                  class="form-control" />
 
-                              <!-- Email input -->
-                              <div class="form-outline mb-4">
-                                <input type="email" id="checkout-form-email" class="form-control"
-                                  value="<%=billing_info?.email%>" />
-                                <label class="form-label" for="checkout-form-email">Email</label>
                               </div>
+                            </div>
+                            <SCRIPT LANGUAGE="JavaScript">
+                              function addSlash(e) {
+                                let inputValue = e.value;
+                                if (inputValue.length === 2) {
+                                  e.value = inputValue + '/';
+                                }
+                                if (inputValue.indexOf('/') !== inputValue.lastIndexOf('/')) {
+                                  e.value = inputValue.substring(0, inputValue.length - 1);
+                                }
+                              }
+                            </SCRIPT>
+                            <div class="col-xs-6 col-md-6 pull-right">
+                              <div class="form-group px-5 py-3 text-center">
+                                <label>CVC CODE</label>
+                                <input maxlength="4" id="checkout-form-cvc" type="tel" class="form-control"
+                                  placeholder="CVC" />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <div class="form-group px-5 py-3 text-center">
+                                <label>CARD OWNER FIRST NAME</label>
+                                <input id="checkout-form-firstname-on-cc" type="text" class="form-control"
+                                  placeholder="Card Owner First Name" />
+                              </div>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="form-group px-5 py-3 text-center">
+                                <label>CARD OWNER LAST NAME</label>
+                                <input id="checkout-form-lastname-on-cc" type="text" class="form-control"
+                                  placeholder="Card Owner Last Name" />
+                              </div>
+                            </div>
+                          </div>
 
-                              <!-- Address1 input -->
-                              <!-- <div class="form-outline mb-4">
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-12 mb-4">
+                            <div class="card mb-4">
+                              <div class="card-header py-3 text-center">
+                                <h4 class="mb-0">Billing Address</h4>
+                              </div>
+                              <div id="billingAddress" class="card-body">
+                                <!-- 2 column grid layout with text inputs for the first and last names -->
+                                <div class="row mb-4">
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <input type="text" id="checkout-form-firstname" class="form-control"
+                                        value="<%=billing_info?.firstName%>" />
+                                      <label class="form-label" for="checkout-form-firstname">First name</label>
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <input type="text" id="checkout-form-lastname" class="form-control"
+                                        value="<%=billing_info?.lastName%>" />
+                                      <label class="form-label" for="checkout-form-lastname">Last name</label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- Email input -->
+                                <div class="form-outline mb-4">
+                                  <input type="email" id="checkout-form-email" class="form-control"
+                                    value="<%=billing_info?.email%>" />
+                                  <label class="form-label" for="checkout-form-email">Email</label>
+                                </div>
+
+                                <!-- Address1 input -->
+                                <!-- <div class="form-outline mb-4">
                                 <input type="text" id="checkout-form-address" class="form-control" />
                                 <label class="form-label" for="checkout-form-address">Address Line 1</label>
                               </div> -->
 
-                              <!-- Address2 input -->
-                              <div class="row mb-4">
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <input type="text" id="checkout-form-address" class="form-control"
-                                      value="<%=billing_info?.address%>" />
-                                    <label class="form-label" for="checkout-form-address">Address</label>
+                                <!-- Address2 input -->
+                                <div class="row mb-4">
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <input type="text" id="checkout-form-address" class="form-control"
+                                        value="<%=billing_info?.address%>" />
+                                      <label class="form-label" for="checkout-form-address">Address</label>
+                                    </div>
+                                  </div>
+
+                                  <div class="col">
+                                    <div class="form-outline">
+
+                                      <input type="text" id="checkout-form-city" class="form-control"
+                                        value="<%=billing_info?.city%>" />
+                                      <label class="form-label" for="checkout-form-city">City</label>
+                                    </div>
                                   </div>
                                 </div>
 
-                                <div class="col">
-                                  <div class="form-outline">
+                                <div class="row">
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <select id="checkout-form-state" class="form-control">
+                                        <option value="">Select State</option>
 
-                                    <input type="text" id="checkout-form-city" class="form-control"
-                                      value="<%=billing_info?.city%>" />
-                                    <label class="form-label" for="checkout-form-city">City</label>
+                                        <option value="AL" <%=billing_info?.state==='AL' ? 'selected' : '' %>>Alabama
+                                        </option>
+                                        <option value="AK" <%=billing_info?.state==='AK' ? 'selected' : '' %>>Alaska
+                                        </option>
+                                        <option value="AZ" <%=billing_info?.state==='AZ' ? 'selected' : '' %>>Arizona
+                                        </option>
+                                        <option value="AR" <%=billing_info?.state==='AR' ? 'selected' : '' %>>Arkansas
+                                        </option>
+                                        <option value="CA" <%=billing_info?.state==='CA' ? 'selected' : '' %>>California
+                                        </option>
+                                        <option value="CO" <%=billing_info?.state==='CO' ? 'selected' : '' %>>Colorado
+                                        </option>
+                                        <option value="CT" <%=billing_info?.state==='CT' ? 'selected' : '' %>
+                                          >Connecticut
+                                        </option>
+                                        <option value="DE" <%=billing_info?.state==='DE' ? 'selected' : '' %>>Delaware
+                                        </option>
+                                        <option value="DC" <%=billing_info?.state==='DC' ? 'selected' : '' %>>District
+                                          Of
+                                          Columbia</option>
+                                        <option value="FL" <%=billing_info?.state==='FL' ? 'selected' : '' %>
+                                          <%= billing_info?.state==='FL' ? 'selected' : '' %>>Florida
+                                        </option>
+                                        <option value="GA" <%=billing_info?.state==='GA' ? 'selected' : '' %>>Georgia
+                                        </option>
+                                        <option value="HI" <%=billing_info?.state==='HI' ? 'selected' : '' %>>Hawaii
+                                        </option>
+                                        <option value="ID" <%=billing_info?.state==='ID' ? 'selected' : '' %>>Idaho
+                                        </option>
+                                        <option value="IL" <%=billing_info?.state==='IL' ? 'selected' : '' %>>Illinois
+                                        </option>
+                                        <option value="IN" <%=billing_info?.state==='IN' ? 'selected' : '' %>>Indiana
+                                        </option>
+                                        <option value="IA" <%=billing_info?.state==='IA' ? 'selected' : '' %>>Iowa
+                                        </option>
+                                        <option value="KS" <%=billing_info?.state==='KS' ? 'selected' : '' %>>Kansas
+                                        </option>
+                                        <option value="KY" <%=billing_info?.state==='KY' ? 'selected' : '' %>>Kentucky
+                                        </option>
+                                        <option value="LA" <%=billing_info?.state==='LA' ? 'selected' : '' %>>Louisiana
+                                        </option>
+                                        <option value="ME" <%=billing_info?.state==='ME' ? 'selected' : '' %>>Maine
+                                        </option>
+                                        <option value="MD" <%=billing_info?.state==='MD' ? 'selected' : '' %>>Maryland
+                                        </option>
+                                        <option value="MA" <%=billing_info?.state==='MA' ? 'selected' : '' %>
+                                          >Massachusetts</option>
+                                        <option value="MI" <%=billing_info?.state==='MI' ? 'selected' : '' %>>Michigan
+                                        </option>
+                                        <option value="MN" <%=billing_info?.state==='MN' ? 'selected' : '' %>>Minnesota
+                                        </option>
+                                        <option value="MS" <%=billing_info?.state==='MS' ? 'selected' : '' %>
+                                          >Mississippi
+                                        </option>
+                                        <option value="MO" <%=billing_info?.state==='MO' ? 'selected' : '' %>>Missouri
+                                        </option>
+                                        <option value="MT" <%=billing_info?.state==='MT' ? 'selected' : '' %>>Montana
+                                        </option>
+                                        <option value="NE" <%=billing_info?.state==='NE' ? 'selected' : '' %>>Nebraska
+                                        </option>
+                                        <option value="NV" <%=billing_info?.state==='NV' ? 'selected' : '' %>>Nevada
+                                        </option>
+                                        <option value="NH" <%=billing_info?.state==='NH' ? 'selected' : '' %>>New
+                                          Hampshire</option>
+                                        <option value="NJ" <%=billing_info?.state==='NJ' ? 'selected' : '' %>>New Jersey
+                                        </option>
+                                        <option value="NM" <%=billing_info?.state==='NM' ? 'selected' : '' %>>New Mexico
+                                        </option>
+                                        <option value="NY" <%=billing_info?.state==='NY' ? 'selected' : '' %>>New York
+                                        </option>
+                                        <option value="NC" <%=billing_info?.state==='NC' ? 'selected' : '' %>>North
+                                          Carolina</option>
+                                        <option value="ND" <%=billing_info?.state==='ND' ? 'selected' : '' %>>North
+                                          Dakota
+                                        </option>
+                                        <option value="OH" <%=billing_info?.state==='OH' ? 'selected' : '' %>>Ohio
+                                        </option>
+                                        <option value="OK" <%=billing_info?.state==='OK' ? 'selected' : '' %>>Oklahoma
+                                        </option>
+                                        <option value="OR" <%=billing_info?.state==='OR' ? 'selected' : '' %>>Oregon
+                                        </option>
+                                        <option value="PA" <%=billing_info?.state==='PA' ? 'selected' : '' %>
+                                          >Pennsylvania
+                                        </option>
+                                        <option value="RI" <%=billing_info?.state==='RI' ? 'selected' : '' %>>Rhode
+                                          Island
+                                        </option>
+                                        <option value="SC" <%=billing_info?.state==='SC' ? 'selected' : '' %>>South
+                                          Carolina</option>
+                                        <option value="SD" <%=billing_info?.state==='SD' ? 'selected' : '' %>>South
+                                          Dakota
+                                        </option>
+                                        <option value="TN" <%=billing_info?.state==='TN' ? 'selected' : '' %>>Tennessee
+                                        </option>
+                                        <option value="TX" <%=billing_info?.state==='TX' ? 'selected' : '' %>>Texas
+                                        </option>
+                                        <option value="UT" <%=billing_info?.state==='UT' ? 'selected' : '' %>>Utah
+                                        </option>
+                                        <option value="VT" <%=billing_info?.state==='VT' ? 'selected' : '' %>>Vermont
+                                        </option>
+                                        <option value="VA" <%=billing_info?.state==='VA' ? 'selected' : '' %>>Virginia
+                                        </option>
+                                        <option value="WA" <%=billing_info?.state==='WA' ? 'selected' : '' %>>Washington
+                                        </option>
+                                        <option value="WV" <%=billing_info?.state==='WV' ? 'selected' : '' %>>West
+                                          Virginia</option>
+                                        <option value="WI" <%=billing_info?.state==='WI' ? 'selected' : '' %>>Wisconsin
+                                        </option>
+                                        <option value="WY" <%=billing_info?.state==='WY' ? 'selected' : '' %>>Wyoming
+                                        </option>
+                                      </select>
+                                      <label class="form-label" for="checkout-form-state">State</label>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-
-                              <div class="row">
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <select id="checkout-form-state" class="form-control">
-                                      <option value="">Select State</option>
-
-                                      <option value="AL" <%=billing_info?.state==='AL' ? 'selected' : '' %>>Alabama
-                                      </option>
-                                      <option value="AK" <%=billing_info?.state==='AK' ? 'selected' : '' %>>Alaska
-                                      </option>
-                                      <option value="AZ" <%=billing_info?.state==='AZ' ? 'selected' : '' %>>Arizona
-                                      </option>
-                                      <option value="AR" <%=billing_info?.state==='AR' ? 'selected' : '' %>>Arkansas
-                                      </option>
-                                      <option value="CA" <%=billing_info?.state==='CA' ? 'selected' : '' %>>California
-                                      </option>
-                                      <option value="CO" <%=billing_info?.state==='CO' ? 'selected' : '' %>>Colorado
-                                      </option>
-                                      <option value="CT" <%=billing_info?.state==='CT' ? 'selected' : '' %>>Connecticut
-                                      </option>
-                                      <option value="DE" <%=billing_info?.state==='DE' ? 'selected' : '' %>>Delaware
-                                      </option>
-                                      <option value="DC" <%=billing_info?.state==='DC' ? 'selected' : '' %>>District Of
-                                        Columbia</option>
-                                      <option value="FL" <%=billing_info?.state==='FL' ? 'selected' : '' %>
-                                        <%= billing_info?.state==='FL' ? 'selected' : '' %>>Florida
-                                      </option>
-                                      <option value="GA" <%=billing_info?.state==='GA' ? 'selected' : '' %>>Georgia
-                                      </option>
-                                      <option value="HI" <%=billing_info?.state==='HI' ? 'selected' : '' %>>Hawaii
-                                      </option>
-                                      <option value="ID" <%=billing_info?.state==='ID' ? 'selected' : '' %>>Idaho
-                                      </option>
-                                      <option value="IL" <%=billing_info?.state==='IL' ? 'selected' : '' %>>Illinois
-                                      </option>
-                                      <option value="IN" <%=billing_info?.state==='IN' ? 'selected' : '' %>>Indiana
-                                      </option>
-                                      <option value="IA" <%=billing_info?.state==='IA' ? 'selected' : '' %>>Iowa
-                                      </option>
-                                      <option value="KS" <%=billing_info?.state==='KS' ? 'selected' : '' %>>Kansas
-                                      </option>
-                                      <option value="KY" <%=billing_info?.state==='KY' ? 'selected' : '' %>>Kentucky
-                                      </option>
-                                      <option value="LA" <%=billing_info?.state==='LA' ? 'selected' : '' %>>Louisiana
-                                      </option>
-                                      <option value="ME" <%=billing_info?.state==='ME' ? 'selected' : '' %>>Maine
-                                      </option>
-                                      <option value="MD" <%=billing_info?.state==='MD' ? 'selected' : '' %>>Maryland
-                                      </option>
-                                      <option value="MA" <%=billing_info?.state==='MA' ? 'selected' : '' %>
-                                        >Massachusetts</option>
-                                      <option value="MI" <%=billing_info?.state==='MI' ? 'selected' : '' %>>Michigan
-                                      </option>
-                                      <option value="MN" <%=billing_info?.state==='MN' ? 'selected' : '' %>>Minnesota
-                                      </option>
-                                      <option value="MS" <%=billing_info?.state==='MS' ? 'selected' : '' %>>Mississippi
-                                      </option>
-                                      <option value="MO" <%=billing_info?.state==='MO' ? 'selected' : '' %>>Missouri
-                                      </option>
-                                      <option value="MT" <%=billing_info?.state==='MT' ? 'selected' : '' %>>Montana
-                                      </option>
-                                      <option value="NE" <%=billing_info?.state==='NE' ? 'selected' : '' %>>Nebraska
-                                      </option>
-                                      <option value="NV" <%=billing_info?.state==='NV' ? 'selected' : '' %>>Nevada
-                                      </option>
-                                      <option value="NH" <%=billing_info?.state==='NH' ? 'selected' : '' %>>New
-                                        Hampshire</option>
-                                      <option value="NJ" <%=billing_info?.state==='NJ' ? 'selected' : '' %>>New Jersey
-                                      </option>
-                                      <option value="NM" <%=billing_info?.state==='NM' ? 'selected' : '' %>>New Mexico
-                                      </option>
-                                      <option value="NY" <%=billing_info?.state==='NY' ? 'selected' : '' %>>New York
-                                      </option>
-                                      <option value="NC" <%=billing_info?.state==='NC' ? 'selected' : '' %>>North
-                                        Carolina</option>
-                                      <option value="ND" <%=billing_info?.state==='ND' ? 'selected' : '' %>>North Dakota
-                                      </option>
-                                      <option value="OH" <%=billing_info?.state==='OH' ? 'selected' : '' %>>Ohio
-                                      </option>
-                                      <option value="OK" <%=billing_info?.state==='OK' ? 'selected' : '' %>>Oklahoma
-                                      </option>
-                                      <option value="OR" <%=billing_info?.state==='OR' ? 'selected' : '' %>>Oregon
-                                      </option>
-                                      <option value="PA" <%=billing_info?.state==='PA' ? 'selected' : '' %>>Pennsylvania
-                                      </option>
-                                      <option value="RI" <%=billing_info?.state==='RI' ? 'selected' : '' %>>Rhode Island
-                                      </option>
-                                      <option value="SC" <%=billing_info?.state==='SC' ? 'selected' : '' %>>South
-                                        Carolina</option>
-                                      <option value="SD" <%=billing_info?.state==='SD' ? 'selected' : '' %>>South Dakota
-                                      </option>
-                                      <option value="TN" <%=billing_info?.state==='TN' ? 'selected' : '' %>>Tennessee
-                                      </option>
-                                      <option value="TX" <%=billing_info?.state==='TX' ? 'selected' : '' %>>Texas
-                                      </option>
-                                      <option value="UT" <%=billing_info?.state==='UT' ? 'selected' : '' %>>Utah
-                                      </option>
-                                      <option value="VT" <%=billing_info?.state==='VT' ? 'selected' : '' %>>Vermont
-                                      </option>
-                                      <option value="VA" <%=billing_info?.state==='VA' ? 'selected' : '' %>>Virginia
-                                      </option>
-                                      <option value="WA" <%=billing_info?.state==='WA' ? 'selected' : '' %>>Washington
-                                      </option>
-                                      <option value="WV" <%=billing_info?.state==='WV' ? 'selected' : '' %>>West
-                                        Virginia</option>
-                                      <option value="WI" <%=billing_info?.state==='WI' ? 'selected' : '' %>>Wisconsin
-                                      </option>
-                                      <option value="WY" <%=billing_info?.state==='WY' ? 'selected' : '' %>>Wyoming
-                                      </option>
-                                    </select>
-                                    <label class="form-label" for="checkout-form-state">State</label>
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <input type="text" id="checkout-form-zip" pattern="^\s*\d{5}(-?\s*\d{4})?\s*$"
+                                        class="form-control" value="<%=billing_info?.zipCode%>">
+                                      <label class="form-label" for="checkout-form-zip">Zip Code</label>
+                                    </div>
                                   </div>
-                                </div>
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <input type="text" id="checkout-form-zip" pattern="^\s*\d{5}(-?\s*\d{4})?\s*$"
-                                      class="form-control" value="<%=billing_info?.zipCode%>">
-                                    <label class="form-label" for="checkout-form-zip">Zip Code</label>
+                                  <div>
+                                    <label for="saveCardCheckbox">Save Card Info
+                                      <input style="font-size: 25px;" type="checkbox" id="saveCardCheckbox"
+                                        name="savePayment" value="true">
+                                    </label>
                                   </div>
-                                </div>
-                                <div>
-                                  <label for="saveCardCheckbox">Save Card Info
-                                    <input style="font-size: 25px;" type="checkbox" id="saveCardCheckbox"
-                                      name="savePayment" value="true">
-                                  </label>
                                 </div>
                               </div>
                             </div>
@@ -582,18 +592,17 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div id="complete-order-error" class="d-none text-center"></div>
-                <div class="panel-footer">
-                  <div class="row text-center py-4">
-                    <div class="col-xs-12">
-                      <button type='submit' id="complete-order" class="btn btn-theme-colored1 btn-lg btn-block">
-                        Complete Order
-                      </button>
+                  <div id="complete-order-error" class="d-none text-center"></div>
+                  <div class="panel-footer">
+                    <div class="row text-center py-4">
+                      <div class="col-xs-12">
+                        <button type='submit' id="complete-order" class="btn btn-theme-colored1 btn-lg btn-block">
+                          Complete Order
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </form>
           </div>

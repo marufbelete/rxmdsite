@@ -129,7 +129,7 @@
     <!-- Start main-content -->
     <div class="main-content-area">
       <!-- Section: page title -->
-    
+
 
       <section class="page-title layer-overlay overlay-dark-9 section-typo-light bg-img-center"
         data-tm-bg-img="images/bg/bg1.jpg">
@@ -164,7 +164,7 @@
       <section>
         <div class="container pt-3">
           <div class="section-content">
-          
+
             <form id="checkout-form" action="/authorizeNet" method="post">
               <div class="row mt-2">
                 <table class="table mb-4" style="width: 100%; max-width: 600px; margin: 0 auto;">
@@ -176,287 +176,292 @@
                   </thead>
                   <tbody id="appointment_table_product">
                     <tr>
-                      <td id="appt-product" data-productid="<%=service?.product?.id%>"><%=service?.product?.product_name %></td>
-                      <td>$<span id="appt_pay_price"><%=service?.product?.price %></span></td>
+                      <td id="appt-product" data-productid="<%=service?.product?.id%>">
+                        <%=service?.product?.product_name %>
+                      </td>
+                      <td>$<span id="appt_pay_price">
+                          <%=service?.product?.price %>
+                        </span></td>
                     </tr>
                     <tr>
-                      <td colspan="2" style="text-align: right;"><strong>Grand Total: </strong>$<span id="appt-total-price"><%=service?.product?.price %></span></td>
+                      <td colspan="2" style="text-align: right;"><strong>Grand Total: </strong>$<span
+                          id="appt-total-price">
+                          <%=service?.product?.price %>
+                        </span></td>
                     </tr>
                   </tbody>
                 </table>
-                
 
-            <div id="" class="">
-                <label id="apply_discount_p" for="applyDiscountCheckboxAppt">
-                  <!-- tolltip -->
-                <span flow="right" tooltip="You can only get 90% of max discount of product you buy, if you have more you can use next time">
-                <i class="fas fa-question-circle" ></i></span>                    
-                Apply My Discount
-                <input style="font-size: 25px;" type="checkbox" id="applyDiscountCheckboxAppt" value="true">
-                </label>
-                <div id="check_exist_payment" class="d-none">
-                  <h2>Select a Payment Card</h2>
-                <div id="payment_card_list">
-                </div>
-                <label for="otherPaymentCheckbox">use other payment
-                  <input style="font-size: 25px;" type="checkbox" id="otherPaymentCheckbox" name="otherPayment" value="true">
-                </label>
-                </div>
-              
 
-                <div class="col-md-12 mt-60" id="use_new_payment">
-                  <div class="card payment-method">
-                    <div class="card-header text-center">
-                      <h3>Payment Information</h3>
+                <div id="" class="">
+                  <label id="apply_discount_p" for="applyDiscountCheckboxAppt">
+                    <!-- tolltip -->
+                    <span flow="right"
+                      tooltip="Products can only be discounted 90%. If you have leftover discount, you can use it next time">
+                      <i class="fas fa-question-circle"></i></span>
+                    Apply My Discount
+                    <input style="font-size: 25px;" type="checkbox" id="applyDiscountCheckboxAppt" value="true">
+                  </label>
+                  <div id="check_exist_payment" class="d-none">
+                    <h2>Select a Payment Card</h2>
+                    <div id="payment_card_list">
                     </div>
-                    <div class="panel panel-default">
-                      <div class="panel-heading">
-                        <div class="row">
-                          <img class="img-responsive cc-img" src="/images/testrxmd/creditcardicons.png">
-                        </div>
+                    <label for="otherPaymentCheckbox">use other payment
+                      <input style="font-size: 25px;" type="checkbox" id="otherPaymentCheckbox" name="otherPayment"
+                        value="true">
+                    </label>
+                  </div>
+
+
+                  <div class="col-md-12 mt-60" id="use_new_payment">
+                    <div class="card payment-method">
+                      <div class="card-header text-center">
+                        <h3>Payment Information</h3>
                       </div>
-                      <div class="panel-body">
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <div class="form-group text-center">
-                              <label>CARD NUMBER</label>
-                              <div class="input-group px-5">
-                                <input id="checkout-form-ccNumber" type="tel" class="form-control" maxlength="16"
-                                  placeholder="Credit or Debit Card Number" />
-                              </div>
-                            </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <img class="img-responsive cc-img" src="/images/testrxmd/creditcardicons.png">
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-xs-6 col-md-6">
-                            <div class="form-group text-center px-5 py-3">
-                              <label>EXP DATE</label>
-                              <input type="text" pattern="[0-9/]*" placeholder="MM/YY" maxlength="5"
-                                id="checkout-form-ccExpiry" oninput="addSlash(this)" placeholder="MM/YY"
-                                class="form-control" />
-
-                            </div>
-                          </div>
-                          <SCRIPT LANGUAGE="JavaScript">
-                            function addSlash(e) {
-                              let inputValue = e.value;
-                              if (inputValue.length === 2) {
-                                e.value = inputValue + '/';
-                              }
-                              if (inputValue.indexOf('/') !== inputValue.lastIndexOf('/')) {
-                                e.value = inputValue.substring(0, inputValue.length - 1);
-                              }
-                            }
-                          </SCRIPT>
-                          <div class="col-xs-6 col-md-6 pull-right">
-                            <div class="form-group px-5 py-3 text-center">
-                              <label>CVC CODE</label>
-                              <input maxlength="4" id="checkout-form-cvc" type="tel" class="form-control"
-                                placeholder="CVC" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <div class="form-group px-5 py-3 text-center">
-                              <label>CARD OWNER FIRST NAME</label>
-                              <input id="checkout-form-firstname-on-cc" type="text" class="form-control"
-                                placeholder="Card Owner First Name" />
-                            </div>
-                          </div>
-                          <div class="col-lg-6">
-                            <div class="form-group px-5 py-3 text-center">
-                              <label>CARD OWNER LAST NAME</label>
-                              <input id="checkout-form-lastname-on-cc" type="text" class="form-control"
-                                placeholder="Card Owner Last Name" />
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-12 mb-4">
-                          <div class="card mb-4">
-                            <div class="card-header py-3 text-center">
-                              <h4 class="mb-0">Billing Address</h4>
-                            </div>
-                            <div id="billingAddress" class="card-body">
-                              <!-- 2 column grid layout with text inputs for the first and last names -->
-                              <div class="row mb-4">
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <input type="text" id="checkout-form-firstname" class="form-control"
-                                       />
-                                    <label class="form-label" for="checkout-form-firstname">First name</label>
-                                  </div>
-                                </div>
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <input type="text" id="checkout-form-lastname" class="form-control"
-                                       />
-                                    <label class="form-label" for="checkout-form-lastname">Last name</label>
-                                  </div>
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="col-xs-12">
+                              <div class="form-group text-center">
+                                <label>CARD NUMBER</label>
+                                <div class="input-group px-5">
+                                  <input id="checkout-form-ccNumber" type="tel" class="form-control" maxlength="16"
+                                    placeholder="Credit or Debit Card Number" />
                                 </div>
                               </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xs-6 col-md-6">
+                              <div class="form-group text-center px-5 py-3">
+                                <label>EXP DATE</label>
+                                <input type="text" pattern="[0-9/]*" placeholder="MM/YY" maxlength="5"
+                                  id="checkout-form-ccExpiry" oninput="addSlash(this)" placeholder="MM/YY"
+                                  class="form-control" />
 
-                              <!-- Email input -->
-                              <div class="form-outline mb-4">
-                                <input type="email" id="checkout-form-email" class="form-control"
-                                   />
-                                <label class="form-label" for="checkout-form-email">Email</label>
                               </div>
+                            </div>
+                            <SCRIPT LANGUAGE="JavaScript">
+                              function addSlash(e) {
+                                let inputValue = e.value;
+                                if (inputValue.length === 2) {
+                                  e.value = inputValue + '/';
+                                }
+                                if (inputValue.indexOf('/') !== inputValue.lastIndexOf('/')) {
+                                  e.value = inputValue.substring(0, inputValue.length - 1);
+                                }
+                              }
+                            </SCRIPT>
+                            <div class="col-xs-6 col-md-6 pull-right">
+                              <div class="form-group px-5 py-3 text-center">
+                                <label>CVC CODE</label>
+                                <input maxlength="4" id="checkout-form-cvc" type="tel" class="form-control"
+                                  placeholder="CVC" />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <div class="form-group px-5 py-3 text-center">
+                                <label>CARD OWNER FIRST NAME</label>
+                                <input id="checkout-form-firstname-on-cc" type="text" class="form-control"
+                                  placeholder="Card Owner First Name" />
+                              </div>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="form-group px-5 py-3 text-center">
+                                <label>CARD OWNER LAST NAME</label>
+                                <input id="checkout-form-lastname-on-cc" type="text" class="form-control"
+                                  placeholder="Card Owner Last Name" />
+                              </div>
+                            </div>
+                          </div>
 
-                              <!-- Address1 input -->
-                              <!-- <div class="form-outline mb-4">
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-12 mb-4">
+                            <div class="card mb-4">
+                              <div class="card-header py-3 text-center">
+                                <h4 class="mb-0">Billing Address</h4>
+                              </div>
+                              <div id="billingAddress" class="card-body">
+                                <!-- 2 column grid layout with text inputs for the first and last names -->
+                                <div class="row mb-4">
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <input type="text" id="checkout-form-firstname" class="form-control" />
+                                      <label class="form-label" for="checkout-form-firstname">First name</label>
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <input type="text" id="checkout-form-lastname" class="form-control" />
+                                      <label class="form-label" for="checkout-form-lastname">Last name</label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- Email input -->
+                                <div class="form-outline mb-4">
+                                  <input type="email" id="checkout-form-email" class="form-control" />
+                                  <label class="form-label" for="checkout-form-email">Email</label>
+                                </div>
+
+                                <!-- Address1 input -->
+                                <!-- <div class="form-outline mb-4">
                                 <input type="text" id="checkout-form-address" class="form-control" />
                                 <label class="form-label" for="checkout-form-address">Address Line 1</label>
                               </div> -->
 
-                              <!-- Address2 input -->
-                              <div class="row mb-4">
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <input type="text" id="checkout-form-address" class="form-control"
-                                       />
-                                    <label class="form-label" for="checkout-form-address">Address</label>
+                                <!-- Address2 input -->
+                                <div class="row mb-4">
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <input type="text" id="checkout-form-address" class="form-control" />
+                                      <label class="form-label" for="checkout-form-address">Address</label>
+                                    </div>
+                                  </div>
+
+                                  <div class="col">
+                                    <div class="form-outline">
+
+                                      <input type="text" id="checkout-form-city" class="form-control" />
+                                      <label class="form-label" for="checkout-form-city">City</label>
+                                    </div>
                                   </div>
                                 </div>
 
-                                <div class="col">
-                                  <div class="form-outline">
+                                <div class="row">
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <select id="checkout-form-state" class="form-control">
+                                        <option value="">Select State</option>
 
-                                    <input type="text" id="checkout-form-city" class="form-control"
-                                      />
-                                    <label class="form-label" for="checkout-form-city">City</label>
+                                        <option value="AL">Alabama
+                                        </option>
+                                        <option value="AK">Alaska
+                                        </option>
+                                        <option value="AZ">Arizona
+                                        </option>
+                                        <option value="AR">Arkansas
+                                        </option>
+                                        <option value="CA">California
+                                        </option>
+                                        <option value="CO">Colorado
+                                        </option>
+                                        <option value="CT">Connecticut
+                                        </option>
+                                        <option value="DE">Delaware
+                                        </option>
+                                        <option value="DC">District Of
+                                          Columbia</option>
+                                        <option value="FL">Florida
+                                        </option>
+                                        <option value="GA">Georgia
+                                        </option>
+                                        <option value="HI">Hawaii
+                                        </option>
+                                        <option value="ID">Idaho
+                                        </option>
+                                        <option value="IL">Illinois
+                                        </option>
+                                        <option value="IN">Indiana
+                                        </option>
+                                        <option value="IA">Iowa
+                                        </option>
+                                        <option value="KS">Kansas
+                                        </option>
+                                        <option value="KY">Kentucky
+                                        </option>
+                                        <option value="LA">Louisiana
+                                        </option>
+                                        <option value="ME">Maine
+                                        </option>
+                                        <option value="MD">Maryland
+                                        </option>
+                                        <option value="MA">Massachusetts</option>
+                                        <option value="MI">Michigan
+                                        </option>
+                                        <option value="MN">Minnesota
+                                        </option>
+                                        <option value="MS">Mississippi
+                                        </option>
+                                        <option value="MO">Missouri
+                                        </option>
+                                        <option value="MT">Montana
+                                        </option>
+                                        <option value="NE">Nebraska
+                                        </option>
+                                        <option value="NV">Nevada
+                                        </option>
+                                        <option value="NH">New
+                                          Hampshire</option>
+                                        <option value="NJ">New Jersey
+                                        </option>
+                                        <option value="NM">New Mexico
+                                        </option>
+                                        <option value="NY">New York
+                                        </option>
+                                        <option value="NC">North
+                                          Carolina</option>
+                                        <option value="ND">North Dakota
+                                        </option>
+                                        <option value="OH">Ohio
+                                        </option>
+                                        <option value="OK">Oklahoma
+                                        </option>
+                                        <option value="OR">Oregon
+                                        </option>
+                                        <option value="PA">Pennsylvania
+                                        </option>
+                                        <option value="RI">Rhode Island
+                                        </option>
+                                        <option value="SC">South
+                                          Carolina</option>
+                                        <option value="SD">South Dakota
+                                        </option>
+                                        <option value="TN">Tennessee
+                                        </option>
+                                        <option value="TX">Texas
+                                        </option>
+                                        <option value="UT">Utah
+                                        </option>
+                                        <option value="VT">Vermont
+                                        </option>
+                                        <option value="VA">Virginia
+                                        </option>
+                                        <option value="WA">Washington
+                                        </option>
+                                        <option value="WV">West
+                                          Virginia</option>
+                                        <option value="WI">Wisconsin
+                                        </option>
+                                        <option value="WY">Wyoming
+                                        </option>
+                                      </select>
+                                      <label class="form-label" for="checkout-form-state">State</label>
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="form-outline">
+                                      <input type="text" id="checkout-form-zip" pattern="^\s*\d{5}(-?\s*\d{4})?\s*$"
+                                        class="form-control">
+                                      <label class="form-label" for="checkout-form-zip">Zip Code</label>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <label for="saveCardCheckbox">Save Card Info
+                                      <input style="font-size: 25px;" type="checkbox" id="saveCardCheckbox"
+                                        name="savePayment" value="true">
+                                    </label>
                                   </div>
                                 </div>
-                              </div>
-
-                              <div class="row">
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <select id="checkout-form-state" class="form-control">
-                                      <option value="">Select State</option>
-
-                                      <option value="AL">Alabama
-                                      </option>
-                                      <option value="AK">Alaska
-                                      </option>
-                                      <option value="AZ">Arizona
-                                      </option>
-                                      <option value="AR">Arkansas
-                                      </option>
-                                      <option value="CA">California
-                                      </option>
-                                      <option value="CO">Colorado
-                                      </option>
-                                      <option value="CT">Connecticut
-                                      </option>
-                                      <option value="DE">Delaware
-                                      </option>
-                                      <option value="DC">District Of
-                                        Columbia</option>
-                                      <option value="FL">Florida
-                                      </option>
-                                      <option value="GA">Georgia
-                                      </option>
-                                      <option value="HI">Hawaii
-                                      </option>
-                                      <option value="ID">Idaho
-                                      </option>
-                                      <option value="IL">Illinois
-                                      </option>
-                                      <option value="IN">Indiana
-                                      </option>
-                                      <option value="IA">Iowa
-                                      </option>
-                                      <option value="KS">Kansas
-                                      </option>
-                                      <option value="KY">Kentucky
-                                      </option>
-                                      <option value="LA">Louisiana
-                                      </option>
-                                      <option value="ME">Maine
-                                      </option>
-                                      <option value="MD">Maryland
-                                      </option>
-                                      <option value="MA"
-                                        >Massachusetts</option>
-                                      <option value="MI">Michigan
-                                      </option>
-                                      <option value="MN" >Minnesota
-                                      </option>
-                                      <option value="MS">Mississippi
-                                      </option>
-                                      <option value="MO">Missouri
-                                      </option>
-                                      <option value="MT">Montana
-                                      </option>
-                                      <option value="NE">Nebraska
-                                      </option>
-                                      <option value="NV">Nevada
-                                      </option>
-                                      <option value="NH">New
-                                        Hampshire</option>
-                                      <option value="NJ">New Jersey
-                                      </option>
-                                      <option value="NM">New Mexico
-                                      </option>
-                                      <option value="NY">New York
-                                      </option>
-                                      <option value="NC">North
-                                        Carolina</option>
-                                      <option value="ND">North Dakota
-                                      </option>
-                                      <option value="OH">Ohio
-                                      </option>
-                                      <option value="OK">Oklahoma
-                                      </option>
-                                      <option value="OR">Oregon
-                                      </option>
-                                      <option value="PA">Pennsylvania
-                                      </option>
-                                      <option value="RI">Rhode Island
-                                      </option>
-                                      <option value="SC">South
-                                        Carolina</option>
-                                      <option value="SD">South Dakota
-                                      </option>
-                                      <option value="TN">Tennessee
-                                      </option>
-                                      <option value="TX">Texas
-                                      </option>
-                                      <option value="UT">Utah
-                                      </option>
-                                      <option value="VT">Vermont
-                                      </option>
-                                      <option value="VA">Virginia
-                                      </option>
-                                      <option value="WA">Washington
-                                      </option>
-                                      <option value="WV">West
-                                        Virginia</option>
-                                      <option value="WI">Wisconsin
-                                      </option>
-                                      <option value="WY">Wyoming
-                                      </option>
-                                    </select>
-                                    <label class="form-label" for="checkout-form-state">State</label>
-                                  </div>
-                                </div>
-                                <div class="col">
-                                  <div class="form-outline">
-                                    <input type="text" id="checkout-form-zip" pattern="^\s*\d{5}(-?\s*\d{4})?\s*$"
-                                      class="form-control">
-                                    <label class="form-label" for="checkout-form-zip">Zip Code</label>
-                                  </div>
-                                </div>
-                                <div>
-                                <label for="saveCardCheckbox">Save Card Info
-                                  <input style="font-size: 25px;" type="checkbox" id="saveCardCheckbox" name="savePayment" value="true">
-                                </label>
-                              </div>
                               </div>
                             </div>
                           </div>
@@ -464,18 +469,17 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div id="complete-order-error" class="d-none text-center"></div>
-                <div class="panel-footer">
-                  <div class="row text-center py-4">
-                    <div class="col-xs-12">
-                      <button type='submit' id="complete-appt-order" class="btn btn-theme-colored1 btn-md btn-block">
-                        Complete Order
-                      </button>
+                  <div id="complete-order-error" class="d-none text-center"></div>
+                  <div class="panel-footer">
+                    <div class="row text-center py-4">
+                      <div class="col-xs-12">
+                        <button type='submit' id="complete-appt-order" class="btn btn-theme-colored1 btn-md btn-block">
+                          Complete Order
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </form>
           </div>

@@ -99,7 +99,7 @@
           </div>
         </section>
 
-        <!-- Section: Job Apply Form -->
+        <!-- Section: Meal Plan Form -->
         <section class="divider">
           <div class="container">
             <div class="row">
@@ -115,191 +115,157 @@
                     meal plan tailored to their specific needs, preferences, and lifestyle. The service aims to provide
                     maximum value by addressing various factors, including dietary restrictions, allergies, cooking
                     abilities, and budget constraints.</p>
-                  <form id="meal_plan_form" name="meal_plan_form"
-                    enctype="multipart/form-data">
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="mb-3">
-                          <label>Age <small>*</small></label>
-                          <input name="age" type="number" placeholder="Current Age" class="form-control" required />
-                        </div>
+                  <form id="meal_plan_form" name="meal_plan_form" enctype="multipart/form-data">
+                    <div class="mb-3">
+                      <label for="age" class="form-label">Age</label>
+                      <input type="number" class="form-control" id="age" name="age" required>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="gender" class="form-label">Gender</label>
+                      <select class="form-select" id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Non-Binary">Non-Binary</option>
+                        <option value="Prefer Not to Say">Prefer Not to Say</option>
+                      </select>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="activityLevel" class="form-label">Activity Level</label>
+                      <select class="form-select" id="activityLevel" name="activityLevel" required>
+                        <option value="">Select</option>
+                        <option value="sedentary">Sedentary (little or no exercise)</option>
+                        <option value="lightlyActive">Lightly Active (light exercise or sports 1-3 days a week)</option>
+                        <option value="moderatelyActive">Moderately Active (moderate exercise or sports 3-5 days a week)
+                        </option>
+                        <option value="veryActive">Very Active (hard exercise or sports 6-7 days a week)</option>
+                        <option value="extraActive">Extra Active (very hard exercise or sports and a physical job)
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="height" class="form-label">Height (in inches)</label>
+                      <input type="number" class="form-control" id="height" name="height" required>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="weight" class="form-label">Weight (in lbs)</label>
+                      <input type="number" class="form-control" id="weight" name="weight" required>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="targetWeight" class="form-label">Target Weight (in lbs)</label>
+                      <input type="number" class="form-control" id="targetWeight" name="targetWeight" required>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="dietaryRestrictions" class="form-label">Dietary Restrictions</label>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="vegetarian" id="vegetarian"
+                          name="dietaryRestrictions">
+                        <label class="form-check-label" for="vegetarian">
+                          Vegetarian
+                        </label>
                       </div>
-                      <div class="col-sm-6">
-                        <div class="mb-3">
-                          <label>Gender <small>*</small></label>
-                          <select name="gender" class="form-control" required>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Non-Binary">Non-Binary</option>
-                            <option value="Prefer Not to Say">Prefer Not to Say</option>
-                          </select>
-                        </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="vegan" id="vegan"
+                          name="dietaryRestrictions">
+                        <label class="form-check-label" for="vegan">
+                          Vegan
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="glutenFree" id="glutenFree"
+                          name="dietaryRestrictions">
+                        <label class="form-check-label" for="glutenFree">
+                          Gluten-Free
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="dairyFree" id="dairyFree"
+                          name="dietaryRestrictions">
+                        <label class="form-check-label" for="dairyFree">
+                          Dairy-Free
+                        </label>
                       </div>
                     </div>
 
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="mb-3">
-                          <label>Feet</label>
-                          <select name="heightFeet" class="form-control">
-                            <option value="">Select Height Feet</option>
-                            <option value="3">3 Feet</option>
-                            <option value="4">4 Feet</option>
-                            <option value="5">5 Feet</option>
-                            <option value="6">6 Feet</option>
-                            <option value="7">7 Feet</option>
-                          </select>
-                        </div>
-                      </div>
-
-
-                      <div class="col-sm-6">
-                        <div class="mb-3">
-                          <label>Inches</label>
-                          <select name="heightInches" class="form-control">
-                            <option value="">Select Height Inches</option>
-                            <option value="0">0 Inches</option>
-                            <option value="1">1 Inches</option>
-                            <option value="2">2 Inches</option>
-                            <option value="3">3 Inches</option>
-                            <option value="4">4 Inches</option>
-                            <option value="5">5 Inches</option>
-                            <option value="6">6 Inches</option>
-                            <option value="7">7 Inches</option>
-                            <option value="8">8 Inches</option>
-                            <option value="9">9 Inches</option>
-                            <option value="10">10 Inches</option>
-                            <option value="11">11 Inches</option>
-                          </select>
-                        </div>
-                      </div>
+                    <div class="mb-3">
+                      <label for="mealPreference" class="form-label">Meal Preference</label>
+                      <select class="form-select" id="mealPreference" name="mealPreference" required>
+                        <option value="">Select</option>
+                        <option value="balanced">Balanced</option>
+                        <option value="lowCarb">Low Carb</option>
+                        <option value="lowFat">Low Fat</option>
+                        <option value="lowFat">Keto</option>
+                      </select>
                     </div>
 
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="mb-3">
-                          <label>Body Weight</label>
-                          <input name="bodyWeight" type="text" placeholder="Body Weight (lbs or kg)"
-                            class="form-control" />
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="mb-3">
-                          <label>Fitness Level</label>
-                          <select name="fitnessLevel" class="form-control">
-                            <option value="">Select Fitness Level</option>
-                            <option value="Beginner">Beginner</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Advanced">Advanced</option>
-                          </select>
-                        </div>
-                      </div>
+                    <div class="mb-3">
+                      <label for="allergies" class="form-label">Allergies (if any)</label>
+                      <textarea class="form-control" id="allergies" name="allergies" rows="3"></textarea>
                     </div>
 
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="mb-3">
-                          <label>Fitness Goals</label>
-                          <textarea name="fitnessGoal" placeholder="Describe your fitness goals" class="form-control"
-                            rows="3"></textarea>
-                        </div>
-                      </div>
+                    <div class="mb-3">
+                      <label for="medicalConditions" class="form-label">Medical Conditions (if any)</label>
+                      <textarea class="form-control" id="medicalConditions" name="medicalConditions"
+                        rows="3"></textarea>
                     </div>
 
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="mb-3">
-                          <label>Workout Preferences</label>
-                          <textarea name="workoutPreference" placeholder="Describe your workout preferences"
-                            class="form-control" rows="3"></textarea>
-                        </div>
-                      </div>
+                    <div class="mb-3">
+                      <label for="preferredCuisine" class="form-label">Preferred Cuisine</label>
+                      <input type="text" class="form-control" id="preferredCuisine" name="preferredCuisine" required>
                     </div>
 
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="mb-3">
-                          <label>Exercise Limitations</label>
-                          <textarea name="exerciseLimitation"
-                            placeholder="Describe any exercise limitations or restrictions" class="form-control"
-                            rows="3"></textarea>
-                        </div>
-                      </div>
+                    <div id="vegetarianQuestion" class="mb-3 d-none">
+                      <label for="vegetarianProteinSource" class="form-label">Preferred Vegetarian Protein
+                        Source</label>
+                      <input type="text" class="form-control" id="vegetarianProteinSource"
+                        name="vegetarianProteinSource">
                     </div>
 
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="mb-3">
-                          <label>Workout Frequency</label>
-                          <input name="workoutFrequency" type="text" placeholder="Workout Frequency"
-                            class="form-control" />
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="mb-3">
-                          <label>Workout Duration</label>
-                          <input name="workoutDuration" type="text" placeholder="Workout Duration"
-                            class="form-control" />
-                        </div>
-                      </div>
+                    <div id="veganQuestion" class="mb-3 d-none">
+                      <label for="veganProteinSource" class="form-label">Preferred Vegan Protein Source</label>
+                      <input type="text" class="form-control" id="veganProteinSource" name="veganProteinSource">
                     </div>
 
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="mb-3">
-                          <label>Available Equipment</label>
-                          <textarea name="availableEquipment" placeholder="Describe the available equipment"
-                            class="form-control" rows="3"></textarea>
-                        </div>
-                      </div>
+                    <div class="text-end">
+                      <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
 
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="mb-3">
-                          <label>Rest and Recovery Needs</label>
-                          <textarea name="restAndRecovery" placeholder="Describe your rest and recovery needs"
-                            class="form-control" rows="3"></textarea>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="mb-3">
-                          <label>Health Conditions</label>
-                          <textarea name="healthCondition" placeholder="Describe any health conditions"
-                            class="form-control" rows="3"></textarea>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="mb-3">
-                          <label>Current Medications/Substances</label>
-                          <textarea name="currentMedication" placeholder="List any current medications/substances"
-                            class="form-control" rows="3"></textarea>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                      </div>
-                    </div>
-                    <div class="mb-3 tm-sc-button mb-0 mt-20">
-                      <input name="form_botcheck" class="form-control" type="hidden" value="" />
-                      <button type="submit" class="btn btn-theme-colored1 btn-block btn-sm mt-20"
-                        data-loading-text="Please wait...">
-                        Apply Now
-                      </button>
-                    </div>
                   </form>
-                  <!--Form Validation-->
-                  <!-- <script>
+                </div>
+
+                <!-- This script is necessary to show/hide the vegetarian options when the user selects -->
+                <script>
+                  const form = document.getElementById('mealPlanForm');
+                  const vegetarianQuestion = document.getElementById('vegetarianQuestion');
+                  const veganQuestion = document.getElementById('veganQuestion');
+
+                  form.addEventListener('change', function (event) {
+                    const vegetarianCheckbox = document.getElementById('vegetarian');
+                    const veganCheckbox = document.getElementById('vegan');
+
+                    if (vegetarianCheckbox.checked) {
+                      vegetarianQuestion.classList.remove('d-none');
+                    } else {
+                      vegetarianQuestion.classList.add('d-none');
+                    }
+
+                    if (veganCheckbox.checked) {
+                      veganQuestion.classList.remove('d-none');
+                    } else {
+                      veganQuestion.classList.add('d-none');
+                    }
+                  });
+                </script>
+
+
+                <!--Form Validation-->
+                <!-- <script>
                     (function ($) {
                       $("#meal_form").validate({
                         submitHandler: function (form) {
@@ -334,11 +300,11 @@
                       });
                     })(jQuery);
                   </script> -->
-                </div>
               </div>
             </div>
           </div>
-        </section>
+      </div>
+      </section>
       </div>
       <!-- end main-content -->
       <%- include('../partials/footer') %>
