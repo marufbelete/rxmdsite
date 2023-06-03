@@ -85,11 +85,15 @@ exports.getFitnessById = async (req, res, next) => {
 const fitnessPrmopmt=(req)=>{
   const plan_format=[{
   day: 'Day 1',
-  somekey: [
-    { key: '', duration:'duration amount' },
-    { Fitness: 'fitness name' },
+  
+  exercises: [
+    { name: 'exerise name',description: 'exercise desription and duration'  },
+    { name: 'exerise name',description: 'exercise desription and duration'  },
+    { name: 'exerise name',description: 'exercise desription and duration'  },
+    { name: 'exerise name',description: 'exercise desription and duration'  },
+    { name: 'exerise name',description: 'exercise desription and duration'  },
   ],
-},
+}
 ]
 let prompt = "As a fitness planner, I need your help to create a 1-day fitness plan in JSON format for a ";
 if (req.body.gender) prompt += `${req.body.gender.toLowerCase()} `;
@@ -106,8 +110,7 @@ if (req.body.availableEquipment) prompt += `has access to ${req.body.availableEq
 if (req.body.restAndRecovery) prompt += `practices ${req.body.restAndRecovery} for rest and recovery, `;
 if (req.body.healthCondition) prompt += `has ${req.body.healthCondition}, health condition`;
 if (req.body.currentMedication) prompt += `is currently taking ${req.body.currentMedication}, `;
-prompt += "Please provide the Fitness plan in JSON format, including breakfast, lunch, snack, and dinner for each day. Make sure to include the name of the Fitness and serving size. Return the JSON in this format: " + JSON.stringify(plan_format);
-console.log(prompt)
+prompt += "Please provide the fitness plan in JSON format, including name and desccription. Return the JSON in this format: " + JSON.stringify(plan_format);
 return prompt
   //  `As a Fitness planner, I need your help to create a 1-day Fitness plan in JSON for 
   // a male client who is 25 years old, 1.67m tall, weighs 55kg, has a beginner fitness level,
