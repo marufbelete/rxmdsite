@@ -123,12 +123,12 @@ async function createMealPlanPDF(mealPlanData) {
       { name: 'Snack', items: day.snack },
       { name: 'Dinner', items: day.dinner },
     ];
-     const mealListSize = 12;
+     const fitnessListSize = 12;
     mealList.forEach((meal) => {
       page.drawText(`${meal.name}\n`, {
         x: textX + 20,
         y: textY,
-        size: mealListSize,
+        size: fitnessListSize,
         font: font,
         color: rgb(0, 0, 0.5),
       });
@@ -137,7 +137,7 @@ async function createMealPlanPDF(mealPlanData) {
         page.drawText(`- ${item.meal} (${item.servings})\n`, {
           x: textX + 40,
           y: textY,
-          size: mealListSize,
+          size: fitnessListSize,
           font: font,
           color: rgb(0, 0, 0),
         });
@@ -151,6 +151,27 @@ async function createMealPlanPDF(mealPlanData) {
   fs.writeFileSync('meal-plan.pdf', pdfBytes);
   return pdfBytes
 }
+
+
+function wrapText(text, maxWidth, fontSize, font) {
+  const words = text.split(' ');
+  const lines = [];
+  let currentLine = '';
+
+  words.forEach((word) => {
+    const width = font.widthOfTextAtSize(currentLine + ' ' + word, fontSize);
+    if (width < maxWidth) {
+      currentLine += ' ' + word;
+    } else {
+      lines.push(currentLine.trim());
+      currentLine = word;
+    }
+  });
+
+  lines.push(currentLine.trim());
+  return lines;
+}
+
 async function createFitnessPlanPDF(fitnessPlanData) {
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage();
@@ -165,9 +186,11 @@ async function createFitnessPlanPDF(fitnessPlanData) {
     font: font,
     color: rgb(0, 0, 0),
   });
-   let textX = 50;
+
+  let textX = 50;
   let textY = page.getHeight() - 120;
-   mealPlanData.forEach((day) => {
+
+  fitnessPlanData.forEach((day) => {
     const dayTitle = `${day.day}\n`;
     const dayTitleSize = 18;
     page.drawText(dayTitle, {
@@ -178,39 +201,37 @@ async function createFitnessPlanPDF(fitnessPlanData) {
       color: rgb(0, 0, 0.5),
     });
     textY -= 30;
-     const mealList = [
-      { name: 'Breakfast', items: day.breakfast },
-      { name: 'Lunch', items: day.lunch },
-      { name: 'Snack', items: day.snack },
-      { name: 'Dinner', items: day.dinner },
-    ];
-     const mealListSize = 12;
-    mealList.forEach((meal) => {
-      page.drawText(`${meal.name}\n`, {
-        x: textX + 20,
-        y: textY,
-        size: mealListSize,
-        font: font,
-        color: rgb(0, 0, 0.5),
-      });
-      textY -= 20;
-      meal.items.forEach((item) => {
-        page.drawText(`- ${item.meal} (${item.servings})\n`, {
-          x: textX + 40,
+
+    const fitnessList = day.exercises;
+    const fitnessListSize = 12;
+
+    fitnessList.forEach((fitness) => {
+      const fitnessText = `${fitness.name}: ${fitness.description}`;
+      const fitnessWidth = page.getWidth() - textX - 40;
+
+      const wrappedLines = wrapText(fitnessText, fitnessWidth, fitnessListSize, font);
+
+      wrappedLines.forEach((line) => {
+        page.drawText(line, {
+          x: textX + 20,
           y: textY,
-          size: mealListSize,
+          size: fitnessListSize,
           font: font,
           color: rgb(0, 0, 0),
+          lineHeight: 15, // Adjust the line height as needed
         });
         textY -= 15;
       });
-      textY -= 5;
+
+      textY -= 10;
     });
+
     textY -= 10;
   });
-   const pdfBytes = await pdfDoc.save();
-  fs.writeFileSync('meal-plan.pdf', pdfBytes);
-  return pdfBytes
+
+  const pdfBytes = await pdfDoc.save();
+  // fs.writeFileSync('fitness-plan.pdf', pdfBytes);
+  return pdfBytes;
 }
 
  module.exports = {
