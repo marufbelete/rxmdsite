@@ -12,10 +12,11 @@ const { handleError } = require("../helper/handleError");
 exports.addMeal = async (req, res, next) => {
   try {
     const user = await getUser(req?.user?.sub)
+    // if (!user.mealPlan) {
+    //   handleError("plase buy your meal plan first", 403)
+    // }
     console.log(req.body)
-    if (!user.mealPlan) {
-      handleError("plase buy your meal plan first", 403)
-    }
+    // con
     const meal = new Meal({
       ...req.body,
       userId: req?.user?.sub
@@ -35,7 +36,7 @@ exports.addMeal = async (req, res, next) => {
     await meal.save()
     const pdf = await createMealPlanPDF(obj_response)
     sendMealPlanPdf(user.email, user.first_name, pdf).
-      then(r => r).catch(e => e)
+      then(r => r).catch(e => console.log(e))
     // const jobTime=moment().add(1,'seconds')
     // console.log("reached")
     // cron.scheduleJob(new Date(), async()=>{
@@ -61,7 +62,7 @@ exports.addMeal = async (req, res, next) => {
 
     //   }
     //  ,"one-time")
-    return res.json({ message: "success" });
+    // return res.json({ message: "success" });
   } catch (err) {
     console.log(err)
     next(err);
@@ -111,18 +112,28 @@ const mealPrmopmt = (req) => {
   let prompt = "As a meal planner, I need your help to create a 1-day meal plan in JSON for a ";
   if (req.body.gender) prompt += `${req.body.gender.toLowerCase()} `;
   if (req.body.age) prompt += `client who is ${req.body.age} years old, `;
-  if (req.body.heightFeet && req.body.heightInches) prompt += `is ${req.body.heightFeet} feet and '${req.body.heightInches}" inches tall, `;
-  if (req.body.bodyWeight) prompt += `weighs ${req.body.bodyWeight}lbs, `;
-  if (req.body.fitnessLevel) prompt += `has a fitness level of ${req.body.fitnessLevel.toLowerCase()} `;
-  if (req.body.fitnessGoal) prompt += `has a fitness goal of ${req.body.fitnessGoal.toLowerCase()}, `;
-  if (req.body.workoutPreference) prompt += `prefers the following workouts ${req.body.workoutPreference.toLowerCase()}`;
-  if (req.body.exerciseLimitation) prompt += `has the following limitations ${req.body.exerciseLimitation}, `;
-  if (req.body.workoutFrequency) prompt += `works out ${req.body.workoutFrequency.toLowerCase()} times a week, `;
-  if (req.body.workoutDuration) prompt += `for ${req.body.workoutDuration.toLowerCase()} hour each time, `;
-  if (req.body.availableEquipment) prompt += `has access to ${req.body.availableEquipment}, equipment`;
-  if (req.body.restAndRecovery) prompt += `practices ${req.body.restAndRecovery} for rest and recovery, `;
-  if (req.body.healthCondition) prompt += `has the following health condietions ${req.body.healthCondition}`;
-  if (req.body.currentMedication) prompt += `is currently taking ${req.body.currentMedication}, `;
+  if (req.body.height) prompt += `is ${req.body.height} inch tall, `;
+  if (req.body.weight) prompt += `weight ${req.body.weight}lbs, `;
+  if (req.body.targetWeight) prompt += `target weight ${req.body.targetWeight}lbs, `;
+  if (req.body.activityLevel) prompt += `activity level of ${req.body.activityLevel}, `;
+  if (req.body.mealPreference) prompt += `meal preference of ${req.body.mealPreference}, `;
+  if (req.body.allergies) prompt += `have allergies with ${req.body.allergies}, `;
+  if (req.body.dietaryRestrictions) prompt += `with diatary restriction ${req.body.dietaryRestrictions.toLowerCase()} `;
+  if (req.body.vegetarianProtienSource) prompt += `vegetarian protient source ${req.body.vegetarianProtienSource.toLowerCase()} `;
+  if (req.body.veganProtienSource) prompt += `vegan protient source ${req.body.veganProtienSource.toLowerCase()} `;
+  if (req.body.preferredCuisine) prompt += `preferred cuisine ${req.body.preferredCuisine.toLowerCase()} `;
+  if (req.body.medicalConditions) prompt += `medical condition ${req.body.medicalConditions.toLowerCase()} `;
+  
+  
+  // if (req.body.fitnessGoal) prompt += `has a fitness goal of ${req.body.fitnessGoal.toLowerCase()}, `;
+  // if (req.body.workoutPreference) prompt += `prefers the following workouts ${req.body.workoutPreference.toLowerCase()}`;
+  // if (req.body.exerciseLimitation) prompt += `has the following limitations ${req.body.exerciseLimitation}, `;
+  // if (req.body.workoutFrequency) prompt += `works out ${req.body.workoutFrequency.toLowerCase()} times a week, `;
+  // if (req.body.workoutDuration) prompt += `for ${req.body.workoutDuration.toLowerCase()} hour each time, `;
+  // if (req.body.availableEquipment) prompt += `has access to ${req.body.availableEquipment}, equipment`;
+  // if (req.body.restAndRecovery) prompt += `practices ${req.body.restAndRecovery} for rest and recovery, `;
+  // if (req.body.healthCondition) prompt += `has the following health condietions ${req.body.healthCondition}`;
+  // if (req.body.currentMedication) prompt += `is currently taking ${req.body.currentMedication}, `;
   prompt += "Please provide the meal plan in JSON format, including breakfast, lunch, snack, and dinner for each day. Make sure to include the name of the meal and serving size. Return the JSON in this format: " + JSON.stringify(plan_format);
   console.log(prompt)
   return prompt

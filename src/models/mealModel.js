@@ -16,58 +16,65 @@ gender: {
     type: Sequelize.STRING(45),
     allowNull: false,
   },
-heightFeet: {
+height: {
     type: Sequelize.STRING(45),
     allowNull: false,
   },
-heightInches: {
+weight: {
     type: Sequelize.STRING(45),
     allowNull: false,
   },
-fitnessLevel: {
+allergies: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
-bodyWeight: {
+targetWeight: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
-fitnessGoal: {
+activityLevel: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
-workoutPreference: {
+mealPreference: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
-  exerciseLimitation: {
+dietaryRestrictions: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
-  workoutFrequency: {
+vegetarianProtienSource: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
-  workoutDuration: {
+veganProtienSource: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
-  availableEquipment: {
+ preferredCuisine: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
-  restAndRecovery: {
+  medicalConditions: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
-healthCondition: {
-    type: Sequelize.STRING(45),
-    allowNull: false,
-  },
-currentMedication: {
-    type: Sequelize.STRING(45),
-    allowNull: false,
-  },
+//   workoutFrequency: {
+//     type: Sequelize.STRING(45),
+//     allowNull: false,
+//   },
+//   workoutDuration: {
+//     type: Sequelize.STRING(45),
+//     allowNull: false,
+//   },
+//   availableEquipment: {
+//     type: Sequelize.STRING(45),
+//     allowNull: false,
+//   },
+//   restAndRecovery: {
+//     type: Sequelize.STRING(45),
+//     allowNull: false,
+//   },
+// healthCondition: {
+//     type: Sequelize.STRING(45),
+//     allowNull: false,
+//   },
+// currentMedication: {
+//     type: Sequelize.STRING(45),
+//     allowNull: false,
+//   },
 gptResponse:{
     type: Sequelize.TEXT('long'),
     allowNull: true,

@@ -112,12 +112,20 @@ router.get("/affiliate", authenticateJWT, async function (req, res) {
   return res.render(path.join(__dirname, "..", "/views/pages/affiliate"));
 });
 
-router.get("/mp", function (req, res) {
-  res.render(path.join(__dirname, "..", "/views/pages/mealPlan"));
+router.get("/mp", authenticateJWT, async function (req, res) {
+  // const user = await getUser(req?.user?.sub)
+  // if (!user.mealPlan) {
+  //   return res.redirect('/price-plan')
+  // }
+ return res.render(path.join(__dirname, "..", "/views/pages/mealPlan"));
 });
 
-router.get("/fp", authenticateJWT, function (req, res) {
-  res.render(path.join(__dirname, "..", "/views/pages/fitnessPlan"));
+router.get("/fp", authenticateJWT,authenticateJWT, async function (req, res) {
+  // const user = await getUser(req?.user?.sub)
+  // if (!user.exercisePlan) {
+  //   return res.redirect('/price-plan')
+  // }
+  return res.render(path.join(__dirname, "..", "/views/pages/fitnessPlan"));
 });
 
 // router.get("/meal-plan", authenticateJWT, async function (req, res) {
@@ -136,11 +144,11 @@ router.get("/fp", authenticateJWT, function (req, res) {
 //   res.render(path.join(__dirname, "..", "/views/pages/fitnessPlan"));
 // });
 
-router.get("/my-meal-plan", authenticateJWT, async function (req, res) {
+router.get("/mymp", authenticateJWT, async function (req, res) {
   return res.render(path.join(__dirname, "..", "/views/pages/myMealPlan"));
 });
 
-router.get("/my-fitness-plan", authenticateJWT, async function (req, res) {
+router.get("/myfp", authenticateJWT, async function (req, res) {
   return res.render(path.join(__dirname, "..", "/views/pages/myFitnessPlan"));
 });
 
@@ -173,7 +181,7 @@ router.get("/appointment", authenticateJWT, async function (req, res) {
     { product, unpaid_appt_exist });
 });
 
-router.get("/price-plan", authenticateJWT, async function (req, res) {
+router.get("/pp", authenticateJWT, async function (req, res) {
   const plans = await getPlanType({ where: { type: { [Op.or]: ["meal plan", "fitness plan"] } } })
   return res.render(path.join(__dirname, "..", "/views/pages/pricePlan"), { plans })
 })
