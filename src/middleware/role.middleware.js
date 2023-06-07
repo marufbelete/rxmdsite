@@ -1,3 +1,4 @@
+const User = require("../models/userModel");
 
 
 exports.authAdmin = (req, res, next) => {
@@ -26,19 +27,17 @@ exports.authUser = (req, res, next) => {
 
 
 
-// exports.checkAppoint = async(req, res, next) => {
-//   try{
-//     console.log(req.user)
-//   const {sub} = req?.user;
-//   const user = await User.findByPk(sub);
-//   if (user.left_appointment) {
-//     next();
-//     return
-//   }
-//   return res.redirect("/checkout");
-      
-// }
-// catch(err){
-//   next(err)
-//  }
-// };
+exports.checkAppointmentLeft = async(req, res, next) => {
+  try{
+  const {sub} = req?.user;
+  const user = await User.findByPk(sub);
+  if (user.left_appointment) {
+    next();
+    return
+  }
+  return res.redirect("/checkout"); 
+}
+catch(err){
+  next(err)
+ }
+};

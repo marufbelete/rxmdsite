@@ -8,10 +8,14 @@ const { Op} = require("sequelize");
 const { handleError } = require("../helper/handleError");
 const { get } = require("config");
 const cron = require('node-schedule');
+const User = require("../models/userModel");
 
 exports.getAppointment = async (req, res, next) => {
   try {
     const token = req.cookies.acccess_token;
+    await User.update({
+      left_appointment:false},
+     {where:{id:req?.user?.sub}})
     return res.render(
       path.join(__dirname, "..", "/views/pages/appointment"),{token});
   } catch (err) {

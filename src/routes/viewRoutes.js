@@ -8,6 +8,7 @@ const { Op } = require('sequelize')
 const path = require("path");
 const { getUser, getProductType, getTreatmentType, appointmentUnpaidExist, getPlanType } = require("../helper/user");
 const Appointment = require("../models/appointmentModel");
+const { checkAppointmentLeft } = require("../middleware/role.middleware");
 const router = require("express").Router();
 
 
@@ -20,7 +21,7 @@ router.get("/", async function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"), { treatment, products });
 });
 
-router.get("/appt", authenticateJWT,getAppointment, errorHandler);
+router.get("/appt", authenticateJWT,checkAppointmentLeft,getAppointment, errorHandler);
 
 router.get("/home", async function (req, res) {
   const options = {

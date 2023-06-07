@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
-  const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  const base_url = "http://localhost:7000";
+  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   let disableTime={}
