@@ -1523,33 +1523,34 @@ $('#copy_url_btn').click(function() {
   $(document).on("click", ".procced-to-checkout", function () {
     location.href = '/appt'
   })
-  // setTimeout(() => { $('#continue-schedule').attr("disabled", false) }, 30000)
-  $('#continue-schedule').on('click', () => {
-    const product_ordered =$('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').data('productid')
-    console.log(product_ordered)
-    if (product_ordered.length === 0) {
+  setTimeout(() => { $('#continue-schedule').attr("disabled", false) }, 30000)
+  
+  // $('#continue-schedule').on('click', () => {
+  //   const product_ordered =$('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').data('productid')
+  //   console.log(product_ordered)
+  //   if (product_ordered.length === 0) {
 
-      $("#select-product-error").removeClass("d-none")
-      $('body').scrollTo('.tbl-shopping-cart');
-      return
-    }
-    $.ajax({
-      url: `${base_url}/appointment`,
-      type: "POST",
-      success: ({providers}) => {
-        $("#appt_doctor").append(`
-        <option value="">Select Doctor*</option>
-        `)
-        providers?.forEach((provider) => {
-          $("#appt_doctor").append(`
-          <option value=${provider?.id}>${provider?.first_name+' '+ provider?.last_name}</option>
-          `)
-        })
-        location.href='/appointment'
+  //     $("#select-product-error").removeClass("d-none")
+  //     $('body').scrollTo('.tbl-shopping-cart');
+  //     return
+  //   }
+  //   $.ajax({
+  //     url: `${base_url}/appointment`,
+  //     type: "POST",
+  //     success: ({providers}) => {
+  //       $("#appt_doctor").append(`
+  //       <option value="">Select Doctor*</option>
+  //       `)
+  //       providers?.forEach((provider) => {
+  //         $("#appt_doctor").append(`
+  //         <option value=${provider?.id}>${provider?.first_name+' '+ provider?.last_name}</option>
+  //         `)
+  //       })
+  //       location.href='/appointment'
 
-      },
-    })
-  })
+  //     },
+  //   })
+  // })
   //doctor dashboard
   $('#therapy_category').change(function() {
   if ($(this).val() !== '') {
