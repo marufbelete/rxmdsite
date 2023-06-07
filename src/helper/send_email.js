@@ -104,7 +104,21 @@ const sendAffiliatePaidEmail=async(email,name,amount)=>{
           from: process.env.EMAIL,
           to: email,
           subject: "Withdrawl Success",
-      
+          html: `
+          <div style="margin: auto; max-width: 650px; background-color: #C2E7FF; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); min-height: 400px;">
+          <h1 style="text-align: center; color: #2791BD; font-size: 36px; margin-bottom: 20px; padding: 10px 20px;">TestRxMD Payment Succeeded</h1>
+          <p style="text-align: center; font-size: 20px; line-height: 1.5; margin-bottom: 20px;">Hello ${name},</p>
+          <p style="text-align: start; padding: 10px 20px; font-size: 20px; line-height: 1.5;">You have successfully withdrawn ${amount.value} ${amount.currency} to your PayPal account. Thank you for working with us!</p>
+          <div style="text-align: center; padding-bottom: 30px;">
+              <img src="cid:unique@kreata.ae" alt="Withdrawal Success" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+          </div>
+      </div>
+        `,
+        attachments: [{
+          filename: 'testrxmd.gif',
+          path: filePath,
+          cid: 'unique@kreata.ae' //same cid value as in the html img src
+        }]
         };
         await sendEmail(mailOptions)
 }
