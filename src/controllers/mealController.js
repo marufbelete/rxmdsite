@@ -109,7 +109,7 @@ const mealPrmopmt = (req) => {
     ],
   },
   ]
-  let prompt = "As a meal planner, I need your help to create a 1-day meal plan in JSON for a ";
+  let prompt = "As a meal planner, I need your help to create a 30-day meal plan in JSON for a ";
   if (req.body.gender) prompt += `${req.body.gender.toLowerCase()} `;
   if (req.body.age) prompt += `client who is ${req.body.age} years old, `;
   if (req.body.height) prompt += `is ${req.body.height} inch tall, `;

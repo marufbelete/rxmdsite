@@ -10,9 +10,9 @@ exports.addFitness = async (req, res, next) => {
   try {
     const user = await getUser(req?.user?.sub)
     console.log(req.body)
-    if (!user.exercisePlan) {
-      handleError("plase buy your fitness plan first", 403)
-    }
+    // if (!user.exercisePlan) {
+    //   handleError("plase buy your fitness plan first", 403)
+    // }
     const fitness = new Fitness({
       ...req.body,
       userId: req?.user?.sub
@@ -86,18 +86,13 @@ exports.getFitnessById = async (req, res, next) => {
 
 const fitnessPrmopmt = (req) => {
   const plan_format = [{
-    day: 'Day 1',
-
+    day: 'monday',
     exercises: [
-      { name: 'exerise name', description: 'exercise desription and duration' },
-      { name: 'exerise name', description: 'exercise desription and duration' },
-      { name: 'exerise name', description: 'exercise desription and duration' },
-      { name: 'exerise name', description: 'exercise desription and duration' },
       { name: 'exerise name', description: 'exercise desription and duration' },
     ],
   }
   ]
-  let prompt = "As a fitness planner, I need your help to create a 1-day fitness plan in JSON format for a ";
+  let prompt = "As a fitness planner, I need your help to create a weekly monday to sunday fitness plan in JSON format for a ";
   if (req.body.gender) prompt += `${req.body.gender.toLowerCase()} `;
   if (req.body.age) prompt += `client who is ${req.body.age} years old, `;
   if (req.body.heightFeet && req.body.heightInches) prompt += `is ${req.body.heightFeet} feet and '${req.body.heightInches}" inches tall, `;
