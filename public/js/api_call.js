@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  // const base_url = "http://localhost:7000";
+  const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -1524,7 +1524,10 @@ $('#copy_url_btn').click(function() {
     location.href = '/appt'
   })
   setTimeout(() => { $('#continue-schedule').attr("disabled", false) }, 30000)
-  
+  $('#continue-schedule').on('click', () => {
+    $('#appointment-form').removeClass('d-none')
+    $('#continue-schedule').addClass('d-none')
+  })
   // $('#continue-schedule').on('click', () => {
   //   const product_ordered =$('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').data('productid')
   //   console.log(product_ordered)
