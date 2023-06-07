@@ -1,6 +1,6 @@
 const paypal = require('paypal-rest-sdk');
 const {deemAffiliate}=require('../helper/user')
-const webhook_id='7UD57517YE703002N'
+const webhook_id='7Y332251A4088160W'
 paypal.configure({
   'mode': 'sandbox', // Change to 'live' for production
   'client_id': process.env.PAYPAL_CLIENT_ID,
