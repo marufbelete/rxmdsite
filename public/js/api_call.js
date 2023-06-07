@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  const base_url = "http://localhost:7000";
-  // const base_url = "https://shielded-citadel-34904.herokuapp.com"
+  // const base_url = "http://localhost:7000";
+  const base_url = "https://shielded-citadel-34904.herokuapp.com"
   // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
@@ -55,8 +55,9 @@ if(showJotForm=== "true")
         localStorage.setItem("showJotForm", "true");
         location.href = "/checkout"
       }
-      data?.user?.affiliateLink&&
-        localStorage.setItem("isAffiliate", "true");
+      data?.user?.affiliateLink?
+        localStorage.setItem("isAffiliate", "true"):
+        localStorage.setItem("isAffiliate", "false");
       data?.user?.role?.toLowerCase() !== "admin" &&
         localStorage.setItem("isAdmin", "false");
       data?.user?.role?.toLowerCase() === "admin" &&
@@ -990,7 +991,7 @@ $('#schedule-appointment-order').on('click', function (event) {
           method: "POST",
           contentType: 'application/json',
           data: JSON.stringify({  payment_detail, product_ordered,...payment_type_object }),
-          success: function ({product_names,is_fitness_plan_exist,is_meal_plan_exist}) {
+          success: function ({is_fitness_plan_exist,is_meal_plan_exist}) {
             $('#spinner-div').hide();
             $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
             if (is_fitness_plan_exist&&is_meal_plan_exist) {
@@ -1002,6 +1003,7 @@ $('#schedule-appointment-order').on('click', function (event) {
             if (is_meal_plan_exist) {
               return location.href = '/meal-plan'
             }
+          
             $("#cart-total-price").text(0);
             loadUserPaymentMethod()
           },
@@ -1020,7 +1022,7 @@ $('#schedule-appointment-order').on('click', function (event) {
       method: "POST",
       contentType: 'application/json',
       data: JSON.stringify({  payment_detail, product_ordered,apply_discount,...payment_type_object }),
-      success: function ({product_names,is_fitness_plan_exist,is_meal_plan_exist}) {
+      success: function ({is_appointment_exist,product_names,is_fitness_plan_exist,is_meal_plan_exist}) {
         $('#spinner-div').hide();
         $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
         if (is_fitness_plan_exist&&is_meal_plan_exist) {
@@ -1032,7 +1034,9 @@ $('#schedule-appointment-order').on('click', function (event) {
         if (is_meal_plan_exist) {
           return location.href = '/meal-plan'
         }
-        
+        if (is_appointment_exist) {
+          return location.href = '/appt'
+          }
         else {
           $("#order_success_text").text("Close")
           $("#order-confirmation").addClass("btn-secondary").removeClass("btn-primary")

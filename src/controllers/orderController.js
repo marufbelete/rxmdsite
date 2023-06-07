@@ -237,17 +237,17 @@ else{
     }]
     };
     
-    if(is_appointment_exist){
-    const appt_id= await Appointment.findOne({where:{paymentStatus:false,
-      patientId:req?.user?.sub}}) 
-    await Appointment.update({
-      paymentStatus:true
-    },{where:{paymentStatus:false,
-      patientId:req?.user?.sub},transaction:t,returning: true})
-      console.log(appt_id.id)
-      console.log('reached herrr=============!!!!!!!!!!!!!!!!!!')
-      await runCronOnAppointment(appt_id.id,{transaction:t})
-    }
+    // if(is_appointment_exist){
+    // const appt_id= await Appointment.findOne({where:{paymentStatus:false,
+    //   patientId:req?.user?.sub}}) 
+    // await Appointment.update({
+    //   paymentStatus:true
+    // },{where:{paymentStatus:false,
+    //   patientId:req?.user?.sub},transaction:t,returning: true})
+    //   console.log(appt_id.id)
+    //   console.log('reached herrr=============!!!!!!!!!!!!!!!!!!')
+    //   await runCronOnAppointment(appt_id.id,{transaction:t})
+    // }
     await t.commit();
     if(is_appointment_exist){
     sendEmail(mailOptions).then(r=>r).catch(e=>e);
