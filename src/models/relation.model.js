@@ -7,7 +7,7 @@ const Affiliate = require("./affiliateModel");
 const Subscription=require("./subscriptionModel")
 const PaymenInfo=require("./paymentInfoModel")
 const Tracking=require("./trackingModel")
-const Patientinfo=require("./patientInfoModel")
+// const Patientinfo=require("./patientInfoModel")
 const Appointment=require("./appointmentModel")
 const Fitness=require("./fitnessModel")
 const Meal=require("./mealModel");
@@ -69,12 +69,12 @@ const Relation = () => {
     foreignKey: 'productId',
   })
    // user as buyer-affiliate
-   User.hasMany(Patientinfo,{
-    foreignKey: 'userId',
-  })
-  Patientinfo.belongsTo(User,{
-    foreignKey: 'userId',
-  })
+  //  User.hasMany(Patientinfo,{
+  //   foreignKey: 'userId',
+  // })
+  // Patientinfo.belongsTo(User,{
+  //   foreignKey: 'userId',
+  // })
    // user meal plan
    User.hasMany(Meal,{
     foreignKey: 'userId',
@@ -90,12 +90,12 @@ const Relation = () => {
     foreignKey: 'userId',
   })
    // product-patientinfo
-   Product.hasMany(Patientinfo,{
-    foreignKey: 'productId'
-  })
-  Patientinfo.belongsTo(Product,{
-    foreignKey: 'productId'
-    })
+  //  Product.hasMany(Patientinfo,{
+  //   foreignKey: 'productId'
+  // })
+  // Patientinfo.belongsTo(Product,{
+  //   foreignKey: 'productId'
+  //   })
   // user as affliator-affiliate
   User.hasMany(Affiliate,{
     foreignKey: 'affilatorId',
