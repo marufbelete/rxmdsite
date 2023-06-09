@@ -14,6 +14,9 @@ $(document).ready(function () {
   $("#populate-order").on("click", function () {
     loadOrderTable();
   });
+  $("#populate-affiliate").on("click", function () {
+    loadAffiliateRelationTable();
+  });
 
   const currentDate = new Date().toISOString().split('T')[0];
   $('#appt_appointment_date').attr('min', currentDate);
@@ -466,7 +469,21 @@ function ValidateEmail(email) {
       },
     });
   });
-
+//user-affiliate
+$("#user_affiliate_search").on("click", function (event) {
+  const email=$('#search-user-affiliate-email').val()
+  if (!email) {
+    $("#user_affiliate_search_notify")
+      .text("please fill the search query")
+      .removeClass("d-none alert alert-danger")
+      .addClass("alert alert-primary");
+    return;
+  }
+  $("#user_affiliate_search_notify").addClass("d-none");
+  $("#search_user_affiliate_text").addClass("d-none");
+  $("#search_user_affiliate_text_spin").removeClass("d-none");
+  loadAffiliateRelationTable(email)
+})
   //seacrh user
   $("#user_search").on("click", function (event) {
     event.preventDefault();
@@ -847,6 +864,76 @@ function ValidateEmail(email) {
       },
     });
   };
+  const loadAffiliateRelationTable = (option='') => {
+    $("#user-affiliate-table-body").empty();
+    $.ajax({
+      url: `${base_url}/affiliaterelation?affiliator_email=${option}`,
+      type: "GET",
+      success: (affiliates) => {
+        console.log(affiliates)
+       
+        affiliates?.forEach((affiliate) => {
+          let affiliateRows = "";
+          if (affiliate?.affiliate?.length) {
+            affiliateRows = `<tr>
+              <td rowspan="${affiliate.affiliate.length + 1}">${affiliate.first_name} ${affiliate.last_name}</td>
+              <td rowspan="${affiliate.affiliate.length + 1}">${affiliate.email}</td>
+              <td rowspan="${affiliate.affiliate.length + 1}">${affiliate.affiliate.length}</td>
+
+            </tr>`;
+            affiliate.affiliate.forEach((aff) => {
+              affiliateRows += `<tr>
+                <td>${aff.first_name} ${aff.last_name}</td>
+                <td>${aff.email}</td>
+              </tr>`;
+            });
+          } else {
+            affiliateRows = `<tr>
+              <td>${affiliate.first_name} ${affiliate.last_name}</td>
+              <td>${affiliate.email}</td>
+              <td>0</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>`;
+          }
+          $("#user-affiliate-table-body").append(`
+            ${affiliateRows}
+          `);
+        });
+        $("#search_user_affiliate_text").removeClass("d-none");
+        $("#search_user_affiliate_text_spin").addClass("d-none");
+      },
+      error: function (data) {
+          $("#user_affiliate_search_notify")
+            .text(data?.responseJSON?.message)
+            .removeClass("d-none alert alert-primary")
+            .addClass("alert alert-danger");
+          $("#search_user_affiliate_text").removeClass("d-none");
+          $("#search_user_affiliate_text_spin").addClass("d-none");
+      }
+    });
+  };
+  // const loadAffiliateRelationTable = () => {
+  //   $("#user-affiliate-table-body").empty();
+  //   $.ajax({
+  //     url: `${base_url}/affiliaterelation`,
+  //     type: "GET",
+  //     success: (affiliates) => {
+  //       affiliates?.forEach((affiliate) => {
+  //         $("#user-affiliate-table-body").append(`
+  //         <tr>
+  //         <td colspan=${affiliate?.affiliate?.length||1}>${affiliate?.first_name + ' ' + affiliate?.last_name || "-"}</td>
+  //         <td colspan=${affiliate?.affiliate?.length||1}>${affiliate?.email || "-"}</td>
+  //         ${affiliate?.affiliate.map(e=>
+  //           `<td>${e?.first_name + ' ' +e?.last_name || "-"}</td>
+  //           <td>${e?.email || "-"}</td>`
+  //         )}
+  //         <td colspan=${affiliate?.affiliate?.length}</td>
+  //         </tr>`);
+  //       });
+  //     },
+  //   });
+  // };
   const formatPhoneNumber = (phoneNumberString) => {
     var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
     var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);

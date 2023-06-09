@@ -430,6 +430,49 @@
               </div>
 
             </div>
+            
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h3>View Affiliate History</h3>
+          </div>
+          <div class="card-body">
+            <div class="mb-3 col-md-6">
+              <label for="recipient-name" class="col-form-label">Affiliator Email:</label>
+              <input type="text" class="form-control" id="search-user-affiliate-email" placeholder="search by affiliator email">
+            </div>
+            <button type="submit" class="btn btn-primary" id="user_affiliate_search">
+              <span id="search_user_affiliate_text">Search</span>
+              <span id="search_user_affiliate_text_spin" class="d-none">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </span>
+            </button>
+            <div class="my-4">
+              <label for="populate-order">Click the button to populate the affiliate table</label>
+              <br>
+              <button name='populate' id='populate-affiliate' type="button" class="btn btn-sm btn-dark">Populate
+                Affiliate</button>
+            </div>
+            <div>
+            </div>
+            <div class="table-responsive" id="table-order">
+              <table id="#user-affiliate-data-table" class="table table-striped table-hover table-users">
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>User Email</th>
+                    <th>Total Affiliated</th>
+                    <th>Affiliated Name</th>
+                    <th>Affiliated Email</th>
+                  </tr>
+                </thead>
+                <tbody id="user-affiliate-table-body">
+                  
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 

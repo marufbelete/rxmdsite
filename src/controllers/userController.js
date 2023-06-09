@@ -624,6 +624,28 @@ exports.getUserAffiliateDetail = async (req, res, next) => {
    next(err)
   }
 }
+exports.getUserAffiliateRelation = async (req, res, next) => {
+  try {
+    const option={
+      attributes:['email','first_name','last_name'],
+      include:{
+      model:User,
+      as:'affiliate',
+      attributes:['email','first_name','last_name'],
+    }
+    }
+    const {affiliator_email}=req.query
+    if(affiliator_email)option.where={
+      email:affiliator_email
+    }
+    console.log(option)
+    const user_affiliate=await User.findAll(option)
+    return res.json(user_affiliate)
+  }
+  catch(err){
+   next(err)
+  }
+}
 //change in dev
 exports.create2FA = async (req, res, next) => {
   try {
