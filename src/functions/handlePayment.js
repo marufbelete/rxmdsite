@@ -38,7 +38,7 @@ const chargeCreditCard=async(paymentInfo)=>{
   createRequest.setTransactionRequest(transactionRequestType);
   
     const ctrl = new ApiControllers.CreateTransactionController(createRequest.getJSON());
-    // ctrl.setEnvironment(SDKConstants.endpoint.production);
+    ctrl.setEnvironment(SDKConstants.endpoint.production);
     const excute_respone=new Promise((resolve, reject) => {
       ctrl.execute((error, res) => {
         const apiResponse = ctrl.getResponse();
@@ -120,11 +120,11 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
 
 	const createRequest = new ApiContracts.CreateCustomerProfileRequest();
 	createRequest.setProfile(customerProfileType);
-	createRequest.setValidationMode(ApiContracts.ValidationModeEnum.TESTMODE);
+	createRequest.setValidationMode(ApiContracts.ValidationModeEnum.LIVEMODE);
 	createRequest.setMerchantAuthentication(merchantAuthenticationType);
 	
 	const ctrl = new ApiControllers.CreateCustomerProfileController(createRequest.getJSON());
- // ctrl.setEnvironment(SDKConstants.endpoint.production);
+ ctrl.setEnvironment(SDKConstants.endpoint.production);
     const excute_respone = new Promise((resolve, reject) => {
       ctrl.execute((error, res) => {
         const apiResponse = ctrl.getResponse();
@@ -190,7 +190,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
     
     
       const ctrl = new ApiControllers.CreateCustomerPaymentProfileController(createRequest.getJSON());
-     // ctrl.setEnvironment(SDKConstants.endpoint.production);
+     ctrl.setEnvironment(SDKConstants.endpoint.production);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();
@@ -241,7 +241,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       createRequest.setTransactionRequest(transactionRequestType);
     
       const ctrl = new ApiControllers.CreateTransactionController(createRequest.getJSON());
-      // ctrl.setEnvironment(SDKConstants.endpoint.production);
+      ctrl.setEnvironment(SDKConstants.endpoint.production);
       const excute_respone = new Promise((resolve, reject) => {
         ctrl.execute((error, res) => {
           const apiResponse = ctrl.getResponse();
@@ -316,7 +316,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       createRequest.setMerchantAuthentication(merchantAuthenticationType);
       createRequest.setSubscription(arbSubscription);
       const ctrl = new ApiControllers.ARBCreateSubscriptionController(createRequest.getJSON());
-        // ctrl.setEnvironment(SDKConstants.endpoint.production);
+        ctrl.setEnvironment(SDKConstants.endpoint.production);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();
@@ -355,7 +355,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       getRequest.setSubscriptionId(subscriptionId);
 
         const ctrl = new ApiControllers.ARBGetSubscriptionController(getRequest.getJSON());
-        // ctrl.setEnvironment(SDKConstants.endpoint.production);
+        ctrl.setEnvironment(SDKConstants.endpoint.production);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();
@@ -392,7 +392,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       getRequest.setSubscriptionId(subscriptionId);
 
         const ctrl = new ApiControllers.ARBGetSubscriptionStatusController(getRequest.getJSON());
-        // ctrl.setEnvironment(SDKConstants.endpoint.production);
+        ctrl.setEnvironment(SDKConstants.endpoint.production);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();
@@ -433,7 +433,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       updateRequest.setSubscription(arbSubscription);
 
      const ctrl = new ApiControllers.ARBUpdateSubscriptionController(updateRequest.getJSON());
-      // ctrl.setEnvironment(SDKConstants.endpoint.production);
+      ctrl.setEnvironment(SDKConstants.endpoint.production);
       const executeResponse = new Promise((resolve, reject) => {
         ctrl.execute((error, res) => {
           const apiResponse = ctrl.getResponse();
@@ -470,7 +470,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       cancelRequest.setSubscriptionId(subscriptionId);
 
         const ctrl = new ApiControllers.ARBCancelSubscriptionController(getRequest.getJSON());
-        // ctrl.setEnvironment(SDKConstants.endpoint.production);
+        ctrl.setEnvironment(SDKConstants.endpoint.production);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();
@@ -508,7 +508,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
     //   getRequest.setMerchantAuthentication(merchantAuthenticationType);
 
     //   const ctrl = new ApiControllers.GetCustomerProfileController(getRequest.getJSON());
-    //   // ctrl.setEnvironment(SDKConstants.endpoint.production);
+      // ctrl.setEnvironment(SDKConstants.endpoint.production);
     //     const excute_respone = new Promise((resolve, reject) => {
     //       ctrl.execute((error, res) => {
     //         const apiResponse = ctrl.getResponse();
@@ -613,63 +613,63 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
 // merchantAuthenticationType.setName(process.env.APILOGINID);
 // merchantAuthenticationType.setTransactionKey(process.env.TRANSACTIONKEY);
 
-const getInvoiceURL = async (customerProfileId, customerPaymentProfileId, amount=10, invoiceNumber=111222321, description="description_invoice") => {
-    const data = {
-      merchantAuthentication: {
-        name: process.env.APILOGINID,
-        transactionKey: process.env.TRANSACTIONKEY,
-      },
-      invoice: {
-        merchantEmail: 'marufbelete9@gmail.com',
-        payerEmail: 'beletemaruf@gmail.com.com',
-        lineItems: [
-          {
-            itemId: '1',
-            name: 'Test Item',
-            description: 'Test Item Description',
-            quantity: 1,
-            unitPrice: 100.00,
-            taxable: false,
-          },
-        ],
-        currencyCode: 'USD',
-        tax: {
-          amount: 0.00,
-          name: 'Tax',
-          description: 'Tax Description',
-        },
-        shipping: {
-          amount: 0.00,
-          name: 'Shipping',
-          description: 'Shipping Description',
-        },
-        discount: {
-          amount: 0.00,
-          name: 'Discount',
-          description: 'Discount Description',
-        },
-        subtotal: 100.00,
-        total: 100.00,
-        invoiceNumber: '111222321',
-        description: 'description_invoice',
-      },
-    };
-  const option={
-    method: "POST",
-    body:data,
+// const getInvoiceURL = async (customerProfileId, customerPaymentProfileId, amount=10, invoiceNumber=111222321, description="description_invoice") => {
+//     const data = {
+//       merchantAuthentication: {
+//         name: process.env.APILOGINID,
+//         transactionKey: process.env.TRANSACTIONKEY,
+//       },
+//       invoice: {
+//         merchantEmail: 'marufbelete9@gmail.com',
+//         payerEmail: 'beletemaruf@gmail.com.com',
+//         lineItems: [
+//           {
+//             itemId: '1',
+//             name: 'Test Item',
+//             description: 'Test Item Description',
+//             quantity: 1,
+//             unitPrice: 100.00,
+//             taxable: false,
+//           },
+//         ],
+//         currencyCode: 'USD',
+//         tax: {
+//           amount: 0.00,
+//           name: 'Tax',
+//           description: 'Tax Description',
+//         },
+//         shipping: {
+//           amount: 0.00,
+//           name: 'Shipping',
+//           description: 'Shipping Description',
+//         },
+//         discount: {
+//           amount: 0.00,
+//           name: 'Discount',
+//           description: 'Discount Description',
+//         },
+//         subtotal: 100.00,
+//         total: 100.00,
+//         invoiceNumber: '111222321',
+//         description: 'description_invoice',
+//       },
+//     };
+//   const option={
+//     method: "POST",
+//     body:data,
 
-  }
-    const response = await fetch('https://apitest.authorize.net/xml/v1/request.api',option);
-    const responseData = await response.json();
-     console.log(responseData.messages)
-    if (responseData.messages.resultCode === 'Ok') {
-      const invoiceUrl = responseData.invoiceUrl;
-      console.log('Invoice URL: ' + invoiceUrl);
-    } else {
-      console.log('Error: ' + responseData.messages.message[0].text);
-    }
+//   }
+//     const response = await fetch('https://apitest.authorize.net/xml/v1/request.api',option);
+//     const responseData = await response.json();
+//      console.log(responseData.messages)
+//     if (responseData.messages.resultCode === 'Ok') {
+//       const invoiceUrl = responseData.invoiceUrl;
+//       console.log('Invoice URL: ' + invoiceUrl);
+//     } else {
+//       console.log('Error: ' + responseData.messages.message[0].text);
+//     }
   
-  }
+//   }
 
     module.exports={
       chargeCreditCard,
@@ -681,6 +681,6 @@ const getInvoiceURL = async (customerProfileId, customerPaymentProfileId, amount
       getSubscriptionStatus,
       updateSubscriptionPaymentAmount,
       cancelSubscription,
-      getInvoiceURL
+      // getInvoiceURL
     }
     

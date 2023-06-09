@@ -75,13 +75,13 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      // await queryInterface.removeConstraint('users', 'user_user_id_fk', { transaction });
-      // await queryInterface.removeColumn('users', 'affiliateLink', { transaction });
-      // await queryInterface.removeColumn('users', 'twoFaSecret', { transaction });
-      // await queryInterface.removeColumn('users', 'affiliatedBy', { transaction });
-      // await queryInterface.removeColumn('users', 'exercisePlan', { transaction });
-      // await queryInterface.removeColumn('users', 'mealPlan', { transaction });
-      // await queryInterface.removeColumn('products', 'productCatagory', { transaction });
+      await queryInterface.removeConstraint('users', 'user_user_id_fk', { transaction });
+      await queryInterface.removeColumn('users', 'affiliateLink', { transaction });
+      await queryInterface.removeColumn('users', 'twoFaSecret', { transaction });
+      await queryInterface.removeColumn('users', 'affiliatedBy', { transaction });
+      await queryInterface.removeColumn('users', 'exercisePlan', { transaction });
+      await queryInterface.removeColumn('users', 'mealPlan', { transaction });
+      await queryInterface.removeColumn('products', 'productCatagory', { transaction });
      await queryInterface.changeColumn('products', 'type', {
       type: Sequelize.ENUM('product', 'treatment'),
       defaultValue: 'product',
