@@ -15,7 +15,6 @@ module.exports = {
         'productCatagory',
         {
           type: Sequelize.DataTypes.ENUM("long term", "short term","other"),
-          // defaultValue: "short term"
         },
         { transaction }
       );

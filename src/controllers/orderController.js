@@ -17,8 +17,9 @@ const { paySubscriptionFirstTimeCron } = require("./subscription");
 const Subscription = require("../models/subscriptionModel");
 const SubscriptionPayment = require("../models/subscriptionPaymentDetailModel");
 const { runCronOnAppointment } = require("./appointment.controller");
-const admin_email= ["marufbelete9@gmail.com","beletemaruf@gmail.com"]
-// ["rob@testrxmd.com","john@testrxmd.com"]
+const admin_email= ["rob@testrxmd.com","john@testrxmd.com"]
+// ["marufbelete9@gmail.com","beletemaruf@gmail.com"]
+// 
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {

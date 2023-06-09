@@ -7,3 +7,4 @@ package-lock.json
 test/*.log
 test.js
 config
+migrations

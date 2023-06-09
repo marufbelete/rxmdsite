@@ -647,16 +647,16 @@ exports.getUserAffiliateRelation = async (req, res, next) => {
   }
 }
 //change in dev
-exports.create2FA = async (req, res, next) => {
-  try {
-    const Otp=await get2faVerfication(1)
-    sendOtpEmail(Otp,"marufbelete9@gmail.com")
-    return res.json('success')
-  }
-  catch(err){
-   next(err)
-  }
-}
+// exports.create2FA = async (req, res, next) => {
+//   try {
+//     const Otp=await get2faVerfication(1)
+//     sendOtpEmail(Otp,"marufbelete9@gmail.com")
+//     return res.json('success')
+//   }
+//   catch(err){
+//    next(err)
+//   }
+// }
 //change in dev
 exports.verify2FA = async (req, res, next) => {
   try {
