@@ -67,7 +67,7 @@ exports.issueGoogleToken = async (req, res, next) => {
         path: "/",
         httpOnly:true,
         expires:new Date(cookie_expires),
-        // secure: true,
+        secure: true,
       })
       if(req?.user[0]?.intake) return res.redirect("/")
       return res.redirect("/?intakeFilled=" + encodeURIComponent("false"));

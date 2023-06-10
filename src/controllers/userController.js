@@ -185,13 +185,12 @@ exports.loginUser = async (req, res, next) => {
         process.env.LONG_ACCESS_TOKEN_EXPIRY:
         process.env.ACCESS_TOKEN_EXPIRES
         const currentDate = new Date();
-        console.log(token_expiry,rememberme)
         const cookie_expires = moment(currentDate).add(token_expiry.match(/^(\d+)/)[1],'days').toDate();
         res.cookie('access_token',access_token, {
           path: "/",
           httpOnly:true,
           expires:cookie_expires,
-          // secure: true,
+          secure: true,
         })
       
         return res
