@@ -6,7 +6,6 @@ $(document).ready(function () {
   let disableTime={}
   function providerSchedule(datechange=false){
     const providerId= $("#appt_doctor").val();
-    console.log(providerId)
     $.ajax({
       url: `${base_url}/provider/schedule/${providerId}`,
       type: "GET",
@@ -14,9 +13,6 @@ $(document).ready(function () {
           disableTime = providerSchedule?.reduce((result, appointment) => {
             const utcDateTime = new Date(appointment.appointmentDateTime);
             const formattedUtcDateTime = moment(utcDateTime).format("YYYY-MM-DDTHH:mm:ss");
-
-            console.log(appointment.appointmentDateTime)
-            console.log(formattedUtcDateTime)
           const date = formattedUtcDateTime.split('T')[0]; // Extract the date portion
           if (result[date]) {
             result[date].push(formattedUtcDateTime);
@@ -32,14 +28,10 @@ $(document).ready(function () {
         const month = (appointmentDateTime.getMonth() + 1).toString().padStart(2, '0');
         const day = appointmentDateTime.getDate().toString().padStart(2, '0');
         const formattedDate = `${year}-${month}-${day}`;
-        console.log(formattedDate)
-        console.log(disableTime)
-        console.log(disableTime[formattedDate])
         let disable = null;
         if (Object.keys(disableTime).length !== 0){
           if(disableTime[formattedDate])disable=disableTime[formattedDate]
         }
-        console.log(disable)
         $('#appt_appointment_time').pickatime('picker').set('disable', disable ? disable.map(e => new Date(e)) : false);
       }
       },
@@ -81,7 +73,6 @@ function getAvailableProvider(){
         const pickerDate = $("#appt_appointment_date").pickadate('picker');
         pickerDate.set('select', appointmentDateTime);
         const pickerTime = $("#appt_appointment_time").pickatime('picker');
-        console.log(pickerTime)
         pickerTime.set('select', appointmentDateTime);
 
       }
@@ -111,10 +102,8 @@ $('#appt_appointment_date').pickadate({
       const d = new Date(context.select);
       const setDate = d.getDate();
       const currentDate=currentTime.getDate()
-      console.log(setDate,currentDate)
       let min=false
       if(setDate===currentDate){
-        console.log('notin')
         const currentHour = currentTime.getHours();
         const currentMinute = currentTime.getMinutes();
          // Calculate the next hour
