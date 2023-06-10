@@ -47,7 +47,6 @@ if(showJotForm=== "true")
     url: `${base_url}/checkauth`,
     method: "GET",
     success: function (data) {
-      console.log(data)
       const check_url = window?.location?.href;
       if (check_url == `${base_url}/` && localStorage.getItem("toCheckout") === "true") {
         localStorage.removeItem("toCheckout")
@@ -66,7 +65,6 @@ if(showJotForm=== "true")
       data?.user?.role?.toLowerCase() === "admin" &&
         localStorage.setItem("isAdmin", "true");
       localStorage.setItem("isLoged", "true");
-      console.log(data?.user?.appointment)
       // data?.user?.appointment&&$('#payment_info_pay').removeClass('d-none')&&
       // $('#payment_info_next').addClass('d-none');
       checkLogin();
@@ -101,7 +99,6 @@ if(showJotForm=== "true")
   //register api call
   $("#register_user").on("click", function (event) {
     event.preventDefault();
-    console.log(window?.location?.href)
     const urlParams = new URLSearchParams(window.location.search);
     const affiliatedBy = urlParams.get('affiliatedBy');
     const url=affiliatedBy?`${base_url}/register?affiliatedBy=${affiliatedBy}`:`${base_url}/register`
@@ -324,7 +321,6 @@ function ValidateEmail(email) {
   const urlParams = new URLSearchParams(window.location.search);
   const myParam = urlParams.get("error");
   const intakeParam = urlParams.get("intakeFilled");
-  console.log(intakeParam)
   if (intakeParam === "false") localStorage.setItem("showJotFormCheckout", "true");
   if (myParam == "Google-Auth-Not-Exist") {
     $("#login_error").removeClass("d-none");
@@ -350,7 +346,6 @@ function ValidateEmail(email) {
       url: `${base_url}/getproductbyid/${id}`,
       method: "GET",
       success: function (data) {
-        console.log(data?.productCatagory)
         $("div").children("#product-name").val(data?.product_name);
         // $("div").children("#product-description").val(data.description);
         $("div").children("#product-price").val(data?.price);
@@ -422,7 +417,6 @@ function ValidateEmail(email) {
     // const description = $("#new-product-description").val()
     const type = $("#new-product-type-select").val()
     const productCatagory = $("#new-product-catagory-select").val()
-    console.log(productCatagory)
     $("#add-new-product-error").addClass("d-none");
     if (!product_name || !price) {
       $("#add_product_text").removeClass("d-none");
@@ -869,9 +863,7 @@ $("#user_affiliate_search").on("click", function (event) {
     $.ajax({
       url: `${base_url}/affiliaterelation?affiliator_email=${option}`,
       type: "GET",
-      success: (affiliates) => {
-        console.log(affiliates)
-       
+      success: (affiliates) => {       
         affiliates?.forEach((affiliate) => {
           let affiliateRows = "";
           if (affiliate?.affiliate?.length) {
@@ -965,11 +957,9 @@ const loadUserPaymentMethod=()=>{
 
     $('.card_selector').on('change', function() {
       var selectedValue = $('input[name="card"]:checked').val();
-      console.log(selectedValue);
     });
     },
     error: (error) => {
-      console.log(error)
     },
   })
 }
@@ -988,7 +978,6 @@ $('#schedule-appointment-order').on('click', function (event) {
     contentType: 'application/json',
     data: JSON.stringify({ productId:product_ordered }),
     success: () => {
-      console.log('success')
       location.href='/appointment'
     },
     error: (error) => {
@@ -1064,7 +1053,6 @@ $('#schedule-appointment-order').on('click', function (event) {
     //subscription
     const payment_type='one_time'
     // $('input[name="subscriptionType"]:checked').val()
-    console.log(payment_type)
     let payment_type_object={}
       if (payment_type === "subscription") {
         const selectedDuration = $('#duration').val();
@@ -1288,7 +1276,6 @@ $.ajax({
 let is_payable_exist=false
 let payable_amount=0
 function getAffiliateTotalAmount(){
-  console.log("in aff amount")
   is_payable_exist=false
   $.ajax({
     url: `${base_url}/affiliate/amount`,
@@ -1311,7 +1298,6 @@ function getAffiliateTotalAmount(){
       $('#total_paid_amount').text(`Total Payable Amount= $${cash_payable}`)
     },
     error: function (data) {
-      console.log("in aff error")
       $('#total_paid_amount').text(`Total Payable Amount= $0/E`)
     },
   });
@@ -1356,10 +1342,7 @@ else{
 
 $('#applyDiscountCheckboxAppt').change(function() {
   if ($(this).is(':checked')) {
-    console.log($('#appt_pay_price').text())
   const appt_price= Number($("#appt_pay_price").text())
-  console.log(appt_price)
-  console.log(payable_amount)
   if((appt_price*0.9)<Number(payable_amount)){
     const discountedPrice=Number(total_price)*0.1
     $("#appt-total-price").text(discountedPrice);
@@ -1370,9 +1353,7 @@ $('#applyDiscountCheckboxAppt').change(function() {
   }
 }
 else{
-  console.log("not checked")
   const appt_price= Number($("#appt_pay_price").text())
-  console.log(appt_price)
   $("#appt-total-price").text(appt_price);
 
 }
@@ -1389,7 +1370,6 @@ $('#applyDiscountCheckbox').change(function() {
         let product_price = Number($(this).children("span").text());
         total_price = total_price + product_price;
       });
-      console.log((total_price*0.9),Number(payable_amount))
       if((total_price*0.9)<Number(payable_amount)){
         const discountedPrice=Number(total_price)*0.1
         $("#cart-total-price").text(discountedPrice);
@@ -1416,7 +1396,6 @@ function getQrCode(route){
     url: `${base_url}/affiliatecode`,
     method: "GET",
     success: function (data) {
-      console.log(data)
       // $('#generateQR').addClass('d-none')
       // $('#copy_url_div').removeClass('d-none')
       $('#QRcode_image').attr('src', data.src);
@@ -1476,7 +1455,6 @@ const loadAffiliateTable = () => {
     url: `${base_url}/affiliate/detail`,
     type: "GET",
     success: ({affilate_detail}) => {
-      console.log(affilate_detail)
       affilate_detail?.forEach((affilate) => {
         $("#affiliate_table_body").append(`
       <tr>
@@ -1551,7 +1529,6 @@ function confirmOtp(){
    loadAffiliateTable()
     },
     error:function(err){
-      console.log("in confirm error",err.responseJSON.message)
       $("#confirm_code_text_spin").addClass("d-none");
       $("#confirm_code_text").removeClass("d-none");
       $('#get_paid_error').removeClass('d-none').text(err.responseJSON.message)
@@ -1570,7 +1547,6 @@ $('#confirm_otp_btn').on("click",()=>{
 
 //get affiliate
 $('#generateQR').on('click',function(event){
-  console.log("clicked")
   getQrCode(true)
 });
 if(window?.location?.href==`${base_url}/affiliate` && 
@@ -1708,10 +1684,8 @@ $('#copy_url_btn').click(function() {
   const date= $("#appt_appointment_date").val();
   const time = $("#appt_appointment_time").val();
   const doctorId= $("#appt_doctor").val();
-  console.log(date,time)
   const formattedTime = moment(time, 'hh:mm A').format('HH:mm');
   const appointmentDateTime = moment(date).format('YYYY-MM-DD') + 'T' + formattedTime;
-  console.log(appointmentDateTime)
   
   const message=$("#appt_appointment_message").val()
   $("#appointment_error_message").addClass("d-none")
@@ -1827,7 +1801,6 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
   // const base_url = "https://www.testrxmd.com"
  //Toggle fullscreen
         $(".chat-bot-icon").click(function (e) {
-            console.log("clicked")
             $(this).children('img').toggleClass('hide');
             $(this).children('svg').toggleClass('animate');
             $('.chat-screen').toggleClass('show-chat');
