@@ -52,7 +52,8 @@ exports.registerUser = async (req, res, next) => {
       TestRxMD Email Confirmation
       </h1>
       <p style="text-align:start;padding:10px 20px;">
-      Follow the link to confirm your email.
+      Follow the link to confirm your email. If you are joining only for affiliate purposes, 
+      you can skip the form that will appear after you have logged in.
       <a href="${process.env.BASE_URL}/confirm?verifyToken=${token}">click here<a/>
       </p>
       <div style="text-align:center;padding-bottom:30px">

@@ -24,7 +24,8 @@ $(document).ready(function () {
   $('#appt_appointment_time').attr('min', currentTime);
 
   const showJotForm= localStorage.getItem("showJotForm")
-if(showJotForm=== "true")
+  const isAffiliate=localStorage.getItem("isAffiliate")
+if(showJotForm=== "true" && isAffiliate!=="true")
 {
   localStorage.removeItem("showJotForm")
   let $ajaxload_popup = $(".ajaxload-popup");

@@ -1857,13 +1857,16 @@ var THEMEMASCOT = {};
           indicatorSecondLevel: "<i class='fa fa-angle-right'></i>",
         });
       }
-
+      // const base_url = "http://localhost:7000"
+      // const base_url = "https://shielded-citadel-34904.herokuapp.com"
+      const base_url = "https://www.testrxmd.com"
+      // const base_url = "https://rxmdsite-production.up.railway.app";
       // Custom Login Logout button change
       var $nav_items = $("#top-primary-nav  #main-nav").clone();
       const isLoged = localStorage.getItem("isLoged");
       const isAdmin = localStorage.getItem("isAdmin");
-      if ($nav_items[0].children[6]) {
-        $nav_items[0].children[6].innerHTML = isLoged === "true" ? "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    " :
+      if ($nav_items[0].children[7]&&!location.href.startsWith(`${base_url}/login`)) {
+        $nav_items[0].children[7].innerHTML = isLoged === "true" ? "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    " :
           "\n      <a href=\"login\" id=\"login_link\">Sign in</a>\n    ";
       }
       if ($nav_items[0].children[5]) {
@@ -1873,10 +1876,7 @@ var THEMEMASCOT = {};
       if (isAdmin !== "true" || isLoged !== "true") $('#admin_link').addClass("d-none");
       if (isLoged === "true" && isAdmin === "true") $('#admin_link').removeClass("d-none");
       if (isLoged === "true" && isAdmin === "false") $('#account_page').removeClass("d-none");
-      // const base_url = "http://localhost:7000"
-      // const base_url = "https://shielded-citadel-34904.herokuapp.com"
-      const base_url = "https://www.testrxmd.com"
-      // const base_url = "https://rxmdsite-production.up.railway.app";
+    
 
 
       $document.on("click", "#logout_link", function (e) {
@@ -1894,7 +1894,7 @@ var THEMEMASCOT = {};
         url: `${base_url}/checkauth`,
         method: "GET",
         success: function (data) {
-          $nav_items[0].children[6].innerHTML = "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    "
+          $nav_items[0].children[7].innerHTML = "\n      <a href=\"#\" id=\"logout_link\">Sign out</a>\n    "
         },
       });
 
