@@ -2,6 +2,7 @@ const {createCompletion}=require('../chatGPT/createCompletion');
 
 exports.chatCompletion = async (req, res, next) => {
     try {
+        // con.log("gpt test")
     const prompt=req.body.message
     const response=await createCompletion(prompt)
     return res.json({message:response})

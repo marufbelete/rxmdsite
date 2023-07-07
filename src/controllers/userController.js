@@ -582,7 +582,7 @@ exports.getOtp = async (req, res, next) => {
     }
    const otp =await generateOtp(req?.user?.sub)
    const user=await User.findByPk(req?.user?.sub)
-   await sendOtpEmail(otp,user.email)
+   sendOtpEmail(otp,user.email)
    return res.json({otp});
   }
   catch(err){
@@ -596,14 +596,14 @@ exports.confirmOtp = async (req, res, next) => {
     const user=await User.findOne({where:{id:req?.user?.sub}});
    if(valid){
    let amount =await getAffiliatePayableAmount(req?.user?.sub)
-   //cash-out just 70% of the reward
-   amount=Number(amount)*0.7
+   amount=Number(amount)
    if(amount<20){
     handleError("not enough balane to withdraw",401)
     }
    const batchId=Math.random().toString(36).substring(9)
    const note='TestRxmd affiliate payout'
    const payout=await sendPayout(user.email,amount,note,batchId)
+   console.log(payout?.batch_header?.payout_batch_id)
    await Affiliate.update({batchId:payout?.batch_header?.payout_batch_id,status:"pending"},
     {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"}})
     return res.json({message:"payout success, will let you know with email when transaction done"});
@@ -638,7 +638,6 @@ exports.getUserAffiliateRelation = async (req, res, next) => {
     if(affiliator_email)option.where={
       email:affiliator_email
     }
-    console.log(option)
     const user_affiliate=await User.findAll(option)
     return res.json(user_affiliate)
   }
@@ -646,36 +645,7 @@ exports.getUserAffiliateRelation = async (req, res, next) => {
    next(err)
   }
 }
-//change in dev
-// exports.create2FA = async (req, res, next) => {
-//   try {
-//     const Otp=await get2faVerfication(1)
-//     sendOtpEmail(Otp,"marufbelete9@gmail.com")
-//     return res.json('success')
-//   }
-//   catch(err){
-//    next(err)
-//   }
-// }
-//change in dev
-exports.verify2FA = async (req, res, next) => {
-  try {
-    const verify=await verify2faVerfication("066876",1)
-    if(!verify){
-      handleError("Wrong OTP please try again",403)
-    }
-    if(verify.delta===0)
-    {
-      return res.json({message:"successfully verified"})
-    }
-    else if(verify.delta<=-1){
-      handleError("OTP key entered too late",403)
-    }
-  }
-  catch(err){
-   next(err)
-  }
-}
+
 
 exports.adminDashboard = async (req, res, next) => {
   try {

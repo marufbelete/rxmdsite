@@ -33,19 +33,15 @@ exports.getAllMyPaymentInfo = async (req, res, next) => {
 exports.paypalWebhookVerify = async (req, res, next) => {
   try {
     const {verify,amount,batchId}=await paypalVerifyHook(req)
-    console.log(verify,amount)
     if(verify) 
     {
       const user=await Affiliate.findOne({where:{batchId},include:['affilator']})
-      console.log(user)
-      console.log(user?.affilator?.email,user?.affilator?.first_name,amount)
       sendAffiliatePaidEmail(user?.affilator?.email,user?.affilator?.first_name,amount).
       then(r=>r).catch(e=>console.log(e))
       return res.status(200).json({status:true})
     }
   }
   catch(err){
-    console.log(err)
     return res.status(401).json({status:false})
   }
 }

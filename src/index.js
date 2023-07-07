@@ -19,7 +19,7 @@ const user_route = require("./routes/userRoutes");
 const role_route = require("./routes/roleRoutes");
 const order_route = require("./routes/orderRoutes");
 const order_product_route = require("./routes/orderproductRoutes");
-// const chat_route = require("./routes/gptRoute");
+const chat_route = require("./routes/gptRoute");
 const product_route = require("./routes/productRoutes");
 const payment_info_route = require("./routes/paymentInfoRoutes")
 // const patient_info_route = require("./routes/patientInfoRoutes");
@@ -74,7 +74,7 @@ app.set("view engine", "ejs");
 app.use(user_route);
 app.use(role_route);
 app.use(product_route);
-// app.use(chat_route);
+app.use(chat_route);
 app.use(order_product_route);
 app.use(order_route);
 app.use(payment_info_route);

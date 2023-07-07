@@ -23,8 +23,7 @@ const admin_email= ["rob@testrxmd.com","john@testrxmd.com"]
 exports.createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
-    const {payment_detail, product_ordered,apply_discount} = req.body;
-    console.log(req.body)
+    const {payment_detail, product_ordered} = req.body;
     const user=await User.findByPk(req?.user?.sub)
     const {cardCode,expirtationDate,cardNumber,billingLastName,
       email,billingFirstName,address,city,state,zip,
@@ -76,7 +75,9 @@ exports.createOrder = async (req, res, next) => {
       if(product?.type=='meal plan'){
         is_meal_plan_exist=true
       }
-      if(product?.type=='treatment'){is_renewal=true}
+      if(product?.type=='treatment'){
+        is_renewal=true
+      }
       total_amount=total_amount+(Number(prod?.quantity||1)*Number(product?.price))
       const order_product_create= {
         productId: prod?.productId,
@@ -96,10 +97,11 @@ exports.createOrder = async (req, res, next) => {
       );
   
       //check if he prev get commission for this user
-      if(product.productCatagory==="long term" && user?.affiliatedBy && !is_commission_paid_before){
-        //get 10 percent of the long term therapy
+      // if(product.productCatagory==="long term" && user?.affiliatedBy && !is_commission_paid_before){
+      if(is_appointment_exist && user?.affiliatedBy && !is_commission_paid_before){
         is_longterm_prodcut_exist=true
-        total_affiliate_amount=50
+        //$25 for first appointment of the fiiliate
+        total_affiliate_amount=25
       }
   }
     
@@ -122,34 +124,34 @@ exports.createOrder = async (req, res, next) => {
       orderId:order.id
     },{transaction:t})
   }
-  if(apply_discount)
-  {
-    const discount_amount =await getAffiliatePayableAmount(req?.user?.sub)
-    console.log(discount_amount)
-    if((discount_amount)>(0.9*total_amount)){
-      let paid_from_affiliate=0.9*total_amount
-      total_amount=0.1*total_amount
-      await Affiliate.update({
-        status:"paid",withdrawalType:"discount"},
-      {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"},transaction: t })
-      //create for rest value
-      const amount=(discount_amount-paid_from_affiliate)
-      if(amount>0){
-        await Affiliate.create({
-          amount:amount,
-          affilatorId:req?.user?.sub,
-          buyerId:req?.user?.sub,
-          orderId:order.id
-        },{transaction:t})
-      }
-    }
-    else{
-      total_amount=total_amount-(Number(discount_amount))
-      await Affiliate.update({
-        status:"paid",withdrawalType:"discount"},
-      {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"},transaction: t })
-    }
-  }
+  // if(apply_discount)
+  // {
+  //   const discount_amount =await getAffiliatePayableAmount(req?.user?.sub)
+  //   console.log(discount_amount)
+  //   if((discount_amount)>(0.9*total_amount)){
+  //     let paid_from_affiliate=0.9*total_amount
+  //     total_amount=0.1*total_amount
+  //     await Affiliate.update({
+  //       status:"paid",withdrawalType:"discount"},
+  //     {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"},transaction: t })
+  //     //create for rest value
+  //     const amount=(discount_amount-paid_from_affiliate)
+  //     if(amount>0){
+  //       await Affiliate.create({
+  //         amount:amount,
+  //         affilatorId:req?.user?.sub,
+  //         buyerId:req?.user?.sub,
+  //         orderId:order.id
+  //       },{transaction:t})
+  //     }
+  //   }
+  //   else{
+  //     total_amount=total_amount-(Number(discount_amount))
+  //     await Affiliate.update({
+  //       status:"paid",withdrawalType:"discount"},
+  //     {where:{affilatorId:req?.user?.sub,withdrawalType:"NA"},transaction: t })
+  //   }
+  // }
     //update the user address info
     const planInfo={}
     if(is_meal_plan_exist){planInfo.mealPlan=true}

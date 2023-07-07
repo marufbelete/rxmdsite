@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
+  const base_url = "http://localhost:7000";
   // const base_url = "https://shielded-citadel-34904.herokuapp.com"
-  const base_url = "https://www.testrxmd.com"
+  // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
 
@@ -1286,8 +1286,8 @@ function getAffiliateTotalAmount(){
       if((Number(data?.amount))>0){
         payable_amount=Number(data?.amount)  
       }
-      Number(data?.amount)<=0?$("#apply_discount_p").addClass("d-none"):
-      $("#apply_discount_p").removeClass("d-none")
+      // Number(data?.amount)<=0?$("#apply_discount_p").addClass("d-none"):
+      // $("#apply_discount_p").removeClass("d-none")
       let cash_payable=0
       if(data?.amount&&data?.amount>20){
         $('#get_code_btn').prop('disabled', false);
@@ -1295,8 +1295,8 @@ function getAffiliateTotalAmount(){
         is_payable_exist=true  
       }
       //show 70% for cashout
-      cash_payable=data?.amount*0.7
-      $('#total_paid_amount').text(`Total Payable Amount= $${cash_payable}`)
+      cash_payable=data?.amount
+      $('#total_paid_amount').text(`Total Payable Amount= $${cash_payable||0}`)
     },
     error: function (data) {
       $('#total_paid_amount').text(`Total Payable Amount= $0/E`)

@@ -49,7 +49,7 @@ router.put("/updateuserstate/:id", authenticateJWT, updateUserState, errorHandle
 router.put("/changemypassword/", authenticateJWT,bouncer.block, passwordChangeValidate(), changePassword, errorHandler);
 router.get("/confirm", confirmEmail, errorHandler);
 router.get("/otp",authenticateJWT, getOtp, errorHandler);
-// router.post("/otp",authenticateJWT, confirmOtp, errorHandler);
+router.post("/otp",authenticateJWT, confirmOtp, errorHandler);
 router.get("/affiliate/detail",authenticateJWT, getUserAffiliateDetail, errorHandler);
 router.post("/forgotpassword", forgotPassword, errorHandler);
 router.post("/resetpassword", resetPassword, errorHandler);
