@@ -57,7 +57,7 @@
       <a href="/services">Services</a>
     </li>
     <li class="menu-item">
-      <a href="#">About</a>
+      <a href="/about">About</a>
     </li>
     <li class="menu-item">
       <a href="/contact">Contact</a>
@@ -66,7 +66,7 @@
       <a href="/checkout">Telehealth &amp; Labs</a>
     </li>
     <li class="active menu-item">
-      <a href="/account">Account</a>
+      <a href="#">Account</a>
     </li>
     <li class="menu-item">
       <a class="d-none" href="/dashboard" id="admin_link">Admin Dashboard</a>
@@ -79,14 +79,13 @@
     <%- include('../partials/headerBottom.ejs') %>
 
       <!-- Section: page title -->
-            <section data-tm-bg-img="images/pattern/p8.png" class="section-typo-dark">
+      <section data-tm-bg-img="images/pattern/p8.png" class="section-typo-dark">
         <div class="container">
           <div class="row">
             <div class="col-md-6 offset-md-3 mb-40">
               <h2 class="text-gray mt-0 pt-10">This is your account page</h2>
               <hr>
-              <p>You can change your password, see your past or upcoming appointments, see your past or current
-                therapies, checkout your affiliate data if you are an affiliate, and much more</p>
+              <p>You can change your password and check out your affiliate data if you are an affiliate</p>
               <form name="account-change-password-form" class="clearfix">
                 <h3 class="text-center mt-5">Change Your Password</h3>
                 <div id="change_password_error" class="alert alert-danger d-none text-center" role="alert"></div>
@@ -181,68 +180,72 @@
               </div>
             </div>
           </div>
-        </div> 
+        </div>
         <hr> -->
 
-      <!-- Affiliate -->
-      <div id="affiliate_table" data-tm-bg-img="images/pattern/p8.png">
-        <div class="container">
-          <div class="row">
-            <div class="mb-40">
-              <h1 class="text-center mt-5 text-black">Affiliate Info</h1>
-              <table id="affiliate_table_data" class="account-table bg-silver-light">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <!-- <th>Long-Term Therapy Product</th> -->
-                    <th>Affiliate Comission Amount</th>
-                    <th>status</th>
-                  </tr>
-                </thead>
-                <tbody id="affiliate_table_body">
-                  <!-- need db call to user table, pull all appts, starting with most recent appts you will have to create a <tr> with the details like below. I think we only put the link in the table for upcoming appts and past apps do not have a link - maybe we just put "complete" in that space instead of a zoom link. You can target this table body with the id #appts_table_body and append a new row for each one. -->
-                 
-                </tbody>
-                
-              </table>
-              <span flow="right" tooltip="minimum cash-out is $20">
-                <i class="fas fa-question-circle" ></i> </span> <span id="total_paid_amount">Total Payable Amount= $0</span>
-              
-                <div>
-              <div id="get_paid_con" class="d-none">
-              <label for="get_paid_check" class="btn p-0 mb-2">
-               Get Paid</label>
-                <input id="get_paid_check" maxlength="8" type="checkbox"/>
-              </div>
-                <div id="get_paid_part" class="d-none">
-              <div class="input-group mb-3 mt-3 col-md-4">
-                <input id="otp_code_input" style="max-width:300px;" type="text" class="form-control">
-                <span class="input-group-btn">
-                  <button id="get_code_btn" class="btn btn-info" disabled type="submit">
-                    <span id="get_code_text">Get Code</span>
-                    <span id="get_code_text_spin" class="d-none">
-                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                      Loading...
-                    </span>
-                      
-                  </button>  
+        <!-- Affiliate -->
+        <div id="affiliate_table" data-tm-bg-img="images/pattern/p8.png">
+          <div class="container">
+            <div class="row">
+              <div class="mb-40">
+                <h1 class="text-center mt-5 text-black">Affiliate Info</h1>
+                <table id="affiliate_table_data" class="account-table bg-silver-light">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Date</th>
+                      <!-- <th>Long-Term Therapy Product</th> -->
+                      <th>Affiliate Comission Amount</th>
+                      <th>status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="affiliate_table_body">
+                    <!-- This table should fill with all of the users names who have signed up under this affiliate who have made their first appt and affiliate has been paid for. -->
 
-                </span>
+                  </tbody>
+
+                </table>
+                <span flow="right" tooltip="minimum cash-out is $20">
+                  <i class="fas fa-question-circle"></i> </span> <span id="total_paid_amount">Total Payable Amount=
+                  $0</span>
+
+                <div>
+                  <div id="get_paid_con" class="d-none">
+                    <label for="get_paid_check" class="btn p-0 mb-2">
+                      Get Paid</label>
+                    <input id="get_paid_check" maxlength="8" type="checkbox" />
+                  </div>
+                  <div id="get_paid_part" class="d-none">
+                    <div class="input-group mb-3 mt-3 col-md-4">
+                      <input id="otp_code_input" style="max-width:300px;" type="text" class="form-control">
+                      <span class="input-group-btn">
+                        <button id="get_code_btn" class="btn btn-info" disabled type="submit">
+                          <span id="get_code_text">Get Code</span>
+                          <span id="get_code_text_spin" class="d-none">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Loading...
+                          </span>
+
+                        </button>
+
+                      </span>
+                    </div>
+                    <div class="col-md-4">
+                      <button id="confirm_otp_btn" class="btn btn-warning" disabled>
+                        <span id="confirm_code_text">Confirm Code</span>
+                        <span id="confirm_code_text_spin" class="d-none">
+                          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          Loading...
+                        </span>
+                      </button>
+                      <span id="get_paid_error" class="alert alert-danger d-none text-center p-2 mr-5"
+                        style="font-size: 13px;" role="alert"></span>
+                    </div>
+                  </div>
+                </div>
+
+
               </div>
-              <div class="col-md-4">
-              <button id="confirm_otp_btn" class="btn btn-warning" disabled>
-                <span id="confirm_code_text">Confirm Code</span>
-                    <span id="confirm_code_text_spin" class="d-none">
-                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                      Loading...
-                    </span>
-              </button>
-              <span id="get_paid_error" class="alert alert-danger d-none text-center p-2 mr-5" style="font-size: 13px;" role="alert"></span>
-            </div>
-            </div>
-          </div>
-           
 
             </div>
 
@@ -250,12 +253,9 @@
 
         </div>
 
-      </div>
-
         <!-- end main-content -->
         <%- include('../partials/footer') %>
 
           <!-- Footer Scripts -->
           <script src="js/custom.js"></script>
           <script src="js/api_call.js"></script>
-       

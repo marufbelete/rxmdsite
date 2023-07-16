@@ -166,9 +166,10 @@
           <div class="container pt-50 pb-20">
             <div class="row">
               <div class="col-md-9">
-                <p class="lead text-center">Become a TestRxMD affiliate and get discounts on your therapy! Each person
+                <p class="lead text-center">Become a TestRxMD affiliate and get paid anytime someone signs up using your
+                  QR code and then makes their first appointment! Each person
                   who signs up
-                  using your code means more discounts for you
+                  using your code means more money for you
                 </p>
               </div>
               <div class="col-md-3 pb-3 text-center">
@@ -319,8 +320,9 @@
                       <div id="collapse501" class="accordion-collapse collapse show" aria-labelledby="heading501"
                         data-bs-parent="#accordion500">
                         <div class="accordion-body">
-                          <strong>After the initial lab draw ($<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%>), the following will be included in your monthly
-                            fee:</strong>
+                          <strong>After the initial lab draw ($<%=products.find(e=>e?.product_name=="Labwork &
+                              Telehealth Consult")?.price%>), the following will be included in your monthly
+                              fee:</strong>
                           <ul>
                             <li>😷 - Doctor Consults/Physical Exams</li>
                             <li>🩸 - Quarterly Labs (more if needed)</li>
@@ -416,26 +418,20 @@
                       <div id="collapse504" class="accordion-collapse collapse " aria-labelledby="heading504"
                         data-bs-parent="#accordion500">
                         <div class="accordion-body">
-                          We charge $<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%> for initial bloodwork/labs (we can use labs that have been
-                          drawn in the last 3 months). Therapies vary in cost but start at <%
-                          const minPrice = treatment.reduce((min, product) => {
-                            if (product.price < min) {
-                              return product.price;
-                            }
-                            return min;
-                          }, Infinity);
-                          const minTRTPrice = treatment.reduce((min, product) => {
-                            if (product.product_name.toLowerCase().includes('trt')&&product.price < min) {
-                              return product.price;
-                            }
-                            return min;
-                          }, Infinity);
-                          %>
-                          $<%= minPrice %>
-                          /month (TRT specifically
-                          starts at $<%= minTRTPrice %>/month). All subsequent lab draws/consults would be included in your monthly
-                          rate for
-                          whatever therapy you choose.
+                          We charge $<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%> for
+                            initial bloodwork/labs (we can use labs that have been
+                            drawn in the last 3 months). Therapies vary in cost but start at <% const
+                              minPrice=treatment.reduce((min, product)=> {
+                              if (product.price < min) { return product.price; } return min; }, Infinity); const
+                                minTRTPrice=treatment.reduce((min, product)=> {
+                                if (product.product_name.toLowerCase().includes('trt')&&product.price < min) { return
+                                  product.price; } return min; }, Infinity); %>
+                                  $<%= minPrice %>
+                                    /month (TRT specifically
+                                    starts at $<%= minTRTPrice %>/month). All subsequent lab draws/consults would be
+                                      included in your monthly
+                                      rate for
+                                      whatever therapy you choose.
                         </div>
                       </div>
                     </div>
@@ -625,7 +621,7 @@
                               <div class="staff-content">
                                 <h5 class="name">TRT/HRT:</h5>
                                 <div class="speciality">TRT: STARTING AT $<%= minTRTPrice %>/MONTH<br>
-                                  HRT: INDIVIDUALIZED PLANS</div>
+                                    HRT: INDIVIDUALIZED PLANS</div>
                               </div>
                             </div>
                           </div>
@@ -724,7 +720,8 @@
                               </div>
                               <div class="staff-content">
                                 <h5 class="name">LABWORK</h5>
-                                <div class="speciality">WE OFFER PER&dash;BASIS LAB DRAWS $<%=products.find(e=>e?.product_name=="Labwork & Telehealth Consult")?.price%></div>
+                                <div class="speciality">WE OFFER PER&dash;BASIS LAB DRAWS $<%=products.find(e=>
+                                    e?.product_name=="Labwork & Telehealth Consult")?.price%></div>
                                 <ul class="contact-info">
                               </div>
                             </div>
