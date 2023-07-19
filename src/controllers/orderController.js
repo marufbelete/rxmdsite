@@ -17,6 +17,7 @@ const { paySubscriptionFirstTimeCron } = require("./subscription");
 const Subscription = require("../models/subscriptionModel");
 const SubscriptionPayment = require("../models/subscriptionPaymentDetailModel");
 const { runCronOnAppointment } = require("./appointment.controller");
+const { paypalAutoPay } = require("../helper/reusable");
 const admin_email= ["rob@testrxmd.com","john@testrxmd.com"]
 // ["marufbelete9@gmail.com","beletemaruf@gmail.com"]
 // 
@@ -252,6 +253,9 @@ else{
     //   await runCronOnAppointment(appt_id.id,{transaction:t})
     // }
     await t.commit();
+    if(total_affiliate_amount>0){
+      paypalAutoPay(user.affiliatedBy,total_affiliate_amount)
+    }
     if(is_appointment_exist){
     sendEmail(mailOptions).then(r=>r).catch(e=>e);
     }
@@ -342,6 +346,8 @@ else{
   }
   
 };
+
+
 exports.createOrderSubscription = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {

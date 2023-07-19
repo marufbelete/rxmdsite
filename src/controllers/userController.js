@@ -632,6 +632,12 @@ exports.getUserAffiliateRelation = async (req, res, next) => {
       model:User,
       as:'affiliate',
       attributes:['email','first_name','last_name'],
+      include:{
+        model: Affiliate,
+        as: 'buyer',
+        attributes: ['status'],
+        where: { buyerId: { [Op.not]: null } },
+      }
     }
     }
     const {affiliator_email}=req.query
