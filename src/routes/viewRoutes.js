@@ -115,13 +115,13 @@ router.get("/affiliate", authenticateJWT, async function (req, res) {
 
 
 
-// router.get("/meal-plan", authenticateJWT, async function (req, res) {
-//   const user = await getUser(req?.user?.sub)
-//   if (!user.mealPlan) {
-//     return res.redirect('/price-plan')
-//   }
-//   res.render(path.join(__dirname, "..", "/views/pages/mealPlan"));
-// });
+router.get("/meal-plan", authenticateJWT, async function (req, res) {
+  const user = await getUser(req?.user?.sub)
+  // if (!user.mealPlan) {
+  //   return res.redirect('/price-plan')
+  // }
+  res.render(path.join(__dirname, "..", "/views/pages/mealPlan"));
+});
 
 // router.get("/fitness-plan", authenticateJWT, async function (req, res) {
 //   const user = await getUser(req?.user?.sub)

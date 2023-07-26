@@ -24,7 +24,7 @@ const product_route = require("./routes/productRoutes");
 const payment_info_route = require("./routes/paymentInfoRoutes")
 // const patient_info_route = require("./routes/patientInfoRoutes");
 // const appointment_route=require("./routes/appointment")
-// const meal_route = require("./routes/mealRoute");
+const meal_route = require("./routes/mealRoute");
 // const fitness_route=require("./routes/fitnessPlan")
 // const shipping_route = require("./routes/shippingRoutes");
 // const brand_route = require("./routes/brandRoutes");
@@ -80,7 +80,7 @@ app.use(order_route);
 app.use(payment_info_route);
 // app.use(patient_info_route);
 // app.use(appointment_route);
-// app.use(meal_route);
+app.use(meal_route);
 // app.use(fitness_route);
 app.use(view_route);
 
