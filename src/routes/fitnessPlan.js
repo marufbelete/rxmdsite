@@ -13,16 +13,16 @@ router.post(
   addFitness,
   errorHandler
 );
-router.get(
-  "/fitnessplan",
-  authenticateJWT,
-  getFitness,
-  errorHandler
-);
-router.get(
-  "/fitnessplan/:id",
-  authenticateJWT,
-  getFitnessById,
-  errorHandler
-);
+// router.get(
+//   "/fitnessplan",
+//   authenticateJWT,
+//   getFitness,
+//   errorHandler
+// );
+// router.get(
+//   "/fitnessplan/:id",
+//   authenticateJWT,
+//   getFitnessById,
+//   errorHandler
+// );
 module.exports = router;

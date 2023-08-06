@@ -424,7 +424,6 @@ exports.checkAuth = async (req, res, next) => {
 
 exports.logOut = async (req, res, next) => {
   try {
-    res
     return res.status(200).clearCookie('access_token').redirect("/login");
   } catch (err) {
     next(err);

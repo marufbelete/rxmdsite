@@ -117,21 +117,24 @@ router.get("/affiliate", authenticateJWT, async function (req, res) {
 
 router.get("/meal-plan", authenticateJWT, async function (req, res) {
   const user = await getUser(req?.user?.sub)
-  // if (!user.mealPlan) {
-  //   return res.redirect('/price-plan')
-  // }
+  if (!user.mealPlan) {
+    return res.redirect('/price-plan')
+  }
   res.render(path.join(__dirname, "..", "/views/pages/mealPlan"));
 });
 
-// router.get("/fitness-plan", authenticateJWT, async function (req, res) {
-//   const user = await getUser(req?.user?.sub)
-//   if (!user.exercisePlan) {
-//     return res.redirect('/price-plan')
-//   }
-//   res.render(path.join(__dirname, "..", "/views/pages/fitnessPlan"));
-// });
+router.get("/fitness-plan", authenticateJWT, async function (req, res) {
+  const user = await getUser(req?.user?.sub)
+  if (!user.exercisePlan) {
+    return res.redirect('/price-plan')
+  }
+  res.render(path.join(__dirname, "..", "/views/pages/fitnessPlan"));
+});
 
-
+router.get("/price-plan", authenticateJWT, async function (req, res) {
+  const plans = await getPlanType({ where: { type: { [Op.or]: ["meal plan", "fitness plan"] } } })
+  return res.render(path.join(__dirname, "..", "/views/pages/pricePlan"), { plans })
+})
 
 
 //  UNUSED STORE ROUTES FOR USE LATER
@@ -184,11 +187,6 @@ router.get("/meal-plan", authenticateJWT, async function (req, res) {
 //   return res.render(path.join(__dirname, "..", "/views/pages/scheduleAppointment"),
 //     { product, unpaid_appt_exist });
 // });
-
-// router.get("/pp", authenticateJWT, async function (req, res) {
-//   const plans = await getPlanType({ where: { type: { [Op.or]: ["meal plan", "fitness plan"] } } })
-//   return res.render(path.join(__dirname, "..", "/views/pages/pricePlan"), { plans })
-// })
 //commented for production
 router.get("*", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/404"))

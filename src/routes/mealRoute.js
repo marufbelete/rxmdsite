@@ -13,16 +13,16 @@ router.post(
   addMeal,
   errorHandler
 );
-router.get(
-  "/mealplan",
-  authenticateJWT,
-  getMeal,
-  errorHandler
-);
-router.get(
-  "/mealplan/:id",
-  authenticateJWT,
-  getMealById,
-  errorHandler
-);
+// router.get(
+//   "/mealplan",
+//   authenticateJWT,
+//   getMeal,
+//   errorHandler
+// );
+// router.get(
+//   "/mealplan/:id",
+//   authenticateJWT,
+//   getMealById,
+//   errorHandler
+// );
 module.exports = router;
