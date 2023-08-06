@@ -33,10 +33,10 @@ exports.addFitness = async (req, res, next) => {
       ...req.body,
       userId: req?.user?.sub
     });
+    res.json({ message: "success" });
     const prompt = fitnessPrmopmt(req)
     const response = await createCompletion(prompt)
     let parsed_obj=await parseFitnessPlan(response)
-    res.json({ message: "success" });
     const pdf = await createFitnessPlanPDF(parsed_obj)
     sendFitnessPlanPdf(user.email, user.first_name, pdf).
       then(r => r).catch(e => e)
@@ -56,13 +56,6 @@ exports.addFitness = async (req, res, next) => {
 };
 
 const fitnessPrmopmt = (req) => {
-  const plan_format = [{
-    day: 'monday',
-    exercises: [
-      { name: 'exerise name', description: 'exercise desription and duration' },
-    ],
-  }
-  ]
   let prompt = "Given the following information,";
   if (req.body.gender) prompt += `${req.body.gender.toLowerCase()} `;
   if (req.body.age) prompt += `client who is ${req.body.age} years old, `;

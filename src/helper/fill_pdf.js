@@ -1,21 +1,25 @@
 // const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
 // const fs = require('fs');
+const path = require('path');
+const filePath = path.join(__dirname,"..","..",'public', 'fonts');
+
 const pdfMake = require('pdfmake');
  async function createMealPlanPDF(plan_format) {
+  console.log(plan_format)
   return new Promise((resolve, reject) => {
     const documentDefinition = {
       content: [
         { text: '30 - Days Meal Plan', style: 'header' },
         { text: '\n' },
-        ...plan_format.map(day => [
+        plan_format.map(day => [
           { text: day.day, style: 'subheader' },
           { text: '\n' },
           { text: 'Breakfast:', style: 'mealTitle' },
-          { text: `${day.Breakfast.meal} - ${day.Breakfast.description}` },
+          { text: `${day.Breakfast.meal} :- ${day.Breakfast.description}` },
           { text: 'Lunch:', style: 'mealTitle' },
-          { text: `${day.Lunch.meal} - ${day.Lunch.description}` },
+          { text: `${day.Lunch.meal} :- ${day.Lunch.description}` },
           { text: 'Dinner:', style: 'mealTitle' },
-          { text: `${day.Dinner.meal} - ${day.Dinner.description}` },
+          { text: `${day.Dinner.meal} :- ${day.Dinner.description}` },
           { text: '\n' }
         ]),
       ],
@@ -49,8 +53,8 @@ const pdfMake = require('pdfmake');
     };
      const printer = new pdfMake({
             Roboto: {
-                normal: 'Roboto-Regular.ttf',
-                bold: 'Roboto-Bold.ttf',
+                normal: `${filePath}/Roboto-Regular.ttf`,
+                bold: `${filePath}/Roboto-Bold.ttf`,
               },
            });
     const pdfDoc = printer.createPdfKitDocument(documentDefinition);
@@ -62,16 +66,17 @@ const pdfMake = require('pdfmake');
 }
 
  async function createFitnessPlanPDF(plan_format) {
+  console.log(plan_format)
   return new Promise((resolve, reject) => {
     const documentDefinition = {
       content: [
         { text: '30 - Day Fintess Plan', style: 'header' },
         { text: '\n' },
-        ...plan_format.map(day => [
+        plan_format.map(day => [
           { text: day.day, style: 'subheader' },
           { text: '\n' },
-          { text: 'Exercise:', style: 'fitnessTitle' },
-          { text: `${day.fitness} - ${day.description}` },
+          { text: 'Exercise :', style: 'fitnessTitle' },
+          { text: `${day.fitness} :- ${day.description}` },
           { text: '\n' }
         ]),
       ],
@@ -105,8 +110,8 @@ const pdfMake = require('pdfmake');
     };
      const printer = new pdfMake({
             Roboto: {
-                normal: 'Roboto-Regular.ttf',
-                bold: 'Roboto-Bold.ttf',
+              normal: `${filePath}/Roboto-Regular.ttf`,
+              bold: `${filePath}/Roboto-Bold.ttf`,
               },
            });
     const pdfDoc = printer.createPdfKitDocument(documentDefinition);

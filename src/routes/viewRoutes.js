@@ -113,8 +113,6 @@ router.get("/affiliate", authenticateJWT, async function (req, res) {
   return res.render(path.join(__dirname, "..", "/views/pages/affiliate"));
 });
 
-
-
 router.get("/meal-plan", authenticateJWT, async function (req, res) {
   const user = await getUser(req?.user?.sub)
   if (!user.mealPlan) {
