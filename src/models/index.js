@@ -3,6 +3,7 @@ const { config } = require("../config/default");
 
 const sequelize = new Sequelize(config.db, config.user, config.password, {
   host: config.host,
+  logging: false,
   dialect: config.dialect,
   timezone: config.timezone,
   pool: {

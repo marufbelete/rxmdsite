@@ -6,8 +6,6 @@ const Product = require("../models/productModel");
 const PaymenInfo = require("../models/paymentInfoModel");
 const sequelize = require("../models/index");
 const { handleError } = require("../helper/handleError");
-const { chargeCreditCard,createCustomerProfile,
-  chargeCreditCardExistingUser} = require('../functions/handlePayment');
 const { sendEmail, sendMealPlanPurchaseEmail, sendFitnessPlanPurchaseEmail } = require("../helper/send_email");
 const path = require('path');
 const Affiliate = require("../models/affiliateModel");
@@ -18,6 +16,7 @@ const Subscription = require("../models/subscriptionModel");
 const SubscriptionPayment = require("../models/subscriptionPaymentDetailModel");
 const { runCronOnAppointment } = require("./appointment.controller");
 const { paypalAutoPay } = require("../helper/reusable");
+const { chargeGlobalCreditCardFromInfo, saveGlobalCreditCardInfo, chargeGlobalCreditCard } = require("../functions/globalPayment");
 const admin_email= ["rob@testrxmd.com","john@testrxmd.com"]
 // ["marufbelete9@gmail.com","beletemaruf@gmail.com"]
 // 
@@ -171,8 +170,10 @@ exports.createOrder = async (req, res, next) => {
      amount:total_amount,
      card_detail:{
      cardNumber:cardNumber,
-     expirtationDate:expirtationDate?.
-      replace('/', ''),
+     expiry_month:expirtationDate.split('/')[0],
+     expiry_year:expirtationDate.split('/')[1],
+    //  expirtationDate:expirtationDate?.
+    //   replace('/', ''),
      cardCode:cardCode,
      },
      billing_detail:{
@@ -189,14 +190,16 @@ exports.createOrder = async (req, res, next) => {
 
   let payment_response
   if(save_payment_info){
-    const {customerProfileId,customerPaymentProfileId}=await createCustomerProfile(payment_info)
+    // const {customerProfileId,customerPaymentProfileId}=await createCustomerProfile(payment_info)
+    const {customerProfileId,customerPaymentProfileId}=await saveGlobalCreditCardInfo(req?.user?.sub,payment_info)
     await PaymenInfo.create({
       userId:user.id,
       userProfileId:customerProfileId,
       userProfilePaymentId:customerPaymentProfileId,
       cardLastDigit:`**********${String(cardNumber).slice(-3)}`
     }, { transaction: t })
-      payment_response=await chargeCreditCardExistingUser(total_amount,customerProfileId,customerPaymentProfileId)
+      // payment_response=await chargeCreditCardExistingUser(total_amount,customerProfileId,customerPaymentProfileId)
+      payment_response=await chargeGlobalCreditCardFromInfo(req?.user?.sub,total_amount,customerPaymentProfileId)
     
   }
   else if(use_exist_payment && allPaymentInfo?.length>0){
@@ -204,10 +207,12 @@ exports.createOrder = async (req, res, next) => {
     if(!paymentInfo){
       handleError("payment method not found",403)
     }
-    payment_response=await chargeCreditCardExistingUser(total_amount,paymentInfo.userProfileId,customer_payment_profile_id)
+    // payment_response=await chargeCreditCardExistingUser(total_amount,paymentInfo.userProfileId,customer_payment_profile_id)
+    payment_response=await chargeGlobalCreditCardFromInfo(req?.user?.sub,total_amount,customer_payment_profile_id)
 }
 else{
-      payment_response=await chargeCreditCard(payment_info)
+      // payment_response=await chargeCreditCard(payment_info)
+      payment_response=await chargeGlobalCreditCard(req?.user?.sub,payment_info)
   }
  
     order.transId=payment_response.transId
@@ -445,10 +450,13 @@ exports.createOrderSubscription = async (req, res, next) => {
         subscriptionId:subscription.id
        },{transaction:t})
       //  await scheduleSubscription(subscription,paymentInfo.userProfileId,customer_payment_profile_id,{transaction:t})
-       payment_response=await chargeCreditCardExistingUser(subscriptionAmount,paymentInfo.userProfileId,customer_payment_profile_id)
+      //  payment_response=await chargeCreditCardExistingUser(subscriptionAmount,paymentInfo.userProfileId,customer_payment_profile_id)
+       payment_response=await chargeGlobalCreditCardFromInfo(req?.user?.sub,subscriptionAmount,customer_payment_profile_id)
+
     }
   else{
-    const {customerProfileId,customerPaymentProfileId}=await createCustomerProfile(payment_info)
+    // const {customerProfileId,customerPaymentProfileId}=await createCustomerProfile(payment_info)
+    const {customerProfileId,customerPaymentProfileId}=await saveGlobalCreditCardInfo(req?.user?.sub,payment_info)
     const paymentInfo=await PaymenInfo.create({
       userId:user.id,
       userProfileId:customerProfileId,
@@ -467,9 +475,9 @@ exports.createOrderSubscription = async (req, res, next) => {
         subscriptionId:subscription.id
        },{transaction:t})
       // await scheduleSubscription(subscription,customerProfileId,customerPaymentProfileId,{transaction:t})
-      payment_response=await chargeCreditCardExistingUser(subscriptionAmount,customerProfileId,customerPaymentProfileId)
+      // payment_response=await chargeCreditCardExistingUser(subscriptionAmount,customerProfileId,customerPaymentProfileId)
+      payment_response=await chargeGlobalCreditCardFromInfo(req?.user?.sub,subscriptionAmount,customer_payment_profile_id)
   }
-
     subscription_payment.transId=payment_response.transId
     await subscription_payment.save({ transaction: t })
 

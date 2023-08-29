@@ -11,12 +11,21 @@ exports.createCompletion = async (prompt) => {
           presence_penalty: 0.5,
           best_of: 1,
         })
+        console.log(gptResponse?.status)
+        console.log(gptResponse?.statusText)
+        if (gptResponse?.status==429&&gptResponse?.statusText=='Too Many Requests') {
+          console.log("wait some time")
+          
+          // await wait(90000); // Wait for 90 seconds
+        } 
         if (gptResponse?.data) {
           // console.log('choices: ', gptResponse)
           const outputText = gptResponse.data.choices[0].text.replace(/\n/g, "");
           // console.log(outputText)
           return outputText
         }
+        console.log(gptResponse)
+        return gptResponse
       // let response = '';
       // // let cont ='';
       // while (!response.endsWith('END OF RESPONSE')) {

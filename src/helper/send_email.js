@@ -185,7 +185,7 @@ const sendMealPlanPdf=async(email,name,pdf)=>{
           subject: "30-Day Meal Plan",
           html: `
           <div style="margin: auto; max-width: 650px; background-color: #C2E7FF; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); min-height: 400px;">
-              <h1 style="text-align: center; color: #2791BD; font-size: 36px; margin-bottom: 20px; padding: 10px 20px;">TestRxMD Appointment Reminder</h1>
+              <h1 style="text-align: center; color: #2791BD; font-size: 36px; margin-bottom: 20px; padding: 10px 20px;">Your 30-Day Meal Plan</h1>
               <p style="text-align: center; font-size: 20px; line-height: 1.5; margin-bottom: 20px;">Hello ${name},</p>
               <p style="text-align: start; padding: 10px 20px;">
               This is your 30-day meal plan from TestRxMD. Download the attached pdf

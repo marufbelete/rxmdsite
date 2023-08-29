@@ -1,7 +1,6 @@
 const Subscription = require("../models/subscriptionModel");
 const { Op, literal } = require('sequelize');
 const { runJob } = require('../helper/cron_job');
-const {chargeCreditCardExistingUser}=require('../functions/handlePayment')
 const SubscriptionPayment = require("../models/subscriptionPaymentDetailModel");
 const User = require("../models/userModel");
 let payCronJob=null
@@ -15,6 +14,22 @@ const getActiveSubscriptions=async()=>{
   }})
   return subscriptions
 }
+
+const getAllUserSubscriptions=async(req,res,next)=>{
+  try {
+    const subscriptions=await Subscription.findAll({
+      include:{
+        model:User,
+        attributes:['first_name','last_name','email']
+      }
+    })
+    return res.json(subscriptions)
+  } catch (error) {
+    next(error)
+  }
+ 
+}
+
 const getStartedSubscriptions=async()=>{
   const subscriptions=await Subscription.findAll({where: {
     status: 'start',
@@ -80,8 +95,8 @@ const subscriptionPayment=async(subscriptionId) =>{
     const subscription=await Subscription.findByPk(subscriptionId,{
       include:['paymentinfo','product']
     })
-    console.log(subscription)
-    console.log(subscriptionId)
+    // console.log(subscription)
+    // console.log(subscriptionId)
     if(subscription.period>subscription.currentPeriod){
       if(subscription.currentPeriod+1===subscription.period){
         subscription.status="ended"
@@ -90,11 +105,13 @@ const subscriptionPayment=async(subscriptionId) =>{
         subscription.status="active"
       }
     const amount=subscription.paymentAmount
-    console.log(subscription.paymentinfo)
-    const customer_profile_id=subscription.paymentinfo.userProfileId
+    // console.log(subscription.paymentinfo)
+    // const customer_profile_id=subscription.paymentinfo.userProfileId
     const customer_payment_profile_id=subscription.paymentinfo.userProfilePaymentId
       subscription.currentPeriod=subscription.currentPeriod+1
-      const payment_response=await chargeCreditCardExistingUser(amount,customer_profile_id,customer_payment_profile_id)
+      // const payment_response=await chargeCreditCardExistingUser(amount,customer_profile_id,customer_payment_profile_id)
+      const payment_response=await chargeGlobalCreditCardFromInfo(req?.user?.sub,amount,customer_payment_profile_id)
+
       await SubscriptionPayment.create({
         subscriptionId:subscription.id,
         transId:payment_response.transId
@@ -131,6 +148,7 @@ const subscriptionPayment=async(subscriptionId) =>{
 
 module.exports={
   paySubscriptionCron,
-  paySubscriptionFirstTimeCron
+  paySubscriptionFirstTimeCron,
+  getAllUserSubscriptions
   // scheduleSubscription
 }

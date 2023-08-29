@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
+  const base_url = "http://localhost:7000";
   // const base_url = "https://shielded-citadel-34904.herokuapp.com"
-  const base_url = "https://www.testrxmd.com"
+  // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
 
@@ -13,6 +13,9 @@ $(document).ready(function () {
   });
   $("#populate-order").on("click", function () {
     loadOrderTable();
+  });
+  $("#populate-order-subscription").on("click", function () {
+    loadOrderSubscriptionTable();
   });
   $("#populate-affiliate").on("click", function () {
     loadAffiliateRelationTable();
@@ -416,7 +419,8 @@ function ValidateEmail(email) {
     const product_name = $("#new-product-name").val()
     const price = $("#new-product-price").val()
     // const description = $("#new-product-description").val()
-    const type = $("#new-product-type-select").val()
+    // const type = $("#new-product-type-select").text()
+    const type = $("#new-product-type-select option:selected").text().trim();
     const productCatagory = $("#new-product-catagory-select").val()
     $("#add-new-product-error").addClass("d-none");
     if (!product_name || !price) {
@@ -426,6 +430,7 @@ function ValidateEmail(email) {
       !product_name && $("#add-new-product-error").text("please add product name").removeClass("d-none");
       return
     }
+    console.log( product_name, price, type, productCatagory)
     $.ajax({
       url: `${base_url}/addproduct`,
       method: "POST",
@@ -859,6 +864,32 @@ $("#user_affiliate_search").on("click", function (event) {
       },
     });
   };
+
+  const loadOrderSubscriptionTable = () => {
+    $("#order-subscription-table-body").empty();
+    $.ajax({
+      url: `${base_url}/subscriptionOrder`,
+      type: "GET",
+      success: (orders) => {
+        orders?.forEach((order) => {
+          $("#order-subscription-table-body").append(`
+          <tr>
+          <td>${order?.user?.first_name + ' ' + order?.user?.last_name || ""}</td>
+          <td>${order?.user?.email || ""}</td>
+          <td>${order?.period || ""}</td>
+          <td>${order?.status || ""}</td>
+          <td>$${order?.paymentAmount || ""}</td>
+          <td>${order?.currentPeriod || ""}</td>
+          <td>$${Number(order?.paymentAmount)*Number(order?.currentPeriod) || ""}</td>          
+      </tr>`);
+        });
+      },
+      error: (error) => {
+      
+      },
+    });
+  };
+
   const loadAffiliateRelationTable = (option='') => {
     $("#user-affiliate-table-body").empty();
     $.ajax({
@@ -1052,9 +1083,9 @@ $('#schedule-appointment-order').on('click', function (event) {
     } 
     const apply_discount=$("#applyDiscountCheckbox").is(':checked')
     //subscription
-    const payment_type='one_time'
-    // $('input[name="subscriptionType"]:checked').val()
+    const payment_type=$('input[name="subscriptionType"]:checked').val()
     let payment_type_object={}
+
       if (payment_type === "subscription") {
         const selectedDuration = $('#duration').val();
         payment_type_object={
@@ -1564,13 +1595,13 @@ if(window?.location?.href==`${base_url}/account`){
   loadAppointmentTable()
 }
 if((window?.location?.href==`${base_url}/checkout`||
-window?.location?.href==`${base_url}/pp`||
+window?.location?.href==`${base_url}/price-plan`||
 window?.location?.href==`${base_url}/appointment-checkout`) && 
 localStorage.getItem("isAffiliate")==="true"){
   getAffiliateTotalAmount()
 }
 if(window?.location?.href==`${base_url}/checkout`||
-window?.location?.href==`${base_url}/pp`||
+window?.location?.href==`${base_url}/price-plan`||
 window?.location?.href==`${base_url}/appointment-checkout`){
   loadUserPaymentMethod()
 }

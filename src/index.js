@@ -80,8 +80,8 @@ app.use(order_route);
 app.use(payment_info_route);
 // app.use(patient_info_route);
 // app.use(appointment_route);
-// app.use(meal_route);
-// app.use(fitness_route);
+app.use(meal_route);
+app.use(fitness_route);
 app.use(view_route);
 
 // UNUSED SHOP ROUTES FOR LATER

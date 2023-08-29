@@ -37,7 +37,7 @@ const Product = sequelize.define("product", {
     defaultValue: 0,
   },
   type:{
-    type: Sequelize.ENUM("product", "treatment","plan"),
+    type: Sequelize.ENUM("product", "treatment","fitness plan","meal plan"),
     defaultValue: "product"
   },
   productCatagory:{
