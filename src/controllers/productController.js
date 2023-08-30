@@ -58,10 +58,6 @@ exports.getProduct = async (req, res, next) => {
       order: [["product_name", "ASC"]],
     };
     const id = req.user.sub;
-    const unpaid_appt_exist=await appointmentUnpaidExist(id)
-    if(unpaid_appt_exist){
-      return res.redirect('/appointment')
-    }
     const paymentInfo=await PaymenInfo.findAll({where:{userId:id}})
     const user = await getUser(id);
     let products;

@@ -995,31 +995,32 @@ const loadUserPaymentMethod=()=>{
     },
   })
 }
-$('#schedule-appointment-order').on('click', function (event) {
-  event.preventDefault()
-  const product_ordered =$('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').data('productid')
-  $("#schedule_appointment_text").addClass("d-none");
-  $("#schedule_appointment_text_spin").removeClass("d-none");
-  if (!product_ordered) {
-  $("#select-product-error").removeClass("d-none").text("Please select service for the appointment")
-   return
-  }
-  $.ajax({
-    url: `${base_url}/appointment`,
-    type: "POST",
-    contentType: 'application/json',
-    data: JSON.stringify({ productId:product_ordered }),
-    success: () => {
-      location.href='/appointment'
-    },
-    error: (error) => {
-      $("#select-product-error").removeClass("d-none").text(error.responseJSON.message)
-      $("#schedule_appointment_text").removeClass("d-none");
-      $("#schedule_appointment_text_spin").addClass("d-none");
-    },
 
-  })
-})
+// $('#schedule-appointment-order').on('click', function (event) {
+//   event.preventDefault()
+//   const product_ordered =$('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').data('productid')
+//   $("#schedule_appointment_text").addClass("d-none");
+//   $("#schedule_appointment_text_spin").removeClass("d-none");
+//   if (!product_ordered) {
+//   $("#select-product-error").removeClass("d-none").text("Please select service for the appointment")
+//    return
+//   }
+//   $.ajax({
+//     url: `${base_url}/appointment`,
+//     type: "POST",
+//     contentType: 'application/json',
+//     data: JSON.stringify({ productId:product_ordered }),
+//     success: () => {
+//       location.href='/appointment'
+//     },
+//     error: (error) => {
+//       $("#select-product-error").removeClass("d-none").text(error.responseJSON.message)
+//       $("#schedule_appointment_text").removeClass("d-none");
+//       $("#schedule_appointment_text_spin").addClass("d-none");
+//     },
+
+//   })
+// })
   //copmlete order
   $('#complete-order').on('click', function (event) {
     event.preventDefault()
@@ -1101,9 +1102,6 @@ $('#schedule-appointment-order').on('click', function (event) {
           success: function ({is_fitness_plan_exist,is_meal_plan_exist}) {
             $('#spinner-div').hide();
             $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
-            if (is_fitness_plan_exist&&is_meal_plan_exist) {
-             return location.href = '/fitness-plan'
-            }
             if (is_fitness_plan_exist) {
              return location.href = '/fitness-plan'
             }
@@ -1132,9 +1130,6 @@ $('#schedule-appointment-order').on('click', function (event) {
       success: function ({is_appointment_exist,product_names,is_fitness_plan_exist,is_meal_plan_exist}) {
         $('#spinner-div').hide();
         $('input[id="telehealth-appt-checkbox"]').prop('checked', false);
-        if (is_fitness_plan_exist&&is_meal_plan_exist) {
-         return location.href = '/fitness-plan'
-        }
         if (is_fitness_plan_exist) {
          return location.href = '/fitness-plan'
         }
@@ -1142,7 +1137,7 @@ $('#schedule-appointment-order').on('click', function (event) {
           return location.href = '/meal-plan'
         }
         if (is_appointment_exist) {
-          return location.href = '/appt'
+          return location.href = '/success'
           }
         else {
           $("#order_success_text").text("Close")
@@ -1502,43 +1497,44 @@ const loadAffiliateTable = () => {
     },
   });
 };
-const loadAppointmentTable = () => {
-  $("#appts_table_body").empty();
-  $.ajax({
-    url: `${base_url}/appointment/detail`,
-    type: "GET",
-    success: ({appointments}) => {
-      appointments?.forEach((appointment) => {
-        let timeString='-'
-        let dateString='-'
-        if(appointment?.appointmentDateTime){
-          const datetime = new Date(appointment?.appointmentDateTime);
-           timeString = datetime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-           dateString=new Date(appointment?.appointmentDateTime).toLocaleDateString()
-        }
+
+// const loadAppointmentTable = () => {
+//   $("#appts_table_body").empty();
+//   $.ajax({
+//     url: `${base_url}/appointment/detail`,
+//     type: "GET",
+//     success: ({appointments}) => {
+//       appointments?.forEach((appointment) => {
+//         let timeString='-'
+//         let dateString='-'
+//         if(appointment?.appointmentDateTime){
+//           const datetime = new Date(appointment?.appointmentDateTime);
+//            timeString = datetime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+//            dateString=new Date(appointment?.appointmentDateTime).toLocaleDateString()
+//         }
      
-        $("#appts_table_body").append(`
-      <tr>
-        <td>${dateString}</td>
-        <td>${timeString}</td>
-        <td>${appointment?.doctor?appointment?.doctor?.first_name+' '+appointment?.doctor?.last_name:'-'}</td>
-        <td>
-        ${appointment.joinUrl ?
-          `<a href="${appointment.joinUrl}" target="_blank" class="btn btn-primary m-0 p-0 ${((new Date(appointment.appointmentDateTime) > new Date())||!appointment?.paymentStatus) ? 'disabled' : ''}">Zoom Link</a>`
-          : '-'
-        }
-       </td>
+//         $("#appts_table_body").append(`
+//       <tr>
+//         <td>${dateString}</td>
+//         <td>${timeString}</td>
+//         <td>${appointment?.doctor?appointment?.doctor?.first_name+' '+appointment?.doctor?.last_name:'-'}</td>
+//         <td>
+//         ${appointment.joinUrl ?
+//           `<a href="${appointment.joinUrl}" target="_blank" class="btn btn-primary m-0 p-0 ${((new Date(appointment.appointmentDateTime) > new Date())||!appointment?.paymentStatus) ? 'disabled' : ''}">Zoom Link</a>`
+//           : '-'
+//         }
+//        </td>
       
-        <td>${appointment?.paymentStatus?'Paid':'unpaid'}</td>
-        <td>${appointment?.appointmentStatus} ${((appointment?.appointmentStatus==="in progress"||appointment?.appointmentStatus==="pending")&&!appointment?.paymentStatus)?"<a href='/appointment'>(compelete schedule)</a>":''}</td>
-      </tr>`);
-      });
-    },
-    error: (error) => {
+//         <td>${appointment?.paymentStatus?'Paid':'unpaid'}</td>
+//         <td>${appointment?.appointmentStatus} ${((appointment?.appointmentStatus==="in progress"||appointment?.appointmentStatus==="pending")&&!appointment?.paymentStatus)?"<a href='/appointment'>(compelete schedule)</a>":''}</td>
+//       </tr>`);
+//       });
+//     },
+//     error: (error) => {
     
-    },
-  });
-};
+//     },
+//   });
+// };
 
 function confirmOtp(){
   const otp=$('#otp_code_input').val()
@@ -1616,7 +1612,7 @@ $('#copy_url_btn').click(function() {
 });
 
   $(document).on("click", ".procced-to-checkout", function () {
-    location.href = '/appt'
+    location.href = '/success'
   })
   setTimeout(() => { $('#continue-schedule').attr("disabled", false) }, 30000)
   $('#continue-schedule').on('click', () => {
@@ -1705,51 +1701,51 @@ $('#copy_url_btn').click(function() {
 //   });
 
 //create appt
- $("#create_appointment").on("click", function (event) {
-  event.preventDefault();
-  $("#login_error").addClass("d-none");
+//  $("#create_appointment").on("click", function (event) {
+//   event.preventDefault();
+//   $("#login_error").addClass("d-none");
 
-  const patientFirstName = $("#appt_first_name").val();
-  const patientLastName = $("#appt_last_name").val();
-  const patientEmail = $("#appt_email").val();
-  const patientPhoneNumber = $("#appt_phone").val();
-  const date= $("#appt_appointment_date").val();
-  const time = $("#appt_appointment_time").val();
-  const doctorId= $("#appt_doctor").val();
-  const formattedTime = moment(time, 'hh:mm A').format('HH:mm');
-  const appointmentDateTime = moment(date).format('YYYY-MM-DD') + 'T' + formattedTime;
+//   const patientFirstName = $("#appt_first_name").val();
+//   const patientLastName = $("#appt_last_name").val();
+//   const patientEmail = $("#appt_email").val();
+//   const patientPhoneNumber = $("#appt_phone").val();
+//   const date= $("#appt_appointment_date").val();
+//   const time = $("#appt_appointment_time").val();
+//   const doctorId= $("#appt_doctor").val();
+//   const formattedTime = moment(time, 'hh:mm A').format('HH:mm');
+//   const appointmentDateTime = moment(date).format('YYYY-MM-DD') + 'T' + formattedTime;
   
-  const message=$("#appt_appointment_message").val()
-  $("#appointment_error_message").addClass("d-none")
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  if(!patientEmail
-    ||!patientFirstName
-    ||!patientLastName
-    ||!patientPhoneNumber
-    ||!doctorId){
-    $("#appointment_error_message").removeClass("d-none").text("plase fill all field")
-    return
-    }
-  $("#create_appointment_text").addClass("d-none");
-  $("#create_appointment_text_spin").removeClass("d-none");
-  $.ajax({
-    url: `${base_url}/appointment`,
-    method: "PUT",
-    contentType: 'application/json',
-    data: JSON.stringify({patientEmail,patientFirstName,doctorId,
-    patientLastName,patientPhoneNumber,appointmentDateTime,
-    message,userTimezone}),
-    success: function (data) {
-    //redirect to the next page
-     location.href='/appointment-checkout'
-    },
-    error: function (data) {
-      $('#appointment_error_message').removeClass('d-none').text(data.responseJSON.message)
-      $("#create_appointment_text").removeClass("d-none");
-      $("#create_appointment_text_spin").addClass("d-none");
-    },
-  });
-});
+//   const message=$("#appt_appointment_message").val()
+//   $("#appointment_error_message").addClass("d-none")
+//   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+//   if(!patientEmail
+//     ||!patientFirstName
+//     ||!patientLastName
+//     ||!patientPhoneNumber
+//     ||!doctorId){
+//     $("#appointment_error_message").removeClass("d-none").text("plase fill all field")
+//     return
+//     }
+//   $("#create_appointment_text").addClass("d-none");
+//   $("#create_appointment_text_spin").removeClass("d-none");
+//   $.ajax({
+//     url: `${base_url}/appointment`,
+//     method: "PUT",
+//     contentType: 'application/json',
+//     data: JSON.stringify({patientEmail,patientFirstName,doctorId,
+//     patientLastName,patientPhoneNumber,appointmentDateTime,
+//     message,userTimezone}),
+//     success: function (data) {
+//     //redirect to the next page
+//      location.href='/appointment-checkout'
+//     },
+//     error: function (data) {
+//       $('#appointment_error_message').removeClass('d-none').text(data.responseJSON.message)
+//       $("#create_appointment_text").removeClass("d-none");
+//       $("#create_appointment_text_spin").addClass("d-none");
+//     },
+//   });
+// });
 
 //meal-plan
 $("#meal_plan_form").submit(function(event){

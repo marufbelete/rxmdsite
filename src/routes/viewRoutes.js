@@ -21,7 +21,7 @@ router.get("/", async function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/index"), { treatment, products });
 });
 
-router.get("/appt", authenticateJWT,checkAppointmentLeft,getAppointment, errorHandler);
+router.get("/success", authenticateJWT,checkAppointmentLeft,getAppointment, errorHandler);
 
 router.get("/home", async function (req, res) {
   const options = {
