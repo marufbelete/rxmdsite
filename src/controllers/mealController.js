@@ -13,7 +13,7 @@ async function parseMealPlan(prompt) {
   let str = await createCompletion(prompt);
   let strWithoutNumber = str.replace(/\d+/g, '');
   let days = strWithoutNumber.split(';').filter(Boolean);
-     while(days.length<2){
+     while(days.length<29){
         str = await createCompletion(prompt)
         strWithoutNumber = str.replace(/\d+/g, '');
         let otherdays = strWithoutNumber.split(';').filter(Boolean);
@@ -104,7 +104,7 @@ const mealPrmopmt = (req) => {
   if (req.body?.preferredCuisine) prompt += `preferred cuisine ${req.body?.preferredCuisine.toLowerCase()}, `;
   if (req.body?.medicalConditions) prompt += `medical condition ${req.body?.medicalConditions.toLowerCase()}, `;
 
-  prompt +="please create a list of 3 days breakfast, lunch, and dinner meals. The structure should look like 1, breakfast:Bacon & eggs,lunch:Veg Quesadilla,dinner:Tofu Stir-Fry; Each set of breakfast, lunch, and dinner meals should be on one line, comma-separated."
+  prompt +="please create a list of 10 days breakfast, lunch, and dinner meals. The structure should look like 1, breakfast:Bacon & eggs,lunch:Veg Quesadilla,dinner:Tofu Stir-Fry; Each set of breakfast, lunch, and dinner meals should be on one line, comma-separated."
   return prompt
 
 }
