@@ -13,7 +13,7 @@ async function parseMealPlan(prompt) {
   let str = await createCompletion(prompt);
   let strWithoutNumber = str.replace(/\d+/g, '');
   let days = strWithoutNumber.split(';').filter(Boolean);
-     while(days.length<29){
+     while(days.length<2){
         str = await createCompletion(prompt)
         strWithoutNumber = str.replace(/\d+/g, '');
         let otherdays = strWithoutNumber.split(';').filter(Boolean);
@@ -31,12 +31,14 @@ async function parseMealPlan(prompt) {
     };
 
     for (let meal of meals) {
+      console.log(meal)
       const [mealType, mealDescription] = meal.split(':');
       if (mealDescription) {
         const prompt = `please create a detailed recipe for ${mealDescription}, including prep time and cook time, ingredient list with amounts, calorie information, and cooking instructions each separated by ; with under 200 words.`;
         let description = await createCompletion(prompt);
-
-        let mapped_description=description.split(';').filter(e=>e.trim()!==meal.trim())
+        console.log(mealType,meal)
+        console.log(description.split(';'))
+        let mapped_description=description.split(';').filter(e=>e.trim()!==meal.split(':')[1].trim())
 
         dayObj[mealType.replace(/[^a-zA-Z]/g, '')] = {
           meal: mealDescription,
@@ -102,7 +104,7 @@ const mealPrmopmt = (req) => {
   if (req.body?.preferredCuisine) prompt += `preferred cuisine ${req.body?.preferredCuisine.toLowerCase()}, `;
   if (req.body?.medicalConditions) prompt += `medical condition ${req.body?.medicalConditions.toLowerCase()}, `;
 
-  prompt +="please create a list of 10 days breakfast, lunch, and dinner meals. The structure should look like 1, breakfast:Bacon & eggs,lunch:Veg Quesadilla,dinner:Tofu Stir-Fry; Each set of breakfast, lunch, and dinner meals should be on one line, comma-separated."
+  prompt +="please create a list of 3 days breakfast, lunch, and dinner meals. The structure should look like 1, breakfast:Bacon & eggs,lunch:Veg Quesadilla,dinner:Tofu Stir-Fry; Each set of breakfast, lunch, and dinner meals should be on one line, comma-separated."
   return prompt
 
 }

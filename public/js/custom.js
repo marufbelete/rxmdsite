@@ -1857,8 +1857,8 @@ var THEMEMASCOT = {};
           indicatorSecondLevel: "<i class='fa fa-angle-right'></i>",
         });
       }
-      // const base_url = "http://localhost:7000"
-      const base_url = "https://shielded-citadel-34904.herokuapp.com"
+      const base_url = "http://localhost:7000"
+      // const base_url = "https://shielded-citadel-34904.herokuapp.com"
       // const base_url = "https://www.testrxmd.com"
       // const base_url = "https://rxmdsite-production.up.railway.app";
       // Custom Login Logout button change
