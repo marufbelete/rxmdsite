@@ -1,6 +1,6 @@
 const { handleError } = require("../helper/handleError");
 const { getUser } = require("../helper/user");
-const Fitness = require("../models/fitnessModel");
+// const Fitness = require("../models/fitnessModel");
 const { createCompletion } = require('../chatGPT/createCompletion');
 const User = require("../models/userModel");
 const { createFitnessPlanPDF } = require("../helper/fill_pdf");
@@ -38,27 +38,29 @@ exports.addFitness = async (req, res, next) => {
     if (!user.exercisePlan) {
       handleError("plase buy your fitness plan first", 403)
     }
-    const fitness = new Fitness({
-      ...req.body,
-      userId: req?.user?.sub
-    });
-    res.json({ message: "success" });
-    const prompt = fitnessPrmopmt(req)
-    let parsed_obj=await parseFitnessPlan(prompt)
-    const pdf = await createFitnessPlanPDF(parsed_obj)
-    sendFitnessPlanPdf(user.email, user.first_name, pdf).
-      then(r => r).catch(e => e)
-    await fitness.save();
-    await User.update({
+      await User.update({
       exercisePlan: false
     }, {
       where: {
         id: req?.user?.sub
       }
     })
+    res.json({ message: "success" });
+    const prompt = fitnessPrmopmt(req)
+    let parsed_obj=await parseFitnessPlan(prompt)
+    const pdf = await createFitnessPlanPDF(parsed_obj)
+    sendFitnessPlanPdf(user.email, user.first_name, pdf).
+      then(r => r).catch(e => e)
+    
     return
   } catch (err) {
-    console.log(err)
+    await User.update({
+      exercisePlan: true
+    }, {
+      where: {
+        id: req?.user?.sub
+      }
+    })
     next(err);
   }
 };

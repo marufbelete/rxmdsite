@@ -26,26 +26,26 @@ $(document).ready(function () {
   const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' });
   $('#appt_appointment_time').attr('min', currentTime);
 
-  const showJotForm= localStorage.getItem("showJotForm")
-  const isAffiliate=localStorage.getItem("isAffiliate")
-if(showJotForm=== "true" && isAffiliate!=="true")
-{
-  localStorage.removeItem("showJotForm")
-  let $ajaxload_popup = $(".ajaxload-popup");
-        if ($ajaxload_popup.length > 0) {
-          $ajaxload_popup.magnificPopup({
-            items: [
-              {
-                src: $ajaxload_popup.prop('href'),
-                type: "iframe", 
-              },
-            ],
-            mainClass: "registrationForm",
-            alignTop: true,
-            overflowY: "scroll", 
-          }).magnificPopup('open'); 
-        }
-}
+  // const showJotForm= localStorage.getItem("showJotForm")
+  // const isAffiliate=localStorage.getItem("isAffiliate")
+// if(showJotForm=== "true" && isAffiliate!=="true")
+// {
+//   localStorage.removeItem("showJotForm")
+//   let $ajaxload_popup = $(".ajaxload-popup");
+//         if ($ajaxload_popup.length > 0) {
+//           $ajaxload_popup.magnificPopup({
+//             items: [
+//               {
+//                 src: $ajaxload_popup.prop('href'),
+//                 type: "iframe", 
+//               },
+//             ],
+//             mainClass: "registrationForm",
+//             alignTop: true,
+//             overflowY: "scroll", 
+//           }).magnificPopup('open'); 
+//         }
+// }
 
   $.ajax({
     url: `${base_url}/checkauth`,
@@ -56,11 +56,11 @@ if(showJotForm=== "true" && isAffiliate!=="true")
         localStorage.removeItem("toCheckout")
         location.href = "/checkout"
       }
-      if(localStorage.getItem("showJotFormCheckout")=== "true"){
-        localStorage.removeItem("showJotFormCheckout")
-        localStorage.setItem("showJotForm", "true");
-        location.href = "/checkout"
-      }
+      // if(localStorage.getItem("showJotFormCheckout")=== "true"){
+      //   localStorage.removeItem("showJotFormCheckout")
+      //   localStorage.setItem("showJotForm", "true");
+      //   location.href = "/checkout"
+      // }
       data?.user?.affiliateLink?
         localStorage.setItem("isAffiliate", "true"):
         localStorage.setItem("isAffiliate", "false");
@@ -151,7 +151,7 @@ if(showJotForm=== "true" && isAffiliate!=="true")
       contentType: 'application/json',
       data: JSON.stringify({ login_email, login_password, rememberme }),
       success: function (data) {
-        if(!data.intakeFilled)localStorage.setItem("showJotFormCheckout", "true");
+        // if(!data.intakeFilled)localStorage.setItem("showJotFormCheckout", "true");
         localStorage.setItem("isLoged", "true");
         data?.info?.role?.role?.toLowerCase() !== "admin" &&
           localStorage.setItem("isAdmin", "false");
@@ -324,8 +324,8 @@ function ValidateEmail(email) {
   //check google auth if not exist
   const urlParams = new URLSearchParams(window.location.search);
   const myParam = urlParams.get("error");
-  const intakeParam = urlParams.get("intakeFilled");
-  if (intakeParam === "false") localStorage.setItem("showJotFormCheckout", "true");
+  // const intakeParam = urlParams.get("intakeFilled");
+  // if (intakeParam === "false") localStorage.setItem("showJotFormCheckout", "true");
   if (myParam == "Google-Auth-Not-Exist") {
     $("#login_error").removeClass("d-none");
     $("#login_error").text(
@@ -531,7 +531,6 @@ $("#user_affiliate_search").on("click", function (event) {
           <td>${user.state || ""}</td>
           <td>${user.zip_code || ""}</td>
           <td>${user.phone_number || ""}</td>
-          <td>${user.intake}</td>
           <td>${new Date(user.createdAt).toLocaleDateString() || ""}</td>
           <td>
           <span class="edit-user-icon" data-bs-toggle="modal" data-bs-target="#update_user"
@@ -768,7 +767,6 @@ $("#user_affiliate_search").on("click", function (event) {
           <td>${user.state || ""}</td>
           <td>${user.zip_code || ""}</td>
           <td>${user.phone_number || ""}</td>
-          <td>${user.intake}</td>
           <td>${new Date(user.createdAt).toLocaleDateString() || ""}</td>
           <td>
           <span class="edit-user-icon" data-bs-toggle="modal" data-bs-target="#update_user"
@@ -1163,6 +1161,7 @@ const loadUserPaymentMethod=()=>{
         loadUserPaymentMethod()
       },
       error: function (data) {
+        console.log(data.responseJSON)
         $('#spinner-div').hide();
         $('#complete-order-error').removeClass('d-none').
           text(data.responseJSON.message)
@@ -1435,10 +1434,12 @@ function getQrCode(route){
 }
 function getOtp(){
   $('#get_paid_error').addClass('d-none')
+  console.log("hello")
   $.ajax({
     url: `${base_url}/otp`,
     method: "GET",
     success: function (data) {
+      console.log(data)
       $('#get_code_btn').prop('disabled',true)
       $("#success_toast_title").text("otp sent to your email")
       $('#success_toast_page').addClass('show');
@@ -1587,9 +1588,9 @@ localStorage.getItem("isAffiliate")==="true"){
   loadAffiliateTable()
   getAffiliateTotalAmount()
 }
-if(window?.location?.href==`${base_url}/account`){
-  loadAppointmentTable()
-}
+// if(window?.location?.href==`${base_url}/account`){
+//   loadAppointmentTable()
+// }
 if((window?.location?.href==`${base_url}/checkout`||
 window?.location?.href==`${base_url}/price-plan`||
 window?.location?.href==`${base_url}/appointment-checkout`) && 
@@ -1615,10 +1616,10 @@ $('#copy_url_btn').click(function() {
     location.href = '/success'
   })
   setTimeout(() => { $('#continue-schedule').attr("disabled", false) }, 30000)
-  $('#continue-schedule').on('click', () => {
-    $('#appointment-form').removeClass('d-none')
-    $('#continue-schedule').addClass('d-none')
-  })
+  // $('#continue-schedule').on('click', () => {
+  //   $('#appointment-form').removeClass('d-none')
+  //   $('#continue-schedule').addClass('d-none')
+  // })
   // $('#continue-schedule').on('click', () => {
   //   const product_ordered =$('#telehealth-appt-checkbox:checked').parent('[id=tel-product]').data('productid')
   //   console.log(product_ordered)
@@ -1785,12 +1786,36 @@ $.ajax({
   contentType: 'application/json',
   data: JSON.stringify(formDataObj),
   success: function (data) {
-  //redirect to the next page
    location.href='/account'
   },
   error: function (data) {
     $("#create_appointment_text").removeClass("d-none");
     $("#create_appointment_text_spin").addClass("d-none");
+  },
+});
+
+})
+
+$("#continue-schedule").click(function(event){
+  event.preventDefault(); // prevent the form from submitting normally
+  $("#continue-schedule_text").addClass("d-none");
+  $("#continue-schedule_text_spin").removeClass("d-none");
+$.ajax({
+  url: `${base_url}/checkappt`,
+  method: "GET",
+  contentType: 'application/json',
+  success: function (data) {
+    //redirect to given url
+    if(data.isApptExist){
+      window.location.href = 'https://novelhealth.ai/practice/testrx-md-202981';
+    }  
+   else{
+    location.href='/checkout'
+   }
+  },
+  error: function (data) {
+  $("#continue-schedule_text").removeClass("d-none");
+  $("#continue-schedule_text_spin").addClass("d-none");
   },
 });
 
@@ -1896,6 +1921,8 @@ if (chatBody.length > 0) {
    scrollBottom()
 
 });
+
+
 $(window).on('load', function () {
   $('#loading').hide();
 })

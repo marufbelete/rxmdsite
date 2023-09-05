@@ -64,10 +64,10 @@ const User = sequelize.define("user", {
   active: {
     type: Sequelize.TINYINT,
   },
-  intake: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false,
-  },
+  // intake: {
+  //   type: Sequelize.BOOLEAN,
+  //   defaultValue: false,
+  // },
   left_appointment:{
     type: Sequelize.BOOLEAN,
     defaultValue: false,

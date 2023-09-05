@@ -1,7 +1,8 @@
 const Order = require("../models/orderModel");
 const Orderproduct = require("../models/orderproduct");
 const User = require("../models/userModel");
-const { isUserAdmin, isIntakeFormComplted,getAffiliatePayableAmount } = require("../helper/user");
+const { isUserAdmin}= require("../helper/user");
+  // isIntakeFormComplted,getAffiliatePayableAmount 
 const Product = require("../models/productModel");
 const PaymenInfo = require("../models/paymentInfoModel");
 const sequelize = require("../models/index");
@@ -36,9 +37,9 @@ exports.createOrder = async (req, res, next) => {
           handleError("Please fill all field", 400);
         }
       }
-    if (!(await isIntakeFormComplted(req))) {
-      handleError("Please complete the registration form", 400);
-    }
+    // if (!(await isIntakeFormComplted(req))) {
+    //   handleError("Please complete the registration form", 400);
+    // }
     const order = await Order.create(
       {
         userId: req?.user?.sub,
@@ -346,6 +347,7 @@ else{
     return res.status(201).json({order,is_appointment_exist,product_names,is_fitness_plan_exist,is_meal_plan_exist});
   } catch (err) {
     console.log(err)
+    // console.log("done.................")
     await t.rollback();
     next(err);
   }
@@ -370,9 +372,9 @@ exports.createOrderSubscription = async (req, res, next) => {
           handleError("Please fill all field", 400);
         }
       }
-    if (!(await isIntakeFormComplted(req))) {
-      handleError("Please complete the registration form", 400);
-    }
+    // if (!(await isIntakeFormComplted(req))) {
+    //   handleError("Please complete the registration form", 400);
+    // }
     let total_amount=0
     let is_meal_plan_exist=false
     let is_fitness_plan_exist=false
@@ -558,6 +560,23 @@ exports.getOrderById = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.isAppointmentLeft = async(req, res, next) => {
+  try{
+  const {sub} = req?.user;
+  const user = await User.findByPk(sub);
+  if (user.left_appointment) {
+    await User.update({
+      left_appointment:false},
+     {where:{id:req?.user?.sub}})
+   return res.json({isApptExist:true})
+  }
+   return res.json({isApptExist:false}) 
+}
+catch(err){
+  next(err)
+ }
 };
 
 exports.getMyOrder = async (req, res, next) => {

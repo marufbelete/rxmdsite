@@ -68,7 +68,6 @@ const pdfMake = require('pdfmake');
 }
 
  async function createFitnessPlanPDF(plan_format) {
-  console.log(plan_format)
   return new Promise((resolve, reject) => {
     const documentDefinition = {
       content: [

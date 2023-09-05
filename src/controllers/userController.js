@@ -196,7 +196,8 @@ exports.loginUser = async (req, res, next) => {
       
         return res
           .status(200)
-          .json({ auth: true, info, intakeFilled:user.intake });
+          .json({ auth: true, info});
+          // intakeFilled:user.intake 
       }
       handleError("Username or Password Incorrect", 400);
     }
@@ -667,22 +668,22 @@ exports.adminDashboard = async (req, res, next) => {
   }
 };
 
-exports.jotformWebhook = async (req, res, next) => {
-  try {
-    const { pretty } = req.body;
-    const jot_pairs = pretty.replace(/\s/g, "").split(",");
-    const jot_entries = jot_pairs.map((kv) => kv.split(":"));
-    const jot_obj = Object.fromEntries(jot_entries);
-    const token = jot_obj.token;
-    const user = await isTokenValid(token,process.env.ACCESS_TOKEN_SECRET);
-    await User.update(
-      { intake: true },
-      {
-        where: { email: user.email },
-      }
-    );
-    return res.json({ success: true });
-  } catch (err) {
-    next(err);
-  }
-};
+// exports.jotformWebhook = async (req, res, next) => {
+//   try {
+//     const { pretty } = req.body;
+//     const jot_pairs = pretty.replace(/\s/g, "").split(",");
+//     const jot_entries = jot_pairs.map((kv) => kv.split(":"));
+//     const jot_obj = Object.fromEntries(jot_entries);
+//     const token = jot_obj.token;
+//     const user = await isTokenValid(token,process.env.ACCESS_TOKEN_SECRET);
+//     await User.update(
+//       { intake: true },
+//       {
+//         where: { email: user.email },
+//       }
+//     );
+//     return res.json({ success: true });
+//   } catch (err) {
+//     next(err);
+//   }
+// };

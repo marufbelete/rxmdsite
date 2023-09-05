@@ -12,7 +12,7 @@ const {
   registerUser,
   loginUser,
   updateUserInfo,
-  jotformWebhook,
+  // jotformWebhook,
   getCurrentLoggedUser,
   getUserById,
   getUsers,
@@ -48,8 +48,8 @@ router.put("/updateuser/:id", authenticateJWT, updateUserInfo, errorHandler);
 router.put("/updateuserstate/:id", authenticateJWT, updateUserState, errorHandler);
 router.put("/changemypassword/", authenticateJWT,bouncer.block, passwordChangeValidate(), changePassword, errorHandler);
 router.get("/confirm", confirmEmail, errorHandler);
-// router.get("/otp",authenticateJWT, getOtp, errorHandler);
-// router.post("/otp",authenticateJWT, confirmOtp, errorHandler);
+router.get("/otp",authenticateJWT, getOtp, errorHandler);
+router.post("/otp",authenticateJWT, confirmOtp, errorHandler);
 router.get("/affiliate/detail",authenticateJWT, getUserAffiliateDetail, errorHandler);
 router.post("/forgotpassword", forgotPassword, errorHandler);
 router.post("/resetpassword", resetPassword, errorHandler);
@@ -64,7 +64,7 @@ router.get("/affiliaterelation", getUserAffiliateRelation, errorHandler);
 // router.get("/provider/available",authenticateJWT, getAvailableProvider, errorHandler);
 // router.get("/provider/schedule/:providerId", getProviderSchedule, errorHandler);
 router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandler);
-router.post("/jotformwebhook", multipart.array(), jotformWebhook, errorHandler);
+// router.post("/jotformwebhook", multipart.array(), jotformWebhook, errorHandler);
 // router.post("/vcitawebhook", appointmentCreatedWebhook, errorHandler);
 router.get("/dashboard", authenticateJWT, authAdmin, adminDashboard, errorHandler);
 //google auth

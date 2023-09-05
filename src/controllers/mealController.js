@@ -1,4 +1,4 @@
-const Meal = require("../models/mealModel");
+// const Meal = require("../models/mealModel");
 const { createCompletion } = require('../chatGPT/createCompletion');
 const User = require("../models/userModel");
 const { runJob } = require("../helper/cron_job");
@@ -53,18 +53,6 @@ exports.addMeal = async (req, res, next) => {
     if (!user.mealPlan) {
       handleError("plase buy your meal plan first", 403)
     }
-    const meal = new Meal({
-      ...req.body,
-      userId: req?.user?.sub
-    });
-    res.json({ message: "success" });
-    const prompt = mealPrmopmt(req)
-    let parsed_obj=await parseMealPlan(prompt)
-    const pdf = await createMealPlanPDF(parsed_obj)
-    sendMealPlanPdf(user.email, user.first_name, pdf).
-      then(r => r).catch(e => console.log(e))
-
-    await meal.save();
     await User.update({
       mealPlan: false
     }, {
@@ -72,9 +60,24 @@ exports.addMeal = async (req, res, next) => {
         id: req?.user?.sub
       }
     })
+    res.json({ message: "success" });
+    const prompt = mealPrmopmt(req)
+    let parsed_obj=await parseMealPlan(prompt)
+    const pdf = await createMealPlanPDF(parsed_obj)
+    sendMealPlanPdf(user.email, user.first_name, pdf).
+      then(r => r).catch(e => console.log(e))
+
+    
     return 
   } catch (err) {
     console.log(err)
+    await User.update({
+      mealPlan: true
+    }, {
+      where: {
+        id: req?.user?.sub
+      }
+    })
     next(err);
   }
 };

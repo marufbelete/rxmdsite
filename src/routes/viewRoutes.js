@@ -49,9 +49,9 @@ router.get("/contact", function (req, res) {
   res.render(path.join(__dirname, "..", "/views/pages/contact"));
 });
 
-router.get("/getstarted", function (req, res) {
-  res.redirect("https://hipaa.jotform.com/212587273457161?token=<%=token%>");
-});
+// router.get("/getstarted", function (req, res) {
+//   res.redirect("https://hipaa.jotform.com/212587273457161?token=<%=token%>");
+// });
 
 router.get("/checkout", authenticateJWT, getProduct, errorHandler);
 

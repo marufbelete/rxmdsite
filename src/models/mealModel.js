@@ -10,19 +10,15 @@ const Meal = sequelize.define("meal", {
   },
   age: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
 gender: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
 height: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
 weight: {
     type: Sequelize.STRING(45),
-    allowNull: false,
   },
 allergies: {
     type: Sequelize.STRING(45),

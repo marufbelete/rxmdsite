@@ -119,14 +119,14 @@ const userIp = (request) => {
   return ip;
 };
 
-const isIntakeFormComplted = async (req) => {
-  const id = req?.user?.sub;
-  const user = await User.findOne({ where: { id } });
-  if (user?.intake) {
-    return true;
-  }
-  return false;
-};
+// const isIntakeFormComplted = async (req) => {
+//   const id = req?.user?.sub;
+//   const user = await User.findOne({ where: { id } });
+//   if (user?.intake) {
+//     return true;
+//   }
+//   return false;
+// };
 const createSubscription = async (req) => {
   // const user_id = req?.user?.sub;
   console.log(req.body)
@@ -192,7 +192,7 @@ module.exports = {
   userIp,
   isUserAdmin,
   isTokenValid,
-  isIntakeFormComplted,
+  // isIntakeFormComplted,
   createSubscription,
   get2faVerfication,
   verify2faVerfication,

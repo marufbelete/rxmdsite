@@ -69,8 +69,9 @@ exports.issueGoogleToken = async (req, res, next) => {
         expires:new Date(cookie_expires),
         secure: true,
       })
-      if(req?.user[0]?.intake) return res.redirect("/")
-      return res.redirect("/?intakeFilled=" + encodeURIComponent("false"));
+      // if(req?.user[0]?.intake) 
+      return res.redirect("/")
+      // return res.redirect("/?intakeFilled=" + encodeURIComponent("false"));
   } catch (err) {
     next(err);
   }
