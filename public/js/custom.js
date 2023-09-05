@@ -1857,8 +1857,8 @@ var THEMEMASCOT = {};
           indicatorSecondLevel: "<i class='fa fa-angle-right'></i>",
         });
       }
-      // const base_url = "http://localhost:7000"
-      const base_url = "https://shielded-citadel-34904.herokuapp.com"
+      const base_url = "http://localhost:7000"
+      // const base_url = "https://shielded-citadel-34904.herokuapp.com"
       // const base_url = "https://www.testrxmd.com"
       // const base_url = "https://rxmdsite-production.up.railway.app";
       // Custom Login Logout button change
@@ -1877,7 +1877,6 @@ var THEMEMASCOT = {};
       if (isLoged === "true" && isAdmin === "true") $('#admin_link').removeClass("d-none");
       if (isLoged === "true" && isAdmin === "false") $('#account_page').removeClass("d-none");
     
-
 
       $document.on("click", "#logout_link", function (e) {
         $.ajax({

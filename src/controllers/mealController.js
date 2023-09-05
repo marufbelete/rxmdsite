@@ -20,9 +20,11 @@ async function parseMealPlan(prompt) {
         days=[...days,...otherdays]
   }
   const plan_format = [];
-  
+  console.log(days)
+
   for (let index = 0; index < days.length; index++) {
-    const day = days[index];
+    // meal = meal.map((str) => str.);
+    const day = days[index].replace(/^[,.\s]+/, '');
     const meals = day.split(',');
     const dayObj = {
       day: `Day ${index + 1}`,
@@ -44,6 +46,8 @@ async function parseMealPlan(prompt) {
     }
     plan_format.push(dayObj);
   }
+  console.log(plan_format)
+
   return plan_format;
 }
 

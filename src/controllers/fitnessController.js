@@ -17,9 +17,9 @@ async function parseFitnessPlan(prompt) {
         days=[...days,...otherdays]
   }
   const plan_format = [];
-  
+  console.log(days)
   for (let index = 0; index < days.length; index++) {
-    const fitness =days[index].replace(/[.]/g, "").trim()
+    const fitness =days[index].replace(/^[,.\s]+/, '').trim()
     const dayObj = {
             day: `Day ${index + 1}`,
             fitness: fitness
