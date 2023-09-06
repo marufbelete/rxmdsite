@@ -20,7 +20,6 @@ async function parseMealPlan(prompt) {
         days=[...days,...otherdays]
   }
   const plan_format = [];
-  console.log(days)
 
   for (let index = 0; index < days.length; index++) {
     // meal = meal.map((str) => str.);
@@ -35,8 +34,6 @@ async function parseMealPlan(prompt) {
       if (mealDescription) {
         const prompt = `please create a detailed recipe for ${mealDescription}, including prep time and cook time, ingredient list with amounts, calorie information, and cooking instructions each separated by ; with under 200 words.`;
         let description = await createCompletion(prompt);
-        console.log(mealType,meal)
-        console.log(description.split(';'))
         let mapped_description=description.split(';').filter(e=>e.trim()!==meal.split(':')[1].trim())
 
         dayObj[mealType.replace(/[^a-zA-Z]/g, '')] = {
@@ -51,6 +48,7 @@ async function parseMealPlan(prompt) {
 }
 
 exports.addMeal = async (req, res, next) => {
+  let return_plan=false
   try {
     const user = await getUser(req?.user?.sub)
     if (!user.mealPlan) {
@@ -63,23 +61,23 @@ exports.addMeal = async (req, res, next) => {
         id: req?.user?.sub
       }
     })
+    return_plan=true
     res.json({ message: "success" });
     const prompt = mealPrmopmt(req)
     let parsed_obj=await parseMealPlan(prompt)
     const pdf = await createMealPlanPDF(parsed_obj)
-    sendMealPlanPdf(user.email, user.first_name, pdf).
-      then(r => r).catch(e => console.log(e))
-
-    
-    return 
+   await sendMealPlanPdf(user.email, user.first_name, pdf)
+   return 
   } catch (err) {
-    await User.update({
-      mealPlan: true
-    }, {
-      where: {
-        id: req?.user?.sub
-      }
-    })
+    if(return_plan){
+      await User.update({
+        mealPlan: true
+      }, {
+        where: {
+          id: req?.user?.sub
+        }
+      })
+    }
     next(err);
   }
 };

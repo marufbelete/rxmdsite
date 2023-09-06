@@ -72,6 +72,7 @@ async function parseFitnessPlan(prompt) {
 }
 
 exports.addFitness = async (req, res, next) => {
+  let return_plan=false
   try {
     const user = await getUser(req?.user?.sub)
     if (!user.exercisePlan) {
@@ -84,23 +85,23 @@ exports.addFitness = async (req, res, next) => {
         id: req?.user?.sub
       }
     })
+    return_plan=true
     res.json({ message: "success" });
     const prompt = fitnessPrmopmt(req)
     let parsed_obj=await parseFitnessPlan(prompt)
     const pdf = await createFitnessPlanPDF(parsed_obj)
-    sendFitnessPlanPdf(user.email, user.first_name, pdf).
-      then(r => r).catch(e => e)
-    
+    await sendFitnessPlanPdf(user.email, user.first_name, pdf)
     return
   } catch (err) {
-    console.log(err)
-    await User.update({
-      exercisePlan: true
-    }, {
-      where: {
-        id: req?.user?.sub
-      }
-    })
+    if(return_plan){
+      await User.update({
+        exercisePlan: true
+      }, {
+        where: {
+          id: req?.user?.sub
+        }
+      })
+    }
     next(err);
   }
 };
