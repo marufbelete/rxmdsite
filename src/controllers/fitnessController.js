@@ -48,12 +48,13 @@ async function parseFitnessPlan(prompt) {
     const dayObj = {
             day: `Day ${index + 1}`
           };
-          if(fitnesses[index]==restDay){
-            dayObj['description'] = ["Rest Day"];
+          const  descriptions= [];
+          if(strFitness[index]==restDay){
+            descriptions.push(["Rest Day"])
+            dayObj['description'] = descriptions;
             plan_format.push(dayObj);
             continue
           }
-          const  descriptions= [];
           for(let fitness of fitnesses){
             const prompt = `please create a detailed instructions steps for ${fitness} each step must seprated by ; like this 1. Stand with your feet shoulder-width apart, toes pointing slightly outward; 2.Engage your core by pulling your belly button in towards your spine; With under 300 words.`
             const description = await createCompletion(prompt)
