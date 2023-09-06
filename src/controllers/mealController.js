@@ -1,11 +1,11 @@
 // const Meal = require("../models/mealModel");
 const { createCompletion } = require('../chatGPT/createCompletion');
 const User = require("../models/userModel");
-const { runJob } = require("../helper/cron_job");
+// const { runJob } = require("../helper/cron_job");
 const { getUser } = require("../helper/user");
 const { createMealPlanPDF } = require("../helper/fill_pdf");
-const moment = require("moment");
-const cron = require('node-schedule');
+// const moment = require("moment");
+// const cron = require('node-schedule');
 const { sendMealPlanPdf } = require("../helper/send_email");
 const { handleError } = require("../helper/handleError");
 
@@ -31,7 +31,6 @@ async function parseMealPlan(prompt) {
     };
 
     for (let meal of meals) {
-      console.log(meal)
       const [mealType, mealDescription] = meal.split(':');
       if (mealDescription) {
         const prompt = `please create a detailed recipe for ${mealDescription}, including prep time and cook time, ingredient list with amounts, calorie information, and cooking instructions each separated by ; with under 200 words.`;
@@ -48,8 +47,6 @@ async function parseMealPlan(prompt) {
     }
     plan_format.push(dayObj);
   }
-  console.log(plan_format)
-
   return plan_format;
 }
 
@@ -76,7 +73,6 @@ exports.addMeal = async (req, res, next) => {
     
     return 
   } catch (err) {
-    console.log(err)
     await User.update({
       mealPlan: true
     }, {
@@ -108,23 +104,3 @@ const mealPrmopmt = (req) => {
   return prompt
 
 }
-// exports.getMeal = async (req, res, next) => {
-//   try {
-//     const meals = await Meal.findAll();
-//     return res.json(meals);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-// exports.getMealById = async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     const meal = await Meal.findByPk(id);
-//     return res.json(meal);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-
-

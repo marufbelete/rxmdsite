@@ -76,9 +76,9 @@ const pdfMake = require('pdfmake');
         plan_format.map(day => [
           { text: day.day, style: 'subheader' },
           { text: '\n' },
-          { text: `Exercise :${day.fitness}` },
-          { text: `Steps` },
-          day.description.map(description=>({ text: `${description}` })),
+          // { text: `Exercise :${day.fitness}` },
+          // { text: `Steps` },
+          day.description.map(descriptions=>descriptions.map(description=>({ text: `${description}` }))),
           { text: '\n' }
         ]),
       ],

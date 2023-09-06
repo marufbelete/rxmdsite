@@ -8,26 +8,58 @@ const { sendFitnessPlanPdf } = require("../helper/send_email");
 
 async function parseFitnessPlan(prompt) {
   let str = await createCompletion(prompt);
-  let strWithoutNumber = str.replace(/\d+/g, '');
-  let days = strWithoutNumber.split(';').filter(Boolean);
-     while(days.length<29){
-        str = await createCompletion(prompt)
-        strWithoutNumber = str.replace(/\d+/g, '');
-        let otherdays = strWithoutNumber.split(';').filter(Boolean);
-        days=[...days,...otherdays]
+  let strFitness = str.split(';');
+  strFitness = strFitness.map((str) => {
+    const parts = str.split(':');
+    if (parts.length > 1) {
+      return parts[1].trim();
+    }
+    return str; 
+  });
+  console.log(strFitness)
+  // let days = strWithoutNumber.split(';').filter(Boolean);
+     while(strFitness.length<20){
+      let str = await createCompletion(prompt);
+      let otherStrFitness = str.split(';');
+      otherStrFitness = otherStrFitness.map((str) => {
+        const parts = str.split(':');
+        if (parts.length > 1) {
+          return parts[1].trim();
+        }
+        return str; 
+      });
+        strFitness=[...strFitness,...otherStrFitness]
   }
   const plan_format = [];
-  console.log(days)
-  for (let index = 0; index < days.length; index++) {
-    const fitness =days[index].replace(/^[,.\s]+/, '').trim()
+  const rest_day = [3,7,10,13,16,19,23,26,30];
+  console.log(strFitness)
+  
+  for (let index = 0; index < strFitness.length+9; index++) {
+    const fitnesses =strFitness[index].split(',')
     const dayObj = {
-            day: `Day ${index + 1}`,
-            fitness: fitness
+            day: `Day ${index + 1}`
           };
-          const prompt = `please create a detailed instructions steps for ${fitness} each step seprated by ; like this 1. Put on a comfortable pair of running shoes;2. Set a timer for the desired amount of minutes. With under 200 words.`
-                  const description = await createCompletion(prompt)
-                  dayObj['description'] = description.split(';');
-                  plan_format.push(dayObj);
+          if(rest_day.includes(index+1)){
+            dayObj['description'] = ["Rest Day"];
+            plan_format.push(dayObj);
+            continue
+          }
+          const  descriptions= [];
+          for(let fitness of fitnesses){
+            const prompt = `please create a detailed instructions steps for ${fitness} each step must seprated by ; like this 1. Stand with your feet shoulder-width apart, toes pointing slightly outward; 2.Engage your core by pulling your belly button in towards your spine; With under 300 words.`
+            const description = await createCompletion(prompt)
+            let description_parsed = description.split(';');
+            description_parsed.unshift("Steps:");
+            description_parsed.unshift(`Exercise: ${fitness}`);
+            // console.log(description_parsed);
+           
+            console.log(description_parsed)
+            descriptions.push(description_parsed)
+
+          }
+
+          dayObj['description'] = descriptions;
+          plan_format.push(dayObj);
   }
   return plan_format;
 }
@@ -54,6 +86,7 @@ exports.addFitness = async (req, res, next) => {
     
     return
   } catch (err) {
+    console.log(err)
     await User.update({
       exercisePlan: true
     }, {
@@ -83,8 +116,9 @@ const fitnessPrmopmt = (req) => {
   if (req.body.healthCondition) prompt += `has the following health connditions ${req.body.healthCondition}`;
   if (req.body.currentMedication) prompt += `is currently taking the following medications or substances ${req.body.currentMedication}, `;
   
-  prompt +="please create a list of 10 days fitness plan. The structure should look like 1, skipping rope; each day semicolon -separated with rest day added according to the given information."
+  prompt +="please create a list of 7 days fitness plan. The structure should look like this Day-1. Squats 5 sets of 10, Box Jumps 5 sets of 15, Lunges 3 sets of 10 on each leg, Skipping Rope; each day must be separated by comma"
   return prompt
+
 }
 
 
