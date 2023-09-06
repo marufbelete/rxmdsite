@@ -61,6 +61,7 @@ async function parseFitnessPlan(prompt) {
             let description_parsed = description.split(';');
             description_parsed.unshift("Steps:");
             description_parsed.unshift(`Exercise: ${fitness}`);
+            description_parsed.push('');
             // console.log(description_parsed);
            
             console.log(description_parsed)
