@@ -31,15 +31,24 @@ async function parseFitnessPlan(prompt) {
         strFitness=[...strFitness,...otherStrFitness]
   }
   const plan_format = [];
-  const rest_day = [3,7,10,13,16,19,23,26,30];
+  let restDay="rest"
+  myArray.splice(3, 0, restDay);
+  myArray.splice(7, 0, restDay);
+  myArray.splice(10, 0, restDay);
+  myArray.splice(13, 0, restDay);
+  myArray.splice(16, 0, restDay);
+  myArray.splice(19, 0, restDay);
+  myArray.splice(23, 0, restDay);
+  myArray.splice(26, 0, restDay);
+  myArray.splice(30, 0, restDay);
   console.log(strFitness)
   
-  for (let index = 0; index < strFitness.length+9; index++) {
+  for (let index = 0; index < strFitness.length; index++) {
     const fitnesses =strFitness[index].split(',')
     const dayObj = {
             day: `Day ${index + 1}`
           };
-          if(rest_day.includes(index+1)){
+          if(fitnesses[index]==restDay){
             dayObj['description'] = ["Rest Day"];
             plan_format.push(dayObj);
             continue
