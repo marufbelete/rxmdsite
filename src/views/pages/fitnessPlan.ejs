@@ -275,9 +275,20 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-12">
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="col-12 mb-2">
+                      <span>Note: This process may take a few minutes. We kindly request your patience and await an email following your order.</span>
                     </div>
+                    <div class="col-12">   
+                      <button type="submit" class="btn btn-primary">
+                        <span id="create_fitness_text">Submit</span> 
+                        <span id="create_fitness_text_spin" class="d-none">
+                          <span class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true"></span>
+                          Loading...
+                        </span>
+                      </button>
+                    </div>
+                   
                   </div>
                 </form>
                 <!--Form Validation-->

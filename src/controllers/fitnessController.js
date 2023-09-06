@@ -16,7 +16,6 @@ async function parseFitnessPlan(prompt) {
     }
     return str; 
   });
-  console.log(strFitness)
   // let days = strWithoutNumber.split(';').filter(Boolean);
      while(strFitness.length<20){
       let str = await createCompletion(prompt);
@@ -41,7 +40,6 @@ async function parseFitnessPlan(prompt) {
   strFitness.splice(23, 0, restDay);
   strFitness.splice(26, 0, restDay);
   strFitness.splice(30, 0, restDay);
-  console.log(strFitness)
   
   for (let index = 0; index < strFitness.length; index++) {
     const fitnesses =strFitness[index].split(',')
@@ -61,10 +59,8 @@ async function parseFitnessPlan(prompt) {
             let description_parsed = description.split(';');
             description_parsed.unshift("Steps:");
             description_parsed.unshift(`Exercise: ${fitness}`);
-            description_parsed.push('');
+            description_parsed.push(' ');
             // console.log(description_parsed);
-           
-            console.log(description_parsed)
             descriptions.push(description_parsed)
 
           }

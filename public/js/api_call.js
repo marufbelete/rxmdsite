@@ -1750,7 +1750,10 @@ $('#copy_url_btn').click(function() {
 
 //meal-plan
 $("#meal_plan_form").submit(function(event){
-  event.preventDefault(); // prevent the form from submitting normally
+  event.preventDefault();
+   // prevent the form from submitting normally
+   $("#create_meal_text").addClass("d-none");
+   $("#create_meal_text_spin").removeClass("d-none");
   const formData = $(this).serializeArray();
   var formDataObj = {};
 $.each(formData, function(index, field) {
@@ -1766,15 +1769,18 @@ $.ajax({
    location.href='/account'
   },
   error: function (data) {
-    $("#create_appointment_text").removeClass("d-none");
-    $("#create_appointment_text_spin").addClass("d-none");
+    $("#create_meal_text").removeClass("d-none");
+    $("#create_meal_text_spin").addClass("d-none");
   },
 });
 
 })
 //fitness-plan
 $("#fitness_plan_form").submit(function(event){
-  event.preventDefault(); // prevent the form from submitting normally
+  event.preventDefault();
+   // prevent the form from submitting normally
+   $("#create_fitness_text").addClass("d-none");
+   $("#create_fitness_text_spin").removeClass("d-none");
   const formData = $(this).serializeArray();
   var formDataObj = {};
 $.each(formData, function(index, field) {
@@ -1789,8 +1795,8 @@ $.ajax({
    location.href='/account'
   },
   error: function (data) {
-    $("#create_appointment_text").removeClass("d-none");
-    $("#create_appointment_text_spin").addClass("d-none");
+    $("#create_fitness_text").removeClass("d-none");
+    $("#create_fitness_text_spin").addClass("d-none");
   },
 });
 
