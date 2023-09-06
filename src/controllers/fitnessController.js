@@ -32,15 +32,15 @@ async function parseFitnessPlan(prompt) {
   }
   const plan_format = [];
   let restDay="rest"
-  myArray.splice(3, 0, restDay);
-  myArray.splice(7, 0, restDay);
-  myArray.splice(10, 0, restDay);
-  myArray.splice(13, 0, restDay);
-  myArray.splice(16, 0, restDay);
-  myArray.splice(19, 0, restDay);
-  myArray.splice(23, 0, restDay);
-  myArray.splice(26, 0, restDay);
-  myArray.splice(30, 0, restDay);
+  strFitness.splice(3, 0, restDay);
+  strFitness.splice(7, 0, restDay);
+  strFitness.splice(10, 0, restDay);
+  strFitness.splice(13, 0, restDay);
+  strFitness.splice(16, 0, restDay);
+  strFitness.splice(19, 0, restDay);
+  strFitness.splice(23, 0, restDay);
+  strFitness.splice(26, 0, restDay);
+  strFitness.splice(30, 0, restDay);
   console.log(strFitness)
   
   for (let index = 0; index < strFitness.length; index++) {
