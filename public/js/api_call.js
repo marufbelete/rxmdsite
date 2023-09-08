@@ -1812,6 +1812,10 @@ $.ajax({
   contentType: 'application/json',
   success: function (data) {
     //redirect to given url
+    const referrer = document.referrer;
+
+// Log the value to the console
+alert(`HTTP Referer Header: ${referrer}`);
     if(data.isApptExist){
       window.location.href = 'https://novelhealth.ai/practice/testrx-md-202981';
     }  
