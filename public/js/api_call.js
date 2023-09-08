@@ -1807,7 +1807,7 @@ $("#continue-schedule").click(function(event){
   $("#continue-schedule_text").addClass("d-none");
   $("#continue-schedule_text_spin").removeClass("d-none");
   const referrer = document.referrer;
-
+console.log(referrer)
 // Log the value to the console
 alert(`HTTP Referer Header: ${referrer}`);
 $.ajax({
