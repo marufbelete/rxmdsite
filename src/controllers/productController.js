@@ -54,6 +54,7 @@ exports.addProduct = async (req, res, next) => {
 
 exports.getProduct = async (req, res, next) => {
   try {
+    const user = await getUser(id);
     if(user.left_appointment){
       return res.redirect('/success')
     }
@@ -62,7 +63,6 @@ exports.getProduct = async (req, res, next) => {
     };
     const id = req.user.sub;
     const paymentInfo=await PaymenInfo.findAll({where:{userId:id}})
-    const user = await getUser(id);
     let products;
     if(user.appointment){
       products = await getTreatmentType(options)
