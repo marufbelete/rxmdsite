@@ -570,13 +570,14 @@ exports.isAppointmentLeft = async(req, res, next) => {
     await User.update({
       left_appointment:false},
      {where:{id:req?.user?.sub}})
-  //  return res.json({isApptExist:true})
-  res.setHeader('X-Source', 'https://shielded-citadel-34904.herokuapp.com/success');
-  // Redirect to the third-party URL
-  return res.redirect(302, 'https://novelhealth.ai/practice/testrx-md-202981');
+   return res.json({isApptExist:true})
+  // res.setHeader('X-Source', 'https://shielded-citadel-34904.herokuapp.com/success');
+  // // Redirect to the third-party URL
+  // return res.redirect(302, 'https://novelhealth.ai/practice/testrx-md-202981');
   }
+  return res.json({isApptExist:false})
 
-  return res.redirect('/checkout');
+  // return res.redirect('/checkout');
 }
 catch(err){
   next(err)

@@ -1806,20 +1806,11 @@ $("#continue-schedule").click(function(event){
   event.preventDefault(); // prevent the form from submitting normally
   $("#continue-schedule_text").addClass("d-none");
   $("#continue-schedule_text_spin").removeClass("d-none");
-  const referrer = document.referrer;
-console.log(referrer)
-// Log the value to the console
-alert(`HTTP Referer Header: ${referrer}`);
 $.ajax({
   url: `${base_url}/checkappt`,
   method: "GET",
   contentType: 'application/json',
   success: function (data) {
-    //redirect to given url
-    // const referrer = document.referrer;
-
-// Log the value to the console
-alert(`HTTP Referer Header: ${referrer}`);
     if(data.isApptExist){
       window.location.href = 'https://novelhealth.ai/practice/testrx-md-202981';
     }  
