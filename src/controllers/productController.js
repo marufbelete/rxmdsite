@@ -54,6 +54,9 @@ exports.addProduct = async (req, res, next) => {
 
 exports.getProduct = async (req, res, next) => {
   try {
+    if(user.left_appointment){
+      return res.redirect('/success')
+    }
     const options = {
       order: [["product_name", "ASC"]],
     };
