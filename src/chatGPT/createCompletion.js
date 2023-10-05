@@ -5,7 +5,7 @@ exports.createCompletion = async (prompt) => {
           model: 'text-davinci-003',
           temperature:0.2,
           prompt: prompt,
-          max_tokens: 3700,
+          max_tokens:1000,
           temperature: 0.5,
           frequency_penalty: 0.5,
           presence_penalty: 0.5,
