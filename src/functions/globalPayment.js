@@ -1,6 +1,6 @@
 const axios = require('axios');
-const GLOBAL_PAY_URL = 'https://apis.sandbox.globalpay.com/ucp';
-// const GLOBAL_PAY_URL = 'https://apis.globalpay.com/ucp';
+// const GLOBAL_PAY_URL = 'https://apis.sandbox.globalpay.com/ucp';
+const GLOBAL_PAY_URL = 'https://apis.globalpay.com/ucp';
 const crypto = require('crypto');
 const { handleError } = require('../helper/handleError');
 

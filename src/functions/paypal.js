@@ -1,8 +1,7 @@
 const paypal = require('paypal-rest-sdk');
 const {deemAffiliate}=require('../helper/user')
-const webhook_id='7Y332251A4088160W'
 paypal.configure({
-  'mode': 'sandbox', // Change to 'live' for production
+  'mode': 'live', // Change to 'live' for production
   'client_id': process.env.PAYPAL_CLIENT_ID,
   'client_secret': process.env.PAYPAL_CLIENT_SECRET
 });
@@ -40,7 +39,7 @@ const signature = req.headers;
 const eventBody = req.body;
 const batchId=eventBody.resource.batch_header.payout_batch_id
 const verify=await new Promise((resol,rej)=>{
-paypal.notification.webhookEvent.verify(signature,eventBody,webhook_id,async function (error, response) {
+paypal.notification.webhookEvent.verify(signature,eventBody,process.env.WEBHOOK_ID,async function (error, response) {
   if (error) {
     rej(false)
   } 
