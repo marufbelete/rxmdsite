@@ -37,7 +37,7 @@ const { paySubscriptionCron } = require("./controllers/subscription");
 process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
 var corsOptions = {
   origin: [
-    "http://localhost:8081",
+    "https://www.testrxmd.com",
     "https://rxmdsite-production.up.railway.app",
     "https://shielded-citadel-34904.herokuapp.com",
     "http://localhost:7000"],

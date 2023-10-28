@@ -1,11 +1,8 @@
 // const Meal = require("../models/mealModel");
 const { createCompletion } = require('../chatGPT/createCompletion');
 const User = require("../models/userModel");
-// const { runJob } = require("../helper/cron_job");
 const { getUser } = require("../helper/user");
 const { createMealPlanPDF } = require("../helper/fill_pdf");
-// const moment = require("moment");
-// const cron = require('node-schedule');
 const { sendMealPlanPdf } = require("../helper/send_email");
 const { handleError } = require("../helper/handleError");
 
@@ -22,7 +19,6 @@ async function parseMealPlan(prompt) {
   const plan_format = [];
 
   for (let index = 0; index < days.length; index++) {
-    // meal = meal.map((str) => str.);
     const day = days[index].replace(/^[,.\s]+/, '');
     const meals = day.split(',');
     const dayObj = {
