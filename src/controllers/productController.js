@@ -6,7 +6,7 @@ const path = require("path");
 const User = require("../models/userModel");
 const PaymenInfo=require("../models/paymentInfoModel")
 const { removeEmptyPair } = require("../helper/reusable");
-const { getUser, getTreatmentType, getProductType, appointmentUnpaidExist } = require("../helper/user");
+const { getUser, getTreatmentType, getProductType, appointmentUnpaidExist, getProductAndTreatmentType } = require("../helper/user");
 exports.addProduct = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -65,7 +65,7 @@ exports.getProduct = async (req, res, next) => {
     const paymentInfo=await PaymenInfo.findAll({where:{userId:id}})
     let products;
     if(user.appointment){
-      products = await getTreatmentType(options)
+      products = await getProductAndTreatmentType(options)
     }
     else{
       products = await getProductType(options)

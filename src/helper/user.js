@@ -11,6 +11,7 @@ const Affiliate = require("../models/affiliateModel");
 const Product = require("../models/productModel");
 const Appointment = require("../models/appointmentModel");
 const Fitness = require("../models/fitnessModel");
+const { Op } = require("sequelize");
 const isEmailExist = async (email) => {
   const user = await User.findOne({
     where: { email: email },
@@ -161,6 +162,11 @@ const getTreatmentType=async(options={})=>{
     ...options,where:{type:'treatment'}});
   return treatment
 }
+const getProductAndTreatmentType=async(options={})=>{
+  const treatment=await Product.findAll({
+    ...options,where:{type:{[Op.or]:['product','treatment']}}});
+  return treatment
+}
 const getPlanType=async(options={})=>{
   const treatment=await Product.findAll({
     ...options});
@@ -193,6 +199,7 @@ module.exports = {
   isUserAdmin,
   isTokenValid,
   // isIntakeFormComplted,
+  getProductAndTreatmentType,
   createSubscription,
   get2faVerfication,
   verify2faVerfication,
