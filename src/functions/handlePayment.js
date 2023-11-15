@@ -145,13 +145,14 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       }, 47000);
     })
    const Response=await Promise.race([excute_respone, timeout])
-   console.log(Response.getMessages())
+   
     if (Response != null) {
       if (Response.getMessages().getResultCode() == ApiContracts.MessageTypeEnum.OK) {
         const customerPaymentProfileIdList = Response.getCustomerPaymentProfileIdList();
     const paymentProfileId = customerPaymentProfileIdList.getNumericString()[0].valueOf();
     console.log(`Payment profile created with ID: ${paymentProfileId}`);
-       return {customerProfileId:Response.getCustomerProfileId(),
+       return {
+        customerProfileId:Response.getCustomerProfileId(),
         customerPaymentProfileId:paymentProfileId}
 			} 
       else {
@@ -422,6 +423,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
           }
           handleError("payment gatway not responding", 404);
     }
+
     const updateSubscriptionPaymentAmount=async(subscriptionId)=> {
 
       const arbSubscription = new ApiContracts.ARBSubscriptionType();

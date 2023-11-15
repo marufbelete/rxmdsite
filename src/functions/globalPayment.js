@@ -145,7 +145,8 @@ const chargeGlobalCreditCardFromInfo=async(userId,amount,customerPaymentProfileI
       if(error?.data){
         handleCodeError(error)
       }
-        handleErrorStatus(error)  }
+        handleErrorStatus(error)  
+      }
 }
 
 const saveGlobalCreditCardInfo=async(userId,paymentInfo)=>{
