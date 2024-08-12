@@ -1134,9 +1134,9 @@ const loadUserPaymentMethod=()=>{
         if (is_meal_plan_exist) {
           return location.href = '/meal-plan'
         }
-        if (is_appointment_exist) {
-          return location.href = '/success'
-          }
+        // if (is_appointment_exist) {
+        //   return location.href = '/success'
+        //   }
         else {
           $("#order_success_text").text("Close")
           $("#order-confirmation").addClass("btn-secondary").removeClass("btn-primary")
