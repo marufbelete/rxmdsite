@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  // const base_url = "http://localhost:7000";
+  const base_url = "http://localhost:7000";
+  // const base_url = "https://www.testrxmd.com"
   // const base_url = "https://shielded-citadel-34904.herokuapp.com"
-  const base_url = "https://www.testrxmd.com"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
 
@@ -964,6 +964,7 @@ $("#user_affiliate_search").on("click", function (event) {
     }
     return null;
   }
+  
 const loadUserPaymentMethod=()=>{
   $.ajax({
     url: `${base_url}/getmypaymentmethod`,
@@ -1027,7 +1028,6 @@ const loadUserPaymentMethod=()=>{
       product_ordered.push({ productId: $(this).data('productid') })
     })
     if (product_ordered.length === 0) {
-
       $("#select-product-error").removeClass("d-none")
       $('body').scrollTo('.tbl-shopping-cart');
       return
@@ -1143,14 +1143,20 @@ const loadUserPaymentMethod=()=>{
           $('#order_success_text').attr('data-bs-dismiss', 'modal');
           $("#order-confirmation").removeClass("procced-to-checkout")
           $('#close-mod-btn').removeClass('d-none');
-          $("#order-success-message").html(function () {
-            return `
-            Thank you for renewing  ${product_names.slice(0, -1).join(', ')}${product_names.length > 1 ?
-                ' and ' : ''}${product_names[product_names.length - 1]} with TestRxMD.
-            We will begin working on your order immediately. If you have any questions or concerns, please call (812) 296-6499.
-            `;
-          });
-          $("#order_success_modal").modal('show')
+
+          
+          // $('.text-center').removeClass('d-none');
+          // Then trigger the click event on the anchor link
+          $('.ajaxload-popup').trigger('click');
+          
+          // $("#order-success-message").html(function () {
+          //   return `
+          //   Thank you for renewing  ${product_names.slice(0, -1).join(', ')}${product_names.length > 1 ?
+          //       ' and ' : ''}${product_names[product_names.length - 1]} with TestRxMD.
+          //   We will begin working on your order immediately. If you have any questions or concerns, please call (812) 296-6499.
+          //   `;
+          // });
+          // $("#order_success_modal").modal('show')
           $("#checkout-form-firstname-on-cc").val('')
           $("#checkout-form-lastname-on-cc").val('')
           $("#checkout-form-cvc").val('')

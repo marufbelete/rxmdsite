@@ -38,7 +38,7 @@ const chargeCreditCard=async(paymentInfo)=>{
   createRequest.setTransactionRequest(transactionRequestType);
   
     const ctrl = new ApiControllers.CreateTransactionController(createRequest.getJSON());
-    ctrl.setEnvironment(SDKConstants.endpoint.production);
+    ctrl.setEnvironment(SDKConstants.endpoint.sandbox);
     const excute_respone=new Promise((resolve, reject) => {
       ctrl.execute((error, res) => {
         const apiResponse = ctrl.getResponse();
@@ -124,7 +124,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
 	createRequest.setMerchantAuthentication(merchantAuthenticationType);
 	
 	const ctrl = new ApiControllers.CreateCustomerProfileController(createRequest.getJSON());
- ctrl.setEnvironment(SDKConstants.endpoint.production);
+ ctrl.setEnvironment(SDKConstants.endpoint.sandbox);
     const excute_respone = new Promise((resolve, reject) => {
       ctrl.execute((error, res) => {
         const apiResponse = ctrl.getResponse();
@@ -191,7 +191,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
     
     
       const ctrl = new ApiControllers.CreateCustomerPaymentProfileController(createRequest.getJSON());
-     ctrl.setEnvironment(SDKConstants.endpoint.production);
+     ctrl.setEnvironment(SDKConstants.endpoint.sandbox);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();
@@ -242,7 +242,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       createRequest.setTransactionRequest(transactionRequestType);
     
       const ctrl = new ApiControllers.CreateTransactionController(createRequest.getJSON());
-      ctrl.setEnvironment(SDKConstants.endpoint.production);
+      ctrl.setEnvironment(SDKConstants.endpoint.sandbox);
       const excute_respone = new Promise((resolve, reject) => {
         ctrl.execute((error, res) => {
           const apiResponse = ctrl.getResponse();
@@ -317,7 +317,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       createRequest.setMerchantAuthentication(merchantAuthenticationType);
       createRequest.setSubscription(arbSubscription);
       const ctrl = new ApiControllers.ARBCreateSubscriptionController(createRequest.getJSON());
-        ctrl.setEnvironment(SDKConstants.endpoint.production);
+        ctrl.setEnvironment(SDKConstants.endpoint.sandbox);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();
@@ -356,7 +356,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       getRequest.setSubscriptionId(subscriptionId);
 
         const ctrl = new ApiControllers.ARBGetSubscriptionController(getRequest.getJSON());
-        ctrl.setEnvironment(SDKConstants.endpoint.production);
+        ctrl.setEnvironment(SDKConstants.endpoint.sandbox);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();
@@ -393,7 +393,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       getRequest.setSubscriptionId(subscriptionId);
 
         const ctrl = new ApiControllers.ARBGetSubscriptionStatusController(getRequest.getJSON());
-        ctrl.setEnvironment(SDKConstants.endpoint.production);
+        ctrl.setEnvironment(SDKConstants.endpoint.sandbox);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();
@@ -435,7 +435,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       updateRequest.setSubscription(arbSubscription);
 
      const ctrl = new ApiControllers.ARBUpdateSubscriptionController(updateRequest.getJSON());
-      ctrl.setEnvironment(SDKConstants.endpoint.production);
+      ctrl.setEnvironment(SDKConstants.endpoint.sandbox);
       const executeResponse = new Promise((resolve, reject) => {
         ctrl.execute((error, res) => {
           const apiResponse = ctrl.getResponse();
@@ -472,7 +472,7 @@ customerProfileType.setMerchantCustomerId(customerProfileId);
       cancelRequest.setSubscriptionId(subscriptionId);
 
         const ctrl = new ApiControllers.ARBCancelSubscriptionController(getRequest.getJSON());
-        ctrl.setEnvironment(SDKConstants.endpoint.production);
+        ctrl.setEnvironment(SDKConstants.endpoint.sandbox);
         const excute_respone = new Promise((resolve, reject) => {
           ctrl.execute((error, res) => {
             const apiResponse = ctrl.getResponse();

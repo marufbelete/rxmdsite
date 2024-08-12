@@ -421,13 +421,14 @@
                             initial bloodwork/labs (we can use labs that have been
                             drawn in the last 3 months). Therapies vary in cost but start at <% const
                               minPrice=treatment.reduce((min, product)=> {
-                              if (product.price < min) { return product.price; } return min; }, Infinity); const
-                                minTRTPrice=treatment.reduce((min, product)=> {
+                              if (product.price < min) { return product.price; } return min; }, Infinity); 
+                              const minTRTPrice=treatment.reduce((min, product)=> {
                                 if (product.product_name.toLowerCase().includes('trt')&&product.price < min) { return
-                                  product.price; } return min; }, Infinity); %>
+                                  product.price; } return min; }, Infinity);
+                                   %>
                                   $<%= minPrice %>
                                     /month (TRT specifically
-                                    starts at $<%= minTRTPrice %>/month). All subsequent lab draws/consults would be
+                                    starts at $200/month). All subsequent lab draws/consults would be
                                       included in your monthly
                                       rate for
                                       whatever therapy you choose.
