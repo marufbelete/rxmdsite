@@ -157,7 +157,11 @@ $(document).ready(function () {
           localStorage.setItem("isAdmin", "false");
         data?.info?.role?.role?.toLowerCase() === "admin" &&
           localStorage.setItem("isAdmin", "true");
-        location.href = '/';
+          // !data.intake && localStorage.setItem("toCheckout", "true");
+          // location.href = '/';
+          //same as above
+          if(!data.intake)return location.href = '/checkout'
+          location.href = '/';
       },
       error: function (data) {
         $("#login_error").removeClass("d-none");
@@ -257,6 +261,7 @@ $(document).ready(function () {
       },
     });
   });
+
   //contact form
   $("#submit_contact_form").on("click", function (event) {
     event.preventDefault();
@@ -332,6 +337,7 @@ function ValidateEmail(email) {
       "This account not associated with google please use your email and password to login"
     );
   }
+
   if (myParam == "Google-Account-Not-Active") {
     $("#login_error").removeClass("d-none");
     $("#login_error").text(
@@ -1438,6 +1444,7 @@ function getQrCode(route){
     },
   });
 }
+
 function getOtp(){
   $('#get_paid_error').addClass('d-none')
   console.log("hello")
@@ -1906,6 +1913,7 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
             }
          
         });
+
 function sendMessageToBot(message){
     $.ajax({
         url: `${base_url}/chatcompliation`,

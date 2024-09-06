@@ -42,12 +42,13 @@ exports.googlePassport = (passport) => {
     )
   );
 };
+
 exports.issueGoogleToken = async (req, res, next) => {
   try {
     if(!req?.user[0]?.isActive){
       return res.redirect(
         "/login?error=" + encodeURIComponent("Google-Account-Not-Active")
-      );      }
+      );}
     if (req?.user[0]?.isLocalAuth) {
       return res.redirect(
         "/login?error=" + encodeURIComponent("Google-Auth-Not-Exist")
@@ -69,7 +70,8 @@ exports.issueGoogleToken = async (req, res, next) => {
         expires:new Date(cookie_expires),
         secure: true,
       })
-      // if(req?.user[0]?.intake) 
+      if(!req?.user[0]?.intake)
+        return res.redirect("/checkout")
       return res.redirect("/")
       // return res.redirect("/?intakeFilled=" + encodeURIComponent("false"));
   } catch (err) {

@@ -230,8 +230,20 @@
           </div>
         </div>
       </section>
+
+
+      <div class="panel-footer py-5">
+        <div class="row text-center py-5">
+          <div class="col-xs-12">
+            <button type='submit' id="get-started-now" class="btn btn-theme-colored1 btn-lg btn-block">
+            <a href="https://hipaa.jotform.com/212587273457161?token="
+            class="ajaxload-popup text-white py-3 px-3">Get Started Now!</a>
+            </button>
+          </div>
+        </div>
+      </div>
       <!-- preloading -->
-      <div id="loading">
+      <!-- <div id="loading">
         <div class="col-3 load-cont">
           <div class="snippet" data-title="dot-pulse">
             <div class="stage">
@@ -239,18 +251,18 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- end preloading -->
-      <section>
+      <!-- <section>
         <div class="container">
-          <div class="section-content">
+          <div class="section-content"> -->
             <!-- <div class="text-center">
               <h5>*** If you are a new patient, you must complete the <a
                   src="https://hipaa.jotform.com/212587273457161?token=<" id="jotform-hover"
                   class="ajaxload-popup text-success">
                   <u>Registration Form</u></a> before purchasing the Labwork &amp; Telehealth Consult ***</h5>
             </div> -->
-            <form id="checkout-form" action="/authorizeNet" method="post">
+            <!-- <form id="checkout-form" action="/authorizeNet" method="post">
               <div class="row mt-30">
                 <div class="col-md-12 mt-30">
                   <h3>Your order</h3>
@@ -287,7 +299,7 @@
                   <div class="d-none text-center" id="select-product-error">
                     <h5 id="select-product-error-text">Please select one or more product</h5>
                   </div>
-                </div>
+                </div> -->
 
                 <!-- <div id="payment_info_next" class="row text-center py-3">
                   <div class="col-xs-12">
@@ -311,7 +323,7 @@
                     Apply My Discount
                     <input style="font-size: 25px;" type="checkbox" id="applyDiscountCheckbox" value="true">
                   </label> -->
-                  <div id="check_exist_payment" class="d-none">
+                  <!-- <div id="check_exist_payment" class="d-none">
                     <h2>Select a Payment Card</h2>
                     <div id="payment_card_list">
                     </div>
@@ -319,10 +331,10 @@
                       <input style="font-size: 25px;" type="checkbox" id="otherPaymentCheckbox" name="otherPayment"
                         value="true">
                     </label>
-                  </div>
+                  </div> -->
 
 
-                  <div class="col-md-12 mt-60" id="use_new_payment">
+                  <!-- <div class="col-md-12 mt-60" id="use_new_payment">
                     <div class="card payment-method">
                       <div class="card-header text-center">
                         <h3>Payment Information</h3>
@@ -399,9 +411,9 @@
                               <div class="card-header py-3 text-center">
                                 <h4 class="mb-0">Billing Address</h4>
                               </div>
-                              <div id="billingAddress" class="card-body">
+                              <div id="billingAddress" class="card-body"> -->
                                 <!-- 2 column grid layout with text inputs for the first and last names -->
-                                <div class="row mb-4">
+                                <!-- <div class="row mb-4">
                                   <div class="col">
                                     <div class="form-outline">
                                       <input type="text" id="checkout-form-firstname" class="form-control"
@@ -416,22 +428,16 @@
                                       <label class="form-label" for="checkout-form-lastname">Last name</label>
                                     </div>
                                   </div>
-                                </div>
+                                </div> -->
 
                                 <!-- Email input -->
-                                <div class="form-outline mb-4">
+                                <!-- <div class="form-outline mb-4">
                                   <input type="email" id="checkout-form-email" class="form-control"
                                     value="<%=billing_info?.email%>" />
                                   <label class="form-label" for="checkout-form-email">Email</label>
                                 </div>
 
-                                <!-- Address1 input -->
-                                <!-- <div class="form-outline mb-4">
-                                <input type="text" id="checkout-form-address" class="form-control" />
-                                <label class="form-label" for="checkout-form-address">Address Line 1</label>
-                              </div> -->
-
-                                <!-- Address2 input -->
+                             
                                 <div class="row mb-4">
                                   <div class="col">
                                     <div class="form-outline">
@@ -601,18 +607,18 @@
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <!-- intake form -->
-                  <div class="text-center d-none">
+                  <!-- <div class="text-center d-none">
                     <h5>*** If you are a new patient, you must complete the 
                       <a href="https://hipaa.jotform.com/212587273457161?token="
                       class="ajaxload-popup text-white">Registration Form</a>
                         <u>Registration Form</u></a> before purchasing the Labwork &amp; Telehealth Consult ***</h5>
-                      </div>
+                      </div> -->
 
                 <!-- </div> -->
-              </div>
+              <!-- </div>
             </form>
           </div>
         </div>
@@ -622,9 +628,9 @@
         <div class="spinner-border text-primary" role="status">
         </div>
         <h2>Loading....</h2>
-      </div>
+      </div> -->
       <!-- order success modal -->
-      <div style="max-height: 500px; margin:40px 0px;" class="modal fade" id="order_success_modal" tabindex="-1"
+      <!-- <div style="max-height: 500px; margin:40px 0px;" class="modal fade" id="order_success_modal" tabindex="-1"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -654,13 +660,13 @@
                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                   Loading...
                 </span>
-              </button>
+              </button> -->
               <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-            </div>
+            <!-- </div>
           </div>
 
         </div>
-      </div>
+      </div> -->
       <!-- end main-content -->
 
       <!-- Footer -->

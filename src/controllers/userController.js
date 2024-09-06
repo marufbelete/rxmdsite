@@ -179,6 +179,7 @@ exports.loginUser = async (req, res, next) => {
           last_name: user.last_name,
           role: user.role,
           email: user.email,
+          intake: user.intake
         };
         bouncer.reset(req);
         const token_expiry=rememberme?
@@ -192,7 +193,6 @@ exports.loginUser = async (req, res, next) => {
           expires:cookie_expires,
           secure: true,
         })
-      
         return res
           .status(200)
           .json({ auth: true, info});
@@ -393,7 +393,7 @@ exports.confirmEmail = async (req, res, next) => {
       const userInfo = await User.findOne({ where: { email: user.email } });
       userInfo.isEmailConfirmed = true;
       await userInfo.save();
-      return res.redirect("/");
+      return res.redirect("/checkout");
     }
     return res.redirect("/login");
   } catch (err) {
