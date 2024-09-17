@@ -1,7 +1,7 @@
 $(document).ready(function () {
   // const base_url = "http://localhost:7000";
   // const base_url = "https://www.testrxmd.com"
-  const base_url = "https://rxmdsite.onrender.com"
+  const base_url = "https://test-test-8e04.up.railway.app"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
 

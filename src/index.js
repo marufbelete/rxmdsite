@@ -39,7 +39,7 @@ var corsOptions = {
   origin: [
     "https://www.testrxmd.com",
     "https://rxmdsite-production.up.railway.app",
-    "https://rxmdsite.onrender.com",
+    "https://test-test-8e04.up.railway.app",
     "http://localhost:7000"],
 };
 
