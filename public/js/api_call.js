@@ -1956,7 +1956,7 @@ $('.playlist-item').on('click', function () {
   
             // Update the main video player source
             $('#main-video-source').attr('src', videoUrl);
-            $('#main-video-title').html(`${videoTitle} <span>@${videoDate}</span>`);
+            $('#main-video-title').html(`${videoTitle} <span>@${videoDate.toDateString()}</span>`);
   
             // Reload the video with the new source
             const mainVideo = document.getElementById('main-video');
