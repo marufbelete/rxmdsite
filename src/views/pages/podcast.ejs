@@ -159,11 +159,11 @@
                 <div class="col-md-8">
                   <div class="video-container" style="text-align: center;">
                       <video id="main-video" controls style="width: 100%; max-width: 700px;aspect-ratio: 16 / 9;">
-                          <source src="<%= podcast.url%>" type="video/mp4">
+                          <source id="main-video-source" src="<%= podcast.url%>">
                           Your browser does not support the video tag.
                       </video>
                       <p class="text-title">
-                        <h4><%= podcast.title %> <span>@<%=new Date(podcast.createdAt).toDateString() %></span></h4>
+                        <h4 id="main-video-title"><%= podcast.title %> <span>@<%=new Date(podcast.createdAt).toDateString() %></span></h4>
                     </p>
                   </div>
               </div>
@@ -174,7 +174,7 @@
                 <div class="col-md-4">
                   <div class="playlist">
                       <% podcasts.forEach(function(podcast) { %>
-                          <a href="javascript:void(0)" class="playlist-item">
+                          <a href="javascript:void(0)" class="playlist-item" data-key="<%= podcast.video_key %>">
                               <div class="playlist-thumbnail">
                                   <img src="<%= podcast.thumbnail||`images/video-thumbnail.jpg` %>" alt="<%= podcast.title %>"/>
                               </div>

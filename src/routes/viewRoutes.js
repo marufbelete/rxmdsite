@@ -140,15 +140,12 @@ router.get("/podcast", async function (req, res) {
   const podcasts = await Podcast.findAll({
     order: [['createdAt', 'DESC']]
   });
-  const podcast=podcasts.pop()
-
-  if(podcast){
-    const videoUrl = await generatePresignedUrl(podcast.video_key);
-    podcast.url=videoUrl
+  const podcast_latest = podcasts.length > 0 ? podcasts[0] : null;
+  if(podcast_latest){
+    const videoUrl = await generatePresignedUrl(podcast_latest.video_key);
+    podcast_latest.url=videoUrl
   }
-  console.log(podcast)
-  console.log(podcast.url)
-  res.render(path.join(__dirname, "..", "/views/pages/podcast"),{podcast,podcasts});
+  res.render(path.join(__dirname, "..", "/views/pages/podcast"),{podcast:podcast_latest,podcasts});
 });
 
 //  UNUSED STORE ROUTES FOR USE LATER

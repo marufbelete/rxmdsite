@@ -1941,16 +1941,18 @@ if (chatBody.length > 0) {
 
 $('.playlist-item').on('click', function () {
     var key = $(this).data('key');
+    console.log(key)
     // Make an AJAX call to the API to fetch the video data based on the key
     $.ajax({
-        url: '/podcast',  // Update this with your actual API endpoint
+        url: `/podcast/${key}`,  // Update this with your actual API endpoint
         method: 'GET',
-        data: { videKey: key },
         success: function (response) {
+          console.log(response)
+          console.log(response.url,response.title,response.createdAt)
             // Assuming the API response contains the new video URL, title, and date
             const videoUrl = response.url;
             const videoTitle = response.title;
-            const videoDate = response.date;
+            const videoDate = response.createdAt;
   
             // Update the main video player source
             $('#main-video-source').attr('src', videoUrl);

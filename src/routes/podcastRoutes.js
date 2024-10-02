@@ -9,6 +9,7 @@ const fileStorage = multer.memoryStorage();
 
 const filefilter = (req, file, cb) => {
   const allowedMimeTypes = [
+    // Video MIME types
     'video/mp4',
     'video/x-matroska',
     'video/webm',
@@ -19,8 +20,18 @@ const filefilter = (req, file, cb) => {
     'video/mpeg',
     'video/3gpp',
     'video/x-flv',
+    
+    // Audio MIME types
+    'audio/mpeg',        // MP3
+    'audio/ogg',         // OGG
+    'audio/wav',         // WAV
+    'audio/webm',        // WebM
+    'audio/aac',         // AAC
+    'audio/flac',        // FLAC
+    'audio/x-ms-wma',    // WMA
+    'audio/x-wav'        // WAV (alternative)
 ];
-console.log(file.mimetype)
+
 if (allowedMimeTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {

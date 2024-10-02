@@ -1,21 +1,17 @@
 // Importing util functions
-const { uploadVideo, streamVideo, deleteVideo, generatePresignedUrl } = require('../helper/s3-file');
+const { uploadVideo, deleteVideo, generatePresignedUrl } = require('../helper/s3-file');
 const Podcast=require("../models/podcastModel.js")
 // Controller to save podcast in S3 and URL or key of the video in DB
 exports.addPodcast = async (req, res) => {
     try {
         const file = req.file; // Assuming you're using multer for file uploads
-       
         const videoKey = await uploadVideo(file);
-        console.log(videoKey)
-        console.log(req.file)
-        console.log(req.body)
         const podcast=await Podcast.create({
         video_key:videoKey,
         title:req.body.title
         })
   
-        res.status(200).json(podcast);
+       return res.status(200).json(podcast);
     } catch (error) {
         console.error('Error uploading podcast:', error);
         res.status(500).json({ error: 'Failed to upload podcast' });
@@ -30,8 +26,12 @@ exports.getPodcast = async (req, res) => {
         const podcast_data = await Podcast.findOne({
           where:{video_key:videoKey}
         });
-        const podcast={url:videoUrl,...podcast_data}
-        res.status(200).json(podcast);
+        const podcast={
+            url:videoUrl,
+            title:podcast_data.title,
+            createdAt:podcast_data.createdAt
+        }
+        return res.status(200).json(podcast);
     } catch (error) {
         console.error('Error streaming podcast:', error);
         res.status(500).json({ error: 'Failed to stream podcast' });

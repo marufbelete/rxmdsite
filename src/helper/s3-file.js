@@ -10,7 +10,7 @@ const bucketName = process.env.AWS_BUCKET_NAME;
 
 // Util function to upload videos to AWS S3
 async function uploadVideo(file) {
-    const key=`${Date.now()}_${file.originalname}`
+    const key=Date.now()
     const videoKey = `${process.env.AWS_FOLDER}/${key}`;
     const uploadParams = {
         Bucket: bucketName,
