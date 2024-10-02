@@ -88,9 +88,9 @@ $(document).ready(function () {
     isLoged === "true" && $("#logout_link").removeClass("d-none");
     isLoged !== "true" && $("#login_link").removeClass("d-none");
     isLoged !== "true" && $("#logout_link").addClass("d-none");
-    isLoged === "true" && isAffiliate!=="true" && $("#voltage_btn_title").text("Start Now");
-    isLoged !== "true" && $("#voltage_btn_link").attr("href","/register?to=affiliate");
-    isLoged === "true" && isAffiliate==="true" && $("#voltage_btn_title").text("My Link");
+    // isLoged === "true" && isAffiliate!=="true" && $("#voltage_btn_title").text("Start Now");
+    // isLoged !== "true" && $("#voltage_btn_link").attr("href","/register?to=affiliate");
+    // isLoged === "true" && isAffiliate==="true" && $("#voltage_btn_title").text("My Link");
     
     (isAdmin !== "true" || isLoged !== "true") &&
       $("#admin_link").addClass("d-none");
@@ -1939,7 +1939,129 @@ if (chatBody.length > 0) {
 }
    scrollBottom()
 
+$('.playlist-item').on('click', function () {
+    var key = $(this).data('key');
+    // Make an AJAX call to the API to fetch the video data based on the key
+    $.ajax({
+        url: '/podcast',  // Update this with your actual API endpoint
+        method: 'GET',
+        data: { videKey: key },
+        success: function (response) {
+            // Assuming the API response contains the new video URL, title, and date
+            const videoUrl = response.url;
+            const videoTitle = response.title;
+            const videoDate = response.date;
+  
+            // Update the main video player source
+            $('#main-video-source').attr('src', videoUrl);
+            $('#main-video-title').html(`${videoTitle} <span>@${videoDate}</span>`);
+  
+            // Reload the video with the new source
+            const mainVideo = document.getElementById('main-video');
+            mainVideo.load();
+            mainVideo.play();
+        },
+        error: function (err) {
+            console.error("Error fetching video:", err);
+        }
+    });
+  });
+
+  $('#uploadForm').on('submit', function (e) {
+    e.preventDefault(); // Prevent form from submitting the default way
+    var formData = new FormData(this);
+    $('#spinner-upload').show();
+    $('#upload-buttonText').text('Uploading...');
+    $('#podcast-upload').prop('disabled', true);
+    $.ajax({
+        url: '/podcast', // Your API endpoint
+        type: 'POST',
+        data: formData,
+        contentType: false, // Tell jQuery not to process data
+        processData: false, // Tell jQuery not to convert data to string
+        success: function (podcast) {
+          console.log(podcast)
+            // On success, add the uploaded video details to the table
+            var row = `<tr>
+                        <td>${podcast.title}</td>
+                        <td>${new Date(podcast.createdAt).toLocaleDateString()}</td>
+                        <td>
+                        <a href="javascript:void(0)" class="delete-video" style="color: red;">
+                            <i class="fa fa-trash"></i> <!-- Trash icon -->
+                        </a>
+                        </td>
+                    </tr>`;
+            $('#videosTable tbody').append(row);
+
+            $('#spinner-upload').hide();
+            $('#upload-buttonText').text('Upload');
+            $('#podcast-upload').prop('disabled', false);
+
+            // Clear the form fields
+            $('#uploadForm')[0].reset();
+        },
+        error: function (xhr, status, error) {
+            console.error("Error uploading video:", error);
+            $('#spinner-upload').hide();
+            $('#upload-buttonText').text('Upload');
+            $('#podcast-upload').prop('disabled', false);
+        }
+    });
 });
+
+if (window.location.pathname === '/dashboard') {
+  // AJAX call to fetch podcasts
+  $.ajax({
+      url: '/podcasts', // Your API endpoint for fetching all podcasts
+      type: 'GET',
+      success: function (podcasts) {
+          // Assuming response contains an array of podcast objects
+          podcasts.forEach(function (podcast) {
+              var row = `<tr data-id="${podcast.video_key}">
+                          <td>${podcast.title}</td>
+                          <td>${new Date(podcast.createdAt).toLocaleDateString()}</td>
+                          <td>
+                            <a href="javascript:void(0)" class="delete-video" style="color: red;">
+                             <i class="fa fa-trash"></i> <!-- Trash icon -->
+                           </a>
+                          </td>
+                         </tr>`;
+              $('#videosTable tbody').append(row);
+          });
+
+          // Attach delete event to each delete button
+          $('.delete-video').on('click', function () {
+              var row = $(this).closest('tr');
+              var videoKey = row.data('id'); // Get video ID from row data attribute
+
+              // Confirm before deletion
+              if (confirm('Are you sure you want to delete this video?')) {
+                  // AJAX call to delete the video
+                  $.ajax({
+                      url: '/podcast/' + videoKey, // API endpoint for deleting the podcast
+                      type: 'DELETE',
+                      success: function (response) {
+                          // Remove the row from the table after successful deletion
+                          row.remove();
+                          alert('Video deleted successfully');
+                      },
+                      error: function (xhr, status, error) {
+                          console.error("Error deleting video:", error);
+                      }
+                  });
+              }
+          });
+      },
+      error: function (xhr, status, error) {
+          console.error("Error fetching podcasts:", error);
+      }
+  });
+}
+
+
+});
+
+
 
 
 $(window).on('load', function () {

@@ -9,6 +9,8 @@ const path = require("path");
 const { getUser, getProductType, getTreatmentType, appointmentUnpaidExist, getPlanType } = require("../helper/user");
 const Appointment = require("../models/appointmentModel");
 const { checkAppointmentLeft } = require("../middleware/role.middleware");
+const { generatePresignedUrl } = require("../helper/s3-file");
+const Podcast = require("../models/podcastModel");
 const router = require("express").Router();
 
 
@@ -134,6 +136,20 @@ router.get("/price-plan", authenticateJWT, async function (req, res) {
   return res.render(path.join(__dirname, "..", "/views/pages/pricePlan"), { plans })
 })
 
+router.get("/podcast", async function (req, res) {
+  const podcasts = await Podcast.findAll({
+    order: [['createdAt', 'DESC']]
+  });
+  const podcast=podcasts.pop()
+
+  if(podcast){
+    const videoUrl = await generatePresignedUrl(podcast.video_key);
+    podcast.url=videoUrl
+  }
+  console.log(podcast)
+  console.log(podcast.url)
+  res.render(path.join(__dirname, "..", "/views/pages/podcast"),{podcast,podcasts});
+});
 
 //  UNUSED STORE ROUTES FOR USE LATER
 // router.get("/shop", function (req, res) {

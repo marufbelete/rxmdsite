@@ -520,6 +520,45 @@
           </div>
         </div>
 
+
+        <!-- Podcast Management -->
+        <div class="container mt-5">
+          <!-- Video Upload Form -->
+          <h2>Podcast Management</h2>
+          <form id="uploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Video Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter video title" required style="width: 200px; margin-right: 20px;">
+            </div>
+            <div class="form-group">
+                <label for="videoFile">Choose Video File</label>
+                <input type="file" class="form-control-file" id="videoFile" name="podcast" accept="video/*" required style="margin-top: 10px;">
+            </div>
+            <button id="podcast-upload" type="submit" class="btn btn-primary" style="margin-top: 10px;">
+              <span id="upload-buttonText">Upload</span>
+              <span id="spinner-upload" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
+            </button>
+        </form>
+      
+          <!-- Table to Display Uploaded Videos -->
+          <h3 class="mt-5">Uploaded Videos</h3>
+          <table class="table table-bordered" id="videosTable">
+              <thead>
+                  <tr>
+                      <th>Title</th>
+                      <th>Date Uploaded</th>
+                      <th>Actions</th> 
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- Dynamically populated with uploaded videos -->
+              </tbody>
+          </table>
+      </div>
+
+
+
+
         <!-- Order management section -->
         <h2 class="mb-4 my-5 text-center">Subscription Order Management</h2>
         <div class="card mb-4">

@@ -26,6 +26,7 @@ const payment_info_route = require("./routes/paymentInfoRoutes")
 // const appointment_route=require("./routes/appointment")
 const meal_route = require("./routes/mealRoute");
 const fitness_route=require("./routes/fitnessPlan")
+const podcast_route=require("./routes/podcastRoutes")
 // const shipping_route = require("./routes/shippingRoutes");
 // const brand_route = require("./routes/brandRoutes");
 // const category_route = require("./routes/categoryRoutes");
@@ -82,6 +83,7 @@ app.use(payment_info_route);
 // app.use(appointment_route);
 app.use(meal_route);
 app.use(fitness_route);
+app.use(podcast_route);
 app.use(view_route);
 
 // UNUSED SHOP ROUTES FOR LATER

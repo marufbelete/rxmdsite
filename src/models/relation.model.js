@@ -12,6 +12,8 @@ const Appointment=require("./appointmentModel")
 const Fitness=require("./fitnessModel")
 const Meal=require("./mealModel");
 const SubscriptionPayment = require("./subscriptionPaymentDetailModel");
+const Podcast=require("./podcastModel");
+
 
 const Relation = () => {
   //product to order
