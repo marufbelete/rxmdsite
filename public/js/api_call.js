@@ -1953,10 +1953,11 @@ $('.playlist-item').on('click', function () {
             const videoUrl = response.url;
             const videoTitle = response.title;
             const videoDate = response.createdAt;
+            console.log(videoDate)
   
             // Update the main video player source
             $('#main-video-source').attr('src', videoUrl);
-            $('#main-video-title').html(`${videoTitle} <span>@${videoDate.toDateString()}</span>`);
+            $('#main-video-title').html(`${videoTitle} <span>@${new Date(videoDate).toLocaleDateString()}</span>`);
   
             // Reload the video with the new source
             const mainVideo = document.getElementById('main-video');
