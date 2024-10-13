@@ -1941,28 +1941,26 @@ if (chatBody.length > 0) {
 
 $('.playlist-item').on('click', function () {
     var key = $(this).data('key');
-    console.log(key)
     // Make an AJAX call to the API to fetch the video data based on the key
     $.ajax({
         url: `/podcast/${key}`,  // Update this with your actual API endpoint
         method: 'GET',
         success: function (response) {
-          console.log(response)
-          console.log(response.url,response.title,response.createdAt)
             // Assuming the API response contains the new video URL, title, and date
             const videoUrl = response.url;
             const videoTitle = response.title;
             const videoDate = response.createdAt;
-            console.log(videoDate)
   
             // Update the main video player source
             $('#main-video-source').attr('src', videoUrl);
+            $('#main-video-source').data('key_main', key);
             $('#main-video-title').html(`${videoTitle} <span>@${new Date(videoDate).toLocaleDateString()}</span>`);
-  
+    
             // Reload the video with the new source
             const mainVideo = document.getElementById('main-video');
             mainVideo.load();
             mainVideo.play();
+            updatePlayList()
         },
         error: function (err) {
             console.error("Error fetching video:", err);
@@ -1983,7 +1981,6 @@ $('.playlist-item').on('click', function () {
         contentType: false, // Tell jQuery not to process data
         processData: false, // Tell jQuery not to convert data to string
         success: function (podcast) {
-          console.log(podcast)
             // On success, add the uploaded video details to the table
             var row = `<tr>
                         <td>${podcast.title}</td>
@@ -2004,13 +2001,27 @@ $('.playlist-item').on('click', function () {
             $('#uploadForm')[0].reset();
         },
         error: function (xhr, status, error) {
-            console.error("Error uploading video:", error);
             $('#spinner-upload').hide();
             $('#upload-buttonText').text('Upload');
             $('#podcast-upload').prop('disabled', false);
         }
     });
 });
+if (window.location.pathname === '/podcast') {
+  updatePlayList()
+}
+
+function updatePlayList(){
+  var currentVideoKey = $('#main-video-source').data('key_main');
+  $('.playlist-item').each(function() {
+    var playlistVideoKey = $(this).data('key');
+    $(this).show();
+    console.log(playlistVideoKey,currentVideoKey)
+    if (playlistVideoKey === currentVideoKey) {
+      $(this).hide(); // Hide the playlist item if it matches the current video key
+    }
+  });
+}
 
 if (window.location.pathname === '/dashboard') {
   // AJAX call to fetch podcasts
