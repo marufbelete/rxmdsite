@@ -1,7 +1,7 @@
 $(document).ready(function () {
   // const base_url = "http://localhost:7000";
-  const base_url = "https://www.testrxmd.com"
-  // const base_url = "https://test-test-8e04.up.railway.app"
+  // const base_url = "https://www.testrxmd.com"
+  const base_url = "https://test-test-8e04.up.railway.app"
   // const base_url = "https://rxmdsite-production.up.railway.app";
   const new_url = window?.location?.search;
 
@@ -2305,6 +2305,27 @@ $('#update-qa').click(function () {
     }
   });
 });
+//weather
+$.ajax({
+  url: 'https://weather-api167.p.rapidapi.com/api/weather/air_pollution',
+  method: 'GET',
+  data: {
+    lat: 51.5074,
+    lon: -0.1278,
+    place: 'London',
+    zip: '94040,US',
+    type: 'current'
+  },
+  headers: {
+    'Accept': 'application/json',
+    'x-rapidapi-host': 'weather-api167.p.rapidapi.com',
+    'x-rapidapi-key': 'f09d4f9bf6mshac9664161c924ccp17ffc9jsn2f172225f729'
+  },
+  success: function(response) {
+    console.log(response);
+  }
+})
+//weather
 
 $('#update-rating').click(function () {
   const updatedSections = [];
