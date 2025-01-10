@@ -32,7 +32,8 @@ const {
   getUserAffiliateDetail,
   getAvailableProvider,
   getProviderSchedule,
-  getUserAffiliateRelation
+  getUserAffiliateRelation,
+  newsletterSubscribe
 } = require("../controllers/userController");
 // const {appointmentCreatedWebhook}=require("../controllers/appointment.controller")
 const { errorHandler } = require("../middleware/errohandling.middleware");
@@ -41,8 +42,14 @@ const { issueGoogleToken } = require("../auth/google");
 const { authAdmin } = require("../middleware/role.middleware");
 const multer = require("multer");
 const { editPageInfo } = require("../controllers/dynamicPageController");
+const { mailchimpList, mailchimpAddmemberToList, mailchimpCreateCampaign, sendMailchimpCampaign } = require("../integration/mailchimp/mailchimp");
 const multipart = multer();
 
+router.get("/mail/list", mailchimpList, errorHandler);
+router.get("/mail", mailchimpAddmemberToList, errorHandler);
+router.get("/pain", mailchimpCreateCampaign, errorHandler);
+router.get("/send", sendMailchimpCampaign, errorHandler);
+//end test
 router.post("/register", registerValidate(), registerUser, errorHandler);
 router.post("/login", loginValidate(), bouncer.block, loginUser, errorHandler);
 router.put("/updateuser/:id", authenticateJWT, updateUserInfo, errorHandler);
@@ -69,16 +76,34 @@ router.post("/contactform", contactFormValidate(), contactFormEmail, errorHandle
 // router.post("/vcitawebhook", appointmentCreatedWebhook, errorHandler);
 router.get("/dashboard", authenticateJWT, authAdmin, adminDashboard, errorHandler);
 router.put("/homepage", authenticateJWT, authAdmin, editPageInfo, errorHandler);
+router.post("/newsletter/subscribe", newsletterSubscribe, errorHandler);
+router.post("/auth/newsletter/subscribe",authenticateJWT, newsletterSubscribe, errorHandler);
+
 //google auth
-router.get("/auth/google",
-  passport.authenticate("google", {
+
+// router.get("/auth/google",
+//   passport.authenticate("google", {
+//     session: false,
+//     scope: ["email", "profile"],
+//   })
+// );
+
+router.get("/auth/google", (req, res, next) => { // Crucial change: Wrap passport.authenticate in a function
+  console.log(req.query)
+  passport.authenticate('google', {
     session: false,
-    scope: ["email", "profile"],
-  })
-);
+    state:JSON.stringify(req?.query?.subscribe),
+    scope: ['email', 'profile'],
+  })(req, res, next); // Call passport.authenticate with (req, res, next)
+});
 
 //issue token on success
 router.use("/auth/google/callback",
+  (req, res, next) => {
+    const state = req.query.state ? JSON.parse(req.query.state) : {};
+    req.subscriptionPreference = state === "true"; // Pass to next middleware
+    next();
+  },
   passport.authenticate("google", {
     session: false,
     failureRedirect: `${process.env.BASE_URL}/login`,

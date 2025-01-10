@@ -32,6 +32,7 @@ const { sendEmail ,sendOtpEmail, sendAffiliatePaidEmail} = require("../helper/se
 const { removeEmptyPair } = require("../helper/reusable");
 const { sendPayout } = require("../functions/paypal");
 const Affiliate = require("../models/affiliateModel");
+const { mailchimpAddmemberToList } = require("../integration/mailchimp/mailchimp");
 const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
 exports.registerUser = async (req, res, next) => {
   const errors = validationResult(req);
@@ -39,7 +40,7 @@ exports.registerUser = async (req, res, next) => {
     return res.status(400).json({ message: errors.array()[0].msg });
   }
   try {
-    const { first_name, last_name, email, password} = req.body;
+    const { first_name, last_name, email, password,isSubscribed} = req.body;
     const {affiliatedBy}=req.query;
     const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET);
     const mailOptions = {
@@ -82,6 +83,9 @@ exports.registerUser = async (req, res, next) => {
           { where: { email: email } }
         );
         await sendEmail(mailOptions);
+        if(isSubscribed){
+          await mailchimpAddmemberToList(email,first_name,last_name)
+        }
         return res.json({ success: true });
       }
     }
@@ -102,9 +106,10 @@ exports.registerUser = async (req, res, next) => {
       affiliatedBy:affiliating_user?.id
     });
     await user.save();
-    //create client on the vcita
-    
     await sendEmail(mailOptions);
+    if(isSubscribed){
+      await mailchimpAddmemberToList(email,first_name,last_name)
+    }
     return res.json({ success: true });
   } catch (err) {
     next(err);
@@ -664,6 +669,23 @@ exports.adminDashboard = async (req, res, next) => {
     const page_info=await getDynamicPageInfo();
     return res.render(path.join(__dirname, "..", "/views/pages/dashboard"),
      { products,product_type,product_catagory,page_info });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.newsletterSubscribe = async (req, res, next) => {
+  try {
+    const id = req?.user?.sub;
+    if(id){
+      const user = await User.findByPk(id, { include: ["role"] });
+      await mailchimpAddmemberToList(user.email,user.first_name,user.last_name)
+      return res.json({message:"success",firstName:user.first_name})
+    }
+   if(!req.body.email)
+    handleError("email field is required",400)
+    await mailchimpAddmemberToList(req.body.email,req.body?.first_name,req.body?.last_name)
+   return res.json({message:"success"})
   } catch (err) {
     next(err);
   }

@@ -99,6 +99,14 @@ $(document).ready(function () {
       $("#admin_link").removeClass("d-none");
   };
   checkLogin();
+//google login
+$("#google-signup-button").on("click", function (event) {
+  event.preventDefault();
+  const isSubscribed = $('#subscribe_to_newsletter').prop('checked');;
+  // Prevent default navigation for now
+  const googleAuthURL = `/auth/google?subscribe=${isSubscribed}`;
+  window.location.href = googleAuthURL;
+});
 
   //register api call
   $("#register_user").on("click", function (event) {
@@ -112,6 +120,7 @@ $(document).ready(function () {
     const email = $("#email").val();
     const password = $("#password").val();
     const verify_password = $("#verify_password").val();
+    const isSubscribed = $('#subscribe_to_newsletter').prop('checked');
     if (password !== verify_password) {
       $("#register_error").removeClass("d-none");
       $("#register_error").text("password must match");
@@ -122,7 +131,7 @@ $(document).ready(function () {
     $.ajax({
       url: url,
       method: "POST",
-      data: { first_name, last_name, email, password },
+      data: { first_name, last_name, email, password,isSubscribed },
       // dataType : "JSON",
       success: function (data) {
         location.href = "/registered";
@@ -638,7 +647,6 @@ $("#user_affiliate_search").on("click", function (event) {
         email,
         zip_code,
         phone_number: phone_number.replace(/-/g, ""),
-
         address,
         address_line_two,
         state,
@@ -2305,27 +2313,6 @@ $('#update-qa').click(function () {
     }
   });
 });
-//weather
-$.ajax({
-  url: 'https://weather-api167.p.rapidapi.com/api/weather/air_pollution',
-  method: 'GET',
-  data: {
-    lat: 51.5074,
-    lon: -0.1278,
-    place: 'London',
-    zip: '94040,US',
-    type: 'current'
-  },
-  headers: {
-    'Accept': 'application/json',
-    'x-rapidapi-host': 'weather-api167.p.rapidapi.com',
-    'x-rapidapi-key': 'f09d4f9bf6mshac9664161c924ccp17ffc9jsn2f172225f729'
-  },
-  success: function(response) {
-    console.log(response);
-  }
-})
-//weather
 
 $('#update-rating').click(function () {
   const updatedSections = [];
@@ -2402,6 +2389,97 @@ $('#update-treatment').click(function () {
     $("#update_treatment_text").removeClass("d-none");
     $("#update_treatment_text_spin").addClass("d-none");
     }
+  });
+});
+
+$("#subscribeButtonModal").on("click", function () {
+  const isLoged = localStorage.getItem("isLoged");
+  if(isLoged=='true') {
+    $('#subscribeSpinner').show();
+    $('#subscribeButtonText').text('Subscribing...');
+    $(this).prop('disabled', true);
+    $.ajax({
+      url: '/auth/newsletter/subscribe', // Replace with your actual endpoint
+      type: 'POST',
+      contentType: 'application/json',
+      success: function (response) {
+        $('#subscribeSpinner').hide();
+        $('#subscribeButtonText').text('Subscribe to Our Newsletter');
+        $("#subscribeButtonModal").prop('disabled', false);
+        const successAlert = `
+          <div id="successPopup" class="alert alert-success alert-dismissible fade show mt-5" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+            <strong>Success!</strong> Thank you for subscribing, ${response.firstName || 'Subscriber'}.
+          </div>`;
+        $('body').append(successAlert); // Add the popup to the body
+        // Automatically hide the popup after 3 seconds
+        setTimeout(() => {
+          $('#successPopup').alert('close'); // Use Bootstrap's built-in alert dismissal
+        }, 3000);
+  
+      },
+      error: function (xhr, status, error) {
+        // Show error alert
+        $('#subscribeSpinner').hide();
+        $('#subscribeButtonText').text('Subscribe to Our Newsletter');
+        $("#subscribeButtonModal").prop('disabled', false);
+          const errorAlert  = `
+          <div id="errorPopup" class="alert alert-success alert-dismissible fade show mt-5" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+            <strong>Error!</strong> Something went wrong. Please try again later.
+          </div>`;
+        $('body').prepend(errorAlert);
+        setTimeout(() => {
+          $('#errorPopup').alert('close'); // Use Bootstrap's built-in alert dismissal
+        }, 3000);
+      },
+    });
+  }
+  else{
+    $("#subscribeModal").modal("show");
+  }
+});
+
+
+$('#subscribeButton').on("click",function (e) {
+  // e.preventDefault();
+  // Collect form data
+  const email = $('#email').val();
+  const firstName = $('#firstName').val();
+  const lastName = $('#lastName').val();
+  // Make AJAX POST request
+  $.ajax({
+    url: '/newsletter/subscribe', // Replace with your actual endpoint
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+    }),
+    success: function (response) {
+      $('#subscribeModal').modal('hide');
+      $('#subscribeForm')[0].reset();
+      const successAlert = `
+        <div id="successPopup" class="alert alert-success alert-dismissible fade show mt-5" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+          <strong>Success!</strong> Thank you for subscribing, ${firstName || 'Subscriber'}.
+        </div>`;
+      $('body').append(successAlert); // Add the popup to the body
+      // Automatically hide the popup after 3 seconds
+      setTimeout(() => {
+        $('#successPopup').alert('close'); // Use Bootstrap's built-in alert dismissal
+      }, 3000);
+
+    },
+    error: function (xhr, status, error) {
+      // Show error alert
+      const errorAlert  = `
+      <div id="errorPopup" class="alert alert-success alert-dismissible fade show mt-5" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        <strong>Error!</strong> Something went wrong. Please try again later.
+      </div>`;
+    $('body').prepend(errorAlert);
+    setTimeout(() => {
+      $('#errorPopup').alert('close'); // Use Bootstrap's built-in alert dismissal
+    }, 3000);
+    },
   });
 });
 

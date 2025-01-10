@@ -46,6 +46,24 @@
   <script src="js/javascript-plugins-bundle.min.js"></script>
   <script src="js/menuzord/js/menuzord.js"></script>
 
+  <style>
+    .subscribe-btn {
+      background: linear-gradient(90deg, #ff7e5f, #feb47b);
+      color: white;
+      font-weight: bold;
+      border: none;
+      padding: 15px 20px;
+      border-radius: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .subscribe-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+
 </head>
 
 <body class="tm-container-1300px has-side-panel side-panel-right">
@@ -95,9 +113,26 @@
                         <h3 class="sub-title mb-0"><%= page_info.landing_page?.split('&%')[1]%></h3>
                         <p class="paragraph"><%= page_info.landing_page?.split('&%')[2]%></p>
                         <div class="btn-wrapper">
-                          <a href="/services" class="btn btn-outline-light mr-10">Learn More</a>
-                          <a href="#" class="btn btn-theme-colored2">Contact Us</a>
+                         
+                          <a href="/services" class="btn mr-10 btn-theme-colored2">Learn More</a>
+                          <!-- <a href="https://hipaa.jotform.com/212587273457161" class="btn btn-theme-colored2">Contact Us</a> -->
+                            <rs-layer id="slider-3-slide-15-layer-20" class="rev-btn" data-type="button"
+                          data-rsp_ch="on" data-xy="x:l,l,l,c;xo:50px,50px,40px,0;yo:500px,454px,405px,525px;"
+                          data-text="w:normal;s:20,15,14,14;f:left,none,none,none;c:both,none,none,none;l:40,30,22,16;fw:500;a:left,left,left,center;"
+                          data-flcr="f:left,none,none,none;c:both,none,none,none;" data-dim="minh:0px,none,none,none;"
+                          data-padding="t:10,8,10,12;r:60,46,46,46;b:10,8,10,12;l:60,46,46,46;"
+                          data-border="bor:5px,5px,5px,5px;" data-frame_0="y:bottom;"
+                          data-frame_1="st:2500;sp:1000;sR:2500;" data-frame_999="o:0;st:w;sp:1500;sR:5500;"
+                          data-frame_hover="bgc:#007aff;bor:5px,5px,5px,5px;bri:120%;" style="z-index:15;">
+                          <!-- <div class="element pt-0 pt-lg-10 pb-0"> -->
+                            <a href="https://hipaa.jotform.com/212587273457161" class="ajaxload-popup btn btn-outline-light">Start Your Intake</a>
+                          <!-- </div> -->
+                        </rs-layer>
                         </div>
+                      
+                          
+                    
+                        
                       </div>
                     </div>
                   </div>
@@ -108,6 +143,41 @@
           </div>
         </section>
 
+        <!-- Subscribe Modal -->
+  <div class="modal fade in" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="subscribeModalLabel">Subscribe to Our Newsletter</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="subscribeForm">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name (Optional)</label>
+              <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last Name (Optional)</label>
+              <input type="text" class="form-control" id="lastName" placeholder="Enter your last name">
+            </div>
+            <button type="button" class="btn btn-primary w-100" id="subscribeButton">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- Subscribe -->
+   <!-- <div class="container text-center mb-3">
+    <button class="subscribe-btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">
+      Subscribe to Our Newsletter
+    </button>
+  </div> -->
+
         <!-- Section: welcome -->
         <section id="welcome" class="divider layer-overlay overlay-white-9 parallax pb-5" data-parallax-ratio="0.1"
           data-tm-bg-img="images/bg/bg2.jpg">
@@ -115,6 +185,15 @@
             <div class="section-content">
               <div class="row">
                 <div class="mb-md-30 col-sm-12 col-lg-4 col-md-6">
+
+                   <!-- Subscribe -->
+                   <div class="container text-center mb-3">
+                    <button id="subscribeButtonModal" class="subscribe-btn btn btn-primary">
+                      <span id="subscribeButtonText">Subscribe to Our Newsletter</span>
+                      <span id="subscribeSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                    </button>
+                  </div>
+
                   <div class="tm-element-holder tm-fullwidth open-hours p-30 border-10px border-dark">
                     <div class="tm-element-holder-wrapper">
                       <div class="tm-element-holder-content">
@@ -135,8 +214,10 @@
                         </ul>
                         <h5><i class="fas fa-id-card text-theme-colored1"></i> <%= page_info.working_hour?.split('&%')[7]%></h5>
                         <p><%= page_info.working_hour?.split('&%')[8]%></p>
-                        <div class="tm-sc-button text-center"> <a href="/checkout" target="_self"
-                            class="btn btn-theme-colored1 btn-sm">Get Started </a></div>
+                        <div class="tm-sc-button text-center"> 
+                          <a href="/checkout" target="_self"
+                            class="btn btn-theme-colored1 btn-sm">Get Started </a>
+                          </div>
                       </div>
                     </div>
                   </div>
@@ -683,6 +764,9 @@
           <!-- Footer Scripts -->
           <script src="js/custom.js"></script>
           <script src="js/api_call.js"></script>
+          <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
 </body>
 
 </html>

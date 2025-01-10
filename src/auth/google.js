@@ -4,6 +4,7 @@ const moment = require('moment');
 const { issueToken} = require("../helper/user");
 const { Op } = require("sequelize");
 const passportGoogle = require("passport-google-oauth20");
+const { mailchimpAddmemberToList } = require("../integration/mailchimp/mailchimp");
 const GoogleStrategy = passportGoogle.Strategy;
 exports.googlePassport = (passport) => {
   passport.use(
@@ -45,6 +46,7 @@ exports.googlePassport = (passport) => {
 
 exports.issueGoogleToken = async (req, res, next) => {
   try {
+    const subscriptionPreference = req?.subscriptionPreference;
     if(!req?.user[0]?.isActive){
       return res.redirect(
         "/login?error=" + encodeURIComponent("Google-Account-Not-Active")
@@ -70,6 +72,9 @@ exports.issueGoogleToken = async (req, res, next) => {
         expires:new Date(cookie_expires),
         secure: true,
       })
+      if(subscriptionPreference){
+        await mailchimpAddmemberToList(req?.user[0]?.email,req?.user[0]?.first_name,req?.user[0]?.last_name)
+      }
       if(!req?.user[0]?.intake)
         return res.redirect("/checkout")
       return res.redirect("/")
