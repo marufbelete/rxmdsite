@@ -106,6 +106,7 @@ exports.registerUser = async (req, res, next) => {
     }
     .verify-button:hover {
       background-color: #162918; /* Darker shade on hover */
+      color: #ffffff;
     }
     .footer {
       background-color: #f4f4f4;

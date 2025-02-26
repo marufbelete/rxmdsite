@@ -39,6 +39,7 @@ process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
 var corsOptions = {
   origin: [
     "https://www.testrxmd.com",
+    "https://rxmdsite-production-5307.up.railway.app"
     // "https://rxmdsite-production.up.railway.app",
     // "https://test-test-8e04.up.railway.app",
     // "http://localhost:7000"
