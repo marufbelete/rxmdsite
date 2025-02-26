@@ -134,7 +134,7 @@ exports.registerUser = async (req, res, next) => {
       <p>
         Thank you for registering with us! We're excited to have you on board. To get started, please verify your email address by clicking the button below:
       </p>
-      <a href="${process.env.BASE_URL}/confirm?verifyToken=${token}" class="verify-button">Verify Email Address</a>
+      <a style="color:#ffffff !important;" href="${process.env.BASE_URL}/confirm?verifyToken=${token}" class="verify-button">Verify Email Address</a>
       <p>
         If you did not create an account with us, please ignore this email or contact our support team.
       </p>
