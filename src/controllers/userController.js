@@ -95,7 +95,7 @@ exports.registerUser = async (req, res, next) => {
     }
     .verify-button {
       display: inline-block;
-      background-color: #007bff;
+      background-color:rgb(68, 44, 103);
       color: #ffffff;
       text-decoration: none;
       padding: 12px 24px;
