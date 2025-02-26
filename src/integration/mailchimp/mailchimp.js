@@ -27,8 +27,8 @@ client.setConfig({
 // };
 
 const mailchimpList = async (req,res,next) => {
-    // const response = await client.lists.getAllLists();
-    const response = await client.lists.getListMembersInfo(process.env.MAILCHIMP_LIST_ID);
+    const response = await client.lists.getAllLists();
+    // const response = await client.lists.getListMembersInfo(process.env.MAILCHIMP_LIST_ID);
     // const response = await client.campaigns.list();
     // const response = await client.lists.createList({
     //   name: "Test List",
@@ -76,43 +76,56 @@ const mailchimpAddmemberToList = async (email,firstName,lastName) => {
   };
 
 const mailchimpCreateCampaign = async (req,res,next) => {
-//   const response = await client.campaigns.update(process.env.MAILCHIMP_CAMPAIGN_ID,
-//   {
-//     settings: {
-//     subject_line: "Test Announcement",
-//     title: "Test Campaign",
-//     from_name: "Maruf Test",
-//     reply_to: "info@testrxmd.com"
-//  }
-// });
-
-const response = await client.campaigns.setContent(process.env.MAILCHIMP_CAMPAIGN_ID, {
-  html: `
-    <html>
-      <body>
-        <h1>Welcome to the Newsletter!</h1>
-        <p>This is a test announcement.</p>
-      </body>
-    </html>
-  `,
-  plain_text: "Welcome to the Newsletter! This is a test announcement."
+  const response = await client.campaigns.update(process.env.MAILCHIMP_CAMPAIGN_ID,
+  {
+    settings: {
+    template_id:10003950
+ }
 });
 
+// const response = await client.campaigns.setContent(process.env.MAILCHIMP_CAMPAIGN_ID, {
+//   template: {
+//     id: 'your_template_id', // Replace with your template ID
+//     sections: {
+//       header: 'Hello, John Doe!', // Dynamically replace header content
+//       body: '<p>We have an exclusive offer just for you: 20% off your next purchase.</p>',
+//     },
+//   },
+  // html: `
+  //   <html>
+  //     <body>
+  //       <h1>Welcome to the Newsletter!</h1>
+  //       <p>This is a test announcement.</p>
+  //     </body>
+  //   </html>
+  // `,
+  // plain_text: "Welcome to the Newsletter! This is a test announcement."
+// });
 
-  // const response = await client.campaigns.create({ type: "regular",recipients:
-  //   {
-  //   list_id:process.env.MAILCHIMP_LIST_ID
-  //   },
-  //   settings: {
-  //   subject_line: "Test Announcement",
-  //   title: "Test Campaign",
-  //   from_name: "Maruf Test",
-  //   reply_to: "info@testrxmd.com"
-  // } });
+
+   await client.campaigns.create({ type: "regular",recipients:
+    {
+    list_id:process.env.MAILCHIMP_LIST_ID
+    },
+    settings: {
+    subject_line: "Test Announcement",
+    title: "Test Campaign",
+    from_name: "Maruf Test",
+    reply_to: "info@testrxmd.com",
+    
+  } });
   res.json(response);
 };
 
 const sendMailchimpCampaign = async (req,res,next) => {
+  await client.campaigns.setContent(process.env.MAILCHIMP_CAMPAIGN_ID, {
+    template: {
+      id: 10003950, // Replace with your template ID
+      sections: {
+        title_: 'This is the dynamic podcast title!', // Dynamically replace header content
+      },
+    },
+  });
   const response = await client.campaigns.send(process.env.MAILCHIMP_CAMPAIGN_ID);
   console.log(response);
   res.json(response);

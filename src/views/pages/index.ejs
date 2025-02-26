@@ -12,12 +12,12 @@
   <meta name="author" content="Jacob Briggs" />
 
   <!-- Page Title -->
-  <title>TestRxMD</title>
+  <title>My Body Health & Wellness</title>
 
   <!-- Favicon and Touch Icons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/testrxmd/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/testrxmd/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/testrxmd/favicon-16x16.png">
   <link rel="manifest" href="images/site.webmanifest">
 
   <!-- Stylesheet -->
@@ -48,16 +48,23 @@
 
   <style>
     .subscribe-btn {
-      background: linear-gradient(90deg, #ff7e5f, #feb47b);
-      color: white;
-      font-weight: bold;
-      border: none;
-      padding: 15px 20px;
-      border-radius: 30px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  max-width: 100%; /* Ensure button doesn't overflow */
+  text-align: center;
     }
 
+    .containerr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
     .subscribe-btn:hover {
       transform: scale(1.05);
       box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
@@ -187,7 +194,7 @@
                 <div class="mb-md-30 col-sm-12 col-lg-4 col-md-6">
 
                    <!-- Subscribe -->
-                   <div class="container text-center mb-3">
+                   <div class="containerr text-center mb-3">
                     <button id="subscribeButtonModal" class="subscribe-btn btn btn-primary">
                       <span id="subscribeButtonText">Subscribe to Our Newsletter</span>
                       <span id="subscribeSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>

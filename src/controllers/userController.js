@@ -48,25 +48,118 @@ exports.registerUser = async (req, res, next) => {
       to: email,
       subject: "TestRxMD Account Confirmation Link",
       html: `
-      <div style="margin:auto; max-width:650px; background-color:#C2E7FF">
-      <h1 style="text-align:center;color:#2791BD;padding:10px 20px;">
-      TestRxMD Email Confirmation
-      </h1>
-      <p style="text-align:start;padding:10px 20px;">
-      Follow the link to confirm your email. If you are joining only for affiliate purposes, 
-      you can skip the form that will appear after you have logged in.
-      <a href="${process.env.BASE_URL}/confirm?verifyToken=${token}">click here<a/>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Our Platform</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #007bff;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .content {
+      padding: 20px;
+      color: #333333;
+      text-align: center; /* Center-align all content */
+    }
+    .content h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .content p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .verify-button {
+      display: inline-block;
+      background-color: #007bff;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      transition: background-color 0.3s ease; /* Smooth hover transition */
+    }
+    .verify-button:hover {
+      background-color: #162918; /* Darker shade on hover */
+    }
+    .footer {
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #666666;
+    }
+    .footer a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <!-- Header Section -->
+    <div class="header">
+      <h1>Welcome to TestRxMD 🎉</h1>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+      <h2>Hello ${first_name},</h2>
+      <p>
+        Thank you for registering with us! We're excited to have you on board. To get started, please verify your email address by clicking the button below:
       </p>
-      <div style="text-align:center;padding-bottom:30px">
-      <img src="cid:unique@kreata.ae"/>
-      </div>
-      </div>
+      <a href="${process.env.BASE_URL}/confirm?verifyToken=${token}" class="verify-button">Verify Email Address</a>
+      <p>
+        If you did not create an account with us, please ignore this email or contact our support team.
+      </p>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+      <p>Best regards,<br>The TestRxMD Team</p>
+      <p>
+        TestRxMD | Columbus, IN
+      </p>
+    </div>
+  </div>
+</body>
+</html>
     `,
-    attachments: [{
-      filename: 'testrxmd.gif',
-      path: filePath,
-      cid: 'unique@kreata.ae' //same cid value as in the html img src
-    }]
+    // attachments: [{
+    //   content: fileContent,
+    //   filename: 'testrxmd.gif',
+    //   type: 'image/gif',
+    //   disposition: 'inline',
+    //   content_id: 'testrxmd'
+    //   // filename: 'testrxmd.gif',
+    //   // path: filePath,
+    //   // cid: 'unique@kreata.ae' //same cid value as in the html img src
+    // }]
     };
     if (await isEmailExist(email)) {
       if (await isEmailVerified(email)) {
@@ -119,6 +212,7 @@ exports.registerUser = async (req, res, next) => {
 // Login a user
 exports.loginUser = async (req, res, next) => {
   // Check if email exists
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: errors.array()[0].msg });
@@ -127,6 +221,7 @@ exports.loginUser = async (req, res, next) => {
     const { login_email, login_password, rememberme } = req.body;
     const user = login_email && (await isEmailExist(login_email));
     if (user && user.isLocalAuth && user.isActive) {
+      console.log("trying to login")
       //if not validated send email
       if (!user.isEmailConfirmed) {
         const token = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET);
@@ -208,6 +303,7 @@ exports.loginUser = async (req, res, next) => {
     }
     handleError("Username or Password Incorrect", 400);
   } catch (err) {
+    console.log('next error')
     next(err);
   }
 };

@@ -151,6 +151,10 @@ router.get("/podcast", async function (req, res) {
   return res.render(path.join(__dirname, "..", "/views/pages/podcast"),{podcast:podcast_latest,podcasts});
 });
 
+router.get("/rebrand", function (req, res) {
+  res.render(path.join(__dirname, "..", "/views/pages/rebrand"));
+});
+
 //  UNUSED STORE ROUTES FOR USE LATER
 // router.get("/shop", function (req, res) {
 //   res.render(path.join(__dirname, "..", "/views/pages/shop"));

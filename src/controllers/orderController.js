@@ -242,14 +242,19 @@ else{
       we will get you scheduled right away.
       </p>
       <div style="text-align:center;padding-bottom:30px">
-      <img src="cid:unique@kreata.ee"/>
+      <img src="testrxmd"/>
       </div>
       </div>
     `,
     attachments: [{
+      content: fileContent,
       filename: 'testrxmd.gif',
-      path: filePath,
-      cid: 'unique@kreata.ee' //same cid value as in the html img src
+      type: 'image/gif',
+      disposition: 'inline',
+      content_id: 'testrxmd'
+      // filename: 'testrxmd.gif',
+      // path: filePath,
+      // cid: 'unique@kreata.ee' //same cid value as in the html img src
     }]
     };
     
@@ -337,14 +342,19 @@ else{
         </ul>
         </p>
         <div style="text-align:center;padding-bottom:30px">
-        <img src="cid:unique@kreata.eae"/>
+        <img src="testrxmd"/>
         </div>
         </div>
       `,
       attachments: [{
+        content: fileContent,
         filename: 'testrxmd.gif',
-        path: filePath,
-        cid: 'unique@kreata.eae' 
+        type: 'image/gif',
+        disposition: 'inline',
+        content_id: 'testrxmd'
+        // filename: 'testrxmd.gif',
+        // path: filePath,
+        // cid: 'unique@kreata.eae' 
       }]
       };
       sendEmail(mailOptionsRenewal).then(r=>r).catch(e=>e);

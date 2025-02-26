@@ -1,36 +1,43 @@
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const path = require("path");
+const fs = require("fs");
 const filePath = path.join(__dirname,"..","..",'public', 'images','testrxmd.gif');
+const fileContent = fs.readFileSync(filePath).toString('base64');
+const sgMail= require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// const sendEmail = async (mailOptions) => {
+//   const oAuth2Client = new google.auth.OAuth2(
+//     process.env.MAIL_CLIENT_ID,
+//     process.env.MAIL_CLIENT_SECRET,
+//     process.env.REDIRECT_URI
+//   );
+//   oAuth2Client.setCredentials({
+//     refresh_token: process.env.MAIL_REFRESH_TOKEN,
+//   });
+//   const accessToken = await oAuth2Client.getAccessToken();
 
-const sendEmail = async (mailOptions) => {
-  const oAuth2Client = new google.auth.OAuth2(
-    process.env.MAIL_CLIENT_ID,
-    process.env.MAIL_CLIENT_SECRET,
-    process.env.REDIRECT_URI
-  );
-  oAuth2Client.setCredentials({
-    refresh_token: process.env.MAIL_REFRESH_TOKEN,
-  });
-  const accessToken = await oAuth2Client.getAccessToken();
+//   const transporter = nodemailer.createTransport({
+//     service: process.env.MAIL_SERVICE,
+//     host: process.env.MAIL_HOST,
+//     port: process.env.MAIL_PORT,
+//     secure: true,
+//     debug:true,
+//     auth: {
+//       type: "OAuth2",
+//       user: process.env.EMAIL,
+//       clientId: process.env.MAIL_CLIENT_ID,
+//       clientSecret: process.env.MAIL_CLIENT_SECRET,
+//       refreshToken: process.env.MAIL_REFRESH_TOKEN,
+//       accessToken: accessToken,
+//     },
+//   });
+//   await transporter.sendMail(mailOptions);
+//   return true;
+// };
 
-  const transporter = nodemailer.createTransport({
-    service: process.env.MAIL_SERVICE,
-    host: process.env.MAIL_HOST,
-    port: process.env.MAIL_PORT,
-    secure: true,
-    debug:true,
-    auth: {
-      type: "OAuth2",
-      user: process.env.EMAIL,
-      clientId: process.env.MAIL_CLIENT_ID,
-      clientSecret: process.env.MAIL_CLIENT_SECRET,
-      refreshToken: process.env.MAIL_REFRESH_TOKEN,
-      accessToken: accessToken,
-    },
-  });
-  await transporter.sendMail(mailOptions);
-  return true;
+const sendEmail = (mailOptions) => {
+  return sgMail.send(mailOptions);
 };
 
 const sendOtpEmail=async(Otp,email)=>{
@@ -52,14 +59,19 @@ const sendOtpEmail=async(Otp,email)=>{
           <p style="text-align: center; margin-top: 20px;">This OTP will expire in 3 minutes.</p>
           </div>
           <div style="text-align:center;padding-bottom:30px">
-          <img src="cid:unique@kreata.ae"/>
+          <img src="testrxmd"/>
           </div>
           </div>
         `,
         attachments: [{
+          content: fileContent,
           filename: 'testrxmd.gif',
-          path: filePath,
-          cid: 'unique@kreata.ae' //same cid value as in the html img src
+          type: 'image/gif',
+          disposition: 'inline',
+          content_id: 'testrxmd'
+          // filename: 'testrxmd.gif',
+          // path: filePath,
+          // cid: 'unique@kreata.ae' //same cid value as in the html img src
         }]
         };
         await sendEmail(mailOptions)

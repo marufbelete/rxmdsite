@@ -3,6 +3,7 @@ const config = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSOWRD,
   db: process.env.DB,
+  db_url: process.env.DB_URL,
   dialect: process.env.DB_DIALECT,
   timezone:'Etc/UTC',
   pool: {
