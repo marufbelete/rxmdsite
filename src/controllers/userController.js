@@ -125,7 +125,7 @@ exports.registerUser = async (req, res, next) => {
   <div class="email-container">
     <!-- Header Section -->
     <div class="header">
-      <h1>Welcome to TestRxMD 🎉</h1>
+      <h2>Welcome to My Body Health & Wellness 🎉</h2>
     </div>
 
     <!-- Content Section -->
@@ -142,9 +142,9 @@ exports.registerUser = async (req, res, next) => {
 
     <!-- Footer Section -->
     <div class="footer">
-      <p>Best regards,<br>The TestRxMD Team</p>
+      <p>Best regards,<br>My Body Health & Wellness Team</p>
       <p>
-        TestRxMD | Columbus, IN
+        My Body Health & Wellness | Columbus, IN
       </p>
     </div>
   </div>
