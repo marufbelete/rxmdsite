@@ -841,7 +841,6 @@ var THEMEMASCOT = {};
       var $ajaxload_popup = $(".ajaxload-popup");
       console.log($ajaxload_popup)
       if ($ajaxload_popup.length > 0) {
-        console.log("hello from inside")
         $ajaxload_popup.magnificPopup({
           items: [
             {
@@ -1859,9 +1858,10 @@ var THEMEMASCOT = {};
       }
       // const base_url = "http://localhost:7000"
       // const base_url = "https://www.testrxmd.com"
+      const base_url = "https://www.healthandwellness.clinic"
       // const base_url = "https://test-test-8e04.up.railway.app"
       // const base_url = "https://rxmdsite-production.up.railway.app";
-      const base_url = "https://rxmdsite-production-5307.up.railway.app";
+      // const base_url = "https://rxmdsite-production-5307.up.railway.app";
       // Custom Login Logout button change
       var $nav_items = $("#top-primary-nav  #main-nav").clone();
       const isLoged = localStorage.getItem("isLoged");

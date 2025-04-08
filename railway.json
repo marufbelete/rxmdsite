@@ -1,0 +1,19 @@
+{
+    "redirects": [
+      {
+        "source": "healthandwellness.clinic",
+        "destination": "https://www.healthandwellness.clinic",
+        "permanent": true
+      },
+      {
+        "source": "testrxmd.com",
+        "destination": "https://www.healthandwellness.clinic",
+        "permanent": true
+      },
+      {
+        "source": "www.testrxmd.com",
+        "destination": "https://www.healthandwellness.clinic",
+        "permanent": true
+      }
+    ]
+  }
