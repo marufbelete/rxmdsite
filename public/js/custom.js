@@ -839,20 +839,21 @@ var THEMEMASCOT = {};
       }
 
       var $ajaxload_popup = $(".ajaxload-popup");
-      console.log($ajaxload_popup)
-      if ($ajaxload_popup.length > 0) {
-        $ajaxload_popup.magnificPopup({
+      $ajaxload_popup.each(function() {
+        var $this = $(this);
+        
+        $this.magnificPopup({
           items: [
             {
-              src: $ajaxload_popup.prop('href'),
-              type: "iframe", // this overrides default type
-            },
+              src: $this.prop('href'), // Use the CURRENT button's href
+              type: "iframe"
+            }
           ],
           mainClass: "registrationForm",
           alignTop: true,
-          overflowY: "scroll", // as we know that popup content is tall we set scroll overflow by default to avoid jump
+          overflowY: "scroll"
         });
-      }
+      });
 
       var $form_ajax_load = $(".form-ajax-load");
       if ($form_ajax_load.length > 0) {
